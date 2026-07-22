@@ -6,7 +6,7 @@ type FilterSidebarProps = {
 
 export function FilterSidebar({ className }: FilterSidebarProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       FilterSidebar
     </div>
   );

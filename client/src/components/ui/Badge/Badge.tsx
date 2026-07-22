@@ -6,7 +6,7 @@ type BadgeProps = {
 
 export function Badge({ className }: BadgeProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Badge
     </div>
   );

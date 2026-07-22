@@ -6,7 +6,7 @@ type BreadcrumbsProps = {
 
 export function Breadcrumbs({ className }: BreadcrumbsProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Breadcrumbs
     </div>
   );

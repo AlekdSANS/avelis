@@ -6,7 +6,7 @@ type VariantSelectorProps = {
 
 export function VariantSelector({ className }: VariantSelectorProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       VariantSelector
     </div>
   );

@@ -6,7 +6,7 @@ type CartItemProps = {
 
 export function CartItem({ className }: CartItemProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       CartItem
     </div>
   );

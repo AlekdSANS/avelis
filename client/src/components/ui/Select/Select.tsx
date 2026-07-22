@@ -6,7 +6,7 @@ type SelectProps = {
 
 export function Select({ className }: SelectProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Select
     </div>
   );

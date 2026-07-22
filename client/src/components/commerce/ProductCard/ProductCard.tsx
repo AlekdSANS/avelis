@@ -6,7 +6,7 @@ type ProductCardProps = {
 
 export function ProductCard({ className }: ProductCardProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       ProductCard
     </div>
   );

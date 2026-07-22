@@ -1,2 +1,115 @@
-.root {
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(46, 33, 27, 0.32);
+}
+
+.panel {
+  position: relative;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-drawer);
+  padding: var(--space-6) var(--space-4) var(--space-12);
+}
+
+.header {
+  display: flex;
+  width: min(100%, var(--container-width));
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-inline: auto;
+}
+
+.eyebrow {
+  color: var(--color-text-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.form {
+  display: grid;
+  width: min(100%, 64rem);
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-8) auto 0;
+  border-bottom: 1px solid rgba(46, 33, 27, 0.28);
+  padding-bottom: var(--space-3);
+}
+
+.form svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  color: var(--color-olive);
+}
+
+.form input {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 2.15rem;
+  line-height: 1.05;
+}
+
+.form input:focus {
+  outline: 0;
+}
+
+.form input::placeholder {
+  color: rgba(117, 108, 102, 0.58);
+}
+
+.clearButton {
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.emptyState {
+  width: min(100%, 64rem);
+  margin: var(--space-8) auto 0;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  padding: var(--space-8);
+}
+
+.emptyState h2 {
+  font-size: 1.9rem;
+}
+
+.emptyState p {
+  max-width: 32rem;
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 48rem) {
+  .panel {
+    padding: var(--space-8) var(--space-8) var(--space-16);
+  }
+
+  .form input {
+    font-size: 4.25rem;
+  }
+
+  .emptyState h2 {
+    font-size: 2.75rem;
+  }
 }

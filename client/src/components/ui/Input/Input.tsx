@@ -6,7 +6,7 @@ type InputProps = {
 
 export function Input({ className }: InputProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Input
     </div>
   );

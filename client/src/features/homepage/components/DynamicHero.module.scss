@@ -1,0 +1,224 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  height: min(86svh, 58rem);
+  min-height: 40rem;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: imageReveal 900ms ease both;
+}
+
+.content {
+  display: grid;
+  width: min(calc(100% - 4rem), var(--container-width));
+  height: 100%;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.copy {
+  display: grid;
+  width: min(36%, 31rem);
+  min-width: 24rem;
+  gap: var(--space-4);
+  animation: copyReveal 700ms 120ms ease both;
+}
+
+.eyebrow {
+  color: var(--home-accent-dark);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.copy h1 {
+  color: var(--home-text);
+  font-size: 6.5rem;
+  line-height: 0.82;
+}
+
+.description {
+  max-width: 29rem;
+  color: var(--home-text);
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
+  margin-top: var(--space-3);
+}
+
+.primaryCta:hover {
+  background: var(--home-accent) !important;
+}
+
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: 1px solid currentColor;
+  padding-block: 0.45rem;
+  color: var(--home-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.secondaryCta svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--transition-fast);
+}
+
+.secondaryCta:hover svg {
+  transform: translateX(0.2rem);
+}
+
+.editorialPhrase {
+  position: absolute;
+  top: 50%;
+  left: 1.25rem;
+  display: none;
+  color: color-mix(in srgb, var(--home-text) 80%, transparent);
+  font-family: var(--font-heading);
+  font-size: 4.6rem;
+  line-height: 0.8;
+  text-transform: uppercase;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+}
+
+.campaignIndex {
+  position: absolute;
+  right: 2rem;
+  bottom: 1.5rem;
+  color: var(--home-text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+@media (min-width: 85rem) {
+  .content {
+    padding-left: 7rem;
+  }
+
+  .editorialPhrase {
+    display: block;
+  }
+}
+
+@media (max-width: 72rem) {
+  .copy h1 {
+    font-size: 5.25rem;
+  }
+}
+
+@media (max-width: 60rem) {
+  .hero {
+    display: flex;
+    height: auto;
+    min-height: 0;
+    flex-direction: column;
+    overflow: clip;
+  }
+
+  .media {
+    position: relative;
+    z-index: auto;
+    order: 2;
+    aspect-ratio: 1672 / 941;
+  }
+
+  .media img {
+    object-fit: contain;
+  }
+
+  .content {
+    width: min(calc(100% - 4rem), var(--container-width));
+    height: auto;
+    order: 1;
+    padding-block: var(--space-12);
+  }
+
+  .copy {
+    width: min(100%, 34rem);
+    min-width: 0;
+  }
+
+  .campaignIndex {
+    display: none;
+  }
+}
+
+@media (max-width: 36rem) {
+  .content {
+    width: calc(100% - 2rem);
+    padding-block: var(--space-8);
+  }
+
+  .copy h1 {
+    font-size: 4rem;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primaryCta {
+    width: 100%;
+  }
+
+  .secondaryCta {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 22rem) {
+  .copy h1 {
+    font-size: 3.25rem;
+  }
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+}
+
+@keyframes copyReveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media img,
+  .copy {
+    animation: none;
+  }
+
+  .secondaryCta svg {
+    transition: none;
+  }
+}

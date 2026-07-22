@@ -6,7 +6,7 @@ type SortMenuProps = {
 
 export function SortMenu({ className }: SortMenuProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       SortMenu
     </div>
   );

@@ -6,7 +6,7 @@ type AccordionProps = {
 
 export function Accordion({ className }: AccordionProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Accordion
     </div>
   );

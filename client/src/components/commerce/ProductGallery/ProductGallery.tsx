@@ -6,7 +6,7 @@ type ProductGalleryProps = {
 
 export function ProductGallery({ className }: ProductGalleryProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       ProductGallery
     </div>
   );

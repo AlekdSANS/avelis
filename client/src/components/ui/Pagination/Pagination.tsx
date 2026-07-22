@@ -6,7 +6,7 @@ type PaginationProps = {
 
 export function Pagination({ className }: PaginationProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Pagination
     </div>
   );

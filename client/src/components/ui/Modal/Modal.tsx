@@ -6,7 +6,7 @@ type ModalProps = {
 
 export function Modal({ className }: ModalProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Modal
     </div>
   );

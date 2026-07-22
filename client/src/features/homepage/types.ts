@@ -5,6 +5,7 @@ export type HomepageTheme = {
 	eyebrow: string;
 	description: string;
 	image: string;
+	imageAlt: string;
 	mobileImage?: string;
 	accent: string;
 	accentDark: string;

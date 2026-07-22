@@ -6,7 +6,7 @@ type AddToCartButtonProps = {
 
 export function AddToCartButton({ className }: AddToCartButtonProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       AddToCartButton
     </div>
   );

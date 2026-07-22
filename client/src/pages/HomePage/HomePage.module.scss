@@ -1,7 +1,9 @@
-.page {
-}
-
-.homeTheme {
+.home {
 	--home-accent: #dfa16f;
 	--home-accent-dark: #a85f35;
+	--home-text: #2e211b;
+	--home-button-text: #ffffff;
+
+	overflow: clip;
+	background: var(--color-bg);
 }

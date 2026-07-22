@@ -6,7 +6,7 @@ type PriceRangeProps = {
 
 export function PriceRange({ className }: PriceRangeProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       PriceRange
     </div>
   );

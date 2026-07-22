@@ -1,13 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { StoreLayout } from "../layouts/StoreLayout/StoreLayout";
+import { HomePage } from "../pages/HomePage/HomePage";
 import { AccountLayout } from "../layouts/AccountLayout/AccountLayout";
 import { AdminLayout } from "../layouts/AdminLayout/AdminLayout";
 import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
+import styles from "./router.module.scss";
 
 const PlaceholderPage = ({ title }: { title: string }) => (
-	<section>
+	<section className={styles.placeholderPage}>
+		<p className={styles.eyebrow}>Storefront foundation</p>
 		<h1>{title}</h1>
+		<p>
+			This route is ready for its permanent page content in a later pass.
+		</p>
 	</section>
 );
 
@@ -17,7 +23,7 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <PlaceholderPage title="AVELIS Home" />,
+				element: <HomePage />,
 			},
 			{
 				path: "/shop",

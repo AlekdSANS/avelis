@@ -6,7 +6,7 @@ type SpinnerProps = {
 
 export function Spinner({ className }: SpinnerProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Spinner
     </div>
   );

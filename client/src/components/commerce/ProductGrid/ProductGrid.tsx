@@ -6,7 +6,7 @@ type ProductGridProps = {
 
 export function ProductGrid({ className }: ProductGridProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       ProductGrid
     </div>
   );

@@ -6,7 +6,7 @@ type PriceProps = {
 
 export function Price({ className }: PriceProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Price
     </div>
   );

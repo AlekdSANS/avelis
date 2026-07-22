@@ -6,7 +6,7 @@ type QuantitySelectorProps = {
 
 export function QuantitySelector({ className }: QuantitySelectorProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       QuantitySelector
     </div>
   );

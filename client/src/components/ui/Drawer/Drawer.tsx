@@ -6,7 +6,7 @@ type DrawerProps = {
 
 export function Drawer({ className }: DrawerProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       Drawer
     </div>
   );

@@ -6,7 +6,7 @@ type CookieBannerProps = {
 
 export function CookieBanner({ className }: CookieBannerProps) {
   return (
-    <div className={` ${className ?? ""}`.trim()}>
+    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
       CookieBanner
     </div>
   );

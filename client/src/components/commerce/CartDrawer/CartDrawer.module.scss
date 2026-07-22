@@ -1,2 +1,115 @@
-.root {
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(46, 33, 27, 0.34);
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  width: min(30rem, 100vw);
+  height: 100dvh;
+  flex-direction: column;
+  border-left: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-drawer);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-6);
+}
+
+.eyebrow {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.header h2 {
+  font-size: 2.35rem;
+}
+
+.emptyState {
+  display: grid;
+  place-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+}
+
+.emptyState svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-olive);
+  stroke-width: 1.5;
+}
+
+.emptyState h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.emptyState p {
+  max-width: 22rem;
+  color: var(--color-text-muted);
+}
+
+.itemsSlot {
+  min-height: 5rem;
+  flex: 1;
+  border-block: 1px dashed var(--color-border);
+  background: var(--color-bg);
+}
+
+.summary {
+  display: grid;
+  gap: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-6);
+}
+
+.subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: 1rem;
+}
+
+.subtotal strong {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+.summary p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.viewBag {
+  justify-self: center;
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
