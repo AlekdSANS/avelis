@@ -1,17 +1,8 @@
 .section,
+.featuredSection,
 .collectionSection,
 .newsletterSection {
-  background: var(--color-surface);
-}
-
-.section:has(.familyGrid),
-.featuredSection {
-  background: #f9f9f9;
-}
-
-.collectionSection,
-.newsletterSection {
-  background: #f9f9f9;
+  background: var(--color-section-surface);
 }
 
 .inner,
@@ -306,11 +297,12 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transform: scale(1.02);
   transition: transform 500ms ease;
 }
 
 .collectionCard:hover .collectionImage img {
-  transform: scale(1.025);
+  transform: scale(1.045);
 }
 
 .collectionLabel {
