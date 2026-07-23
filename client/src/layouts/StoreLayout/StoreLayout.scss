@@ -1,5 +1,7 @@
 .store-layout {
+  width: min(100%, var(--site-canvas-width));
   min-height: 100vh;
+  margin-inline: auto;
   background:
     linear-gradient(
       180deg,

@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "d7e2ee5c2ec44eaac9de43f4323ac0e6522c1664",
-    "indexed_at": "2026-07-22T21:54:05Z",
+    "commit": "dcbbba7181b49a053f20fe83270ee77f5a2ebe28",
+    "indexed_at": "2026-07-23T01:04:39Z",
     "project": "C-Users-matsa-Documents-perfume_website-avelis",
-    "nodes": 3894,
-    "edges": 5083,
-    "original_size": 8192000,
-    "compressed_size": 756605,
+    "nodes": 3901,
+    "edges": 5105,
+    "original_size": 8257536,
+    "compressed_size": 776907,
     "compression_level": 3
 }

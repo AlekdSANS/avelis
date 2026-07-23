@@ -3,6 +3,7 @@ import { Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { IconButton } from "../../ui/IconButton/IconButton";
+import { usePresence } from "../../../hooks/usePresence";
 
 type SearchOverlayProps = {
   className?: string;
@@ -16,6 +17,7 @@ export function SearchOverlay({
   onClose,
 }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
+  const { isClosing, isMounted } = usePresence(isOpen);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -42,11 +44,17 @@ export function SearchOverlay({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) {
+  if (!isMounted) {
     return null;
   }
 
-  const classes = [styles.overlay, className ?? ""].filter(Boolean).join(" ");
+  const classes = [
+    styles.overlay,
+    isClosing ? styles.closing : "",
+    className ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <section

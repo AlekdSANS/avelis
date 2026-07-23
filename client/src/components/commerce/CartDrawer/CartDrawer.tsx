@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import { Button } from "../../ui/Button/Button";
 import { IconButton } from "../../ui/IconButton/IconButton";
+import { usePresence } from "../../../hooks/usePresence";
 
 type CartDrawerProps = {
   className?: string;
@@ -13,6 +14,7 @@ type CartDrawerProps = {
 };
 
 export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
+  const { isClosing, isMounted } = usePresence(isOpen);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -39,17 +41,20 @@ export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) {
+  if (!isMounted) {
     return null;
   }
 
   const classes = [styles.drawer, className ?? ""].filter(Boolean).join(" ");
+  const layerClasses = [styles.layer, isClosing ? styles.closing : ""]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <section
       aria-labelledby="cart-drawer-title"
       aria-modal="true"
-      className={styles.layer}
+      className={layerClasses}
       role="dialog"
     >
       <button

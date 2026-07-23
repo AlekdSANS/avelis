@@ -13,6 +13,9 @@
   --font-body: "Inter", "Segoe UI", Arial, sans-serif;
 
   --container-width: 1440px;
+  --wide-container-width: 1760px;
+  --site-gutter: clamp(1rem, 4vw, 5rem);
+  --site-canvas-width: 1920px;
   --header-height: 76px;
 
   --space-1: 0.25rem;

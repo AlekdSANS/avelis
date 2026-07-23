@@ -1,0 +1,9 @@
+.home {
+  --home-accent: #dfa16f;
+  --home-accent-dark: #a85f35;
+  --home-text: #2e211b;
+  --home-button-text: #ffffff;
+  --home-hero-bg: #f7f0e9;
+  overflow: clip;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--home-hero-bg) 46%, var(--color-bg)) 0, var(--color-bg) 42rem), var(--color-bg);
+}/*# sourceMappingURL=HomePage.module.css.map */

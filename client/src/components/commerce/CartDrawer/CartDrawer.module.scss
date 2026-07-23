@@ -9,6 +9,7 @@
   inset: 0;
   border: 0;
   background: rgba(46, 33, 27, 0.34);
+  animation: cartFadeIn 220ms ease both;
 }
 
 .drawer {
@@ -22,6 +23,15 @@
   border-left: 1px solid var(--color-border);
   background: var(--color-surface);
   box-shadow: var(--shadow-drawer);
+  animation: cartDrawerIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.closing .backdrop {
+  animation: cartFadeOut 220ms ease both;
+}
+
+.closing .drawer {
+  animation: cartDrawerOut 220ms ease both;
 }
 
 .header {
@@ -112,4 +122,29 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+@keyframes cartFadeIn {
+  from { opacity: 0; }
+}
+
+@keyframes cartFadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes cartDrawerIn {
+  from { transform: translateX(100%); }
+}
+
+@keyframes cartDrawerOut {
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .drawer,
+  .closing .backdrop,
+  .closing .drawer {
+    animation: none;
+  }
 }

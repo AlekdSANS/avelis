@@ -9,6 +9,15 @@ export type HomepageTheme = {
 	mobileImage?: string;
 	accent: string;
 	accentDark: string;
+	accentSoft: string;
+	borderColor: string;
+	glassBackground: string;
+	glassBorder: string;
+	heroBackground: string;
+	storyImage: string;
+	storyImageAlt: string;
+	surface: string;
+	surfaceAlt: string;
 	textColor: string;
 	buttonTextColor: string;
 };

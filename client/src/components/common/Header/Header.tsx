@@ -1,9 +1,10 @@
 import styles from "./Header.module.scss";
 import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 import { IconButton } from "../../ui/IconButton/IconButton";
+import { usePresence } from "../../../hooks/usePresence";
 import { Logo } from "../Logo/Logo";
 
 type HeaderProps = {
@@ -27,8 +28,13 @@ export function Header({
   onCartOpen,
   onSearchOpen,
 }: HeaderProps) {
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isClosing: isMenuClosing, isMounted: isMenuMounted } = usePresence(
+    isMenuOpen,
+  );
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -68,6 +74,7 @@ export function Header({
 
   const classes = [
     styles.header,
+    isHome ? styles.homeHeader : "",
     isScrolled ? styles.scrolled : "",
     className ?? "",
   ]
@@ -137,8 +144,15 @@ export function Header({
         </div>
       </div>
 
-      {isMenuOpen ? (
-        <div className={styles.mobileLayer}>
+      {isMenuMounted ? (
+        <div
+          className={[
+            styles.mobileLayer,
+            isMenuClosing ? styles.closing : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
           <button
             aria-label="Close navigation menu"
             className={styles.backdrop}

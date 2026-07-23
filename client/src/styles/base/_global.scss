@@ -1,12 +1,12 @@
 html {
-  background: var(--color-bg);
+  background: var(--app-body-bg, #E8E5E1);
   color-scheme: light;
 }
 
 body {
   min-width: 0;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--app-body-bg, #E8E5E1);
   color: var(--color-text);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

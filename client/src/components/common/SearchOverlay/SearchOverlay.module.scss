@@ -9,6 +9,7 @@
   inset: 0;
   border: 0;
   background: rgba(46, 33, 27, 0.32);
+  animation: searchFadeIn 220ms ease both;
 }
 
 .panel {
@@ -17,6 +18,15 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-drawer);
   padding: var(--space-6) var(--space-4) var(--space-12);
+  animation: searchPanelIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.closing .backdrop {
+  animation: searchFadeOut 220ms ease both;
+}
+
+.closing .panel {
+  animation: searchPanelOut 220ms ease both;
 }
 
 .header {
@@ -111,5 +121,36 @@
 
   .emptyState h2 {
     font-size: 2.75rem;
+  }
+}
+
+@keyframes searchFadeIn {
+  from { opacity: 0; }
+}
+
+@keyframes searchFadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes searchPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+}
+
+@keyframes searchPanelOut {
+  to {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel,
+  .closing .backdrop,
+  .closing .panel {
+    animation: none;
   }
 }

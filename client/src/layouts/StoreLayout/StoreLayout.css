@@ -1,0 +1,10 @@
+.store-layout {
+  width: min(100%, var(--site-canvas-width));
+  min-height: 100vh;
+  margin-inline: auto;
+  background: linear-gradient(180deg, rgba(252, 250, 247, 0.78) 0, rgba(246, 241, 234, 0) 24rem), var(--color-bg);
+}
+
+.store-layout__main {
+  min-height: 56vh;
+}/*# sourceMappingURL=StoreLayout.css.map */

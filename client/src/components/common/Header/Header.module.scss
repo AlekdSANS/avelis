@@ -3,9 +3,9 @@
   top: 0;
   z-index: 50;
   min-height: var(--header-height);
-  border-bottom: 1px solid transparent;
-  background: rgba(246, 241, 234, 0.74);
-  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(46, 33, 27, 0.1);
+  background: rgba(252, 250, 247, 0.86);
+  backdrop-filter: blur(14px) saturate(1.04);
   transition:
     background var(--transition-normal),
     border-color var(--transition-normal),
@@ -14,13 +14,27 @@
 
 .scrolled {
   border-color: var(--color-border);
-  background: rgba(252, 250, 247, 0.94);
+  background: rgba(252, 250, 247, 0.9);
   box-shadow: 0 10px 30px rgba(46, 33, 27, 0.04);
+}
+
+.homeHeader {
+  margin-bottom: calc(var(--header-height) * -1);
+  border-color: rgba(46, 33, 27, 0.08);
+  background: rgba(252, 250, 247, 0.2);
+  backdrop-filter: blur(10px) saturate(1.05);
+}
+
+.homeHeader.scrolled {
+  border-color: rgba(46, 33, 27, 0.12);
+  background: rgba(252, 250, 247, 0.72);
+  backdrop-filter: blur(18px) saturate(1.08);
+  box-shadow: 0 12px 32px rgba(46, 33, 27, 0.06);
 }
 
 .inner {
   display: grid;
-  width: min(calc(100% - 2rem), var(--container-width));
+  width: min(calc(100% - (var(--site-gutter) * 2)), var(--wide-container-width));
   min-height: var(--header-height);
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -133,6 +147,7 @@
   inset: 0;
   border: 0;
   background: rgba(46, 33, 27, 0.28);
+  animation: fadeIn 220ms ease both;
 }
 
 .mobileDrawer {
@@ -148,6 +163,15 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-drawer);
   padding: var(--space-6);
+  animation: drawerIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.closing .backdrop {
+  animation: fadeOut 220ms ease both;
+}
+
+.closing .mobileDrawer {
+  animation: drawerOut 220ms ease both;
 }
 
 .mobileHeader {
@@ -208,7 +232,7 @@
 
 @media (min-width: 48rem) {
   .inner {
-    width: min(calc(100% - 4rem), var(--container-width));
+    width: min(calc(100% - (var(--site-gutter) * 2)), var(--wide-container-width));
   }
 }
 
@@ -232,4 +256,27 @@
   .navLink::after {
     transition: none;
   }
+
+  .backdrop,
+  .mobileDrawer,
+  .closing .backdrop,
+  .closing .mobileDrawer {
+    animation: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes drawerIn {
+  from { transform: translateX(100%); }
+}
+
+@keyframes drawerOut {
+  to { transform: translateX(100%); }
 }

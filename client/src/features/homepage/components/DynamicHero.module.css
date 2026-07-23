@@ -1,0 +1,230 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  height: clamp(38rem, 50vw, 60rem);
+  overflow: hidden;
+  background: var(--home-hero-bg);
+  color: var(--home-text);
+}
+
+.media {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: -3;
+  width: min(100% - clamp(5.5rem, 14vw, 15.5rem), 104.5rem);
+  height: 100%;
+  background: var(--home-hero-bg);
+  overflow: hidden;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center center;
+     object-position: center center;
+  animation: imageReveal 800ms ease both;
+}
+
+.media::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, var(--home-hero-bg) 0%, color-mix(in srgb, var(--home-hero-bg) 86%, transparent) 7%, color-mix(in srgb, var(--home-hero-bg) 42%, transparent) 20%, transparent 34%, transparent 82%, color-mix(in srgb, var(--home-hero-bg) 44%, transparent) 94%, var(--home-hero-bg) 100%), linear-gradient(180deg, var(--home-hero-bg) 0%, color-mix(in srgb, var(--home-hero-bg) 70%, transparent) 6%, transparent 16%, transparent 84%, color-mix(in srgb, var(--home-hero-bg) 72%, transparent) 94%, var(--home-hero-bg) 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.imageFade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(90deg, var(--home-hero-bg) 0%, color-mix(in srgb, var(--home-hero-bg) 84%, transparent) 8%, color-mix(in srgb, var(--home-hero-bg) 35%, transparent) 18%, transparent 31%, transparent 82%, color-mix(in srgb, var(--home-hero-bg) 45%, transparent) 92%, var(--home-hero-bg) 100%), linear-gradient(180deg, var(--home-hero-bg) 0%, color-mix(in srgb, var(--home-hero-bg) 78%, transparent) 5%, transparent 16%, transparent 82%, color-mix(in srgb, var(--home-hero-bg) 72%, transparent) 94%, var(--home-hero-bg) 100%);
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  width: min(100% - var(--site-gutter) * 2, var(--wide-container-width));
+  height: 100%;
+  margin-inline: auto;
+}
+
+.masthead {
+  position: absolute;
+  top: calc(var(--header-height) + clamp(1rem, 2vw, 3.75rem));
+  left: 0;
+  display: grid;
+  align-items: flex-start;
+  gap: clamp(1.75rem, 2.8vw, 3rem);
+  animation: campaignReveal 520ms 100ms ease both;
+  outline: 5px solid rgba(255, 0, 0, 0);
+}
+
+.campaignTitle {
+  display: grid;
+  padding-top: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 2.6vw, 3.3rem);
+  font-weight: 400;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.masthead h1 {
+  font-size: inherit;
+  line-height: 1;
+}
+
+.verticalName {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1.35rem, 2.35vw, 2.55rem);
+  color: var(--home-text);
+  font-family: var(--font-heading);
+  font-size: clamp(4.9rem, 6.3vw, 9rem);
+  font-weight: 400;
+  line-height: 0.78;
+  text-transform: uppercase;
+  transition: color var(--transition-normal), transform var(--transition-normal);
+}
+
+.nameColumn {
+  display: grid;
+  justify-items: center;
+}
+
+.nameColumn > span {
+  animation: letterReveal 360ms ease both;
+  animation-delay: calc(140ms + var(--letter-index) * 42ms);
+}
+
+.verticalName:hover,
+.verticalName:focus-visible {
+  color: var(--home-accent-dark);
+  transform: translateX(0.2rem);
+}
+
+.description {
+  position: absolute;
+  bottom: 3.25rem;
+  left: 0;
+  max-width: 20rem;
+  color: var(--home-text);
+  font-size: 0.94rem;
+  line-height: 1.65;
+  text-shadow: 0 1px 12px var(--home-hero-bg);
+  animation: descriptionReveal 520ms 260ms ease both;
+}
+
+.campaignIndex {
+  position: absolute;
+  right: clamp(2rem, 3vw, 3.5rem);
+  bottom: 2rem;
+  color: var(--home-text);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+@media (max-width: 64rem) {
+  .hero {
+    height: clamp(34rem, 92svh, 43rem);
+  }
+  .media {
+    width: 100%;
+  }
+  .media img {
+    -o-object-position: center;
+       object-position: center;
+  }
+  .imageFade {
+    inset: 0;
+    width: auto;
+    background: linear-gradient(90deg, var(--home-hero-bg) 0%, color-mix(in srgb, var(--home-hero-bg) 68%, transparent) 12%, transparent 38%, transparent 84%, color-mix(in srgb, var(--home-hero-bg) 50%, transparent) 96%, var(--home-hero-bg) 100%), linear-gradient(180deg, var(--home-hero-bg) 0%, transparent 14%, transparent 82%, var(--home-hero-bg) 100%);
+  }
+  .masthead {
+    top: calc(var(--header-height) + 0.75rem);
+    left: 0;
+    gap: var(--space-6);
+  }
+  .campaignTitle {
+    font-size: clamp(1.55rem, 5vw, 2.2rem);
+  }
+  .verticalName {
+    gap: clamp(0.75rem, 2.6vw, 1.75rem);
+    font-size: clamp(3.5rem, 11vw, 5.5rem);
+  }
+  .description {
+    bottom: 2rem;
+    left: 0;
+    max-width: 17rem;
+  }
+}
+@media (max-width: 36rem) {
+  .hero {
+    height: min(42rem, 100svh - 1rem);
+    min-height: 35rem;
+  }
+  .masthead {
+    top: calc(var(--header-height) + 1.25rem);
+    left: 0;
+    gap: var(--space-3);
+  }
+  .campaignTitle {
+    font-size: clamp(1.25rem, 7vw, 1.65rem);
+  }
+  .verticalName {
+    gap: 0.9rem;
+    font-size: clamp(2.9rem, 15vw, 3.7rem);
+  }
+  .description {
+    bottom: 1.25rem;
+    left: 0;
+    max-width: 12.5rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+  .campaignIndex {
+    right: 1rem;
+    bottom: 1.25rem;
+    font-size: 0.58rem;
+  }
+}
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.012);
+  }
+}
+@keyframes campaignReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6rem);
+  }
+}
+@keyframes letterReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-0.35rem);
+  }
+}
+@keyframes descriptionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.55rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .media img,
+  .masthead,
+  .verticalName span,
+  .description {
+    animation: none;
+  }
+  .verticalName {
+    transition: none;
+  }
+}/*# sourceMappingURL=DynamicHero.module.css.map */

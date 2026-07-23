@@ -1,17 +1,22 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import type { HomepageTheme } from "../types";
 import styles from "./HomepageSections.module.scss";
 
-export function BrandStorySection() {
+type BrandStorySectionProps = {
+  theme: HomepageTheme;
+};
+
+export function BrandStorySection({ theme }: BrandStorySectionProps) {
   return (
     <section aria-labelledby="brand-story-title" className={styles.storySection}>
       <div className={styles.storyInner}>
         <div className={styles.storyImage}>
           <img
-            alt="Magnolia branches arranged around an AVELIS fragrance bottle."
+            alt={theme.storyImageAlt}
             loading="lazy"
-            src="/images/hero/home_hero_peach.png"
+            src={theme.storyImage}
           />
         </div>
         <div className={styles.storyCopy}>

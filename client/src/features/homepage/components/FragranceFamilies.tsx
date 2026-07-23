@@ -9,10 +9,7 @@ export function FragranceFamilies() {
     <section aria-labelledby="fragrance-families-title" className={styles.section}>
       <div className={styles.inner}>
         <header className={styles.sectionHeader}>
-          <div>
-            <p className={styles.eyebrow}>Follow a note</p>
-            <h2 id="fragrance-families-title">Fragrance families</h2>
-          </div>
+          <h2 id="fragrance-families-title">Fragrance families</h2>
           <p>Begin with the atmosphere you want to carry.</p>
         </header>
 
