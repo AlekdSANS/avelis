@@ -1,13 +1,16 @@
 import styles from "./Skeleton.module.scss";
+import type { HTMLAttributes } from "react";
 
-type SkeletonProps = {
+type SkeletonProps = HTMLAttributes<HTMLDivElement> & {
   className?: string;
 };
 
-export function Skeleton({ className }: SkeletonProps) {
+export function Skeleton({ className, ...props }: SkeletonProps) {
   return (
-    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
-      Skeleton
-    </div>
+    <div
+      aria-hidden="true"
+      className={[styles.skeleton, className ?? ""].filter(Boolean).join(" ")}
+      {...props}
+    />
   );
 }

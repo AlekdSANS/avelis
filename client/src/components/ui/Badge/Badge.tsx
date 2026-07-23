@@ -1,13 +1,26 @@
 import styles from "./Badge.module.scss";
+import type { HTMLAttributes, ReactNode } from "react";
 
-type BadgeProps = {
+type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   className?: string;
+  children: ReactNode;
+  tone?: "neutral" | "dark";
 };
 
-export function Badge({ className }: BadgeProps) {
+export function Badge({
+  children,
+  className,
+  tone = "neutral",
+  ...props
+}: BadgeProps) {
   return (
-    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
-      Badge
-    </div>
+    <span
+      className={[styles.badge, styles[tone], className ?? ""]
+        .filter(Boolean)
+        .join(" ")}
+      {...props}
+    >
+      {children}
+    </span>
   );
 }

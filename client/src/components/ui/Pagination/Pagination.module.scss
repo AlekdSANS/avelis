@@ -1,2 +1,37 @@
-.root {
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding-top: var(--space-8);
+}
+
+.pagination button {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text);
+}
+
+.pagination button:hover:not(:disabled) {
+  border-color: var(--color-text);
+}
+
+.pagination button[aria-current="page"] {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.pagination button:disabled {
+  opacity: 0.35;
+}
+
+.pagination svg {
+  width: 1rem;
 }

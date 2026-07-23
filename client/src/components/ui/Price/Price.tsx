@@ -2,12 +2,39 @@ import styles from "./Price.module.scss";
 
 type PriceProps = {
   className?: string;
+  compareAtPrice?: number;
+  currency?: string;
+  prefix?: string;
+  value: number;
 };
 
-export function Price({ className }: PriceProps) {
+const formatter = new Intl.NumberFormat("pl-PL", {
+  currency: "PLN",
+  maximumFractionDigits: 0,
+  style: "currency",
+});
+
+export function Price({
+  className,
+  compareAtPrice,
+  currency = "PLN",
+  prefix,
+  value,
+}: PriceProps) {
+  const format = (price: number) =>
+    currency === "PLN" ? formatter.format(price) : `${price} ${currency}`;
+
   return (
-    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
-      Price
-    </div>
+    <span className={[styles.price, className ?? ""].filter(Boolean).join(" ")}>
+      <span>
+        {prefix ? `${prefix} ` : ""}
+        {format(value)}
+      </span>
+      {compareAtPrice && compareAtPrice > value ? (
+        <del aria-label={`Previous price ${format(compareAtPrice)}`}>
+          {format(compareAtPrice)}
+        </del>
+      ) : null}
+    </span>
   );
 }

@@ -1,13 +1,21 @@
 import styles from "./Select.module.scss";
+import { forwardRef } from "react";
+import type { SelectHTMLAttributes } from "react";
 
-type SelectProps = {
+export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
   className?: string;
 };
 
-export function Select({ className }: SelectProps) {
-  return (
-    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
-      Select
-    </div>
-  );
-}
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  ({ children, className, ...props }, ref) => (
+    <select
+      className={[styles.select, className ?? ""].filter(Boolean).join(" ")}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </select>
+  ),
+);
+
+Select.displayName = "Select";

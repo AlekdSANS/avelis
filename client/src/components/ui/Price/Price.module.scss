@@ -1,2 +1,12 @@
-.root {
+.price {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.price del {
+  color: var(--color-text-muted);
+  font-size: 0.84em;
 }

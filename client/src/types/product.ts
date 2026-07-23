@@ -1,4 +1,5 @@
 export type FragranceNoteType = "TOP" | "HEART" | "BASE";
+export type ProductVariantFormat = "BOTTLE" | "REFILL";
 
 export interface ProductImage {
   id: string;
@@ -9,6 +10,7 @@ export interface ProductImage {
 
 export interface ProductVariant {
   id: string;
+  format: ProductVariantFormat;
   volumeMl: number;
   price: number;
   compareAtPrice?: number;
@@ -26,21 +28,29 @@ export interface Product {
   id: string;
   slug: string;
   name: string;
-  subtitle?: string;
+  subtitle: string;
+  shortDescription: string;
+  fullDescription: string;
   description: string;
   fragranceFamily: string;
   concentration: string;
-  gender?: string;
-  longevity?: string;
-  season?: string[];
-  occasion?: string[];
+  genderPositioning: string;
+  longevity: string;
+  seasons: string[];
+  occasions: string[];
+  composition: string;
+  ingredients: string;
   images: ProductImage[];
   variants: ProductVariant[];
   notes: ProductNote[];
+  collectionSlugs: string[];
   isFeatured: boolean;
   isNew: boolean;
   isLimited: boolean;
+  isBestSeller: boolean;
   isActive: boolean;
+  rating: number;
+  reviewCount: number;
   createdAt: string;
   updatedAt: string;
 }

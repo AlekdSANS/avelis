@@ -1,13 +1,20 @@
 import styles from "./Input.module.scss";
+import { forwardRef } from "react";
+import type { InputHTMLAttributes } from "react";
 
-type InputProps = {
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
 };
 
-export function Input({ className }: InputProps) {
-  return (
-    <div className={[styles.root, className ?? ""].filter(Boolean).join(" ")}>
-      Input
-    </div>
-  );
-}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type = "text", ...props }, ref) => (
+    <input
+      className={[styles.input, className ?? ""].filter(Boolean).join(" ")}
+      ref={ref}
+      type={type}
+      {...props}
+    />
+  ),
+);
+
+Input.displayName = "Input";

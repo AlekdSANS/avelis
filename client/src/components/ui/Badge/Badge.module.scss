@@ -1,2 +1,24 @@
-.root {
+.badge {
+  display: inline-flex;
+  min-height: 1.65rem;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.neutral {
+  background: rgba(252, 250, 247, 0.9);
+  color: var(--color-text);
+}
+
+.dark {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-surface);
 }

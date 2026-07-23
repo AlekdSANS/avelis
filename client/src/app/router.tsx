@@ -2,20 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { StoreLayout } from "../layouts/StoreLayout/StoreLayout";
 import { HomePage } from "../pages/HomePage/HomePage";
+import { ProductPage } from "../pages/ProductPage/ProductPage";
+import { ShopPage } from "../pages/ShopPage/ShopPage";
 import { AccountLayout } from "../layouts/AccountLayout/AccountLayout";
 import { AdminLayout } from "../layouts/AdminLayout/AdminLayout";
 import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
-import styles from "./router.module.scss";
-
-const PlaceholderPage = ({ title }: { title: string }) => (
-	<section className={styles.placeholderPage}>
-		<p className={styles.eyebrow}>Storefront foundation</p>
-		<h1>{title}</h1>
-		<p>
-			This route is ready for its permanent page content in a later pass.
-		</p>
-	</section>
-);
+import { PlaceholderPage } from "../pages/PlaceholderPage/PlaceholderPage";
 
 export const router = createBrowserRouter([
 	{
@@ -27,11 +19,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/shop",
-				element: <PlaceholderPage title="Shop" />,
+				element: <ShopPage />,
 			},
 			{
 				path: "/products/:slug",
-				element: <PlaceholderPage title="Product" />,
+				element: <ProductPage />,
 			},
 			{
 				path: "/collections",

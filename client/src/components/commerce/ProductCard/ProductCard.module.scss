@@ -1,2 +1,150 @@
-.root {
+.card {
+  min-width: 0;
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--color-surface-muted);
+}
+
+.imageLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.primaryImage,
+.secondaryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    opacity var(--transition-normal),
+    transform 520ms ease;
+}
+
+.secondaryImage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.media:hover .primaryImage {
+  transform: scale(1.015);
+}
+
+.media:hover .secondaryImage {
+  opacity: 1;
+  transform: scale(1.015);
+}
+
+.badges {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: flex;
+  max-width: calc(100% - 4rem);
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.wishlist {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+}
+
+.wishlist[aria-pressed="true"] {
+  color: #7c2f32;
+}
+
+.content {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+}
+
+.meta,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.meta {
+  color: var(--color-text-muted);
+  font-size: 0.67rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.rating svg {
+  width: 0.75rem;
+  color: #8b7145;
+}
+
+.content h3 {
+  font-size: clamp(1.55rem, 2vw, 2rem);
+}
+
+.content h3 a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.subtitle {
+  min-height: 2.7em;
+  margin-top: 0.3rem;
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.formatDetails {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--color-text-muted);
+  font-size: 0.73rem;
+}
+
+.formatDetails span:last-child {
+  color: var(--color-olive);
+  font-weight: 600;
+}
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-3);
+  font-size: 0.82rem;
+}
+
+.viewLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+
+.viewLink svg {
+  width: 0.9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryImage,
+  .secondaryImage {
+    transition: none;
+  }
 }
