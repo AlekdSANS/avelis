@@ -1,20 +1,8 @@
 .section,
+.featuredSection,
 .collectionSection,
 .newsletterSection {
-	background: var(--color-surface);
-}
-
-.featuredSection {
-	background: linear-gradient(
-		180deg,
-		color-mix(in srgb, var(--home-hero-bg) 18%, var(--color-surface)) 0%,
-		var(--color-surface) 42%
-	);
-}
-
-.collectionSection,
-.newsletterSection {
-	background: var(--color-surface);
+	background: var(--color-section-surface);
 }
 
 .inner,

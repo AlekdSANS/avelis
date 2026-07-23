@@ -4,13 +4,14 @@
   background: var(--color-surface);
 }
 
+.section:has(.familyGrid),
 .featuredSection {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--home-hero-bg) 18%, var(--color-surface)) 0%, var(--color-surface) 42%);
+  background: #f9f9f9;
 }
 
 .collectionSection,
 .newsletterSection {
-  background: var(--color-surface);
+  background: #f9f9f9;
 }
 
 .inner,

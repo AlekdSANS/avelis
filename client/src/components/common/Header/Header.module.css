@@ -31,7 +31,7 @@
 
 .inner {
   display: grid;
-  width: min(100% - 2rem, var(--container-width));
+  width: min(100% - var(--site-gutter) * 2, var(--wide-container-width));
   min-height: var(--header-height);
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -223,7 +223,7 @@
 }
 @media (min-width: 48rem) {
   .inner {
-    width: min(100% - 4rem, var(--container-width));
+    width: min(100% - var(--site-gutter) * 2, var(--wide-container-width));
   }
 }
 @media (min-width: 64rem) {

@@ -1,11 +1,11 @@
 .footer {
   border-top: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: #f9f9f9;
 }
 
 .inner {
   display: grid;
-  width: min(100% - 2rem, var(--container-width));
+  width: min(100% - var(--site-gutter) * 2, var(--wide-container-width));
   gap: var(--space-10, 2.5rem);
   margin-inline: auto;
   padding: var(--space-12) 0 var(--space-8);
@@ -76,7 +76,7 @@
 
 @media (min-width: 48rem) {
   .inner {
-    width: min(100% - 4rem, var(--container-width));
+    width: min(100% - var(--site-gutter) * 2, var(--wide-container-width));
   }
   .linksGrid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -89,10 +89,19 @@
 }
 @media (min-width: 64rem) {
   .inner {
-    grid-template-columns: minmax(16rem, 1fr) minmax(22rem, 1.1fr);
+    grid-template-columns: minmax(18rem, 0.8fr) minmax(24rem, 1.35fr);
   }
   .linksGrid,
   .bottom {
     grid-column: 1/-1;
+  }
+}
+@media (min-width: 100rem) {
+  .inner {
+    grid-template-columns: minmax(18rem, 0.9fr) minmax(22rem, 1fr) minmax(38rem, 1.75fr);
+    align-items: start;
+  }
+  .linksGrid {
+    grid-column: auto;
   }
 }/*# sourceMappingURL=Footer.module.css.map */

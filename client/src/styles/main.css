@@ -11,6 +11,8 @@
   --font-heading: "Cormorant Garamond", Georgia, serif;
   --font-body: "Inter", "Segoe UI", Arial, sans-serif;
   --container-width: 1440px;
+  --wide-container-width: 1760px;
+  --site-gutter: clamp(1rem, 4vw, 5rem);
   --site-canvas-width: 1920px;
   --header-height: 76px;
   --space-1: 0.25rem;
@@ -103,14 +105,14 @@ a {
 }
 
 html {
-  background: #E8E5E1;
+  background: var(--app-body-bg, #E8E5E1);
   color-scheme: light;
 }
 
 body {
   min-width: 0;
   min-height: 100vh;
-  background: #E8E5E1;
+  background: var(--app-body-bg, #E8E5E1);
   color: var(--color-text);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
