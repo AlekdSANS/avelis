@@ -31,7 +31,6 @@ export function QuantitySelector({
         <Minus aria-hidden="true" />
       </button>
       <label>
-        <span className="visually-hidden">Quantity</span>
         <input
           aria-label="Quantity"
           disabled={disabled}

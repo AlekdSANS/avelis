@@ -1,1 +1,89 @@
-/*# sourceMappingURL=VariantSelector.module.css.map */
+.selector {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.group legend {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.group legend span {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.group legend small {
+  max-width: 21rem;
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.options button {
+  display: grid;
+  min-height: 5.5rem;
+  align-content: center;
+  justify-items: start;
+  gap: 0.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text);
+  padding: var(--space-3);
+  text-align: left;
+}
+
+.options button:hover:not(:disabled),
+.options button.selected {
+  border-color: var(--color-text);
+}
+
+.options button.selected {
+  box-shadow: inset 0 0 0 1px var(--color-text);
+}
+
+.options button > span:first-child {
+  font-weight: 700;
+}
+
+.options button > span:nth-child(2) {
+  font-size: 0.78rem;
+}
+
+.options small {
+  color: var(--color-text-muted);
+  font-size: 0.67rem;
+}
+
+.options button:disabled {
+  background: var(--color-surface-muted);
+  opacity: 0.58;
+}
+
+@media (max-width: 34rem) {
+  .group legend {
+    display: grid;
+  }
+  .group legend small {
+    text-align: left;
+  }
+}/*# sourceMappingURL=VariantSelector.module.css.map */

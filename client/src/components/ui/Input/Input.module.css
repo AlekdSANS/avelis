@@ -1,1 +1,21 @@
-/*# sourceMappingURL=Input.module.css.map */
+.input {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 0.7rem 0.8rem;
+}
+
+.input::-moz-placeholder {
+  color: var(--color-text-muted);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:hover {
+  border-color: rgba(46, 33, 27, 0.28);
+}/*# sourceMappingURL=Input.module.css.map */

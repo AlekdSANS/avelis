@@ -39,13 +39,14 @@ export function ShopPage() {
     setPage,
     setAvailability,
     setPriceRange,
+    setLovedOnly,
     clearAll,
     removeFilter,
   } = useProductFilters();
 
   const filteredProducts = useMemo(
-    () => filterProducts(products, filters),
-    [filters],
+    () => filterProducts(products, filters, wishlist),
+    [filters, wishlist],
   );
   const sortedProducts = useMemo(
     () => sortProducts(filteredProducts, sort, filters),
@@ -85,6 +86,7 @@ export function ShopPage() {
       filters={filters}
       onAvailabilityChange={setAvailability}
       onClearAll={clearAll}
+      onLovedChange={setLovedOnly}
       onPriceRangeChange={setPriceRange}
       onToggle={toggleFilter}
     />
@@ -103,27 +105,25 @@ export function ShopPage() {
         </div>
       </header>
 
+      <div className={[styles.wideContainer, styles.catalogueHeading].join(" ")}>
+        <h2 id="catalogue-title">Fragrance catalogue</h2>
+      </div>
+
       <div className={[styles.wideContainer, styles.catalogue].join(" ")}>
         <aside aria-label="Product filters" className={styles.desktopFilters}>
           {filterControls}
         </aside>
 
         <section aria-labelledby="catalogue-title" className={styles.results}>
-          <h2 className="visually-hidden" id="catalogue-title">
-            Fragrance catalogue
-          </h2>
-
           <div className={styles.toolbar} ref={resultsRef}>
             <form
               className={styles.search}
               onSubmit={(event) => event.preventDefault()}
               role="search"
             >
-              <label className="visually-hidden" htmlFor="shop-search">
-                Search the fragrance catalogue
-              </label>
               <Search aria-hidden="true" />
               <Input
+                aria-label="Search fragrances, notes or families"
                 autoComplete="off"
                 id="shop-search"
                 onChange={(event) => setSearch(event.target.value)}
@@ -170,6 +170,7 @@ export function ShopPage() {
             filters={filters}
             onClearAll={clearAll}
             onClearAvailability={() => setAvailability(false)}
+            onClearLoved={() => setLovedOnly(false)}
             onClearPrice={() => setPriceRange()}
             onClearSearch={() => setSearch("")}
             onRemove={removeFilter}

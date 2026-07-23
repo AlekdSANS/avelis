@@ -1,1 +1,93 @@
-/*# sourceMappingURL=Drawer.module.css.map */
+.layer {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  background: rgba(29, 24, 21, 0.45);
+  animation: fade-in var(--transition-normal) both;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  width: min(92vw, 28rem);
+  height: 100%;
+  flex-direction: column;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-drawer);
+  animation: slide-in var(--transition-normal) both;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-6);
+}
+
+.header p {
+  margin-bottom: 0.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h2 {
+  font-size: clamp(1.7rem, 5vw, 2.25rem);
+}
+
+.content {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-6);
+}
+
+.closing .backdrop {
+  animation: fade-out var(--transition-normal) both;
+}
+
+.closing .drawer {
+  animation: slide-out var(--transition-normal) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes slide-out {
+  to {
+    transform: translateX(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .drawer,
+  .closing .backdrop,
+  .closing .drawer {
+    animation-duration: 1ms;
+  }
+}/*# sourceMappingURL=Drawer.module.css.map */

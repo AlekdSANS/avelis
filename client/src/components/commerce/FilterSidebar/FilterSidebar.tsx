@@ -14,6 +14,7 @@ type FilterSidebarProps = {
   filters: ShopFilters;
   onAvailabilityChange: (checked: boolean) => void;
   onClearAll: () => void;
+  onLovedChange: (checked: boolean) => void;
   onPriceRangeChange: (minPrice?: number, maxPrice?: number) => void;
   onToggle: (key: FilterKey, value: string | number) => void;
 };
@@ -53,6 +54,7 @@ export function FilterSidebar({
   filters,
   onAvailabilityChange,
   onClearAll,
+  onLovedChange,
   onPriceRangeChange,
   onToggle,
 }: FilterSidebarProps) {
@@ -74,6 +76,14 @@ export function FilterSidebar({
             onChange={() => onToggle("formats", option.value)}
           />
         ))}
+      </CheckGroup>
+
+      <CheckGroup legend="Preferences">
+        <CheckOption
+          checked={filters.lovedOnly}
+          label="Loved"
+          onChange={() => onLovedChange(!filters.lovedOnly)}
+        />
       </CheckGroup>
 
       <CheckGroup legend="Size">

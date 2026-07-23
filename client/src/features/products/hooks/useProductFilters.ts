@@ -61,6 +61,7 @@ export function useProductFilters() {
         .filter((volume) => [50, 100, 150].includes(volume)),
       collections: parseList(searchParams.get("collection")),
       notes: parseList(searchParams.get("note")),
+      lovedOnly: searchParams.get("loved") === "true",
       inStockOnly: searchParams.get("availability") === "in-stock",
       minPrice: parseNumber(searchParams.get("minPrice")),
       maxPrice: parseNumber(searchParams.get("maxPrice")),
@@ -167,5 +168,7 @@ export function useProductFilters() {
       updateParams({ minPrice, maxPrice }),
     clearAll,
     removeFilter,
+    setLovedOnly: (checked: boolean) =>
+      updateParams({ loved: checked ? "true" : undefined }),
   };
 }

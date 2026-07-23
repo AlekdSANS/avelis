@@ -16,6 +16,7 @@ export type ShopFilters = {
   volumes: number[];
   collections: string[];
   notes: string[];
+  lovedOnly: boolean;
   inStockOnly: boolean;
   minPrice?: number;
   maxPrice?: number;
@@ -39,6 +40,7 @@ export const defaultShopFilters: ShopFilters = {
   volumes: [],
   collections: [],
   notes: [],
+  lovedOnly: false,
   inStockOnly: false,
 };
 
@@ -60,6 +62,7 @@ export function getActiveFilterCount(filters: ShopFilters) {
     filters.collections.length +
     filters.notes.length +
     Number(Boolean(filters.search)) +
+    Number(filters.lovedOnly) +
     Number(filters.inStockOnly) +
     Number(filters.minPrice !== undefined || filters.maxPrice !== undefined)
   );

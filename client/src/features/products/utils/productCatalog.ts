@@ -64,7 +64,11 @@ function matchesNotes(product: Product, selectedNotes: string[]) {
   });
 }
 
-export function filterProducts(products: Product[], filters: ShopFilters): Product[] {
+export function filterProducts(
+  products: Product[],
+  filters: ShopFilters,
+  wishlist?: ReadonlySet<string>,
+): Product[] {
   return products.filter((product) => {
     const matchingVariants = getMatchingVariants(product, filters);
     const cheapestVariant = getCheapestVariant(matchingVariants);
@@ -74,6 +78,10 @@ export function filterProducts(products: Product[], filters: ShopFilters): Produ
     }
 
     if (!matchesSearch(product, filters.search)) {
+      return false;
+    }
+
+    if (filters.lovedOnly && !wishlist?.has(product.id)) {
       return false;
     }
 

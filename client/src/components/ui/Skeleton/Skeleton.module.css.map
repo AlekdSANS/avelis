@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"Skeleton.module.css"}
+{"version":3,"sources":["Skeleton.module.scss","Skeleton.module.css"],"names":[],"mappings":"AAAA;EACE,gBAAA;EACA,4HACE;EAMF,0BAAA;EACA,wCAAA;ACLF;;ADQA;EACE;IACE,4BAAA;ECLF;AACF;ADQA;EACE;IACE,eAAA;ECNF;AACF","file":"Skeleton.module.css"}

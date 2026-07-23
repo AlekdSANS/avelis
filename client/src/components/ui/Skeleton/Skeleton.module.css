@@ -1,1 +1,17 @@
-/*# sourceMappingURL=Skeleton.module.css.map */
+.skeleton {
+  min-height: 1rem;
+  background: linear-gradient(90deg, var(--color-surface-muted) 20%, var(--color-surface) 50%, var(--color-surface-muted) 80%);
+  background-size: 240% 100%;
+  animation: shimmer 1.45s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -240% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}/*# sourceMappingURL=Skeleton.module.css.map */

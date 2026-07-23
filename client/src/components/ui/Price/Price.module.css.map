@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"Price.module.css"}
+{"version":3,"sources":["Price.module.scss","Price.module.css"],"names":[],"mappings":"AAAA;EACE,oBAAA;EACA,eAAA;EACA,qBAAA;EACA,mBAAA;EACA,kCAAA;ACCF;;ADEA;EACE,8BAAA;EACA,iBAAA;ACCF","file":"Price.module.css"}

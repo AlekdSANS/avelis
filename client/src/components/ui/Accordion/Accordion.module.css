@@ -1,1 +1,69 @@
-/*# sourceMappingURL=Accordion.module.css.map */
+.accordion {
+  border-top: 1px solid var(--color-border);
+}
+
+.item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.item h3 {
+  font-family: var(--font-body);
+}
+
+.item button {
+  display: flex;
+  width: 100%;
+  min-height: 3.75rem;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  padding: var(--space-4) 0;
+  text-align: left;
+}
+
+.item button span {
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.item button svg {
+  width: 1.1rem;
+  transition: transform var(--transition-normal);
+}
+
+.item button[aria-expanded=true] svg {
+  transform: rotate(180deg);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--transition-normal);
+}
+
+.panel > div {
+  overflow: hidden;
+}
+
+.panel.open {
+  grid-template-rows: 1fr;
+}
+
+.panelContent {
+  max-width: 44rem;
+  padding: 0 0 var(--space-6);
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item button svg,
+  .panel {
+    transition: none;
+  }
+}/*# sourceMappingURL=Accordion.module.css.map */

@@ -8,6 +8,7 @@ type ActiveFilterChipsProps = {
   filters: ShopFilters;
   onClearAll: () => void;
   onClearAvailability: () => void;
+  onClearLoved: () => void;
   onClearPrice: () => void;
   onClearSearch: () => void;
   onRemove: (key: FilterKey, value: string | number) => void;
@@ -24,6 +25,7 @@ export function ActiveFilterChips({
   filters,
   onClearAll,
   onClearAvailability,
+  onClearLoved,
   onClearPrice,
   onClearSearch,
   onRemove,
@@ -88,23 +90,31 @@ export function ActiveFilterChips({
     });
   }
 
-  if (chips.length === 0) {
-    return null;
+  if (filters.lovedOnly) {
+    chips.push({
+      key: "loved",
+      label: "Loved",
+      onRemove: onClearLoved,
+    });
   }
 
   return (
-    <div aria-label="Active filters" className={styles.wrapper}>
-      <div className={styles.chips}>
-        {chips.map((chip) => (
-          <button key={chip.key} onClick={chip.onRemove} type="button">
-            {chip.label}
-            <X aria-hidden="true" />
+    <div className={styles.reserve}>
+      {chips.length > 0 ? (
+        <div aria-label="Active filters" className={styles.wrapper}>
+          <div className={styles.chips}>
+            {chips.map((chip) => (
+              <button key={chip.key} onClick={chip.onRemove} type="button">
+                {chip.label}
+                <X aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+          <button className={styles.clearAll} onClick={onClearAll} type="button">
+            Clear all
           </button>
-        ))}
-      </div>
-      <button className={styles.clearAll} onClick={onClearAll} type="button">
-        Clear all
-      </button>
+        </div>
+      ) : null}
     </div>
   );
 }

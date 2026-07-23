@@ -1,85 +1,86 @@
 .filters {
-  display: grid;
-  align-content: start;
-  background: transparent;
+	display: grid;
+	align-content: start;
+	background: transparent;
 }
 
 .heading {
-  display: flex;
-  min-height: 3.5rem;
-  align-items: center;
-  justify-content: space-between;
-  border-block: 1px solid var(--color-border);
+	display: flex;
+	min-height: 3.5rem;
+	align-items: center;
+	justify-content: space-between;
+	border-block: 1px solid var(--color-border);
 }
 
 .heading h2 {
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
+	font-family: var(--font-body);
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
 }
 
 .group {
-  border: 0;
-  border-bottom: 1px solid var(--color-border);
-  margin: 0;
-  padding: var(--space-6) 0;
+	border: 0;
+	border-bottom: 1px solid var(--color-border);
+	margin: 0;
+	padding: var(--space-6) 0;
+	margin-top: var(--space-6);
 }
 
 .group legend {
-  width: 100%;
-  margin-bottom: var(--space-3);
-  color: var(--color-text);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+	width: 100%;
+	margin-bottom: var(--space-2);
+	color: var(--color-text);
+	font-size: 0.76rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
 .options {
-  display: grid;
-  gap: 0.55rem;
+	display: grid;
+	gap: 0.55rem;
 }
 
 .option {
-  position: relative;
-  display: flex;
-  min-height: 2rem;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--color-text-muted);
-  cursor: pointer;
-  font-size: 0.84rem;
+	position: relative;
+	display: flex;
+	min-height: 2rem;
+	align-items: center;
+	gap: var(--space-3);
+	color: var(--color-text-muted);
+	cursor: pointer;
+	font-size: 0.84rem;
 }
 
 .option input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
 }
 
 .checkbox {
-  display: inline-grid;
-  width: 1rem;
-  height: 1rem;
-  flex: 0 0 auto;
-  border: 1px solid rgba(46, 33, 27, 0.32);
-  place-items: center;
+	display: inline-grid;
+	width: 1rem;
+	height: 1rem;
+	flex: 0 0 auto;
+	border: 1px solid rgba(46, 33, 27, 0.32);
+	place-items: center;
 }
 
 .option input:checked + .checkbox {
-  border-color: var(--color-text);
-  background: var(--color-text);
-  box-shadow: inset 0 0 0 3px var(--color-surface);
+	border-color: var(--color-text);
+	background: var(--color-text);
+	box-shadow: inset 0 0 0 3px var(--color-surface);
 }
 
 .option input:focus-visible + .checkbox {
-  outline: 2px solid var(--color-olive);
-  outline-offset: 3px;
+	outline: 2px solid var(--color-olive);
+	outline-offset: 3px;
 }
 
 .option:hover {
-  color: var(--color-text);
+	color: var(--color-text);
 }
