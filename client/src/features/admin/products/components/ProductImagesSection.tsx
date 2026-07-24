@@ -93,9 +93,9 @@ export function ProductImagesSection() {
 				</button>
 			</header>
 
-			{errors.images?.message ? (
+			{errors.images?.message ?? errors.images?.root?.message ? (
 				<p className={styles.sectionError} role="alert">
-					{errors.images.message}
+					{errors.images?.message ?? errors.images?.root?.message}
 				</p>
 			) : null}
 
@@ -123,7 +123,11 @@ export function ProductImagesSection() {
 												? image.alt
 												: `Preview for image ${index + 1}`
 										}
-										src={image.url}
+										src={
+											image.url.trim().length > 0
+												? image.url
+												: "/images/placeholders/product_placeholder.png"
+										}
 									/>
 									<div>
 										<span>{image.imageType}</span>
@@ -193,6 +197,7 @@ export function ProductImagesSection() {
 									<label className={styles.primaryCheck}>
 										<input
 											checked={image.isPrimary}
+											name="primaryImage"
 											onChange={() => setPrimary(index)}
 											type="radio"
 											value={String(index)}

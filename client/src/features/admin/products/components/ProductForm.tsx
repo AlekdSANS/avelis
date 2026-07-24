@@ -1,9 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ExternalLink } from "lucide-react";
-import { useState, type BaseSyntheticEvent } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import {
+	useEffect,
+	useState,
+	type BaseSyntheticEvent,
+} from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { Link, useBlocker, useNavigate } from "react-router-dom";
 
+import { Button } from "../../../../components/ui/Button/Button";
+import { Modal } from "../../../../components/ui/Modal/Modal";
 import type { AdminProductDetail } from "../../../../types/adminProduct";
 import { useCollections } from "../../../collections/hooks/useCollections";
 import {
@@ -78,6 +84,25 @@ export function ProductForm({
 		!notesQuery.isError &&
 		!collectionsQuery.isLoading &&
 		!collectionsQuery.isError;
+	const blocker = useBlocker(
+		({ currentLocation, nextLocation }) =>
+			form.formState.isDirty &&
+			currentLocation.pathname !== nextLocation.pathname,
+	);
+
+	useEffect(() => {
+		if (!form.formState.isDirty) {
+			return;
+		}
+
+		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+			event.preventDefault();
+			event.returnValue = "";
+		};
+
+		window.addEventListener("beforeunload", handleBeforeUnload);
+		return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+	}, [form.formState.isDirty]);
 
 	const submitProduct = async (
 		values: AdminProductFormValues,
@@ -105,6 +130,9 @@ export function ProductForm({
 					mapFormToCreatePayload(values),
 				);
 				reset(mapProductToForm(response.data));
+				await new Promise<void>((resolve) => {
+					window.requestAnimationFrame(() => resolve());
+				});
 
 				if (saveIntent === "return") {
 					navigate("/admin/products");
@@ -132,6 +160,9 @@ export function ProductForm({
 			reset(mapProductToForm(response.data));
 
 			if (saveIntent === "return") {
+				await new Promise<void>((resolve) => {
+					window.requestAnimationFrame(() => resolve());
+				});
 				navigate("/admin/products");
 				return;
 			}
@@ -147,9 +178,6 @@ export function ProductForm({
 			});
 		}
 	};
-
-	const previewSlug = useWatch({ control: form.control, name: "slug" });
-	const isActive = useWatch({ control: form.control, name: "isActive" });
 
 	return (
 		<FormProvider {...form}>
@@ -179,12 +207,12 @@ export function ProductForm({
 								: "Update the storefront record and its related catalogue metadata."}
 						</span>
 					</div>
-					{mode === "edit" && previewSlug.length > 0 ? (
-						isActive ? (
+					{mode === "edit" && initialProduct !== undefined ? (
+						initialProduct.isActive ? (
 							<Link
 								rel="noreferrer"
 								target="_blank"
-								to={`/products/${encodeURIComponent(previewSlug)}`}
+								to={`/products/${encodeURIComponent(initialProduct.slug)}`}
 							>
 								View in store
 								<ExternalLink aria-hidden="true" />
@@ -238,6 +266,41 @@ export function ProductForm({
 						/>
 					</aside>
 				</div>
+
+				<Modal
+					description="You have unsaved product changes."
+					footer={
+						<>
+							<Button
+								onClick={() => {
+									if (blocker.state === "blocked") blocker.reset();
+								}}
+								variant="secondary"
+							>
+								Keep editing
+							</Button>
+							<Button
+								onClick={() => {
+									if (blocker.state === "blocked") {
+										blocker.proceed();
+									}
+								}}
+							>
+								Discard changes
+							</Button>
+						</>
+					}
+					isOpen={blocker.state === "blocked"}
+					onClose={() => {
+						if (blocker.state === "blocked") blocker.reset();
+					}}
+					title="Leave product editor?"
+				>
+					<p>
+						Your changes have not been saved. Leaving this page will discard
+						them.
+					</p>
+				</Modal>
 			</form>
 		</FormProvider>
 	);

@@ -243,7 +243,14 @@ export function ProductBasicsSection({ mode }: { mode: ProductFormMode }) {
 
 				<label className={styles.field}>
 					<span>Gender</span>
-					<Input placeholder="Unisex" {...register("gender")} />
+					<Input
+						aria-describedby={
+							errors.gender ? "product-gender-error" : undefined
+						}
+						aria-invalid={Boolean(errors.gender)}
+						placeholder="Unisex"
+						{...register("gender")}
+					/>
 					<FieldError
 						id="product-gender-error"
 						message={errors.gender?.message}
@@ -252,7 +259,14 @@ export function ProductBasicsSection({ mode }: { mode: ProductFormMode }) {
 
 				<label className={styles.field}>
 					<span>Longevity</span>
-					<Input placeholder="8–10 hours" {...register("longevity")} />
+					<Input
+						aria-describedby={
+							errors.longevity ? "product-longevity-error" : undefined
+						}
+						aria-invalid={Boolean(errors.longevity)}
+						placeholder="8–10 hours"
+						{...register("longevity")}
+					/>
 					<FieldError
 						id="product-longevity-error"
 						message={errors.longevity?.message}
