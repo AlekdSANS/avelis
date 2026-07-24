@@ -326,6 +326,18 @@ export function OrderConfirmationPage() {
   const { orderNumber } = useParams<{ orderNumber: string }>();
   const confirmation = useOrderConfirmation(orderNumber);
 
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title =
+      confirmation.data === undefined
+        ? "Order confirmation | AVELIS"
+        : `Order ${confirmation.data.orderNumber} | AVELIS`;
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [confirmation.data]);
+
   if (!confirmation.validOrderNumber) {
     return (
       <ConfirmationError

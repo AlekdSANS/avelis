@@ -4,10 +4,38 @@ import type {
   CreateOrderInput,
   CreateOrderResponse,
   Order,
+  OrderItemFormat,
+  OrderStatus,
+  PaymentMethod,
+  PaymentStatus,
+  ShippingMethod,
 } from "../types";
 import { ApiClientError, apiClient } from "./apiClient";
 
 const GUEST_ACCESS_HEADER = "X-Guest-Access-Token";
+const ORDER_STATUSES: readonly OrderStatus[] = [
+  "PENDING_PAYMENT",
+  "CONFIRMED",
+  "PROCESSING",
+  "SHIPPED",
+  "DELIVERED",
+  "CANCELLED",
+  "REFUNDED",
+];
+const PAYMENT_STATUSES: readonly PaymentStatus[] = [
+  "PENDING",
+  "PAID",
+  "FAILED",
+  "REFUNDED",
+  "CANCELLED",
+];
+const PAYMENT_METHODS: readonly PaymentMethod[] = [
+  "CARD",
+  "BLIK",
+  "CASH_ON_DELIVERY",
+];
+const SHIPPING_METHODS: readonly ShippingMethod[] = ["STANDARD", "EXPRESS"];
+const ITEM_FORMATS: readonly OrderItemFormat[] = ["BOTTLE", "REFILL"];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -27,6 +55,15 @@ function readString(record: Record<string, unknown>, key: string) {
 
 function readMoney(record: Record<string, unknown>, key: string) {
   const value = record[key];
+  if (
+    (typeof value !== "number" && typeof value !== "string") ||
+    (typeof value === "string" && value.trim().length === 0)
+  ) {
+    throw new ApiClientError({
+      message: "The order response contained an invalid total.",
+    });
+  }
+
   const amount = typeof value === "number" ? value : Number(value);
 
   if (!Number.isFinite(amount)) {
@@ -36,6 +73,34 @@ function readMoney(record: Record<string, unknown>, key: string) {
   }
 
   return amount;
+}
+
+function readPositiveInteger(record: Record<string, unknown>, key: string) {
+  const value = readMoney(record, key);
+
+  if (!Number.isInteger(value) || value < 1) {
+    throw new ApiClientError({
+      message: "The order response contained an invalid item quantity.",
+    });
+  }
+
+  return value;
+}
+
+function readEnum<T extends string>(
+  record: Record<string, unknown>,
+  key: string,
+  allowedValues: readonly T[],
+) {
+  const value = readString(record, key);
+
+  if (!allowedValues.includes(value as T)) {
+    throw new ApiClientError({
+      message: "The order response contained an unsupported status.",
+    });
+  }
+
+  return value as T;
 }
 
 function parseOrder(payload: unknown): Order {
@@ -50,7 +115,8 @@ function parseOrder(payload: unknown): Order {
   if (
     !isRecord(customer) ||
     !isRecord(shippingAddress) ||
-    !Array.isArray(items)
+    !Array.isArray(items) ||
+    items.length === 0
   ) {
     throw new ApiClientError({
       message: "The order response was incomplete.",
@@ -60,19 +126,22 @@ function parseOrder(payload: unknown): Order {
   return {
     id: readString(payload, "id"),
     orderNumber: readString(payload, "orderNumber"),
-    status: readString(payload, "status") as Order["status"],
-    paymentStatus: readString(
+    status: readEnum(payload, "status", ORDER_STATUSES),
+    paymentStatus: readEnum(
       payload,
       "paymentStatus",
-    ) as Order["paymentStatus"],
-    paymentMethod: readString(
+      PAYMENT_STATUSES,
+    ),
+    paymentMethod: readEnum(
       payload,
       "paymentMethod",
-    ) as Order["paymentMethod"],
-    shippingMethod: readString(
+      PAYMENT_METHODS,
+    ),
+    shippingMethod: readEnum(
       payload,
       "shippingMethod",
-    ) as Order["shippingMethod"],
+      SHIPPING_METHODS,
+    ),
     customer: {
       firstName: readString(customer, "firstName"),
       lastName: readString(customer, "lastName"),
@@ -110,10 +179,10 @@ function parseOrder(payload: unknown): Order {
         productName: readString(item, "productName"),
         productSlug: readString(item, "productSlug"),
         sku: readString(item, "sku"),
-        format: readString(item, "format") as Order["items"][number]["format"],
-        volumeMl: readMoney(item, "volumeMl"),
+        format: readEnum(item, "format", ITEM_FORMATS),
+        volumeMl: readPositiveInteger(item, "volumeMl"),
         unitPrice: readMoney(item, "unitPrice"),
-        quantity: readMoney(item, "quantity"),
+        quantity: readPositiveInteger(item, "quantity"),
         lineTotal: readMoney(item, "lineTotal"),
         imageUrl: typeof item.imageUrl === "string" ? item.imageUrl : null,
       };

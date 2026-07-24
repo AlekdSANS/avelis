@@ -29,6 +29,7 @@ import {
   mapCreateOrderError,
   type CheckoutOrderError,
 } from "../../features/checkout/utils/orderError";
+import { onOrderCreationConfirmed } from "../../features/checkout/utils/orderSuccess";
 import { orderKeys } from "../../features/orders/hooks/useOrderConfirmation";
 
 export function CheckoutPage() {
@@ -116,6 +117,7 @@ export function CheckoutPage() {
         orderKeys.detail(response.data.orderNumber),
         response.data,
       );
+      onOrderCreationConfirmed(response.data);
       cart.clearCart();
       setIdempotencyKey(createCheckoutIdempotencyKey());
       navigate(

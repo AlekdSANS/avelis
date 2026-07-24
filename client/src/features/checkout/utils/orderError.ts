@@ -25,6 +25,16 @@ export function mapCreateOrderError(error: unknown): CheckoutOrderError {
     };
   }
 
+  if (
+    error.statusCode === 400 &&
+    (includesText(error, "variant") || includesText(error, "unavailable"))
+  ) {
+    return {
+      message: "One or more items are no longer available.",
+      stockItems: [],
+    };
+  }
+
   if (error.statusCode === 400) {
     return {
       message: "Please review your checkout details.",
