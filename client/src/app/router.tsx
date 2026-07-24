@@ -22,7 +22,7 @@ import { WishlistPage } from "../pages/WishlistPage/WishlistPage";
 import { AdminDashboardPage } from "../pages/AdminDashboardPage/AdminDashboardPage";
 import { AdminProductsPage } from "../pages/AdminProductsPage/AdminProductsPage";
 import { AdminOrdersPage } from "../pages/AdminOrdersPage/AdminOrdersPage";
-import { AdminProductFormPlaceholderPage } from "../pages/AdminProductFormPlaceholderPage/AdminProductFormPlaceholderPage";
+import { AdminProductFormPage } from "../pages/AdminProductFormPage/AdminProductFormPage";
 
 export const router = createBrowserRouter([
 	{
@@ -135,11 +135,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "products/new",
-				element: <AdminProductFormPlaceholderPage />,
+				element: <AdminProductFormPage />,
 			},
 			{
 				path: "products/:id/edit",
-				element: <AdminProductFormPlaceholderPage />,
+				element: <AdminProductFormPage />,
 			},
 			{
 				path: "orders",
