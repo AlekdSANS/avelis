@@ -13,6 +13,7 @@ import { GuestOnlyRoute } from "../features/auth/components/GuestOnlyRoute";
 import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
 import { CheckoutPage } from "../pages/CheckoutPage/CheckoutPage";
+import { OrderConfirmationPage } from "../pages/OrderConfirmationPage/OrderConfirmationPage";
 import { AccountPage } from "../pages/AccountPage/AccountPage";
 import { OrdersPage } from "../pages/OrdersPage/OrdersPage";
 import { OrderDetailsPage } from "../pages/OrderDetailsPage/OrderDetailsPage";
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
 			{
 				path: "/checkout",
 				element: <CheckoutPage />,
+			},
+			{
+				path: "/checkout/success/:orderNumber",
+				element: <OrderConfirmationPage />,
 			},
 		],
 	},

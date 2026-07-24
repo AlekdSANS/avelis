@@ -4,6 +4,7 @@ import { LockKeyhole } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Button, ButtonLink } from "../../components/ui/Button/Button";
 import { useCurrentUser } from "../../features/auth/hooks/useAuth";
@@ -28,12 +29,14 @@ import {
   mapCreateOrderError,
   type CheckoutOrderError,
 } from "../../features/checkout/utils/orderError";
+import { orderKeys } from "../../features/orders/hooks/useOrderConfirmation";
 
 export function CheckoutPage() {
   const cart = useCart();
   const currentUser = useCurrentUser();
   const createOrder = useCreateOrder();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const prefilledUserIdRef = useRef<string | null>(null);
   const [idempotencyKey, setIdempotencyKey] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] =
@@ -109,6 +112,10 @@ export function CheckoutPage() {
         return;
       }
 
+      queryClient.setQueryData(
+        orderKeys.detail(response.data.orderNumber),
+        response.data,
+      );
       cart.clearCart();
       setIdempotencyKey(createCheckoutIdempotencyKey());
       navigate(
