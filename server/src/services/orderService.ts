@@ -1,11 +1,19 @@
 import { createHash } from "node:crypto";
 import {
 	createOrderAtomically,
+	findCustomerOrderByNumber,
+	findCustomerOrderPage,
 	type MergedOrderItem,
 } from "../repositories/orderRepository.js";
-import type { CreateOrderInput } from "../schemas/orderSchemas.js";
+import type {
+	CreateOrderInput,
+	OrderListQuery,
+} from "../schemas/orderSchemas.js";
 import { HttpError } from "../utils/httpError.js";
-import { mapOrderDetail } from "../utils/orderMapper.js";
+import {
+	mapOrderDetail,
+	mapOrderSummary,
+} from "../utils/orderMapper.js";
 
 const MAX_QUANTITY_PER_VARIANT = 20;
 
@@ -77,5 +85,35 @@ export async function createOrder(
 	return {
 		data: mapOrderDetail(result.order),
 		replayed: result.replayed,
+	};
+}
+
+export async function listCustomerOrders(
+	userId: string,
+	query: OrderListQuery,
+) {
+	const [total, orders] = await findCustomerOrderPage(userId, query);
+
+	return {
+		data: orders.map(mapOrderSummary),
+		page: query.page,
+		limit: query.limit,
+		total,
+		totalPages: Math.ceil(total / query.limit),
+	};
+}
+
+export async function getCustomerOrder(
+	userId: string,
+	orderNumber: string,
+) {
+	const order = await findCustomerOrderByNumber(userId, orderNumber);
+
+	if (order === null) {
+		throw new HttpError(404, "Order not found");
+	}
+
+	return {
+		data: mapOrderDetail(order),
 	};
 }

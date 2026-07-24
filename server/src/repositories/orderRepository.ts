@@ -5,6 +5,7 @@ import type {
 	ShippingMethod,
 } from "../generated/prisma/enums.js";
 import { prisma } from "../lib/prisma.js";
+import type { OrderListQuery } from "../schemas/orderSchemas.js";
 import {
 	INITIAL_ORDER_STATUS,
 	INITIAL_PAYMENT_STATUS,
@@ -14,6 +15,7 @@ import {
 import { HttpError } from "../utils/httpError.js";
 import {
 	orderDetailSelect,
+	orderSummarySelect,
 	type OrderDetailRecord,
 } from "../utils/orderMapper.js";
 import { generateOrderNumber } from "../utils/orderNumber.js";
@@ -351,4 +353,43 @@ export async function createOrderAtomically(
 	}
 
 	throw new Error("Order number retry limit exhausted");
+}
+
+export async function findCustomerOrderPage(
+	userId: string,
+	query: OrderListQuery,
+) {
+	const where: Prisma.OrderWhereInput = {
+		userId,
+	};
+
+	if (query.status !== undefined) {
+		where.status = query.status;
+	}
+
+	return prisma.$transaction([
+		prisma.order.count({
+			where,
+		}),
+		prisma.order.findMany({
+			where,
+			select: orderSummarySelect,
+			orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+			skip: (query.page - 1) * query.limit,
+			take: query.limit,
+		}),
+	]);
+}
+
+export function findCustomerOrderByNumber(
+	userId: string,
+	orderNumber: string,
+) {
+	return prisma.order.findFirst({
+		where: {
+			orderNumber,
+			userId,
+		},
+		select: orderDetailSelect,
+	});
 }
