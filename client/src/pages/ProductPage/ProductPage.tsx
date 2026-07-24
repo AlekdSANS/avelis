@@ -15,6 +15,7 @@ import { IconButton } from "../../components/ui/IconButton/IconButton";
 import { Price } from "../../components/ui/Price/Price";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
 import { ApiClientError } from "../../services/apiClient";
+import { useCart } from "../../features/cart/hooks/useCart";
 import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist";
 import {
   useProduct,
@@ -52,6 +53,7 @@ export function ProductPage() {
   const product = productQuery.data;
   const relatedQuery = useRelatedProducts(product?.id);
   const recentlyViewed = useRecentlyViewed(product?.slug ?? "");
+  const { addItem } = useCart();
   const { wishlist, toggleWishlist } = useLocalWishlist();
   const [selectedVariantState, setSelectedVariantState] = useState<{
     id: string;
@@ -149,10 +151,15 @@ export function ProductPage() {
       return;
     }
 
+    addItem({
+      product,
+      quantity,
+      variant: selectedVariant,
+    });
     setBagStatusState({
       message: `${quantity} x ${product.name}, ${selectedVariant.volumeMl} ml ${
         selectedVariant.format === "BOTTLE" ? "bottle" : "refill"
-      } selected locally. Checkout persistence is not connected.`,
+      } added to your bag.`,
       slug: product.slug,
     });
   };

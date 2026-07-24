@@ -12,6 +12,7 @@ import { RequireAuth } from "../features/auth/components/RequireAuth";
 import { GuestOnlyRoute } from "../features/auth/components/GuestOnlyRoute";
 import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
+import { CheckoutPage } from "../pages/CheckoutPage/CheckoutPage";
 import { AccountPage } from "../pages/AccountPage/AccountPage";
 import { OrdersPage } from "../pages/OrdersPage/OrdersPage";
 import { OrderDetailsPage } from "../pages/OrderDetailsPage/OrderDetailsPage";
@@ -55,7 +56,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/checkout",
-				element: <PlaceholderPage title="Checkout" />,
+				element: <CheckoutPage />,
 			},
 		],
 	},
