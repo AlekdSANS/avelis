@@ -41,23 +41,6 @@
   min-height: 20rem;
 }
 
-.summary {
-  display: grid;
-  gap: var(--space-3);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  padding: clamp(1.25rem, 3vw, 2rem);
-  box-shadow: var(--shadow-soft);
-}
-
-.summary h2 {
-  font-size: 2rem;
-}
-
-.summary p {
-  color: var(--color-text-muted);
-}
-
 .emptyState {
   display: grid;
   width: min(calc(100% - 2rem), 48rem);

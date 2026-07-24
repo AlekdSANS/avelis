@@ -4,7 +4,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { ButtonLink } from "../../components/ui/Button/Button";
 import { useCart } from "../../features/cart/hooks/useCart";
 import { CustomerDetailsSection } from "../../features/checkout/components/CustomerDetailsSection";
+import { CheckoutSummary } from "../../features/checkout/components/CheckoutSummary";
+import { PaymentMethodSection } from "../../features/checkout/components/PaymentMethodSection";
 import { ShippingAddressSection } from "../../features/checkout/components/ShippingAddressSection";
+import { ShippingMethodSection } from "../../features/checkout/components/ShippingMethodSection";
 import {
 	checkoutDefaultValues,
 	type CheckoutFormValues,
@@ -51,17 +54,10 @@ export function CheckoutPage() {
           <div className={styles.formColumn} aria-label="Checkout details">
             <CustomerDetailsSection />
             <ShippingAddressSection />
+            <ShippingMethodSection />
+            <PaymentMethodSection />
           </div>
-          <aside
-            aria-labelledby="checkout-summary-title"
-            className={styles.summary}
-          >
-            <h2 id="checkout-summary-title">Order summary</h2>
-            <p>
-              {cart.totalQuantity}{" "}
-              {cart.totalQuantity === 1 ? "item" : "items"} selected
-            </p>
-          </aside>
+          <CheckoutSummary />
         </form>
       </FormProvider>
     </main>
