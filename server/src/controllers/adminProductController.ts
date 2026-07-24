@@ -1,13 +1,17 @@
 import type { Request, Response } from "express";
 import type {
+	AdminProductCreateInput,
 	AdminProductListQuery,
 	AdminProductStatusInput,
+	AdminProductUpdateInput,
 } from "../schemas/adminProductSchemas.js";
 import {
+	createAdminProduct,
 	getAdminProduct,
 	listAdminProducts,
 	setAdminProductStatus,
 	softDeleteAdminProduct,
+	updateAdminProduct,
 } from "../services/adminProductService.js";
 
 export async function listAdminProductsController(
@@ -47,6 +51,26 @@ export async function deleteAdminProductController(
 	res: Response,
 ) {
 	const result = await softDeleteAdminProduct(String(req.params.id ?? ""));
+
+	res.status(200).json(result);
+}
+
+export async function createAdminProductController(
+	_req: Request,
+	res: Response,
+) {
+	const input = res.locals.body as AdminProductCreateInput;
+	const result = await createAdminProduct(input);
+
+	res.status(201).json(result);
+}
+
+export async function updateAdminProductController(
+	req: Request,
+	res: Response,
+) {
+	const input = res.locals.body as AdminProductUpdateInput;
+	const result = await updateAdminProduct(String(req.params.id ?? ""), input);
 
 	res.status(200).json(result);
 }

@@ -2,8 +2,10 @@ import type { Prisma } from "../generated/prisma/client.js";
 import { LOW_STOCK_THRESHOLD } from "../config/admin.js";
 import { prisma } from "../lib/prisma.js";
 import type {
+	AdminProductCreateInput,
 	AdminProductListQuery,
 	AdminProductStatusInput,
+	AdminProductUpdateInput,
 } from "../schemas/adminProductSchemas.js";
 import {
 	adminProductListSelect,
@@ -270,5 +272,388 @@ export function deactivateAdminProduct(id: string) {
 		where: { id },
 		data: { isActive: false },
 		select: adminProductListSelect,
+	});
+}
+
+type TransactionClient = Parameters<
+	Parameters<typeof prisma.$transaction>[0]
+>[0];
+
+async function validateReferencedRelations(
+	tx: TransactionClient,
+	notes: AdminProductCreateInput["notes"] | undefined,
+	collectionIds: AdminProductCreateInput["collectionIds"] | undefined,
+) {
+	if (notes !== undefined) {
+		const noteIds = [...new Set(notes.map((note) => note.noteId))];
+		const existingNoteCount =
+			noteIds.length === 0
+				? 0
+				: await tx.note.count({
+						where: {
+							id: { in: noteIds },
+						},
+					});
+
+		if (existingNoteCount !== noteIds.length) {
+			throw new Error("ADMIN_PRODUCT_NOTE_NOT_FOUND");
+		}
+	}
+
+	if (collectionIds !== undefined) {
+		const existingCollectionCount =
+			collectionIds.length === 0
+				? 0
+				: await tx.collection.count({
+						where: {
+							id: { in: collectionIds },
+						},
+					});
+
+		if (existingCollectionCount !== collectionIds.length) {
+			throw new Error("ADMIN_PRODUCT_COLLECTION_NOT_FOUND");
+		}
+	}
+}
+
+async function validateUniqueFields(
+	tx: TransactionClient,
+	params: {
+		slug?: string;
+		skus?: string[];
+		productId?: string;
+		currentVariantIds?: string[];
+	},
+) {
+	if (params.slug !== undefined) {
+		const productWithSlug = await tx.product.findFirst({
+			where: {
+				slug: params.slug,
+				...(params.productId === undefined
+					? {}
+					: { id: { not: params.productId } }),
+			},
+			select: { id: true },
+		});
+
+		if (productWithSlug !== null) {
+			throw new Error("ADMIN_PRODUCT_DUPLICATE_SLUG");
+		}
+	}
+
+	if (params.skus !== undefined && params.skus.length > 0) {
+		const variantWithSku = await tx.productVariant.findFirst({
+			where: {
+				sku: { in: params.skus },
+				...(params.currentVariantIds === undefined ||
+				params.currentVariantIds.length === 0
+					? {}
+					: { id: { notIn: params.currentVariantIds } }),
+			},
+			select: { id: true },
+		});
+
+		if (variantWithSku !== null) {
+			throw new Error("ADMIN_PRODUCT_DUPLICATE_SKU");
+		}
+	}
+}
+
+function createProductData(input: AdminProductCreateInput) {
+	return {
+		name: input.name,
+		slug: input.slug,
+		subtitle: input.subtitle,
+		description: input.description,
+		fragranceFamily: input.fragranceFamily,
+		concentration: input.concentration,
+		gender: input.gender,
+		longevity: input.longevity,
+		season: input.season,
+		occasion: input.occasion,
+		isActive: input.isActive,
+		isFeatured: input.isFeatured,
+		isNew: input.isNew,
+		isLimited: input.isLimited,
+		variants: {
+			create: input.variants.map((variant) => ({
+				format: variant.format,
+				volumeMl: variant.volumeMl,
+				price: variant.price,
+				compareAtPrice: variant.compareAtPrice,
+				sku: variant.sku,
+				stock: variant.stock,
+			})),
+		},
+		images: {
+			create: input.images.map((image) => ({
+				url: image.url,
+				alt: image.alt,
+				position: image.position,
+				isPrimary: image.isPrimary,
+				imageType: image.imageType,
+			})),
+		},
+		notes: {
+			create: input.notes.map((note) => ({
+				type: note.type,
+				position: note.position,
+				note: {
+					connect: {
+						id: note.noteId,
+					},
+				},
+			})),
+		},
+		collections: {
+			create: input.collectionIds.map((collectionId) => ({
+				collection: {
+					connect: {
+						id: collectionId,
+					},
+				},
+			})),
+		},
+	} satisfies Prisma.ProductCreateInput;
+}
+
+export function createAdminProductRecord(input: AdminProductCreateInput) {
+	return prisma.$transaction(async (tx) => {
+		await validateReferencedRelations(tx, input.notes, input.collectionIds);
+		await validateUniqueFields(tx, {
+			slug: input.slug,
+			skus: input.variants.map((variant) => variant.sku),
+		});
+
+		return tx.product.create({
+			data: createProductData(input),
+			select: productSelect,
+		});
+	});
+}
+
+function buildProductScalarUpdate(
+	input: AdminProductUpdateInput,
+): Prisma.ProductUpdateInput {
+	const data: Prisma.ProductUpdateInput = {
+		updatedAt: new Date(),
+	};
+
+	if (input.name !== undefined) data.name = input.name;
+	if (input.slug !== undefined) data.slug = input.slug;
+	if (input.subtitle !== undefined) data.subtitle = input.subtitle;
+	if (input.description !== undefined) data.description = input.description;
+	if (input.fragranceFamily !== undefined) {
+		data.fragranceFamily = input.fragranceFamily;
+	}
+	if (input.concentration !== undefined) {
+		data.concentration = input.concentration;
+	}
+	if (input.gender !== undefined) data.gender = input.gender;
+	if (input.longevity !== undefined) data.longevity = input.longevity;
+	if (input.season !== undefined) data.season = input.season;
+	if (input.occasion !== undefined) data.occasion = input.occasion;
+	if (input.isActive !== undefined) data.isActive = input.isActive;
+	if (input.isFeatured !== undefined) data.isFeatured = input.isFeatured;
+	if (input.isNew !== undefined) data.isNew = input.isNew;
+	if (input.isLimited !== undefined) data.isLimited = input.isLimited;
+
+	return data;
+}
+
+async function reconcileVariants(
+	tx: TransactionClient,
+	productId: string,
+	variants: NonNullable<AdminProductUpdateInput["variants"]>,
+	currentVariantIds: string[],
+) {
+	const preservedIds = variants.flatMap((variant) =>
+		variant.id === undefined ? [] : [variant.id],
+	);
+	const currentIdSet = new Set(currentVariantIds);
+
+	if (preservedIds.some((id) => !currentIdSet.has(id))) {
+		throw new Error("ADMIN_PRODUCT_INVALID_VARIANT_ID");
+	}
+
+	for (const [index, variant] of variants.entries()) {
+		if (variant.id === undefined) {
+			continue;
+		}
+
+		await tx.productVariant.update({
+			where: { id: variant.id },
+			data: {
+				sku: `__AVELIS_ADMIN_TMP__${variant.id}`,
+				volumeMl: -(index + 1),
+			},
+		});
+	}
+
+	await tx.productVariant.deleteMany({
+		where: {
+			productId,
+			...(preservedIds.length > 0
+				? { id: { notIn: preservedIds } }
+				: {}),
+		},
+	});
+
+	for (const variant of variants) {
+		const data = {
+			format: variant.format,
+			volumeMl: variant.volumeMl,
+			price: variant.price,
+			compareAtPrice: variant.compareAtPrice,
+			sku: variant.sku,
+			stock: variant.stock,
+		};
+
+		if (variant.id === undefined) {
+			await tx.productVariant.create({
+				data: {
+					...data,
+					productId,
+				},
+			});
+		} else {
+			await tx.productVariant.update({
+				where: { id: variant.id },
+				data,
+			});
+		}
+	}
+}
+
+async function reconcileImages(
+	tx: TransactionClient,
+	productId: string,
+	images: NonNullable<AdminProductUpdateInput["images"]>,
+	currentImageIds: string[],
+) {
+	const preservedIds = images.flatMap((image) =>
+		image.id === undefined ? [] : [image.id],
+	);
+	const currentIdSet = new Set(currentImageIds);
+
+	if (preservedIds.some((id) => !currentIdSet.has(id))) {
+		throw new Error("ADMIN_PRODUCT_INVALID_IMAGE_ID");
+	}
+
+	await tx.productImage.deleteMany({
+		where: {
+			productId,
+			...(preservedIds.length > 0
+				? { id: { notIn: preservedIds } }
+				: {}),
+		},
+	});
+
+	for (const image of images) {
+		const data = {
+			url: image.url,
+			alt: image.alt,
+			position: image.position,
+			isPrimary: image.isPrimary,
+			imageType: image.imageType,
+		};
+
+		if (image.id === undefined) {
+			await tx.productImage.create({
+				data: {
+					...data,
+					productId,
+				},
+			});
+		} else {
+			await tx.productImage.update({
+				where: { id: image.id },
+				data,
+			});
+		}
+	}
+}
+
+export function updateAdminProductRecord(
+	id: string,
+	input: AdminProductUpdateInput,
+) {
+	return prisma.$transaction(async (tx) => {
+		const currentProduct = await tx.product.findUnique({
+			where: { id },
+			select: {
+				id: true,
+				variants: { select: { id: true } },
+				images: { select: { id: true } },
+			},
+		});
+
+		if (currentProduct === null) {
+			throw new Error("ADMIN_PRODUCT_NOT_FOUND");
+		}
+
+		const currentVariantIds = currentProduct.variants.map(
+			(variant) => variant.id,
+		);
+		const currentImageIds = currentProduct.images.map((image) => image.id);
+
+		await validateReferencedRelations(tx, input.notes, input.collectionIds);
+		await validateUniqueFields(tx, {
+			...(input.slug === undefined ? {} : { slug: input.slug }),
+			...(input.variants === undefined
+				? {}
+				: { skus: input.variants.map((variant) => variant.sku) }),
+			productId: id,
+			currentVariantIds,
+		});
+
+		await tx.product.update({
+			where: { id },
+			data: buildProductScalarUpdate(input),
+		});
+
+		if (input.variants !== undefined) {
+			await reconcileVariants(
+				tx,
+				id,
+				input.variants,
+				currentVariantIds,
+			);
+		}
+
+		if (input.images !== undefined) {
+			await reconcileImages(tx, id, input.images, currentImageIds);
+		}
+
+		if (input.notes !== undefined) {
+			await tx.productNote.deleteMany({ where: { productId: id } });
+			if (input.notes.length > 0) {
+				await tx.productNote.createMany({
+					data: input.notes.map((note) => ({
+						productId: id,
+						noteId: note.noteId,
+						type: note.type,
+						position: note.position,
+					})),
+				});
+			}
+		}
+
+		if (input.collectionIds !== undefined) {
+			await tx.productCollection.deleteMany({ where: { productId: id } });
+			if (input.collectionIds.length > 0) {
+				await tx.productCollection.createMany({
+					data: input.collectionIds.map((collectionId) => ({
+						productId: id,
+						collectionId,
+					})),
+				});
+			}
+		}
+
+		return tx.product.findUniqueOrThrow({
+			where: { id },
+			select: productSelect,
+		});
 	});
 }
