@@ -8,6 +8,7 @@ import type {
 } from "../../../services/authService";
 import type { AuthUser } from "../../../types";
 import { orderKeys } from "../../orders/orderQueries";
+import { adminKeys } from "../../admin/hooks/useAdminDashboard";
 
 export const authKeys = {
 	me: ["auth", "me"] as const,
@@ -61,6 +62,7 @@ export function useLogout() {
 	return useMutation({
 		mutationFn: () => authService.logout(),
 		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: adminKeys.all });
 			queryClient.removeQueries({ queryKey: orderKeys.all });
 			queryClient.setQueryData(authKeys.me, null);
 			queryClient.invalidateQueries({ queryKey: authKeys.me });
