@@ -281,12 +281,13 @@ model Review {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  userId       String
-  refreshToken String   @unique
-  expiresAt    DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt    DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique @map("refreshToken")
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
   @@index([userId])
+  @@index([expiresAt])
 }

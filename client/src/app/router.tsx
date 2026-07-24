@@ -8,6 +8,14 @@ import { AccountLayout } from "../layouts/AccountLayout/AccountLayout";
 import { AdminLayout } from "../layouts/AdminLayout/AdminLayout";
 import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
 import { PlaceholderPage } from "../pages/PlaceholderPage/PlaceholderPage";
+import { RequireAuth } from "../features/auth/components/RequireAuth";
+import { GuestOnlyRoute } from "../features/auth/components/GuestOnlyRoute";
+import { LoginPage } from "../pages/LoginPage/LoginPage";
+import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
+import { AccountPage } from "../pages/AccountPage/AccountPage";
+import { OrdersPage } from "../pages/OrdersPage/OrdersPage";
+import { OrderDetailsPage } from "../pages/OrderDetailsPage/OrderDetailsPage";
+import { WishlistPage } from "../pages/WishlistPage/WishlistPage";
 
 export const router = createBrowserRouter([
 	{
@@ -56,25 +64,45 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: "/login",
-				element: <PlaceholderPage title="Login" />,
+				element: (
+					<GuestOnlyRoute>
+						<LoginPage />
+					</GuestOnlyRoute>
+				),
 			},
 			{
 				path: "/register",
-				element: <PlaceholderPage title="Register" />,
+				element: (
+					<GuestOnlyRoute>
+						<RegisterPage />
+					</GuestOnlyRoute>
+				),
 			},
 		],
 	},
 	{
 		path: "/account",
-		element: <AccountLayout />,
+		element: (
+			<RequireAuth>
+				<AccountLayout />
+			</RequireAuth>
+		),
 		children: [
 			{
 				index: true,
-				element: <PlaceholderPage title="Account" />,
+				element: <AccountPage />,
 			},
 			{
 				path: "orders",
-				element: <PlaceholderPage title="Orders" />,
+				element: <OrdersPage />,
+			},
+			{
+				path: "orders/:id",
+				element: <OrderDetailsPage />,
+			},
+			{
+				path: "wishlist",
+				element: <WishlistPage />,
 			},
 		],
 	},

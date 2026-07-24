@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import { errorHandler } from "./middleware/errorMiddleware.js";
+import authRoutes from "./routes/authRoutes.js";
 import collectionRoutes from "./routes/collectionRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
@@ -12,7 +13,10 @@ app.use(helmet());
 
 app.use(
 	cors({
-		origin: process.env.CLIENT_URL ?? "http://localhost:5173",
+		origin:
+			process.env.CLIENT_ORIGIN ??
+			process.env.CLIENT_URL ??
+			"http://localhost:5173",
 		credentials: true,
 	}),
 );
@@ -27,6 +31,7 @@ app.get("/api/health", (_req, res) => {
 	});
 });
 
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/collections", collectionRoutes);
 

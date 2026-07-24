@@ -24,7 +24,11 @@ export interface User {
   updatedAt: string;
 }
 
+export type AuthUser = User;
+
 export interface AuthResponse {
-  user: User;
+  data: {
+    user: AuthUser;
+  };
   message?: string;
 }

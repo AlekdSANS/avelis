@@ -1,0 +1,7 @@
+.status {
+	display: grid;
+	min-height: 18rem;
+	place-items: center;
+	padding: var(--space-12) var(--site-gutter);
+	color: var(--color-text-muted);
+}

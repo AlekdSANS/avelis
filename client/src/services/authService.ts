@@ -1,5 +1,5 @@
 import { apiClient } from "./apiClient";
-import type { ApiResponse, AuthResponse, User } from "../types";
+import type { ApiResponse, AuthResponse, AuthUser } from "../types";
 
 export interface LoginInput {
   email: string;
@@ -11,7 +11,6 @@ export interface RegisterInput {
   lastName: string;
   email: string;
   password: string;
-  newsletterConsent?: boolean;
 }
 
 export const authService = {
@@ -34,9 +33,11 @@ export const authService = {
     await apiClient.post("/auth/logout");
   },
 
-  async getCurrentUser(): Promise<User> {
-    const response = await apiClient.get<ApiResponse<User>>("/auth/me");
+  async getCurrentUser(): Promise<AuthUser> {
+    const response = await apiClient.get<ApiResponse<{ user: AuthUser }>>(
+      "/auth/me",
+    );
 
-    return response.data.data;
+    return response.data.data.user;
   },
 };

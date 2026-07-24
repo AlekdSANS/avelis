@@ -1,9 +1,10 @@
 import styles from "./Header.module.scss";
-import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { LogOut, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { IconButton } from "../../ui/IconButton/IconButton";
+import { useCurrentUser, useLogout } from "../../../features/auth/hooks/useAuth";
 import { usePresence } from "../../../hooks/usePresence";
 import { Logo } from "../Logo/Logo";
 
@@ -29,7 +30,10 @@ export function Header({
   onSearchOpen,
 }: HeaderProps) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const isHome = pathname === "/";
+  const { data: user, isLoading: isAuthLoading } = useCurrentUser();
+  const logout = useLogout();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isClosing: isMenuClosing, isMounted: isMenuMounted } = usePresence(
@@ -91,6 +95,22 @@ export function Header({
     onCartOpen();
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout.mutateAsync();
+    } catch {
+      return;
+    }
+
+    setIsMenuOpen(false);
+
+    if (pathname.startsWith("/account") || pathname.startsWith("/admin")) {
+      navigate("/login", { replace: true });
+    }
+  };
+
+  const accountTarget = user === null || user === undefined ? "/login" : "/account";
+
   return (
     <header className={classes}>
       <div className={styles.inner}>
@@ -121,12 +141,31 @@ export function Header({
             <Search />
           </IconButton>
           <Link
-            aria-label="Account"
+            aria-label={
+              user === null || user === undefined
+                ? "Sign in"
+                : `Account for ${user.firstName}`
+            }
             className={[styles.accountLink, styles.desktopAction].join(" ")}
-            to="/login"
+            to={accountTarget}
           >
             <User />
+            {user !== null && user !== undefined ? (
+              <span className={styles.accountName}>{user.firstName}</span>
+            ) : null}
           </Link>
+          {user !== null && user !== undefined ? (
+            <IconButton
+              aria-label="Sign out"
+              className={styles.desktopAction}
+              disabled={logout.isPending}
+              onClick={() => {
+                void handleLogout();
+              }}
+            >
+              <LogOut />
+            </IconButton>
+          ) : null}
           <IconButton aria-label="Open cart" onClick={openCart}>
             <ShoppingBag />
             <span aria-hidden="true" className={styles.badge}>
@@ -199,12 +238,33 @@ export function Header({
               <button onClick={openSearch} type="button">
                 Search fragrances
               </button>
-              <Link onClick={() => setIsMenuOpen(false)} to="/login">
-                Sign in
-              </Link>
-              <Link onClick={() => setIsMenuOpen(false)} to="/register">
-                Create account
-              </Link>
+              {isAuthLoading ? (
+                <span className={styles.mobileAuthStatus}>Checking session</span>
+              ) : user !== null && user !== undefined ? (
+                <>
+                  <Link onClick={() => setIsMenuOpen(false)} to="/account">
+                    {user.firstName}'s account
+                  </Link>
+                  <button
+                    disabled={logout.isPending}
+                    onClick={() => {
+                      void handleLogout();
+                    }}
+                    type="button"
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link onClick={() => setIsMenuOpen(false)} to="/login">
+                    Sign in
+                  </Link>
+                  <Link onClick={() => setIsMenuOpen(false)} to="/register">
+                    Create account
+                  </Link>
+                </>
+              )}
             </div>
           </aside>
         </div>

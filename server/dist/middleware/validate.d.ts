@@ -1,0 +1,5 @@
+import type { NextFunction, Request, Response } from "express";
+import type { ZodType } from "zod";
+export declare function validateBody<T>(schema: ZodType<T>): (req: Request, res: Response, next: NextFunction) => void;
+export declare function validateQuery<T>(schema: ZodType<T>): (req: Request, res: Response, next: NextFunction) => void;
+//# sourceMappingURL=validate.d.ts.map
