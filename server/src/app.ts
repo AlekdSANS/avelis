@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
 import collectionRoutes from "./routes/collectionRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
 const app = express();
@@ -34,6 +35,7 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/collections", collectionRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.use(errorHandler);
 

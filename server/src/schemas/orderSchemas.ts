@@ -45,7 +45,7 @@ export const createOrderSchema = z.object({
 		)
 		.min(1, "Order must contain at least one item")
 		.max(50, "Order cannot contain more than 50 distinct items"),
-	idempotencyKey: z.string().trim().min(8).max(128).optional(),
+	idempotencyKey: z.string().trim().min(16).max(128).optional(),
 });
 
 export const orderListQuerySchema = z.object({
