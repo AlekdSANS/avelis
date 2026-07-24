@@ -97,17 +97,17 @@ export function AdminLayout() {
 	const navigate = useNavigate();
 	const { data: user } = useCurrentUser();
 	const logout = useLogout();
-	const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
+	const [mobileNavigationPath, setMobileNavigationPath] = useState<
+		string | null
+	>(null);
+	const isMobileNavigationOpen = mobileNavigationPath === pathname;
 	const menuButtonRef = useRef<HTMLButtonElement>(null);
 	const closeButtonRef = useRef<HTMLButtonElement>(null);
+	const mobileDrawerRef = useRef<HTMLElement>(null);
 	const wasNavigationOpenRef = useRef(false);
 	const pageTitle =
 		pageTitles[pathname as keyof typeof pageTitles] ?? "Admin";
 	const displayName = getDisplayName(user);
-
-	useEffect(() => {
-		setIsMobileNavigationOpen(false);
-	}, [pathname]);
 
 	useEffect(() => {
 		if (!isMobileNavigationOpen) {
@@ -126,7 +126,35 @@ export function AdminLayout() {
 
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
-				setIsMobileNavigationOpen(false);
+				setMobileNavigationPath(null);
+				return;
+			}
+
+			if (event.key !== "Tab" || mobileDrawerRef.current === null) {
+				return;
+			}
+
+			const focusableElements = Array.from(
+				mobileDrawerRef.current.querySelectorAll<HTMLElement>(
+					'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+				),
+			);
+			const firstElement = focusableElements[0];
+			const lastElement = focusableElements.at(-1);
+
+			if (firstElement === undefined || lastElement === undefined) {
+				return;
+			}
+
+			if (event.shiftKey && document.activeElement === firstElement) {
+				event.preventDefault();
+				lastElement.focus();
+			} else if (
+				!event.shiftKey &&
+				document.activeElement === lastElement
+			) {
+				event.preventDefault();
+				firstElement.focus();
 			}
 		};
 
@@ -205,7 +233,7 @@ export function AdminLayout() {
 							aria-expanded={isMobileNavigationOpen}
 							aria-label="Open admin navigation"
 							className="admin-layout__menu-button"
-							onClick={() => setIsMobileNavigationOpen(true)}
+							onClick={() => setMobileNavigationPath(pathname)}
 							ref={menuButtonRef}
 							type="button"
 						>
@@ -238,19 +266,20 @@ export function AdminLayout() {
 					<button
 						aria-label="Close admin navigation"
 						className="admin-layout__backdrop"
-						onClick={() => setIsMobileNavigationOpen(false)}
+						onClick={() => setMobileNavigationPath(null)}
 						type="button"
 					/>
 					<aside
 						aria-label="Mobile admin workspace"
 						className="admin-layout__mobile-drawer"
 						id="admin-mobile-navigation"
+						ref={mobileDrawerRef}
 					>
 						<div className="admin-layout__mobile-header">
 							<Link
 								aria-label="AVELIS admin dashboard"
 								className="admin-layout__brand"
-								onClick={() => setIsMobileNavigationOpen(false)}
+								onClick={() => setMobileNavigationPath(null)}
 								to="/admin"
 							>
 								<span
@@ -267,7 +296,7 @@ export function AdminLayout() {
 							<button
 								aria-label="Close admin navigation"
 								className="admin-layout__close-button"
-								onClick={() => setIsMobileNavigationOpen(false)}
+								onClick={() => setMobileNavigationPath(null)}
 								ref={closeButtonRef}
 								type="button"
 							>
@@ -276,7 +305,7 @@ export function AdminLayout() {
 						</div>
 
 						<AdminNavigation
-							onNavigate={() => setIsMobileNavigationOpen(false)}
+							onNavigate={() => setMobileNavigationPath(null)}
 						/>
 
 						<div className="admin-layout__sidebar-footer">
@@ -291,7 +320,7 @@ export function AdminLayout() {
 							</div>
 							<Link
 								className="admin-layout__utility-link"
-								onClick={() => setIsMobileNavigationOpen(false)}
+								onClick={() => setMobileNavigationPath(null)}
 								to="/"
 							>
 								<Store aria-hidden="true" />

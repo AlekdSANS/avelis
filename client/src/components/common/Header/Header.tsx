@@ -1,5 +1,13 @@
 import styles from "./Header.module.scss";
-import { LogOut, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import {
+	LayoutDashboard,
+	LogOut,
+	Menu,
+	Search,
+	ShoppingBag,
+	User,
+	X,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
@@ -154,6 +162,16 @@ export function Header({
               <span className={styles.accountName}>{user.firstName}</span>
             ) : null}
           </Link>
+          {user?.role === "ADMIN" ? (
+            <Link
+              aria-label="Open admin workspace"
+              className={[styles.adminLink, styles.desktopAction].join(" ")}
+              to="/admin"
+            >
+              <LayoutDashboard aria-hidden="true" />
+              <span>Admin</span>
+            </Link>
+          ) : null}
           {user !== null && user !== undefined ? (
             <IconButton
               aria-label="Sign out"
@@ -245,6 +263,11 @@ export function Header({
                   <Link onClick={() => setIsMenuOpen(false)} to="/account">
                     {user.firstName}'s account
                   </Link>
+                  {user.role === "ADMIN" ? (
+                    <Link onClick={() => setIsMenuOpen(false)} to="/admin">
+                      Admin workspace
+                    </Link>
+                  ) : null}
                   <button
                     disabled={logout.isPending}
                     onClick={() => {
