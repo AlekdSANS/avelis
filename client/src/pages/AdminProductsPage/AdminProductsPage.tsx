@@ -1,6 +1,7 @@
 import {
 	ArrowRight,
 	PackageOpen,
+	Power,
 	Plus,
 	RefreshCcw,
 	Search,
@@ -12,12 +13,17 @@ import { Link } from "react-router-dom";
 import { Badge } from "../../components/ui/Badge/Badge";
 import { Button, ButtonLink } from "../../components/ui/Button/Button";
 import { Input } from "../../components/ui/Input/Input";
+import { Modal } from "../../components/ui/Modal/Modal";
 import { Pagination } from "../../components/ui/Pagination/Pagination";
 import { Price } from "../../components/ui/Price/Price";
 import { Select } from "../../components/ui/Select/Select";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
 import { useAdminProductFilters } from "../../features/admin/hooks/useAdminProductFilters";
-import { useAdminProducts } from "../../features/admin/hooks/useAdminProducts";
+import {
+	useAdminProducts,
+	useDeleteAdminProduct,
+	useUpdateAdminProductStatus,
+} from "../../features/admin/hooks/useAdminProducts";
 import { useCollections } from "../../features/collections/hooks/useCollections";
 import { productFilterOptions } from "../../features/products/data/productFilterOptions";
 import { ProductImage } from "../../features/products/components/ProductImage";
@@ -178,18 +184,55 @@ function StockSummary({ product }: { product: AdminProductListItem }) {
 	);
 }
 
-function ProductActions({ product }: { product: AdminProductListItem }) {
+type ProductActionProps = {
+	isPending: boolean;
+	onActivate: (product: AdminProductListItem) => void;
+	onDeactivate: (product: AdminProductListItem) => void;
+	product: AdminProductListItem;
+};
+
+function ProductActions({
+	isPending,
+	onActivate,
+	onDeactivate,
+	product,
+}: ProductActionProps) {
 	return (
 		<div className={styles.rowActions}>
 			<Link to={`/admin/products/${encodeURIComponent(product.id)}/edit`}>
 				Edit
 				<ArrowRight aria-hidden="true" />
 			</Link>
+			<button
+				aria-label={`${product.isActive ? "Deactivate" : "Activate"} ${product.name}`}
+				disabled={isPending}
+				onClick={() =>
+					product.isActive ? onDeactivate(product) : onActivate(product)
+				}
+				type="button"
+			>
+				<Power aria-hidden="true" />
+				{isPending
+					? "Updating…"
+					: product.isActive
+						? "Deactivate"
+						: "Activate"}
+			</button>
 		</div>
 	);
 }
 
-function ProductTable({ products }: { products: AdminProductListItem[] }) {
+function ProductTable({
+	isProductPending,
+	onActivate,
+	onDeactivate,
+	products,
+}: {
+	isProductPending: (id: string) => boolean;
+	onActivate: ProductActionProps["onActivate"];
+	onDeactivate: ProductActionProps["onDeactivate"];
+	products: AdminProductListItem[];
+}) {
 	return (
 		<div className={styles.tableWrap}>
 			<table>
@@ -237,7 +280,12 @@ function ProductTable({ products }: { products: AdminProductListItem[] }) {
 								</time>
 							</td>
 							<td>
-								<ProductActions product={product} />
+								<ProductActions
+									isPending={isProductPending(product.id)}
+									onActivate={onActivate}
+									onDeactivate={onDeactivate}
+									product={product}
+								/>
 							</td>
 						</tr>
 					))}
@@ -247,7 +295,17 @@ function ProductTable({ products }: { products: AdminProductListItem[] }) {
 	);
 }
 
-function ProductCards({ products }: { products: AdminProductListItem[] }) {
+function ProductCards({
+	isProductPending,
+	onActivate,
+	onDeactivate,
+	products,
+}: {
+	isProductPending: (id: string) => boolean;
+	onActivate: ProductActionProps["onActivate"];
+	onDeactivate: ProductActionProps["onDeactivate"];
+	products: AdminProductListItem[];
+}) {
 	return (
 		<div className={styles.cards}>
 			{products.map((product) => (
@@ -287,7 +345,12 @@ function ProductCards({ products }: { products: AdminProductListItem[] }) {
 							</dd>
 						</div>
 					</dl>
-					<ProductActions product={product} />
+					<ProductActions
+						isPending={isProductPending(product.id)}
+						onActivate={onActivate}
+						onDeactivate={onDeactivate}
+						product={product}
+					/>
 				</article>
 			))}
 		</div>
@@ -346,10 +409,18 @@ function getActiveFilters(filters: AdminProductListParams) {
 
 export function AdminProductsPage() {
 	const resultsRef = useRef<HTMLDivElement>(null);
+	const [productToDeactivate, setProductToDeactivate] =
+		useState<AdminProductListItem | null>(null);
+	const [actionMessage, setActionMessage] = useState<{
+		kind: "error" | "success";
+		text: string;
+	} | null>(null);
 	const { filters, updateFilters, clearFilters, setPage } =
 		useAdminProductFilters();
 	const collectionsQuery = useCollections();
 	const productsQuery = useAdminProducts(filters);
+	const statusMutation = useUpdateAdminProductStatus();
+	const deleteMutation = useDeleteAdminProduct();
 	const products = productsQuery.data?.data ?? [];
 	const total = productsQuery.data?.total ?? 0;
 	const totalPages = productsQuery.data?.totalPages ?? 0;
@@ -391,6 +462,55 @@ export function AdminProductsPage() {
 		key: keyof AdminProductListParams,
 		value: string,
 	) => updateFilters({ [key]: value });
+
+	const handleActivate = async (product: AdminProductListItem) => {
+		setActionMessage(null);
+
+		try {
+			await statusMutation.mutateAsync({
+				id: product.id,
+				input: { isActive: true },
+			});
+			setActionMessage({
+				kind: "success",
+				text: `${product.name} is now visible on the storefront.`,
+			});
+		} catch {
+			setActionMessage({
+				kind: "error",
+				text: `Could not activate ${product.name}. Please try again.`,
+			});
+		}
+	};
+
+	const handleDeactivate = async () => {
+		if (productToDeactivate === null) {
+			return;
+		}
+
+		const product = productToDeactivate;
+		setActionMessage(null);
+
+		try {
+			await deleteMutation.mutateAsync(product.id);
+			setProductToDeactivate(null);
+			setActionMessage({
+				kind: "success",
+				text: `${product.name} was deactivated and remains available to historical orders.`,
+			});
+		} catch {
+			setActionMessage({
+				kind: "error",
+				text: `Could not deactivate ${product.name}. Please try again.`,
+			});
+		}
+	};
+
+	const pendingProductId = statusMutation.isPending
+		? statusMutation.variables?.id
+		: deleteMutation.isPending
+			? deleteMutation.variables
+			: undefined;
 
 	return (
 		<section className={styles.page}>
@@ -547,6 +667,20 @@ export function AdminProductsPage() {
 				) : null}
 			</div>
 
+			{actionMessage === null ? null : (
+				<div
+					className={[
+						styles.feedback,
+						actionMessage.kind === "error" ? styles.feedbackError : "",
+					]
+						.filter(Boolean)
+						.join(" ")}
+					role={actionMessage.kind === "error" ? "alert" : "status"}
+				>
+					{actionMessage.text}
+				</div>
+			)}
+
 			{productsQuery.isLoading ? <ProductListSkeleton /> : null}
 
 			{productsQuery.isError ? (
@@ -591,8 +725,18 @@ export function AdminProductsPage() {
 					aria-live="polite"
 					className={styles.results}
 				>
-					<ProductTable products={products} />
-					<ProductCards products={products} />
+					<ProductTable
+						isProductPending={(id) => id === pendingProductId}
+						onActivate={(product) => void handleActivate(product)}
+						onDeactivate={setProductToDeactivate}
+						products={products}
+					/>
+					<ProductCards
+						isProductPending={(id) => id === pendingProductId}
+						onActivate={(product) => void handleActivate(product)}
+						onDeactivate={setProductToDeactivate}
+						products={products}
+					/>
 					<Pagination
 						ariaLabel="Admin product pages"
 						currentPage={Math.min(page, Math.max(totalPages, 1))}
@@ -601,6 +745,53 @@ export function AdminProductsPage() {
 					/>
 				</div>
 			) : null}
+
+			<Modal
+				description="This action is reversible from the product list."
+				footer={
+					<>
+						<Button
+							disabled={deleteMutation.isPending}
+							onClick={() => setProductToDeactivate(null)}
+							variant="secondary"
+						>
+							Cancel
+						</Button>
+						<Button
+							className={styles.destructiveButton}
+							disabled={deleteMutation.isPending}
+							onClick={() => void handleDeactivate()}
+						>
+							{deleteMutation.isPending
+								? "Deactivating…"
+								: "Deactivate product"}
+						</Button>
+					</>
+				}
+				isOpen={productToDeactivate !== null}
+				onClose={() => {
+					if (!deleteMutation.isPending) {
+						setProductToDeactivate(null);
+					}
+				}}
+				title="Deactivate product?"
+			>
+				<p>
+					This product will be hidden from the storefront but preserved for
+					historical orders.
+				</p>
+				{productToDeactivate === null ? null : (
+					<p className={styles.modalProduct}>
+						<strong>{productToDeactivate.name}</strong>
+						<span>{productToDeactivate.slug}</span>
+					</p>
+				)}
+				{actionMessage?.kind === "error" && productToDeactivate !== null ? (
+					<p className={styles.modalError} role="alert">
+						{actionMessage.text}
+					</p>
+				) : null}
+			</Modal>
 		</section>
 	);
 }

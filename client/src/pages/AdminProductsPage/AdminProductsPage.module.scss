@@ -208,6 +208,27 @@
 	opacity: 0.65;
 }
 
+.feedback {
+	border-left: 3px solid var(--color-success, #3f6d48);
+	background: color-mix(
+		in srgb,
+		var(--color-success, #3f6d48) 8%,
+		var(--color-surface)
+	);
+	padding: var(--space-3) var(--space-4);
+	font-size: 0.82rem;
+	line-height: 1.5;
+}
+
+.feedbackError {
+	border-left-color: var(--color-error, #8d3530);
+	background: color-mix(
+		in srgb,
+		var(--color-error, #8d3530) 8%,
+		var(--color-surface)
+	);
+}
+
 .tableWrap {
 	overflow: hidden;
 	border: 1px solid var(--color-border);
@@ -364,6 +385,35 @@
 
 .rowActions svg {
 	width: 0.8rem;
+}
+
+.destructiveButton {
+	background: var(--color-error, #7f322e);
+}
+
+.modalProduct {
+	display: grid;
+	gap: var(--space-1);
+	margin-top: var(--space-4);
+	border-left: 2px solid var(--color-olive);
+	padding-left: var(--space-3);
+}
+
+.modalProduct strong {
+	color: var(--color-text);
+	font-family: var(--font-heading);
+	font-size: 1.15rem;
+}
+
+.modalProduct span {
+	overflow-wrap: anywhere;
+	font-size: 0.72rem;
+}
+
+.modalError {
+	margin-top: var(--space-4);
+	color: var(--color-error, #8d3530);
+	font-weight: 700;
 }
 
 .cards {
