@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { collectionService } from "../../../services/collectionService";
 
-const collectionKeys = {
+export const collectionKeys = {
   all: ["collections"] as const,
   list: () => [...collectionKeys.all, "list"] as const,
   detail: (slug: string) => [...collectionKeys.all, "detail", slug] as const,

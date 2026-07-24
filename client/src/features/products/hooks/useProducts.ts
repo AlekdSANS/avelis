@@ -3,11 +3,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { productService } from "../../../services/productService";
 import type { ProductQueryParams } from "../../../types";
 
-const productKeys = {
+export const productKeys = {
   all: ["products"] as const,
   lists: () => [...productKeys.all, "list"] as const,
   list: (params: ProductQueryParams) => [...productKeys.lists(), params] as const,
+  details: () => [...productKeys.all, "detail"] as const,
   detail: (slug: string) => [...productKeys.all, "detail", slug] as const,
+  featuredLists: () => [...productKeys.all, "featured"] as const,
   featured: (limit?: number) => [...productKeys.all, "featured", limit] as const,
   related: (productId: string) => [...productKeys.all, "related", productId] as const,
 };

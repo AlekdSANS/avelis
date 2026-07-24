@@ -1,5 +1,6 @@
 export * from "./api";
 export * from "./admin";
+export * from "./adminProduct";
 export * from "./cart";
 export * from "./collection";
 export * from "./order";
