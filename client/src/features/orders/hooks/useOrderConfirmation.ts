@@ -58,6 +58,7 @@ export function useOrderConfirmation(orderNumber: string | undefined) {
     authError: currentUser.isError,
     authLoading: currentUser.isLoading,
     currentUser: currentUser.data,
+    refetchAuth: currentUser.refetch,
     guestConfirmationUnavailable:
       validOrderNumber &&
       !currentUser.isLoading &&
