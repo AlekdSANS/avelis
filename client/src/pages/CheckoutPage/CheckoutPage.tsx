@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LockKeyhole } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button, ButtonLink } from "../../components/ui/Button/Button";
 import { useCurrentUser } from "../../features/auth/hooks/useAuth";
@@ -15,25 +16,28 @@ import { ShippingMethodSection } from "../../features/checkout/components/Shippi
 import {
   checkoutDefaultValues,
   type CheckoutFormValues,
-  type FutureOrderPayload,
 } from "../../features/checkout/types";
+import { useCreateOrder } from "../../features/checkout/hooks/useCreateOrder";
 import { checkoutSchema } from "../../features/checkout/schemas/checkoutSchema";
 import { createCheckoutSummaryLines } from "../../features/checkout/utils/cartSummary";
 import {
   createCheckoutIdempotencyKey,
   createOrderPayload,
 } from "../../features/checkout/utils/createOrderPayload";
+import {
+  mapCreateOrderError,
+  type CheckoutOrderError,
+} from "../../features/checkout/utils/orderError";
 
 export function CheckoutPage() {
   const cart = useCart();
   const currentUser = useCurrentUser();
+  const createOrder = useCreateOrder();
+  const navigate = useNavigate();
   const prefilledUserIdRef = useRef<string | null>(null);
   const [idempotencyKey, setIdempotencyKey] = useState<string | null>(null);
-  const [, setPreparedPayload] = useState<FutureOrderPayload | null>(null);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
-  const [preparationMessage, setPreparationMessage] = useState<string | null>(
-    null,
-  );
+  const [checkoutError, setCheckoutError] =
+    useState<CheckoutOrderError | null>(null);
   const form = useForm<CheckoutFormValues>({
     defaultValues: checkoutDefaultValues,
     mode: "onBlur",
@@ -77,31 +81,42 @@ export function CheckoutPage() {
   }, [currentUser.data, getFieldState, getValues, setValue]);
 
   const onSubmit = async (values: CheckoutFormValues) => {
+    if (createOrder.isPending) {
+      return;
+    }
+
     setCheckoutError(null);
-    setPreparationMessage(null);
 
     const usableItems = createCheckoutSummaryLines(cart.items);
 
     if (usableItems.length === 0 || usableItems.length !== cart.items.length) {
-      setCheckoutError(
-        "We could not prepare checkout because some cart information is unavailable. Review your bag and try again.",
-      );
+      setCheckoutError({
+        message:
+          "We could not prepare checkout because some cart information is unavailable. Review your bag and try again.",
+        stockItems: [],
+      });
       return;
     }
 
     const submissionKey = idempotencyKey ?? createCheckoutIdempotencyKey();
     setIdempotencyKey(submissionKey);
-    setPreparedPayload(
-      createOrderPayload(values, cart.items, submissionKey),
-    );
+    try {
+      const response = await createOrder.mutateOnceAsync(
+        createOrderPayload(values, cart.items, submissionKey),
+      );
 
-    await new Promise<void>((resolve) => {
-      window.setTimeout(resolve, 250);
-    });
+      if (response === null) {
+        return;
+      }
 
-    setPreparationMessage(
-      "Checkout details are ready. Order submission will be connected in the next implementation step.",
-    );
+      cart.clearCart();
+      setIdempotencyKey(createCheckoutIdempotencyKey());
+      navigate(
+        `/checkout/success/${encodeURIComponent(response.data.orderNumber)}`,
+      );
+    } catch (error) {
+      setCheckoutError(mapCreateOrderError(error));
+    }
   };
 
   if (!cart.hasHydrated) {
@@ -161,7 +176,6 @@ export function CheckoutPage() {
           noValidate
           onChange={() => {
             setCheckoutError(null);
-            setPreparationMessage(null);
           }}
           onSubmit={form.handleSubmit(onSubmit)}
         >
@@ -184,34 +198,50 @@ export function CheckoutPage() {
             </div>
 
             {checkoutError ? (
-              <p className={styles.checkoutError} role="alert">
-                {checkoutError}
-              </p>
-            ) : null}
+              <div className={styles.checkoutError} role="alert">
+                <p>{checkoutError.message}</p>
+                {checkoutError.stockItems.length > 0 ? (
+                  <ul>
+                    {checkoutError.stockItems.map((stockItem) => {
+                      const cartItem = cart.items.find(
+                        (item) => item.variantId === stockItem.variantId,
+                      );
 
-            {preparationMessage ? (
-              <p
-                aria-live="polite"
-                className={styles.preparationMessage}
-                role="status"
-              >
-                {preparationMessage}
-              </p>
+                      return (
+                        <li key={stockItem.variantId}>
+                          {cartItem?.product.name ?? "A cart item"}
+                          {stockItem.availableStock === undefined
+                            ? ""
+                            : ` — ${stockItem.availableStock} available`}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
+                <ButtonLink size="sm" to="/cart" variant="secondary">
+                  Review cart
+                </ButtonLink>
+              </div>
             ) : null}
 
             <Button
               disabled={
-                isSubmitting || !cart.hasHydrated || cart.items.length === 0
+                isSubmitting ||
+                createOrder.isPending ||
+                !cart.hasHydrated ||
+                cart.items.length === 0
               }
               fullWidth
               type="submit"
             >
               <LockKeyhole aria-hidden="true" />
-              {isSubmitting ? "Placing order..." : "Place order"}
+              {isSubmitting || createOrder.isPending
+                ? "Placing order..."
+                : "Place order"}
             </Button>
             <p className={styles.submitNote}>
-              This step validates and prepares your details only. It does not
-              create an order, process payment, or clear your cart.
+              The server will verify current prices and availability before
+              creating the order. Payment processing is not connected yet.
             </p>
           </section>
         </form>
