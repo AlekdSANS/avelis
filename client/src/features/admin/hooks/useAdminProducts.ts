@@ -25,6 +25,7 @@ export const adminProductKeys = {
 		[...adminProductKeys.lists(), params] as const,
 	details: () => ["admin", "product"] as const,
 	detail: (id: string) => [...adminProductKeys.details(), id] as const,
+	referenceNotes: () => ["admin", "product-reference-notes"] as const,
 };
 
 function retryAdminQuery(failureCount: number, error: Error) {
@@ -102,6 +103,16 @@ export function useAdminProduct(id?: string) {
 			adminProductService.getProductById(id ?? "", { signal }),
 		enabled: Boolean(id),
 		staleTime: 60_000,
+		retry: retryAdminQuery,
+	});
+}
+
+export function useAdminProductReferenceNotes() {
+	return useQuery({
+		queryKey: adminProductKeys.referenceNotes(),
+		queryFn: ({ signal }) =>
+			adminProductService.getReferenceNotes({ signal }),
+		staleTime: 10 * 60_000,
 		retry: retryAdminQuery,
 	});
 }

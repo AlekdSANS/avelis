@@ -8,6 +8,7 @@ import type {
 import {
 	createAdminProduct,
 	getAdminProduct,
+	listAdminProductReferenceNotes,
 	listAdminProducts,
 	setAdminProductStatus,
 	softDeleteAdminProduct,
@@ -29,6 +30,15 @@ export async function adminProductDetailController(
 	res: Response,
 ) {
 	const result = await getAdminProduct(String(req.params.id ?? ""));
+
+	res.status(200).json(result);
+}
+
+export async function adminProductReferenceNotesController(
+	_req: Request,
+	res: Response,
+) {
+	const result = await listAdminProductReferenceNotes();
 
 	res.status(200).json(result);
 }

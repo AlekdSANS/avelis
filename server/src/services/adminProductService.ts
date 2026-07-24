@@ -3,6 +3,7 @@ import {
 	createAdminProductRecord,
 	deactivateAdminProduct,
 	findAdminProductById,
+	findAdminProductReferenceNotes,
 	findAdminProducts,
 	updateAdminProductStatus,
 	updateAdminProductRecord,
@@ -172,6 +173,12 @@ export async function getAdminProduct(id: string) {
 
 	return {
 		data: mapAdminProductDetail(product),
+	};
+}
+
+export async function listAdminProductReferenceNotes() {
+	return {
+		data: await findAdminProductReferenceNotes(),
 	};
 }
 

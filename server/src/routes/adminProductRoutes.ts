@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
 	adminProductDetailController,
+	adminProductReferenceNotesController,
 	createAdminProductController,
 	deleteAdminProductController,
 	listAdminProductsController,
@@ -34,6 +35,10 @@ router.post(
 	"/",
 	validateBody(adminProductCreateSchema),
 	asyncHandler(createAdminProductController),
+);
+router.get(
+	"/references/notes",
+	asyncHandler(adminProductReferenceNotesController),
 );
 router.patch(
 	"/:id/status",

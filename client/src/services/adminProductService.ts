@@ -4,6 +4,7 @@ import type {
 	AdminProductDetailResponse,
 	AdminProductListParams,
 	AdminProductListResponse,
+	AdminProductReferenceNotesResponse,
 	AdminProductStatusInput,
 	AdminProductSummaryResponse,
 	AdminProductUpdateInput,
@@ -59,6 +60,17 @@ export const adminProductService = {
 	): Promise<AdminProductDetailResponse> {
 		const response = await apiClient.get<AdminProductDetailResponse>(
 			`/admin/products/${encodeURIComponent(id)}`,
+			{ signal: options?.signal },
+		);
+
+		return response.data;
+	},
+
+	async getReferenceNotes(
+		options?: RequestOptions,
+	): Promise<AdminProductReferenceNotesResponse> {
+		const response = await apiClient.get<AdminProductReferenceNotesResponse>(
+			"/admin/products/references/notes",
 			{ signal: options?.signal },
 		);
 

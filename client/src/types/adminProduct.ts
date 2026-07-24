@@ -156,6 +156,11 @@ export interface AdminProductNoteInput {
 	position: number;
 }
 
+export interface AdminProductReferenceNote {
+	id: string;
+	name: string;
+}
+
 export interface AdminProductCreateInput {
 	name: string;
 	slug: string;
@@ -208,6 +213,9 @@ export interface AdminProductStatusInput {
 export type AdminProductListResponse =
 	PaginatedResponse<AdminProductListItem>;
 export type AdminProductDetailResponse = ApiResponse<AdminProductDetail>;
+export type AdminProductReferenceNotesResponse = ApiResponse<
+	AdminProductReferenceNote[]
+>;
 export type AdminProductSummaryResponse = ApiResponse<AdminProductListItem>;
 export type AdminProductDeleteResponse = AdminProductSummaryResponse & {
 	message: string;

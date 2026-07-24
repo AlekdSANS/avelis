@@ -10,6 +10,7 @@ import {
 import {
 	createAdminProduct,
 	getAdminProduct,
+	listAdminProductReferenceNotes,
 	listAdminProducts,
 	softDeleteAdminProduct,
 	updateAdminProduct,
@@ -232,6 +233,19 @@ test("admin product CRUD foundation", async (t) => {
 			assert.equal("description" in product, false);
 			assert.equal("variants" in product, false);
 			assert.ok(result.total >= 1);
+		});
+
+		await t.test("lists safe note reference data for the editor", async () => {
+			const result = await listAdminProductReferenceNotes();
+			const referenceNote = result.data.find(
+				(candidate) => candidate.id === note.id,
+			);
+
+			assert.deepEqual(referenceNote, {
+				id: note.id,
+				name: `Admin product note ${tag}`,
+			});
+			assert.equal(JSON.stringify(result).includes("productId"), false);
 		});
 
 		await t.test(
