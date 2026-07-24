@@ -169,8 +169,8 @@ export function CheckoutPage() {
         <p className={styles.eyebrow}>Secure checkout</p>
         <h1>Complete your selection</h1>
         <p>
-          Your details stay editable until order submission is connected in the
-          next implementation stage.
+          Review your delivery details and chosen payment method before placing
+          your order.
         </p>
         <p aria-live="polite" className={styles.prefillStatus}>
           {currentUser.isLoading

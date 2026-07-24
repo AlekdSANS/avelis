@@ -48,6 +48,28 @@
 	min-width: 0;
 }
 
+@media (max-width: 35rem) {
+	.account-layout {
+		width: min(calc(100% - 2rem), var(--container-width));
+		gap: var(--space-6);
+		padding-block: var(--space-8);
+	}
+
+	.account-layout__sidebar nav {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.account-layout__link {
+		display: inline-flex;
+		min-height: 2.75rem;
+		align-items: center;
+		justify-content: center;
+		padding-inline: var(--space-2);
+		text-align: center;
+	}
+}
+
 @media (min-width: 56rem) {
 	.account-layout {
 		grid-template-columns: 14rem minmax(0, 1fr);

@@ -537,8 +537,24 @@ test("order backend flow", async (t) => {
 					page: 1,
 					limit: 50,
 				});
+				const firstOwnerPage = await listCustomerOrders(userA.id, {
+					page: 1,
+					limit: 1,
+				});
+				const secondOwnerPage = await listCustomerOrders(userA.id, {
+					page: 2,
+					limit: 1,
+				});
 
 				assert.ok(ownerOrders.data.length >= 2);
+				assert.equal(firstOwnerPage.data.length, 1);
+				assert.equal(secondOwnerPage.data.length, 1);
+				assert.equal(firstOwnerPage.total, ownerOrders.total);
+				assert.equal(firstOwnerPage.totalPages, ownerOrders.total);
+				assert.notEqual(
+					firstOwnerPage.data[0]?.id,
+					secondOwnerPage.data[0]?.id,
+				);
 				assert.equal(
 					ownerOrders.data.some(
 						(order) => order.id === otherOrder.data.id,

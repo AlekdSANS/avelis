@@ -69,8 +69,7 @@
   font-size: clamp(1.8rem, 3vw, 2.35rem);
 }
 
-.checkoutError,
-.preparationMessage {
+.checkoutError {
   border: 1px solid rgba(143, 47, 38, 0.24);
   background: rgba(143, 47, 38, 0.06);
   padding: var(--space-3) var(--space-4);
@@ -96,12 +95,6 @@
 
 .checkoutError a {
   justify-self: start;
-}
-
-.preparationMessage {
-  border-color: rgba(114, 112, 82, 0.32);
-  background: rgba(114, 112, 82, 0.08);
-  color: var(--color-text);
 }
 
 .submitNote {
