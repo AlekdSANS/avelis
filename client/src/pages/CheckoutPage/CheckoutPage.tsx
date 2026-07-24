@@ -3,6 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { ButtonLink } from "../../components/ui/Button/Button";
 import { useCart } from "../../features/cart/hooks/useCart";
+import { CustomerDetailsSection } from "../../features/checkout/components/CustomerDetailsSection";
+import { ShippingAddressSection } from "../../features/checkout/components/ShippingAddressSection";
 import {
 	checkoutDefaultValues,
 	type CheckoutFormValues,
@@ -46,7 +48,10 @@ export function CheckoutPage() {
           noValidate
           onSubmit={form.handleSubmit(() => undefined)}
         >
-          <div className={styles.formColumn} aria-label="Checkout details" />
+          <div className={styles.formColumn} aria-label="Checkout details">
+            <CustomerDetailsSection />
+            <ShippingAddressSection />
+          </div>
           <aside
             aria-labelledby="checkout-summary-title"
             className={styles.summary}
