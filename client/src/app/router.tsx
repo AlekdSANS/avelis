@@ -10,6 +10,7 @@ import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
 import { PlaceholderPage } from "../pages/PlaceholderPage/PlaceholderPage";
 import { RequireAuth } from "../features/auth/components/RequireAuth";
 import { GuestOnlyRoute } from "../features/auth/components/GuestOnlyRoute";
+import { RequireAdmin } from "../features/auth/components/RequireAdmin";
 import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
 import { CheckoutPage } from "../pages/CheckoutPage/CheckoutPage";
@@ -18,6 +19,9 @@ import { AccountPage } from "../pages/AccountPage/AccountPage";
 import { OrdersPage } from "../pages/OrdersPage/OrdersPage";
 import { OrderDetailsPage } from "../pages/OrderDetailsPage/OrderDetailsPage";
 import { WishlistPage } from "../pages/WishlistPage/WishlistPage";
+import { AdminDashboardPage } from "../pages/AdminDashboardPage/AdminDashboardPage";
+import { AdminProductsPage } from "../pages/AdminProductsPage/AdminProductsPage";
+import { AdminOrdersPage } from "../pages/AdminOrdersPage/AdminOrdersPage";
 
 export const router = createBrowserRouter([
 	{
@@ -114,11 +118,23 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "/admin",
-		element: <AdminLayout />,
+		element: (
+			<RequireAdmin>
+				<AdminLayout />
+			</RequireAdmin>
+		),
 		children: [
 			{
 				index: true,
-				element: <PlaceholderPage title="Admin Dashboard" />,
+				element: <AdminDashboardPage />,
+			},
+			{
+				path: "products",
+				element: <AdminProductsPage />,
+			},
+			{
+				path: "orders",
+				element: <AdminOrdersPage />,
 			},
 		],
 	},
