@@ -75,6 +75,7 @@ export function mapProductToForm(
 			)
 			.map((note) => ({
 				noteId: note.noteId,
+				name: note.name,
 				type: note.type,
 				position: note.position,
 			})),

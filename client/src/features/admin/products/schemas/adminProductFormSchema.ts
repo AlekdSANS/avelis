@@ -69,6 +69,7 @@ const imageSchema = z.object({
 
 const noteSchema = z.object({
 	noteId: requiredText("Note", 200),
+	name: z.string().optional(),
 	type: z.enum(["TOP", "HEART", "BASE"]),
 	position: z.number().int().nonnegative(),
 });
