@@ -27,11 +27,28 @@ export const ProductImageType = {
     REFILL: 'REFILL'
 };
 export const OrderStatus = {
-    PENDING: 'PENDING',
-    PAID: 'PAID',
+    PENDING_PAYMENT: 'PENDING_PAYMENT',
+    CONFIRMED: 'CONFIRMED',
     PROCESSING: 'PROCESSING',
     SHIPPED: 'SHIPPED',
     DELIVERED: 'DELIVERED',
+    CANCELLED: 'CANCELLED',
+    REFUNDED: 'REFUNDED'
+};
+export const PaymentStatus = {
+    PENDING: 'PENDING',
+    PAID: 'PAID',
+    FAILED: 'FAILED',
+    REFUNDED: 'REFUNDED',
     CANCELLED: 'CANCELLED'
+};
+export const PaymentMethod = {
+    CARD: 'CARD',
+    BLIK: 'BLIK',
+    CASH_ON_DELIVERY: 'CASH_ON_DELIVERY'
+};
+export const ShippingMethod = {
+    STANDARD: 'STANDARD',
+    EXPRESS: 'EXPRESS'
 };
 //# sourceMappingURL=enums.js.map

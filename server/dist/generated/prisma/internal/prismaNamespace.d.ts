@@ -1620,16 +1620,30 @@ export declare const OrderScalarFieldEnum: {
     readonly id: 'id';
     readonly orderNumber: 'orderNumber';
     readonly userId: 'userId';
-    readonly status: 'status';
-    readonly shippingName: 'shippingName';
-    readonly shippingStreet: 'shippingStreet';
-    readonly shippingCity: 'shippingCity';
-    readonly shippingZip: 'shippingZip';
+    readonly customerEmail: 'customerEmail';
+    readonly customerFirstName: 'customerFirstName';
+    readonly customerLastName: 'customerLastName';
+    readonly customerPhone: 'customerPhone';
     readonly shippingCountry: 'shippingCountry';
-    readonly shippingPhone: 'shippingPhone';
+    readonly shippingCity: 'shippingCity';
+    readonly shippingPostalCode: 'shippingPostalCode';
+    readonly shippingStreet: 'shippingStreet';
+    readonly shippingBuilding: 'shippingBuilding';
+    readonly shippingApartment: 'shippingApartment';
+    readonly deliveryNotes: 'deliveryNotes';
+    readonly shippingMethod: 'shippingMethod';
+    readonly paymentMethod: 'paymentMethod';
+    readonly paymentStatus: 'paymentStatus';
+    readonly status: 'status';
     readonly subtotal: 'subtotal';
-    readonly shippingCost: 'shippingCost';
+    readonly shippingTotal: 'shippingTotal';
+    readonly discountTotal: 'discountTotal';
     readonly total: 'total';
+    readonly currency: 'currency';
+    readonly confirmedAt: 'confirmedAt';
+    readonly cancelledAt: 'cancelledAt';
+    readonly idempotencyScope: 'idempotencyScope';
+    readonly idempotencyKey: 'idempotencyKey';
     readonly createdAt: 'createdAt';
     readonly updatedAt: 'updatedAt';
 };
@@ -1641,11 +1655,13 @@ export declare const OrderItemScalarFieldEnum: {
     readonly variantId: 'variantId';
     readonly productName: 'productName';
     readonly productSlug: 'productSlug';
+    readonly sku: 'sku';
+    readonly format: 'format';
     readonly imageUrl: 'imageUrl';
     readonly volumeMl: 'volumeMl';
     readonly quantity: 'quantity';
     readonly unitPrice: 'unitPrice';
-    readonly totalPrice: 'totalPrice';
+    readonly lineTotal: 'lineTotal';
 };
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum];
 export declare const ReviewScalarFieldEnum: {
@@ -1753,6 +1769,30 @@ export type EnumFragranceNoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'FragranceNoteType[]'
  */
 export type ListEnumFragranceNoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FragranceNoteType[]'>;
+/**
+ * Reference to a field of type 'ShippingMethod'
+ */
+export type EnumShippingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingMethod'>;
+/**
+ * Reference to a field of type 'ShippingMethod[]'
+ */
+export type ListEnumShippingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingMethod[]'>;
+/**
+ * Reference to a field of type 'PaymentMethod'
+ */
+export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>;
+/**
+ * Reference to a field of type 'PaymentMethod[]'
+ */
+export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>;
+/**
+ * Reference to a field of type 'PaymentStatus'
+ */
+export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>;
+/**
+ * Reference to a field of type 'PaymentStatus[]'
+ */
+export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>;
 /**
  * Reference to a field of type 'OrderStatus'
  */

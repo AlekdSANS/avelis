@@ -22,12 +22,32 @@ export declare const ProductImageType: {
 };
 export type ProductImageType = (typeof ProductImageType)[keyof typeof ProductImageType];
 export declare const OrderStatus: {
-    readonly PENDING: 'PENDING';
-    readonly PAID: 'PAID';
+    readonly PENDING_PAYMENT: 'PENDING_PAYMENT';
+    readonly CONFIRMED: 'CONFIRMED';
     readonly PROCESSING: 'PROCESSING';
     readonly SHIPPED: 'SHIPPED';
     readonly DELIVERED: 'DELIVERED';
     readonly CANCELLED: 'CANCELLED';
+    readonly REFUNDED: 'REFUNDED';
 };
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
+export declare const PaymentStatus: {
+    readonly PENDING: 'PENDING';
+    readonly PAID: 'PAID';
+    readonly FAILED: 'FAILED';
+    readonly REFUNDED: 'REFUNDED';
+    readonly CANCELLED: 'CANCELLED';
+};
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
+export declare const PaymentMethod: {
+    readonly CARD: 'CARD';
+    readonly BLIK: 'BLIK';
+    readonly CASH_ON_DELIVERY: 'CASH_ON_DELIVERY';
+};
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod];
+export declare const ShippingMethod: {
+    readonly STANDARD: 'STANDARD';
+    readonly EXPRESS: 'EXPRESS';
+};
+export type ShippingMethod = (typeof ShippingMethod)[keyof typeof ShippingMethod];
 //# sourceMappingURL=enums.d.ts.map
