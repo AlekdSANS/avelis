@@ -1817,16 +1817,30 @@ export const OrderScalarFieldEnum = {
   id: 'id',
   orderNumber: 'orderNumber',
   userId: 'userId',
-  status: 'status',
-  shippingName: 'shippingName',
-  shippingStreet: 'shippingStreet',
-  shippingCity: 'shippingCity',
-  shippingZip: 'shippingZip',
+  customerEmail: 'customerEmail',
+  customerFirstName: 'customerFirstName',
+  customerLastName: 'customerLastName',
+  customerPhone: 'customerPhone',
   shippingCountry: 'shippingCountry',
-  shippingPhone: 'shippingPhone',
+  shippingCity: 'shippingCity',
+  shippingPostalCode: 'shippingPostalCode',
+  shippingStreet: 'shippingStreet',
+  shippingBuilding: 'shippingBuilding',
+  shippingApartment: 'shippingApartment',
+  deliveryNotes: 'deliveryNotes',
+  shippingMethod: 'shippingMethod',
+  paymentMethod: 'paymentMethod',
+  paymentStatus: 'paymentStatus',
+  status: 'status',
   subtotal: 'subtotal',
-  shippingCost: 'shippingCost',
+  shippingTotal: 'shippingTotal',
+  discountTotal: 'discountTotal',
   total: 'total',
+  currency: 'currency',
+  confirmedAt: 'confirmedAt',
+  cancelledAt: 'cancelledAt',
+  idempotencyScope: 'idempotencyScope',
+  idempotencyKey: 'idempotencyKey',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1841,11 +1855,13 @@ export const OrderItemScalarFieldEnum = {
   variantId: 'variantId',
   productName: 'productName',
   productSlug: 'productSlug',
+  sku: 'sku',
+  format: 'format',
   imageUrl: 'imageUrl',
   volumeMl: 'volumeMl',
   quantity: 'quantity',
   unitPrice: 'unitPrice',
-  totalPrice: 'totalPrice'
+  lineTotal: 'lineTotal'
 } as const
 
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
@@ -2022,6 +2038,48 @@ export type EnumFragranceNoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'FragranceNoteType[]'
  */
 export type ListEnumFragranceNoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FragranceNoteType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ShippingMethod'
+ */
+export type EnumShippingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingMethod'>
+    
+
+
+/**
+ * Reference to a field of type 'ShippingMethod[]'
+ */
+export type ListEnumShippingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingMethod[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMethod'
+ */
+export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMethod[]'
+ */
+export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentStatus'
+ */
+export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentStatus[]'
+ */
+export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
     
 
 

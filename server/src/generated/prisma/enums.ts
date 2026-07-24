@@ -45,12 +45,41 @@ export type ProductImageType = (typeof ProductImageType)[keyof typeof ProductIma
 
 
 export const OrderStatus = {
-  PENDING: 'PENDING',
-  PAID: 'PAID',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  CONFIRMED: 'CONFIRMED',
   PROCESSING: 'PROCESSING',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
 } as const
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PaymentMethod = {
+  CARD: 'CARD',
+  BLIK: 'BLIK',
+  CASH_ON_DELIVERY: 'CASH_ON_DELIVERY'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const ShippingMethod = {
+  STANDARD: 'STANDARD',
+  EXPRESS: 'EXPRESS'
+} as const
+
+export type ShippingMethod = (typeof ShippingMethod)[keyof typeof ShippingMethod]
