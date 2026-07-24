@@ -1,0 +1,38 @@
+export const productFilterOptions = {
+	families: [
+		"Woody",
+		"Floral",
+		"Amber",
+		"Fresh",
+		"Spicy",
+		"Gourmand",
+		"Aquatic",
+		"Powdery",
+	],
+	seasons: ["spring", "summer", "autumn", "winter"],
+	concentrations: ["Eau de Parfum", "Eau de Toilette", "Extrait de Parfum"],
+	formats: [
+		{ label: "Perfume bottle", value: "BOTTLE" },
+		{ label: "Refill", value: "REFILL" },
+	],
+	volumes: [50, 100, 150],
+	collections: [
+		{ label: "Signature Woods", value: "signature-woods" },
+		{ label: "Water & Air", value: "water-and-air" },
+		{ label: "Floral Light", value: "floral-light" },
+		{ label: "Nocturne Reserve", value: "nocturne-reserve" },
+		{ label: "Refill Ritual", value: "refill-ritual" },
+	],
+	notes: [
+		"Peach",
+		"Magnolia",
+		"Cedar",
+		"Amber",
+		"Fig",
+		"Saffron",
+		"Musk",
+		"Citrus",
+		"Rose",
+		"Vanilla",
+	],
+} as const;

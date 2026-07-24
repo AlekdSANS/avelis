@@ -4,7 +4,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ProductImage } from "../../../features/products/components/ProductImage";
-import { getCheapestVariant } from "../../../features/products/utils/productCatalog";
+import {
+  getCheapestVariant,
+  getHoverProductImage,
+  getPrimaryProductImage,
+} from "../../../features/products/utils/productCatalog";
 import type { Product, ProductVariant } from "../../../types/product";
 import { Badge } from "../../ui/Badge/Badge";
 import { IconButton } from "../../ui/IconButton/IconButton";
@@ -41,11 +45,15 @@ export function ProductCard({
         .map((variant) => variant.volumeMl),
     ),
   ];
-  const primaryImage = product.images[0];
-  const secondaryImage = product.images[1];
+  const primaryImage = getPrimaryProductImage(product);
+  const secondaryImage = getHoverProductImage(product);
   const [secondaryAvailable, setSecondaryAvailable] = useState(
-    Boolean(secondaryImage),
+    secondaryImage.id !== primaryImage.id,
   );
+  const ratingLabel =
+    product.rating === null
+      ? "New"
+      : `${product.rating.toFixed(1)} (${product.reviewCount})`;
 
   return (
     <article className={[styles.card, className ?? ""].filter(Boolean).join(" ")}>
@@ -56,12 +64,12 @@ export function ProductCard({
           to={`/products/${product.slug}`}
         >
           <ProductImage
-            alt={primaryImage?.alt ?? `${product.name} fragrance`}
+            alt={primaryImage.alt}
             className={styles.primaryImage}
             loading="lazy"
-            src={primaryImage?.url}
+            src={primaryImage.url}
           />
-          {secondaryImage && secondaryAvailable ? (
+          {secondaryAvailable ? (
             <ProductImage
               alt=""
               aria-hidden="true"
@@ -76,7 +84,7 @@ export function ProductCard({
         <div className={styles.badges}>
           {product.isNew ? <Badge>New</Badge> : null}
           {product.isLimited ? <Badge tone="dark">Limited</Badge> : null}
-          {product.isBestSeller ? <Badge>Best seller</Badge> : null}
+          {product.isFeatured ? <Badge>Featured</Badge> : null}
         </div>
 
         <IconButton
@@ -99,7 +107,7 @@ export function ProductCard({
           <span>{product.fragranceFamily}</span>
           <span className={styles.rating}>
             <Star aria-hidden="true" fill="currentColor" />
-            {product.rating.toFixed(1)} ({product.reviewCount})
+            {ratingLabel}
           </span>
         </div>
 
@@ -111,7 +119,11 @@ export function ProductCard({
         </div>
 
         <div className={styles.formatDetails}>
-          <span>{Math.min(...bottleVolumes)}–{Math.max(...bottleVolumes)} ml bottles</span>
+          {bottleVolumes.length > 0 ? (
+            <span>
+              {Math.min(...bottleVolumes)}-{Math.max(...bottleVolumes)} ml bottles
+            </span>
+          ) : null}
           {refillVolumes.length > 0 ? (
             <span>Refills available: {refillVolumes.join(", ")} ml</span>
           ) : null}

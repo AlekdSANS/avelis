@@ -1,20 +1,20 @@
+import { useQueries } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-import { productBySlug } from "../data/products";
-import type { Product } from "../../../types/product";
+import { productService } from "../../../services/productService";
 
 const RECENT_KEY = "avelis-recently-viewed";
 const RECENT_LIMIT = 6;
 
 export function useRecentlyViewed(currentSlug: string) {
-  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [recentSlugs, setRecentSlugs] = useState<string[]>([]);
 
   useEffect(() => {
     if (!currentSlug) {
       return;
     }
 
-    let nextProducts: Product[] = [];
+    let nextRecentSlugs: string[] = [];
 
     try {
       const stored = window.localStorage.getItem(RECENT_KEY);
@@ -23,24 +23,36 @@ export function useRecentlyViewed(currentSlug: string) {
         ? parsed.filter((item): item is string => typeof item === "string")
         : [];
 
-      nextProducts = slugs
+      nextRecentSlugs = slugs
         .filter((slug) => slug !== currentSlug)
-        .map((slug) => productBySlug.get(slug))
-        .filter((product): product is Product => Boolean(product))
         .slice(0, 4);
 
-      const nextSlugs = [
+      const nextStoredSlugs = [
         currentSlug,
         ...slugs.filter((slug) => slug !== currentSlug),
       ].slice(0, RECENT_LIMIT);
-      window.localStorage.setItem(RECENT_KEY, JSON.stringify(nextSlugs));
+      window.localStorage.setItem(RECENT_KEY, JSON.stringify(nextStoredSlugs));
     } catch {
-      nextProducts = [];
+      nextRecentSlugs = [];
     }
 
-    const frame = window.requestAnimationFrame(() => setRecentProducts(nextProducts));
+    const frame = window.requestAnimationFrame(() => setRecentSlugs(nextRecentSlugs));
     return () => window.cancelAnimationFrame(frame);
   }, [currentSlug]);
 
-  return recentProducts;
+  const queries = useQueries({
+    queries: recentSlugs.map((slug) => ({
+      queryKey: ["products", "detail", slug],
+      queryFn: ({ signal }: { signal: AbortSignal }) =>
+        productService.getProductBySlug(slug, { signal }),
+      staleTime: 5 * 60_000,
+    })),
+  });
+
+  return {
+    isLoading: queries.some((query) => query.isLoading),
+    products: queries
+      .map((query) => query.data)
+      .filter((product): product is NonNullable<typeof product> => Boolean(product)),
+  };
 }

@@ -13,6 +13,7 @@
 	"license": "ISC",
 	"type": "module",
 	"dependencies": {
+		"@prisma/adapter-pg": "^7.9.0",
 		"@prisma/client": "^7.9.0",
 		"bcrypt": "^6.0.0",
 		"cookie-parser": "^1.4.7",
@@ -22,6 +23,7 @@
 		"express-rate-limit": "^8.6.0",
 		"helmet": "^8.3.0",
 		"jsonwebtoken": "^9.0.3",
+		"pg": "^8.22.0",
 		"prisma": "^7.9.0",
 		"zod": "^4.4.3"
 	},
@@ -34,11 +36,6 @@
 		"@types/node": "^26.1.1",
 		"tsx": "^4.23.1",
 		"typescript": "^7.0.2"
-	},
-	"scripts": {
-		"dev": "tsx watch src/server.ts",
-		"build": "tsc",
-		"start": "node dist/server.js"
 	},
 	"compilerOptions": {
 		"target": "ES2022",

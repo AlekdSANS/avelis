@@ -2,6 +2,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
+import { errorHandler } from "./middleware/errorMiddleware.js";
+import collectionRoutes from "./routes/collectionRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 const app = express();
 
@@ -23,5 +26,10 @@ app.get("/api/health", (_req, res) => {
 		message: "Avelis API is running",
 	});
 });
+
+app.use("/api/products", productRoutes);
+app.use("/api/collections", collectionRoutes);
+
+app.use(errorHandler);
 
 export default app;

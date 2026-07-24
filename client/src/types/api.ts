@@ -1,7 +1,7 @@
 export interface ApiError {
   message: string;
   statusCode?: number;
-  errors?: Record<string, string[]>;
+  issues?: { message: string; path: string }[];
 }
 
 export interface ApiResponse<T> {
@@ -25,9 +25,11 @@ export interface PaginationParams {
 export interface ProductQueryParams extends PaginationParams {
   search?: string;
   collection?: string;
-  fragranceFamily?: string;
+  family?: string;
   season?: string;
   concentration?: string;
+  format?: "BOTTLE" | "REFILL" | string;
+  volume?: number | string;
   minPrice?: number;
   maxPrice?: number;
   inStock?: boolean;

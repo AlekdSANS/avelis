@@ -144,6 +144,7 @@ export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeo
 export const ProductVariantScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
+  format: 'format',
   volumeMl: 'volumeMl',
   price: 'price',
   compareAtPrice: 'compareAtPrice',
@@ -162,6 +163,8 @@ export const ProductImageScalarFieldEnum = {
   url: 'url',
   alt: 'alt',
   position: 'position',
+  isPrimary: 'isPrimary',
+  imageType: 'imageType',
   createdAt: 'createdAt'
 } as const
 

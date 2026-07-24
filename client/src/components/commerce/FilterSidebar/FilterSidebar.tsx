@@ -1,7 +1,7 @@
 import styles from "./FilterSidebar.module.scss";
 import type { ReactNode } from "react";
 
-import { productFilterOptions } from "../../../features/products/data/products";
+import { productFilterOptions } from "../../../features/products/data/productFilterOptions";
 import type {
   FilterKey,
   ShopFilters,

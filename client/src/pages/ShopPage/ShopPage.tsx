@@ -10,20 +10,20 @@ import { Drawer } from "../../components/ui/Drawer/Drawer";
 import { IconButton } from "../../components/ui/IconButton/IconButton";
 import { Input } from "../../components/ui/Input/Input";
 import { Pagination } from "../../components/ui/Pagination/Pagination";
-import {
-  ActiveFilterChips,
-} from "../../features/products/components/ActiveFilterChips";
-import { products } from "../../features/products/data/products";
+import { ActiveFilterChips } from "../../features/products/components/ActiveFilterChips";
 import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist";
 import { useProductFilters } from "../../features/products/hooks/useProductFilters";
+import { useProducts } from "../../features/products/hooks/useProducts";
 import { getActiveFilterCount } from "../../features/products/types";
-import {
-  filterProducts,
-  getMatchingVariants,
-  sortProducts,
-} from "../../features/products/utils/productCatalog";
+import { getMatchingVariants } from "../../features/products/utils/productCatalog";
+import type { ProductQueryParams } from "../../types";
 
 const PRODUCTS_PER_PAGE = 8;
+const LOVED_PRODUCTS_LIMIT = 48;
+
+function joinValues(values: (string | number)[]) {
+  return values.length > 0 ? values.join(",") : undefined;
+}
 
 export function ShopPage() {
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -44,31 +44,55 @@ export function ShopPage() {
     removeFilter,
   } = useProductFilters();
 
-  const filteredProducts = useMemo(
-    () => filterProducts(products, filters, wishlist),
-    [filters, wishlist],
+  const productParams = useMemo<ProductQueryParams>(
+    () => ({
+      search:
+        [filters.search, ...filters.notes]
+          .map((value) => value.trim())
+          .filter(Boolean)
+          .join(",") || undefined,
+      family: joinValues(filters.families),
+      season: joinValues(filters.seasons),
+      concentration: joinValues(filters.concentrations),
+      format:
+        filters.formats.length === 1 ? filters.formats[0] : joinValues(filters.formats),
+      volume:
+        filters.volumes.length === 1
+          ? filters.volumes[0]
+          : joinValues(filters.volumes),
+      collection: joinValues(filters.collections),
+      inStock: filters.inStockOnly,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      sort,
+      page: filters.lovedOnly ? 1 : page,
+      limit: filters.lovedOnly ? LOVED_PRODUCTS_LIMIT : PRODUCTS_PER_PAGE,
+    }),
+    [filters, page, sort],
   );
-  const sortedProducts = useMemo(
-    () => sortProducts(filteredProducts, sort, filters),
-    [filteredProducts, filters, sort],
-  );
-  const totalPages = Math.max(1, Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE));
-  const currentPage = Math.min(page, totalPages);
-  const pageProducts = sortedProducts.slice(
-    (currentPage - 1) * PRODUCTS_PER_PAGE,
-    currentPage * PRODUCTS_PER_PAGE,
-  );
-  const gridItems = pageProducts.map((product) => ({
+  const productsQuery = useProducts(productParams);
+  const products = productsQuery.data?.data ?? [];
+  const visibleProducts = filters.lovedOnly
+    ? products.filter((product) => wishlist.has(product.id))
+    : products;
+  const totalProducts = filters.lovedOnly
+    ? visibleProducts.length
+    : productsQuery.data?.total ?? 0;
+  const totalPages = filters.lovedOnly
+    ? 1
+    : Math.max(1, productsQuery.data?.totalPages ?? 1);
+  const currentPage = filters.lovedOnly ? 1 : Math.min(page, totalPages);
+  const gridItems = visibleProducts.map((product) => ({
     product,
     variants: getMatchingVariants(product, filters),
   }));
   const activeFilterCount = getActiveFilterCount(filters);
 
   useEffect(() => {
-    if (page > totalPages) {
+    if (!filters.lovedOnly && page > totalPages) {
       setPage(totalPages);
     }
-  }, [page, setPage, totalPages]);
+  }, [filters.lovedOnly, page, setPage, totalPages]);
 
   const closeFilterDrawer = useCallback(() => setIsFilterDrawerOpen(false), []);
 
@@ -143,8 +167,8 @@ export function ShopPage() {
             </form>
 
             <div aria-live="polite" className={styles.resultCount}>
-              <strong>{filteredProducts.length}</strong>
-              <span>{filteredProducts.length === 1 ? "fragrance" : "fragrances"}</span>
+              <strong>{totalProducts}</strong>
+              <span>{totalProducts === 1 ? "fragrance" : "fragrances"}</span>
             </div>
 
             <SortMenu className={styles.desktopSort} onChange={setSort} value={sort} />
@@ -177,22 +201,33 @@ export function ShopPage() {
           />
 
           <ProductGrid
+            errorMessage="The API catalogue could not be loaded. Check the backend connection and try again."
             items={gridItems}
+            onRetry={() => void productsQuery.refetch()}
             onWishlistToggle={toggleWishlist}
+            status={
+              productsQuery.isLoading
+                ? "loading"
+                : productsQuery.isError
+                  ? "error"
+                  : "ready"
+            }
             wishlist={wishlist}
           />
 
-          <Pagination
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-            totalPages={totalPages}
-          />
+          {!filters.lovedOnly && totalPages > 1 ? (
+            <Pagination
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+              totalPages={totalPages}
+            />
+          ) : null}
         </section>
       </div>
 
       <Drawer
         isOpen={isFilterDrawerOpen}
-        label={`${filteredProducts.length} matching fragrances`}
+        label={`${totalProducts} matching fragrances`}
         onClose={closeFilterDrawer}
         title="Filters"
       >
@@ -202,7 +237,7 @@ export function ShopPage() {
           fullWidth
           onClick={closeFilterDrawer}
         >
-          Show {filteredProducts.length} fragrances
+          Show {totalProducts} fragrances
         </Button>
       </Drawer>
     </div>

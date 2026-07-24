@@ -1714,6 +1714,7 @@ export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeo
 export const ProductVariantScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
+  format: 'format',
   volumeMl: 'volumeMl',
   price: 'price',
   compareAtPrice: 'compareAtPrice',
@@ -1732,6 +1733,8 @@ export const ProductImageScalarFieldEnum = {
   url: 'url',
   alt: 'alt',
   position: 'position',
+  isPrimary: 'isPrimary',
+  imageType: 'imageType',
   createdAt: 'createdAt'
 } as const
 
@@ -1953,6 +1956,20 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'ProductFormat'
+ */
+export type EnumProductFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductFormat'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductFormat[]'
+ */
+export type ListEnumProductFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductFormat[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1977,6 +1994,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductImageType'
+ */
+export type EnumProductImageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductImageType'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductImageType[]'
+ */
+export type ListEnumProductImageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductImageType[]'>
     
 
 

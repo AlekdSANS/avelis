@@ -1,11 +1,14 @@
 export type FragranceNoteType = "TOP" | "HEART" | "BASE";
 export type ProductVariantFormat = "BOTTLE" | "REFILL";
+export type ProductImageType = "MAIN" | "GALLERY" | "HOVER" | "REFILL";
 
 export interface ProductImage {
   id: string;
   url: string;
   alt: string;
   position: number;
+  isPrimary: boolean;
+  imageType: ProductImageType;
 }
 
 export interface ProductVariant {
@@ -13,15 +16,23 @@ export interface ProductVariant {
   format: ProductVariantFormat;
   volumeMl: number;
   price: number;
-  compareAtPrice?: number;
+  compareAtPrice: number | null;
   sku: string;
   stock: number;
 }
 
 export interface ProductNote {
-  id: string;
   name: string;
   type: FragranceNoteType;
+  position: number;
+}
+
+export interface ProductCollectionSummary {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  imageUrl: string | null;
 }
 
 export interface Product {
@@ -29,27 +40,22 @@ export interface Product {
   slug: string;
   name: string;
   subtitle: string;
-  shortDescription: string;
-  fullDescription: string;
   description: string;
   fragranceFamily: string;
   concentration: string;
-  genderPositioning: string;
-  longevity: string;
-  seasons: string[];
-  occasions: string[];
-  composition: string;
-  ingredients: string;
+  gender: string | null;
+  longevity: string | null;
+  season: string[];
+  occasion: string[];
   images: ProductImage[];
   variants: ProductVariant[];
   notes: ProductNote[];
-  collectionSlugs: string[];
+  collections: ProductCollectionSummary[];
   isFeatured: boolean;
   isNew: boolean;
   isLimited: boolean;
-  isBestSeller: boolean;
   isActive: boolean;
-  rating: number;
+  rating: number | null;
   reviewCount: number;
   createdAt: string;
   updatedAt: string;

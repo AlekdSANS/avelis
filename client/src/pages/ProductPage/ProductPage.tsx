@@ -1,6 +1,6 @@
 import styles from "./ProductPage.module.scss";
 import { Heart, Star } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { AddToCartButton } from "../../components/commerce/AddToCartButton/AddToCartButton";
@@ -10,21 +10,25 @@ import { QuantitySelector } from "../../components/commerce/QuantitySelector/Qua
 import { VariantSelector } from "../../components/commerce/VariantSelector/VariantSelector";
 import { Accordion } from "../../components/ui/Accordion/Accordion";
 import { Badge } from "../../components/ui/Badge/Badge";
-import { ButtonLink } from "../../components/ui/Button/Button";
+import { Button, ButtonLink } from "../../components/ui/Button/Button";
 import { IconButton } from "../../components/ui/IconButton/IconButton";
 import { Price } from "../../components/ui/Price/Price";
-import { productBySlug, productFilterOptions, products } from "../../features/products/data/products";
+import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
+import { ApiClientError } from "../../services/apiClient";
 import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist";
+import {
+  useProduct,
+  useRelatedProducts,
+} from "../../features/products/hooks/useProducts";
 import { useRecentlyViewed } from "../../features/products/hooks/useRecentlyViewed";
-import { getRelatedProducts } from "../../features/products/utils/productCatalog";
-import type { FragranceNoteType, ProductVariant } from "../../types/product";
-
-const collectionLabels = new Map<string, string>(
-  productFilterOptions.collections.map((collection) => [
-    collection.value,
-    collection.label,
-  ]),
-);
+import {
+  getCollectionLabel,
+  getComposition,
+  getFullDescription,
+  getIngredients,
+  getShortDescription,
+} from "../../features/products/utils/productCatalog";
+import type { FragranceNoteType, Product, ProductVariant } from "../../types/product";
 
 const noteLabels: Record<FragranceNoteType, string> = {
   TOP: "Top notes",
@@ -32,9 +36,21 @@ const noteLabels: Record<FragranceNoteType, string> = {
   BASE: "Base notes",
 };
 
+function getDefaultVariant(product: Product) {
+  return [...product.variants]
+    .sort((left, right) => {
+      const formatDelta =
+        Number(left.format === "REFILL") - Number(right.format === "REFILL");
+      return formatDelta === 0 ? left.volumeMl - right.volumeMl : formatDelta;
+    })
+    .find((variant) => variant.stock > 0);
+}
+
 export function ProductPage() {
   const { slug } = useParams();
-  const product = slug ? productBySlug.get(slug) : undefined;
+  const productQuery = useProduct(slug);
+  const product = productQuery.data;
+  const relatedQuery = useRelatedProducts(product?.id);
   const recentlyViewed = useRecentlyViewed(product?.slug ?? "");
   const { wishlist, toggleWishlist } = useLocalWishlist();
   const [selectedVariantState, setSelectedVariantState] = useState<{
@@ -46,39 +62,77 @@ export function ProductPage() {
     message: string;
     slug: string;
   }>();
-  const selectedVariantId =
-    selectedVariantState && selectedVariantState.slug === product?.slug
-      ? selectedVariantState.id
-      : undefined;
-  const selectedVariant = product?.variants.find(
-    (variant) => variant.id === selectedVariantId,
-  );
-  const quantity =
-    quantityState.slug === product?.slug
-      ? Math.min(quantityState.value, selectedVariant?.stock ?? 1)
-      : 1;
-  const bagStatus =
-    bagStatusState && bagStatusState.slug === product?.slug
-      ? bagStatusState.message
-      : undefined;
-  const relatedProducts = useMemo(
-    () => (product ? getRelatedProducts(product, products) : []),
-    [product],
-  );
 
-  if (!product) {
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+
+    const selectedVariant =
+      selectedVariantState?.slug === product.slug
+        ? product.variants.find((variant) => variant.id === selectedVariantState.id)
+        : undefined;
+
+    if (selectedVariant && selectedVariant.stock > 0) {
+      return;
+    }
+
+    const defaultVariant = getDefaultVariant(product);
+    setSelectedVariantState(
+      defaultVariant ? { id: defaultVariant.id, slug: product.slug } : undefined,
+    );
+    setQuantityState({ slug: product.slug, value: 1 });
+    setBagStatusState(undefined);
+  }, [product, selectedVariantState]);
+
+  if (productQuery.isLoading) {
+    return <ProductPageSkeleton />;
+  }
+
+  if (
+    productQuery.error instanceof ApiClientError &&
+    productQuery.error.statusCode === 404
+  ) {
     return (
       <section className={styles.notFound}>
         <p className={styles.eyebrow}>Fragrance not found</p>
         <h1>This composition is not in the current collection.</h1>
         <p>
           The address may have changed, or the fragrance may no longer be part of
-          this local catalogue.
+          the API catalogue.
         </p>
         <ButtonLink to="/shop">Return to Shop</ButtonLink>
       </section>
     );
   }
+
+  if (productQuery.isError || !product) {
+    return (
+      <section className={styles.notFound}>
+        <p className={styles.eyebrow}>Product unavailable</p>
+        <h1>The fragrance could not be loaded.</h1>
+        <p>Check the backend connection and try again.</p>
+        <Button onClick={() => void productQuery.refetch()}>Try again</Button>
+      </section>
+    );
+  }
+
+  const selectedVariantId =
+    selectedVariantState && selectedVariantState.slug === product.slug
+      ? selectedVariantState.id
+      : undefined;
+  const selectedVariant = product.variants.find(
+    (variant) => variant.id === selectedVariantId,
+  );
+  const quantity =
+    quantityState.slug === product.slug
+      ? Math.min(quantityState.value, selectedVariant?.stock ?? 1)
+      : 1;
+  const bagStatus =
+    bagStatusState && bagStatusState.slug === product.slug
+      ? bagStatusState.message
+      : undefined;
+  const relatedProducts = relatedQuery.data ?? [];
 
   const handleVariantChange = (variant: ProductVariant) => {
     setSelectedVariantState({ id: variant.id, slug: product.slug });
@@ -96,7 +150,7 @@ export function ProductPage() {
     }
 
     setBagStatusState({
-      message: `${quantity} × ${product.name}, ${selectedVariant.volumeMl} ml ${
+      message: `${quantity} x ${product.name}, ${selectedVariant.volumeMl} ml ${
         selectedVariant.format === "BOTTLE" ? "bottle" : "refill"
       } selected locally. Checkout persistence is not connected.`,
       slug: product.slug,
@@ -107,22 +161,26 @@ export function ProductPage() {
     {
       id: "composition",
       title: "Composition",
-      content: product.composition,
+      content: getComposition(product),
     },
     {
       id: "concentration",
       title: "Concentration",
-      content: `${product.concentration}. ${product.genderPositioning} positioning with an expected wear of ${product.longevity}.`,
+      content: `${product.concentration}. ${
+        product.gender ?? "Unisex"
+      } positioning with an expected wear of ${product.longevity ?? "varied longevity"}.`,
     },
     {
       id: "longevity",
       title: "Longevity",
-      content: `${product.longevity} on average. Wear varies with skin, climate and application.`,
+      content: `${
+        product.longevity ?? "Longevity varies"
+      } on average. Wear varies with skin, climate and application.`,
     },
     {
       id: "season-occasion",
       title: "Season & occasion",
-      content: `Designed for ${product.seasons.join(" and ").toLocaleLowerCase()}, with ${product.occasions.join(", ").toLocaleLowerCase()} in mind.`,
+      content: `Designed for ${product.season.join(" and ").toLocaleLowerCase()}, with ${product.occasion.join(", ").toLocaleLowerCase()} in mind.`,
     },
     {
       id: "delivery",
@@ -133,7 +191,7 @@ export function ProductPage() {
     {
       id: "ingredients",
       title: "Ingredients",
-      content: product.ingredients,
+      content: getIngredients(),
     },
   ];
 
@@ -158,23 +216,20 @@ export function ProductPage() {
           <div className={styles.badges}>
             {product.isNew ? <Badge>New</Badge> : null}
             {product.isLimited ? <Badge tone="dark">Limited</Badge> : null}
-            {product.isBestSeller ? <Badge>Best seller</Badge> : null}
+            {product.isFeatured ? <Badge>Featured</Badge> : null}
           </div>
 
-          <p className={styles.collection}>
-            {collectionLabels.get(product.collectionSlugs[0] ?? "") ??
-              "AVELIS collection"}
-          </p>
+          <p className={styles.collection}>{getCollectionLabel(product)}</p>
           <h1>{product.name}</h1>
           <p className={styles.subtitle}>{product.subtitle}</p>
 
           <div className={styles.rating}>
             <Star aria-hidden="true" fill="currentColor" />
-            <strong>{product.rating.toFixed(1)}</strong>
+            <strong>{product.rating?.toFixed(1) ?? "New"}</strong>
             <span>{product.reviewCount} reviews</span>
           </div>
 
-          <p className={styles.shortDescription}>{product.shortDescription}</p>
+          <p className={styles.shortDescription}>{getShortDescription(product)}</p>
 
           <div className={styles.selectedPrice} aria-live="polite">
             {selectedVariant ? (
@@ -185,8 +240,8 @@ export function ProductPage() {
                 />
                 <span>
                   {selectedVariant.stock > 0
-                    ? `${selectedVariant.stock} in local stock data`
-                    : "Out of stock"}
+                    ? `${selectedVariant.stock} in stock / SKU ${selectedVariant.sku}`
+                    : `Out of stock / SKU ${selectedVariant.sku}`}
                 </span>
               </>
             ) : (
@@ -241,7 +296,7 @@ export function ProductPage() {
         <div>
           <p className={styles.eyebrow}>The composition</p>
           <h2 id="fragrance-story-title">{product.subtitle}</h2>
-          <p>{product.fullDescription}</p>
+          <p>{getFullDescription(product)}</p>
         </div>
         <dl className={styles.attributes}>
           <div>
@@ -254,7 +309,7 @@ export function ProductPage() {
           </div>
           <div>
             <dt>Wear</dt>
-            <dd>{product.longevity}</dd>
+            <dd>{product.longevity ?? "Varies"}</dd>
           </div>
         </dl>
       </section>
@@ -272,7 +327,9 @@ export function ProductPage() {
                 {product.notes
                   .filter((note) => note.type === type)
                   .map((note) => (
-                    <li key={note.id}>{note.name}</li>
+                    <li key={`${note.type}-${note.position}-${note.name}`}>
+                      {note.name}
+                    </li>
                   ))}
               </ul>
             </section>
@@ -280,16 +337,20 @@ export function ProductPage() {
         </div>
       </section>
 
-      <ProductShelf
-        products={relatedProducts}
-        title="Related compositions"
-        wishlist={wishlist}
-        onWishlistToggle={toggleWishlist}
-      />
-
-      {recentlyViewed.length > 0 ? (
+      {relatedQuery.isLoading || relatedProducts.length > 0 ? (
         <ProductShelf
-          products={recentlyViewed}
+          isLoading={relatedQuery.isLoading}
+          products={relatedProducts}
+          title="Related compositions"
+          wishlist={wishlist}
+          onWishlistToggle={toggleWishlist}
+        />
+      ) : null}
+
+      {recentlyViewed.isLoading || recentlyViewed.products.length > 0 ? (
+        <ProductShelf
+          isLoading={recentlyViewed.isLoading}
+          products={recentlyViewed.products}
           title="Recently viewed"
           wishlist={wishlist}
           onWishlistToggle={toggleWishlist}
@@ -299,28 +360,56 @@ export function ProductPage() {
   );
 }
 
+function ProductPageSkeleton() {
+  return (
+    <div className={styles.page}>
+      <div className={styles.breadcrumbs}>
+        <Skeleton style={{ height: "1rem", width: "14rem" }} />
+      </div>
+      <div className={styles.productLayout}>
+        <Skeleton style={{ aspectRatio: "4 / 5", width: "100%" }} />
+        <section className={styles.productInfo}>
+          <Skeleton style={{ height: "1rem", width: "10rem" }} />
+          <Skeleton style={{ height: "6rem", width: "70%" }} />
+          <Skeleton style={{ height: "1.5rem", width: "85%" }} />
+          <Skeleton style={{ height: "4rem", width: "100%" }} />
+          <Skeleton style={{ height: "10rem", width: "100%" }} />
+        </section>
+      </div>
+    </div>
+  );
+}
+
 type ProductShelfProps = {
+  isLoading?: boolean;
   onWishlistToggle: (productId: string) => void;
-  products: NonNullable<ReturnType<typeof productBySlug.get>>[];
+  products: Product[];
   title: string;
   wishlist: Set<string>;
 };
 
 function ProductShelf({
+  isLoading = false,
   onWishlistToggle,
   products: shelfProducts,
   title,
   wishlist,
 }: ProductShelfProps) {
   return (
-    <section aria-labelledby={`${title.toLocaleLowerCase().replaceAll(" ", "-")}-title`} className={styles.shelf}>
+    <section
+      aria-labelledby={`${title.toLocaleLowerCase().replaceAll(" ", "-")}-title`}
+      className={styles.shelf}
+    >
       <header>
-        <h2 id={`${title.toLocaleLowerCase().replaceAll(" ", "-")}-title`}>{title}</h2>
+        <h2 id={`${title.toLocaleLowerCase().replaceAll(" ", "-")}-title`}>
+          {title}
+        </h2>
         <Link to="/shop">Explore all fragrances</Link>
       </header>
       <ProductGrid
         items={shelfProducts.map((shelfProduct) => ({ product: shelfProduct }))}
         onWishlistToggle={onWishlistToggle}
+        status={isLoading ? "loading" : "ready"}
         wishlist={wishlist}
       />
     </section>

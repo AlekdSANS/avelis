@@ -2,7 +2,7 @@ import styles from "./Price.module.scss";
 
 type PriceProps = {
   className?: string;
-  compareAtPrice?: number;
+  compareAtPrice?: number | null;
   currency?: string;
   prefix?: string;
   value: number;

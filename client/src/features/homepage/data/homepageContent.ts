@@ -1,15 +1,3 @@
-export type FeaturedProduct = {
-  badges: string[];
-  collectionLabel: string;
-  description: string;
-  family: string;
-  image: string;
-  imageAlt: string;
-  name: string;
-  price: number;
-  slug: string;
-};
-
 export type CollectionFeature = {
   image: string;
   imageAlt: string;
@@ -23,53 +11,6 @@ export type FragranceFamily = {
   name: string;
   query: string;
 };
-
-export const featuredProducts: FeaturedProduct[] = [
-  {
-    badges: ["New"],
-    collectionLabel: "New collection 01",
-    description: "Soft peach and magnolia settle into a warm, polished wood accord.",
-    family: "Floral woody",
-    image: "/images/hero/home_hero_peach.png",
-    imageAlt: "Peachwood perfume bottle with peach magnolia.",
-    name: "Peachwood",
-    price: 499,
-    slug: "peachwood",
-  },
-  {
-    badges: ["New"],
-    collectionLabel: "New collection 01",
-    description: "Cool petals and pale woods composed with a crystalline, mineral clarity.",
-    family: "Fresh woody",
-    image: "/images/hero/home_hero_frost.png",
-    imageAlt: "Bluewood perfume bottle with pale blue magnolia.",
-    name: "Bluewood",
-    price: 499,
-    slug: "bluewood",
-  },
-  {
-    badges: ["New"],
-    collectionLabel: "New collection 01",
-    description: "Red blossoms, glowing spice and warm woods shaped with confident depth.",
-    family: "Spicy woody",
-    image: "/images/hero/home_hero_red.png",
-    imageAlt: "Redwood perfume bottle with deep red magnolia.",
-    name: "Redwood",
-    price: 519,
-    slug: "redwood",
-  },
-  {
-    badges: ["New", "Limited"],
-    collectionLabel: "Atelier edition",
-    description: "A forthcoming amber-musk study balancing soft smoke and clean warmth.",
-    family: "Amber musk",
-    image: "/images/placeholders/product_placeholder.png",
-    imageAlt: "Placeholder artwork for the forthcoming White Ember fragrance.",
-    name: "White Ember",
-    price: 459,
-    slug: "white-ember",
-  },
-];
 
 export const collectionFeatures: CollectionFeature[] = [
   {

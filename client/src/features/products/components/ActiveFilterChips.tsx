@@ -1,7 +1,7 @@
 import styles from "./ActiveFilterChips.module.scss";
 import { X } from "lucide-react";
 
-import { productFilterOptions } from "../data/products";
+import { productFilterOptions } from "../data/productFilterOptions";
 import type { FilterKey, ShopFilters } from "../types";
 
 type ActiveFilterChipsProps = {

@@ -26,6 +26,24 @@ export const FragranceNoteType = {
 export type FragranceNoteType = (typeof FragranceNoteType)[keyof typeof FragranceNoteType]
 
 
+export const ProductFormat = {
+  BOTTLE: 'BOTTLE',
+  REFILL: 'REFILL'
+} as const
+
+export type ProductFormat = (typeof ProductFormat)[keyof typeof ProductFormat]
+
+
+export const ProductImageType = {
+  MAIN: 'MAIN',
+  GALLERY: 'GALLERY',
+  HOVER: 'HOVER',
+  REFILL: 'REFILL'
+} as const
+
+export type ProductImageType = (typeof ProductImageType)[keyof typeof ProductImageType]
+
+
 export const OrderStatus = {
   PENDING: 'PENDING',
   PAID: 'PAID',
