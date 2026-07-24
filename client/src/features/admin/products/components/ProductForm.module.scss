@@ -1,0 +1,369 @@
+.section,
+.sideSection {
+	border: 1px solid var(--color-border);
+	background: var(--color-surface);
+}
+
+.section {
+	padding: clamp(1rem, 2vw, 1.75rem);
+}
+
+.sideSection {
+	padding: var(--space-5);
+}
+
+.sectionHeading,
+.sideSection > header {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: var(--space-4);
+	margin-bottom: var(--space-6);
+	padding-bottom: var(--space-4);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.sectionHeading p,
+.sideSection header p,
+.variantCard header span {
+	color: var(--color-olive);
+	font-size: 0.64rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.sectionHeading h2,
+.sideSection h2 {
+	margin-top: var(--space-1);
+	font-family: var(--font-heading);
+	font-size: clamp(1.7rem, 3vw, 2.25rem);
+	font-weight: 500;
+	line-height: 1;
+}
+
+.sectionHeading > span {
+	color: var(--color-text-muted);
+	font-size: 0.7rem;
+}
+
+.fieldGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-5);
+}
+
+.field {
+	display: grid;
+	align-content: start;
+	gap: var(--space-2);
+	min-width: 0;
+	color: var(--color-text-muted);
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea {
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+.field textarea {
+	width: 100%;
+	resize: vertical;
+	border: 1px solid var(--color-border);
+	border-radius: 0;
+	background: var(--color-surface);
+	color: var(--color-text);
+	padding: 0.8rem;
+	font: inherit;
+	font-size: 0.88rem;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
+	border-color: var(--color-error, #8d3530);
+}
+
+.fieldError,
+.sectionError {
+	color: var(--color-error, #8d3530);
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: normal;
+	line-height: 1.4;
+	text-transform: none;
+}
+
+.fieldHint {
+	color: var(--color-text-muted);
+	font-size: 0.7rem;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.45;
+	text-transform: none;
+}
+
+.fullWidth {
+	grid-column: 1 / -1;
+}
+
+.inlineField {
+	display: flex;
+	align-items: stretch;
+	gap: var(--space-2);
+}
+
+.inlineField input {
+	min-width: 0;
+	flex: 1;
+}
+
+.inlineField button,
+.quickActions button {
+	display: inline-flex;
+	min-height: 2.75rem;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	border: 1px solid var(--color-border);
+	background: var(--color-bg);
+	padding: 0.6rem 0.8rem;
+	color: var(--color-text);
+	font-size: 0.66rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+.inlineField button:hover,
+.quickActions button:hover {
+	border-color: var(--color-text);
+}
+
+.inlineField button svg,
+.quickActions button svg {
+	width: 0.85rem;
+}
+
+.checkGroups {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-6);
+	margin-top: var(--space-7);
+}
+
+.checkGroups fieldset {
+	min-width: 0;
+	border: 0;
+}
+
+.checkGroups legend {
+	margin-bottom: var(--space-3);
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.checkGroups fieldset > div {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.checkGroups label {
+	position: relative;
+}
+
+.checkGroups input {
+	position: absolute;
+	opacity: 0;
+}
+
+.checkGroups label span {
+	display: inline-flex;
+	min-height: 2.25rem;
+	align-items: center;
+	border: 1px solid var(--color-border);
+	padding: 0.45rem 0.75rem;
+	color: var(--color-text-muted);
+	font-size: 0.72rem;
+	text-transform: capitalize;
+}
+
+.checkGroups input:checked + span {
+	border-color: var(--color-olive);
+	background: color-mix(in srgb, var(--color-olive) 10%, transparent);
+	color: var(--color-text);
+}
+
+.checkGroups input:focus-visible + span {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.statusList {
+	display: grid;
+	gap: var(--space-2);
+}
+
+.statusList label {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: start;
+	gap: var(--space-3);
+	border-bottom: 1px solid var(--color-border);
+	padding: var(--space-3) 0;
+	cursor: pointer;
+}
+
+.statusList label:last-child {
+	border-bottom: 0;
+}
+
+.statusList input {
+	width: 1rem;
+	height: 1rem;
+	margin-top: 0.15rem;
+	accent-color: var(--color-olive);
+}
+
+.statusList span {
+	display: grid;
+	gap: var(--space-1);
+}
+
+.statusList strong {
+	font-size: 0.78rem;
+}
+
+.statusList small {
+	color: var(--color-text-muted);
+	font-size: 0.68rem;
+	line-height: 1.45;
+}
+
+.quickActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-bottom: var(--space-5);
+}
+
+.sectionError {
+	margin-bottom: var(--space-4);
+	border-left: 2px solid currentColor;
+	padding-left: var(--space-3);
+}
+
+.variantList {
+	display: grid;
+	gap: var(--space-4);
+}
+
+.variantCard {
+	border: 1px solid var(--color-border);
+	background: var(--color-bg);
+	padding: var(--space-4);
+}
+
+.variantCard > header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-4);
+	margin-bottom: var(--space-4);
+}
+
+.variantCard h3 {
+	margin-top: var(--space-1);
+	font-family: var(--font-heading);
+	font-size: 1.35rem;
+	font-weight: 500;
+}
+
+.variantCard header button {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	border-bottom: 1px solid currentColor;
+	color: var(--color-error, #8d3530);
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.variantCard header button:disabled {
+	cursor: not-allowed;
+	opacity: 0.4;
+}
+
+.variantCard header button svg {
+	width: 0.85rem;
+}
+
+.variantGrid {
+	display: grid;
+	grid-template-columns:
+		minmax(7rem, 0.8fr)
+		minmax(6rem, 0.65fr)
+		repeat(2, minmax(7.5rem, 0.9fr))
+		minmax(11rem, 1.4fr)
+		minmax(6rem, 0.65fr);
+	gap: var(--space-3);
+}
+
+.skuField input {
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 79.99rem) {
+	.variantGrid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 47.99rem) {
+	.fieldGrid,
+	.checkGroups {
+		grid-template-columns: 1fr;
+	}
+
+	.fullWidth {
+		grid-column: auto;
+	}
+
+	.inlineField {
+		flex-direction: column;
+	}
+
+	.variantGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 29.99rem) {
+	.sectionHeading,
+	.variantCard > header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.variantGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.quickActions {
+		display: grid;
+	}
+}
