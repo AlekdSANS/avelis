@@ -2,6 +2,7 @@ import styles from "./Pagination.module.scss";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type PaginationProps = {
+  ariaLabel?: string;
   className?: string;
   currentPage: number;
   onPageChange: (page: number) => void;
@@ -9,6 +10,7 @@ type PaginationProps = {
 };
 
 export function Pagination({
+  ariaLabel = "Pagination",
   className,
   currentPage,
   onPageChange,
@@ -20,7 +22,7 @@ export function Pagination({
 
   return (
     <nav
-      aria-label="Product catalogue pages"
+      aria-label={ariaLabel}
       className={[styles.pagination, className ?? ""].filter(Boolean).join(" ")}
     >
       <button

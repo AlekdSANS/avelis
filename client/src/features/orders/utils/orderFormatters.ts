@@ -6,7 +6,7 @@ import type {
 } from "../../../types/order";
 
 const orderStatusLabels: Record<OrderStatus, string> = {
-  PENDING_PAYMENT: "Awaiting payment",
+  PENDING_PAYMENT: "Pending payment",
   CONFIRMED: "Confirmed",
   PROCESSING: "Processing",
   SHIPPED: "Shipped",
@@ -14,6 +14,16 @@ const orderStatusLabels: Record<OrderStatus, string> = {
   CANCELLED: "Cancelled",
   REFUNDED: "Refunded",
 };
+
+export const ORDER_STATUS_VALUES: readonly OrderStatus[] = [
+  "PENDING_PAYMENT",
+  "CONFIRMED",
+  "PROCESSING",
+  "SHIPPED",
+  "DELIVERED",
+  "CANCELLED",
+  "REFUNDED",
+];
 
 const paymentStatusLabels: Record<PaymentStatus, string> = {
   PENDING: "Pending",
