@@ -117,6 +117,10 @@ export function CheckoutPage() {
         orderKeys.detail(response.data.orderNumber),
         response.data,
       );
+      void queryClient.invalidateQueries({
+        queryKey: orderKeys.lists,
+        refetchType: "none",
+      });
       onOrderCreationConfirmed(response.data);
       cart.clearCart();
       setIdempotencyKey(createCheckoutIdempotencyKey());

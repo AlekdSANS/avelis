@@ -7,6 +7,7 @@ import type {
 	RegisterInput,
 } from "../../../services/authService";
 import type { AuthUser } from "../../../types";
+import { orderKeys } from "../../orders/orderQueries";
 
 export const authKeys = {
 	me: ["auth", "me"] as const,
@@ -36,6 +37,7 @@ export function useLogin() {
 	return useMutation({
 		mutationFn: (input: LoginInput) => authService.login(input),
 		onSuccess: (response) => {
+			queryClient.removeQueries({ queryKey: orderKeys.all });
 			queryClient.setQueryData(authKeys.me, response.data.user);
 		},
 	});
@@ -47,6 +49,7 @@ export function useRegister() {
 	return useMutation({
 		mutationFn: (input: RegisterInput) => authService.register(input),
 		onSuccess: (response) => {
+			queryClient.removeQueries({ queryKey: orderKeys.all });
 			queryClient.setQueryData(authKeys.me, response.data.user);
 		},
 	});
@@ -58,6 +61,7 @@ export function useLogout() {
 	return useMutation({
 		mutationFn: () => authService.logout(),
 		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: orderKeys.all });
 			queryClient.setQueryData(authKeys.me, null);
 			queryClient.invalidateQueries({ queryKey: authKeys.me });
 		},

@@ -6,9 +6,11 @@ const ORDER_NUMBER_PATTERN =
 
 export const orderKeys = {
   all: ["orders"] as const,
+  lists: ["orders", "list"] as const,
   detail: (orderNumber: string) => ["orders", orderNumber] as const,
   list: (params: Required<Pick<OrderListParams, "page" | "limit">> &
-    Pick<OrderListParams, "status">) => ["orders", params] as const,
+    Pick<OrderListParams, "status">) =>
+    ["orders", "list", params] as const,
 };
 
 export function isValidOrderNumber(orderNumber: string | undefined) {
