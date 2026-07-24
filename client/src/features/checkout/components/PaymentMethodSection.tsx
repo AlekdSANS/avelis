@@ -36,18 +36,17 @@ export function PaymentMethodSection() {
 			aria-labelledby="payment-method-title"
 			className={sectionStyles.section}
 		>
+			<header className={styles.legendContent}>
+				<span aria-hidden="true" className={styles.sectionNumber}>
+					04
+				</span>
+				<span>
+					<h2 id="payment-method-title">Payment method</h2>
+					<p>Select how you would like to pay in a later stage.</p>
+				</span>
+			</header>
 			<fieldset className={styles.fieldset}>
-				<legend className={styles.legend}>
-					<span className={styles.legendContent}>
-						<span aria-hidden="true" className={styles.sectionNumber}>
-							04
-						</span>
-						<span>
-							<h2 id="payment-method-title">Payment method</h2>
-							<p>Select how you would like to pay in a later stage.</p>
-						</span>
-					</span>
-				</legend>
+				<legend className={styles.legend}>Payment method</legend>
 
 				<div className={styles.options}>
 					{PAYMENT_METHODS.map((method) => {

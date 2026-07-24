@@ -28,8 +28,8 @@ export function CheckoutPage() {
   const cart = useCart();
   const currentUser = useCurrentUser();
   const prefilledUserIdRef = useRef<string | null>(null);
-  const idempotencyKeyRef = useRef<string | null>(null);
-  const preparedPayloadRef = useRef<FutureOrderPayload | null>(null);
+  const [idempotencyKey, setIdempotencyKey] = useState<string | null>(null);
+  const [, setPreparedPayload] = useState<FutureOrderPayload | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [preparationMessage, setPreparationMessage] = useState<string | null>(
     null,
@@ -89,11 +89,10 @@ export function CheckoutPage() {
       return;
     }
 
-    idempotencyKeyRef.current ??= createCheckoutIdempotencyKey();
-    preparedPayloadRef.current = createOrderPayload(
-      values,
-      cart.items,
-      idempotencyKeyRef.current,
+    const submissionKey = idempotencyKey ?? createCheckoutIdempotencyKey();
+    setIdempotencyKey(submissionKey);
+    setPreparedPayload(
+      createOrderPayload(values, cart.items, submissionKey),
     );
 
     await new Promise<void>((resolve) => {
@@ -104,6 +103,23 @@ export function CheckoutPage() {
       "Checkout details are ready. Order submission will be connected in the next implementation step.",
     );
   };
+
+  if (!cart.hasHydrated) {
+    return (
+      <main aria-busy="true" className={styles.page}>
+        <header className={styles.heading}>
+          <p className={styles.eyebrow}>Secure checkout</p>
+          <h1>Complete your selection</h1>
+          <p>Preparing your locally saved bag...</p>
+        </header>
+        <div className={styles.loadingLayout} role="status">
+          <span className={styles.visuallyHidden}>Preparing checkout</span>
+          <div className={styles.loadingForm} />
+          <div className={styles.loadingSummary} />
+        </div>
+      </main>
+    );
+  }
 
   if (cart.hasHydrated && cart.items.length === 0) {
     return (
@@ -130,7 +146,7 @@ export function CheckoutPage() {
         </p>
         <p aria-live="polite" className={styles.prefillStatus}>
           {currentUser.isLoading
-            ? "Checking saved account details…"
+            ? "Checking saved account details..."
             : currentUser.isError
               ? "Saved account details could not be loaded. You can continue as a guest."
               : currentUser.data
@@ -154,50 +170,50 @@ export function CheckoutPage() {
             <ShippingAddressSection />
             <ShippingMethodSection />
             <PaymentMethodSection />
-            <section
-              aria-labelledby="checkout-submit-title"
-              className={styles.submitSection}
-            >
-              <div>
-                <p className={styles.eyebrow}>Final review</p>
-                <h2 id="checkout-submit-title">Ready when you are</h2>
-              </div>
-
-              {checkoutError ? (
-                <p className={styles.checkoutError} role="alert">
-                  {checkoutError}
-                </p>
-              ) : null}
-
-              {preparationMessage ? (
-                <p
-                  aria-live="polite"
-                  className={styles.preparationMessage}
-                  role="status"
-                >
-                  {preparationMessage}
-                </p>
-              ) : null}
-
-              <Button
-                disabled={
-                  isSubmitting ||
-                  !cart.hasHydrated ||
-                  cart.items.length === 0
-                }
-                fullWidth
-                type="submit"
-              >
-                <LockKeyhole aria-hidden="true" />
-                {isSubmitting ? "Placing order..." : "Place order"}
-              </Button>
-              <p className={styles.submitNote}>
-                This step validates and prepares your details only. It does not
-                create an order, process payment, or clear your cart.
-              </p>
-            </section>
           </div>
-          <CheckoutSummary />
+          <div className={styles.summaryColumn}>
+            <CheckoutSummary />
+          </div>
+          <section
+            aria-labelledby="checkout-submit-title"
+            className={styles.submitSection}
+          >
+            <div>
+              <p className={styles.eyebrow}>Final review</p>
+              <h2 id="checkout-submit-title">Ready when you are</h2>
+            </div>
+
+            {checkoutError ? (
+              <p className={styles.checkoutError} role="alert">
+                {checkoutError}
+              </p>
+            ) : null}
+
+            {preparationMessage ? (
+              <p
+                aria-live="polite"
+                className={styles.preparationMessage}
+                role="status"
+              >
+                {preparationMessage}
+              </p>
+            ) : null}
+
+            <Button
+              disabled={
+                isSubmitting || !cart.hasHydrated || cart.items.length === 0
+              }
+              fullWidth
+              type="submit"
+            >
+              <LockKeyhole aria-hidden="true" />
+              {isSubmitting ? "Placing order..." : "Place order"}
+            </Button>
+            <p className={styles.submitNote}>
+              This step validates and prepares your details only. It does not
+              create an order, process payment, or clear your cart.
+            </p>
+          </section>
         </form>
       </FormProvider>
     </main>

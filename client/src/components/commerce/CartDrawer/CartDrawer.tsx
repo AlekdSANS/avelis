@@ -3,8 +3,12 @@ import { ShoppingBag, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import { Button } from "../../ui/Button/Button";
+import { ButtonLink } from "../../ui/Button/Button";
 import { IconButton } from "../../ui/IconButton/IconButton";
+import { Price } from "../../ui/Price/Price";
+import { useCart } from "../../../features/cart/hooks/useCart";
+import { createCheckoutSummaryLines } from "../../../features/checkout/utils/cartSummary";
+import { ProductImage } from "../../../features/products/components/ProductImage";
 import { usePresence } from "../../../hooks/usePresence";
 
 type CartDrawerProps = {
@@ -15,6 +19,8 @@ type CartDrawerProps = {
 
 export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
   const { isClosing, isMounted } = usePresence(isOpen);
+  const cart = useCart();
+  const lines = createCheckoutSummaryLines(cart.items);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -78,27 +84,54 @@ export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
           </IconButton>
         </div>
 
-        <div className={styles.emptyState}>
-          <ShoppingBag aria-hidden="true" />
-          <h3>Your bag is quiet for now</h3>
-          <p>
-            Cart items will appear here once the storefront is connected to cart
-            data.
-          </p>
-        </div>
-
-        <div className={styles.itemsSlot} aria-label="Cart item area" />
+        {lines.length === 0 ? (
+          <div className={styles.emptyState}>
+            <ShoppingBag aria-hidden="true" />
+            <h3>Your bag is quiet for now</h3>
+            <p>Choose a fragrance to begin your AVELIS selection.</p>
+          </div>
+        ) : (
+          <ul aria-label="Cart items" className={styles.items}>
+            {lines.map((line) => (
+              <li className={styles.item} key={line.id}>
+                <ProductImage
+                  alt={line.imageAlt}
+                  className={styles.itemImage}
+                  src={line.imageUrl}
+                />
+                <div className={styles.itemCopy}>
+                  <Link onClick={onClose} to={`/products/${line.productSlug}`}>
+                    {line.productName}
+                  </Link>
+                  <span>
+                    {line.format === "BOTTLE" ? "Bottle" : "Refill"} ·{" "}
+                    {line.volumeMl} ml · Qty {line.quantity}
+                  </span>
+                  <Price value={line.lineTotalCents / 100} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <div className={styles.summary}>
           <div className={styles.subtotal}>
             <span>Subtotal</span>
-            <strong>0.00 PLN</strong>
+            <strong>
+              <Price value={cart.subtotalCents / 100} />
+            </strong>
           </div>
           <p>Delivery and taxes will be calculated at checkout.</p>
           <Link className={styles.viewBag} onClick={onClose} to="/cart">
             View bag
           </Link>
-          <Button fullWidth>Checkout</Button>
+          <ButtonLink
+            fullWidth
+            onClick={onClose}
+            to={lines.length === 0 ? "/shop" : "/checkout"}
+          >
+            {lines.length === 0 ? "Explore fragrances" : "Checkout"}
+          </ButtonLink>
         </div>
       </aside>
     </section>

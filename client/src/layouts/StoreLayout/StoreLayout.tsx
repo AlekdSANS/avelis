@@ -5,9 +5,11 @@ import { CartDrawer } from "../../components/commerce/CartDrawer/CartDrawer";
 import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
 import { SearchOverlay } from "../../components/common/SearchOverlay/SearchOverlay";
+import { useCart } from "../../features/cart/hooks/useCart";
 import "./StoreLayout.scss";
 
 export function StoreLayout() {
+	const { totalQuantity } = useCart();
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -27,7 +29,7 @@ export function StoreLayout() {
 	return (
 		<div className="store-layout">
 			<Header
-				cartCount={0}
+				cartCount={totalQuantity}
 				onCartOpen={openCart}
 				onSearchOpen={openSearch}
 			/>

@@ -19,18 +19,17 @@ export function ShippingMethodSection() {
 			aria-labelledby="shipping-method-title"
 			className={sectionStyles.section}
 		>
+			<header className={styles.legendContent}>
+				<span aria-hidden="true" className={styles.sectionNumber}>
+					03
+				</span>
+				<span>
+					<h2 id="shipping-method-title">Delivery method</h2>
+					<p>Choose the pace that suits your selection.</p>
+				</span>
+			</header>
 			<fieldset className={styles.fieldset}>
-				<legend className={styles.legend}>
-					<span className={styles.legendContent}>
-						<span aria-hidden="true" className={styles.sectionNumber}>
-							03
-						</span>
-						<span>
-							<h2 id="shipping-method-title">Delivery method</h2>
-							<p>Choose the pace that suits your selection.</p>
-						</span>
-					</span>
-				</legend>
+				<legend className={styles.legend}>Delivery method</legend>
 
 				<div className={styles.options}>
 					{SHIPPING_METHODS.map((method) => {

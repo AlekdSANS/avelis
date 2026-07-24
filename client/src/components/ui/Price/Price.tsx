@@ -10,7 +10,8 @@ type PriceProps = {
 
 const formatter = new Intl.NumberFormat("pl-PL", {
   currency: "PLN",
-  maximumFractionDigits: 0,
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
   style: "currency",
 });
 
