@@ -4,12 +4,17 @@ import type { ApiError } from "../types";
 
 export class ApiClientError extends Error {
   statusCode?: number;
+  code?: string;
   issues?: ApiError["issues"];
+  items?: ApiError["items"];
 
   constructor(error: ApiError) {
     super(error.message);
+    this.name = "ApiClientError";
     this.statusCode = error.statusCode;
+    this.code = error.code;
     this.issues = error.issues;
+    this.items = error.items;
   }
 }
 
@@ -82,7 +87,9 @@ apiClient.interceptors.response.use(
       new ApiClientError({
         message,
         statusCode: axiosError.response?.status,
+        code: axiosError.response?.data?.code,
         issues: axiosError.response?.data?.issues,
+        items: axiosError.response?.data?.items,
       }),
     );
   },

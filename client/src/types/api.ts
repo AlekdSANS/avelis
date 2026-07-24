@@ -1,7 +1,9 @@
 export interface ApiError {
   message: string;
   statusCode?: number;
+  code?: string;
   issues?: { message: string; path: string }[];
+  items?: { variantId: string; availableStock?: number }[];
 }
 
 export interface ApiResponse<T> {
