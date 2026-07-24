@@ -30,7 +30,7 @@ import {
   type CheckoutOrderError,
 } from "../../features/checkout/utils/orderError";
 import { onOrderCreationConfirmed } from "../../features/checkout/utils/orderSuccess";
-import { orderKeys } from "../../features/orders/hooks/useOrderConfirmation";
+import { orderKeys } from "../../features/orders/orderQueries";
 
 export function CheckoutPage() {
   const cart = useCart();

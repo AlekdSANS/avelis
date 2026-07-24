@@ -5,6 +5,9 @@ import type {
   CreateOrderResponse,
   Order,
   OrderItemFormat,
+  OrderListParams,
+  OrderListResponse,
+  OrderSummary,
   OrderStatus,
   PaymentMethod,
   PaymentStatus,
@@ -81,6 +84,21 @@ function readPositiveInteger(record: Record<string, unknown>, key: string) {
   if (!Number.isInteger(value) || value < 1) {
     throw new ApiClientError({
       message: "The order response contained an invalid item quantity.",
+    });
+  }
+
+  return value;
+}
+
+function readNonNegativeInteger(
+  record: Record<string, unknown>,
+  key: string,
+) {
+  const value = readMoney(record, key);
+
+  if (!Number.isInteger(value) || value < 0) {
+    throw new ApiClientError({
+      message: "The order response contained invalid pagination data.",
     });
   }
 
@@ -214,6 +232,67 @@ function parseOrderResponse(payload: unknown): CreateOrderResponse {
   };
 }
 
+function parseOrderSummary(payload: unknown): OrderSummary {
+  if (!isRecord(payload)) {
+    throw new ApiClientError({
+      message: "The order history response was invalid.",
+    });
+  }
+
+  return {
+    id: readString(payload, "id"),
+    orderNumber: readString(payload, "orderNumber"),
+    status: readEnum(payload, "status", ORDER_STATUSES),
+    paymentStatus: readEnum(
+      payload,
+      "paymentStatus",
+      PAYMENT_STATUSES,
+    ),
+    itemCount: readNonNegativeInteger(payload, "itemCount"),
+    total: readMoney(payload, "total"),
+    currency: readString(payload, "currency"),
+    firstItemImageUrl:
+      typeof payload.firstItemImageUrl === "string"
+        ? payload.firstItemImageUrl
+        : null,
+    createdAt: readString(payload, "createdAt"),
+  };
+}
+
+function parseOrderListResponse(payload: unknown): OrderListResponse {
+  if (!isRecord(payload) || !Array.isArray(payload.data)) {
+    throw new ApiClientError({
+      message: "The order history response was invalid.",
+    });
+  }
+
+  return {
+    data: payload.data.map(parseOrderSummary),
+    page: readPositiveInteger(payload, "page"),
+    limit: readPositiveInteger(payload, "limit"),
+    total: readNonNegativeInteger(payload, "total"),
+    totalPages: readNonNegativeInteger(payload, "totalPages"),
+  };
+}
+
+function createOrderListSearchParams(params: OrderListParams) {
+  const searchParams = new URLSearchParams();
+
+  if (params.page !== undefined && params.page !== 1) {
+    searchParams.set("page", String(params.page));
+  }
+
+  if (params.limit !== undefined && params.limit !== 10) {
+    searchParams.set("limit", String(params.limit));
+  }
+
+  if (params.status !== undefined) {
+    searchParams.set("status", params.status);
+  }
+
+  return searchParams;
+}
+
 export const orderService = {
   async createOrder(
     input: CreateOrderInput,
@@ -224,6 +303,18 @@ export const orderService = {
     });
 
     return parseOrderResponse(response.data);
+  },
+
+  async getOrders(
+    params: OrderListParams = {},
+    signal?: AbortSignal,
+  ): Promise<OrderListResponse> {
+    const response = await apiClient.get<unknown>("/orders", {
+      params: createOrderListSearchParams(params),
+      signal,
+    });
+
+    return parseOrderListResponse(response.data);
   },
 
   async getOrderByNumber(

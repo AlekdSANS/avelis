@@ -1,4 +1,5 @@
 import type { ApiResponse } from "./api";
+import type { PaginatedResponse } from "./api";
 
 export type OrderStatus =
   | "PENDING_PAYMENT"
@@ -94,6 +95,26 @@ export interface Order {
 }
 
 export type CreateOrderResponse = ApiResponse<Order>;
+
+export interface OrderSummary {
+  id: string;
+  orderNumber: string;
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
+  itemCount: number;
+  total: number;
+  currency: string;
+  firstItemImageUrl: string | null;
+  createdAt: string;
+}
+
+export interface OrderListParams {
+  page?: number;
+  limit?: number;
+  status?: OrderStatus;
+}
+
+export type OrderListResponse = PaginatedResponse<OrderSummary>;
 
 export interface OrderStockConflictItem {
   variantId: string;
