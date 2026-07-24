@@ -39,11 +39,17 @@ const adminNavigation = [
 	},
 ];
 
-const pageTitles = {
-	"/admin": "Dashboard",
-	"/admin/products": "Products",
-	"/admin/orders": "Orders",
-} as const;
+function getPageTitle(pathname: string) {
+	if (pathname === "/admin") return "Dashboard";
+	if (pathname === "/admin/products") return "Products";
+	if (pathname === "/admin/products/new") return "Add product";
+	if (/^\/admin\/products\/[^/]+\/edit$/.test(pathname)) {
+		return "Edit product";
+	}
+	if (pathname.startsWith("/admin/orders")) return "Orders";
+
+	return "Admin";
+}
 
 function getDisplayName(user: AuthUser | null | undefined) {
 	if (user === null || user === undefined) {
@@ -105,8 +111,7 @@ export function AdminLayout() {
 	const closeButtonRef = useRef<HTMLButtonElement>(null);
 	const mobileDrawerRef = useRef<HTMLElement>(null);
 	const wasNavigationOpenRef = useRef(false);
-	const pageTitle =
-		pageTitles[pathname as keyof typeof pageTitles] ?? "Admin";
+	const pageTitle = getPageTitle(pathname);
 	const displayName = getDisplayName(user);
 
 	useEffect(() => {
