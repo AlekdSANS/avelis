@@ -80,6 +80,9 @@ export interface AdminProductVariant {
 export interface AdminProductImage {
 	id: string;
 	url: string;
+	storageKey: string | null;
+	mimeType: string | null;
+	sizeBytes: number | null;
 	alt: string;
 	position: number;
 	isPrimary: boolean;
@@ -139,6 +142,9 @@ export interface AdminProductVariantUpdateInput
 
 export interface AdminProductImageCreateInput {
 	url: string;
+	storageKey?: string;
+	mimeType?: "image/jpeg" | "image/png" | "image/webp";
+	sizeBytes?: number;
 	alt: string;
 	position: number;
 	isPrimary: boolean;

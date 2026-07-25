@@ -2,9 +2,12 @@ import {
 	ArrowDown,
 	ArrowUp,
 	ImagePlus,
+	RefreshCcw,
 	Star,
 	Trash2,
+	Upload,
 } from "lucide-react";
+import { useState } from "react";
 import {
 	useFieldArray,
 	useFormContext,
@@ -13,10 +16,29 @@ import {
 
 import { Input } from "../../../../components/ui/Input/Input";
 import { Select } from "../../../../components/ui/Select/Select";
+import { ApiClientError } from "../../../../services/apiClient";
+import { useDeleteAdminProductUpload, useUploadAdminProductImages } from "../../hooks/useAdminUploads";
 import { ProductImage } from "../../../products/components/ProductImage";
 import type { AdminProductFormValues } from "../schemas/adminProductFormSchema";
 import { FieldError } from "./ProductBasicsSection";
 import styles from "./ProductForm.module.scss";
+
+const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
+const allowedUploadTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+
+interface PendingUpload {
+	id: string;
+	file: File;
+	progress: number;
+	status: "uploading" | "error";
+	error?: string;
+}
+
+function uploadErrorMessage(error: unknown) {
+	return error instanceof ApiClientError
+		? error.message
+		: "The image could not be uploaded. Try again.";
+}
 
 export function ProductImagesSection() {
 	const {
@@ -32,6 +54,12 @@ export function ProductImagesSection() {
 		keyName: "fieldKey",
 	});
 	const images = useWatch({ control, name: "images" });
+	const uploadMutation = useUploadAdminProductImages();
+	const deleteMutation = useDeleteAdminProductUpload();
+	const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
+	const [deletingKeys, setDeletingKeys] = useState<Set<string>>(new Set());
+	const [uploadFeedback, setUploadFeedback] = useState<string | null>(null);
+	const [isDragActive, setIsDragActive] = useState(false);
 
 	const normalizePositions = () => {
 		getValues("images").forEach((_image, index) => {
@@ -46,8 +74,33 @@ export function ProductImagesSection() {
 		normalizePositions();
 	};
 
-	const removeImage = (index: number) => {
-		const removedWasPrimary = getValues(`images.${index}.isPrimary`);
+	const removeImage = async (index: number) => {
+		const image = getValues(`images.${index}`);
+		const removedWasPrimary = image.isPrimary;
+
+		if (image.id === undefined && image.storageKey !== undefined) {
+			setDeletingKeys((current) => new Set(current).add(image.storageKey!));
+			setUploadFeedback(null);
+
+			try {
+				await deleteMutation.mutateAsync(image.storageKey);
+			} catch (error) {
+				setUploadFeedback(uploadErrorMessage(error));
+				setDeletingKeys((current) => {
+					const next = new Set(current);
+					next.delete(image.storageKey!);
+					return next;
+				});
+				return;
+			}
+
+			setDeletingKeys((current) => {
+				const next = new Set(current);
+				next.delete(image.storageKey!);
+				return next;
+			});
+		}
+
 		remove(index);
 		normalizePositions();
 
@@ -68,11 +121,99 @@ export function ProductImagesSection() {
 		});
 	};
 
+	const uploadFile = async (entry: PendingUpload) => {
+		setPendingUploads((current) =>
+			current.map((candidate) =>
+				candidate.id === entry.id
+					? {
+							...candidate,
+							progress: 0,
+							status: "uploading",
+							error: undefined,
+						}
+					: candidate,
+			),
+		);
+
+		try {
+			const response = await uploadMutation.mutateAsync({
+				files: [entry.file],
+				onProgress: (progress) => {
+					setPendingUploads((current) =>
+						current.map((candidate) =>
+							candidate.id === entry.id
+								? { ...candidate, progress }
+								: candidate,
+						),
+					);
+				},
+			});
+			const uploaded = response.data[0];
+
+			if (uploaded === undefined) {
+				throw new Error("UPLOAD_RESPONSE_EMPTY");
+			}
+
+			const currentImages = getValues("images");
+			append({
+				url: uploaded.url,
+				storageKey: uploaded.storageKey,
+				mimeType: uploaded.mimeType,
+				sizeBytes: uploaded.sizeBytes,
+				alt: entry.file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
+				position: currentImages.length,
+				isPrimary: currentImages.length === 0,
+				imageType: currentImages.length === 0 ? "MAIN" : "GALLERY",
+			});
+			setPendingUploads((current) =>
+				current.filter((candidate) => candidate.id !== entry.id),
+			);
+			setUploadFeedback("Image uploaded. Add descriptive alt text before saving.");
+		} catch (error) {
+			setPendingUploads((current) =>
+				current.map((candidate) =>
+					candidate.id === entry.id
+						? {
+								...candidate,
+								status: "error",
+								error: uploadErrorMessage(error),
+							}
+						: candidate,
+				),
+			);
+		}
+	};
+
+	const queueFiles = (files: File[]) => {
+		const entries = files.map<PendingUpload>((file, index) => {
+			let error: string | undefined;
+
+			if (!allowedUploadTypes.has(file.type)) {
+				error = "Choose a JPEG, PNG, or WebP image.";
+			} else if (file.size > MAX_UPLOAD_BYTES) {
+				error = "Each image must be 8 MB or smaller.";
+			}
+
+			return {
+				id: `${Date.now()}-${index}-${file.name}`,
+				file,
+				progress: 0,
+				status: error === undefined ? "uploading" : "error",
+				...(error === undefined ? {} : { error }),
+			};
+		});
+
+		setPendingUploads((current) => [...current, ...entries]);
+		entries
+			.filter((entry) => entry.error === undefined)
+			.forEach((entry) => void uploadFile(entry));
+	};
+
 	return (
 		<section aria-labelledby="product-images-title" className={styles.section}>
 			<header className={styles.sectionHeading}>
 				<div>
-					<p>URL and path metadata</p>
+					<p>Managed uploads and external paths</p>
 					<h2 id="product-images-title">Images</h2>
 				</div>
 				<button
@@ -89,9 +230,102 @@ export function ProductImagesSection() {
 					type="button"
 				>
 					<ImagePlus aria-hidden="true" />
-					Add image
+					Add URL
 				</button>
 			</header>
+
+			<div
+				className={[
+					styles.uploadZone,
+					isDragActive ? styles.uploadZoneActive : "",
+				]
+					.filter(Boolean)
+					.join(" ")}
+				onDragEnter={(event) => {
+					event.preventDefault();
+					setIsDragActive(true);
+				}}
+				onDragLeave={(event) => {
+					event.preventDefault();
+					if (event.currentTarget === event.target) setIsDragActive(false);
+				}}
+				onDragOver={(event) => event.preventDefault()}
+				onDrop={(event) => {
+					event.preventDefault();
+					setIsDragActive(false);
+					queueFiles(Array.from(event.dataTransfer.files));
+				}}
+			>
+				<Upload aria-hidden="true" />
+				<div>
+					<strong>Upload product imagery</strong>
+					<span>JPEG, PNG, or WebP. Up to 8 MB per image.</span>
+				</div>
+				<label>
+					Choose images
+					<input
+						accept="image/jpeg,image/png,image/webp"
+						multiple
+						onChange={(event) => {
+							queueFiles(Array.from(event.target.files ?? []));
+							event.target.value = "";
+						}}
+						type="file"
+					/>
+				</label>
+			</div>
+
+			{pendingUploads.length > 0 ? (
+				<ul
+					aria-label="Image upload progress"
+					aria-live="polite"
+					className={styles.uploadList}
+				>
+					{pendingUploads.map((entry) => (
+						<li key={entry.id}>
+							<div>
+								<strong>{entry.file.name}</strong>
+								<span>
+									{entry.status === "error"
+										? entry.error
+										: `Uploading ${entry.progress}%`}
+								</span>
+							</div>
+							{entry.status === "uploading" ? (
+								<progress max={100} value={entry.progress}>
+									{entry.progress}%
+								</progress>
+							) : (
+								<div className={styles.uploadActions}>
+									<button onClick={() => void uploadFile(entry)} type="button">
+										<RefreshCcw aria-hidden="true" />
+										Retry
+									</button>
+									<button
+										onClick={() =>
+											setPendingUploads((current) =>
+												current.filter(
+													(candidate) => candidate.id !== entry.id,
+												),
+											)
+										}
+										type="button"
+									>
+										<Trash2 aria-hidden="true" />
+										Remove
+									</button>
+								</div>
+							)}
+						</li>
+					))}
+				</ul>
+			) : null}
+
+			{uploadFeedback === null ? null : (
+				<p className={styles.uploadFeedback} role="status">
+					{uploadFeedback}
+				</p>
+			)}
 
 			{errors.images?.message ?? errors.images?.root?.message ? (
 				<p className={styles.sectionError} role="alert">
@@ -102,10 +336,9 @@ export function ProductImagesSection() {
 			{fields.length === 0 ? (
 				<div className={styles.sectionEmpty}>
 					<ImagePlus aria-hidden="true" />
-					<p>No image metadata has been added.</p>
+					<p>No product images yet.</p>
 					<span>
-						Add a public path or absolute URL. File uploads are not connected
-						yet.
+						Upload an image above or add a public path or absolute URL.
 					</span>
 				</div>
 			) : (
@@ -113,6 +346,9 @@ export function ProductImagesSection() {
 					{fields.map((field, index) => {
 						const image = images[index] ?? field;
 						const imageErrors = errors.images?.[index];
+						const isDeleting =
+							image.storageKey !== undefined &&
+							deletingKeys.has(image.storageKey);
 
 						return (
 							<article className={styles.imageCard} key={field.fieldKey}>
@@ -131,6 +367,9 @@ export function ProductImagesSection() {
 									/>
 									<div>
 										<span>{image.imageType}</span>
+										{image.storageKey === undefined ? null : (
+											<span>Managed</span>
+										)}
 										{image.isPrimary ? (
 											<strong>
 												<Star aria-hidden="true" />
@@ -141,6 +380,20 @@ export function ProductImagesSection() {
 								</div>
 
 								<input type="hidden" {...register(`images.${index}.id`)} />
+								<input
+									type="hidden"
+									{...register(`images.${index}.storageKey`)}
+								/>
+								<input
+									type="hidden"
+									{...register(`images.${index}.mimeType`)}
+								/>
+								<input
+									type="hidden"
+									{...register(`images.${index}.sizeBytes`, {
+										valueAsNumber: true,
+									})}
+								/>
 								<input
 									type="hidden"
 									{...register(`images.${index}.position`, {
@@ -158,6 +411,7 @@ export function ProductImagesSection() {
 													: undefined
 											}
 											aria-invalid={Boolean(imageErrors?.url)}
+											disabled={image.storageKey !== undefined}
 											placeholder="/images/products/night-bloom/main.webp"
 											{...register(`images.${index}.url`)}
 										/>
@@ -212,7 +466,7 @@ export function ProductImagesSection() {
 								<footer className={styles.imageActions}>
 									<button
 										aria-label={`Move image ${index + 1} up`}
-										disabled={index === 0}
+										disabled={index === 0 || isDeleting}
 										onClick={() => moveImage(index, index - 1)}
 										type="button"
 									>
@@ -221,7 +475,7 @@ export function ProductImagesSection() {
 									</button>
 									<button
 										aria-label={`Move image ${index + 1} down`}
-										disabled={index === fields.length - 1}
+										disabled={index === fields.length - 1 || isDeleting}
 										onClick={() => moveImage(index, index + 1)}
 										type="button"
 									>
@@ -230,11 +484,12 @@ export function ProductImagesSection() {
 									</button>
 									<button
 										aria-label={`Remove image ${index + 1}`}
-										onClick={() => removeImage(index)}
+										disabled={isDeleting}
+										onClick={() => void removeImage(index)}
 										type="button"
 									>
 										<Trash2 aria-hidden="true" />
-										Remove
+										{isDeleting ? "Removing…" : "Remove"}
 									</button>
 								</footer>
 							</article>

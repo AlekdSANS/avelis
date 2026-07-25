@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
+import { access } from "node:fs/promises";
 import test from "node:test";
 import { prisma } from "../src/lib/prisma.js";
 import {
@@ -16,6 +17,8 @@ import {
 	updateAdminProduct,
 } from "../src/services/adminProductService.js";
 import { HttpError } from "../src/utils/httpError.js";
+import { imageStorage, UPLOAD_ROOT } from "../src/storage/localImageStorage.js";
+import path from "node:path";
 
 async function expectHttpError(
 	promise: Promise<unknown>,
@@ -50,6 +53,7 @@ test("admin product CRUD foundation", async (t) => {
 	});
 	let productId: string | undefined;
 	let orderId: string | undefined;
+	let managedStorageKey: string | undefined;
 
 	const buildCreateInput = (overrides?: {
 		slug?: string;
@@ -355,6 +359,79 @@ test("admin product CRUD foundation", async (t) => {
 		});
 
 		await t.test(
+			"persists managed upload metadata and deletes detached files after commit",
+			async () => {
+				assert.ok(productId);
+				const current = await getAdminProduct(productId);
+				const existingImage = current.data.images[0];
+				assert.ok(existingImage);
+				const png = Buffer.from(
+					"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+					"base64",
+				);
+				const managed = await imageStorage.saveProductImage({
+					buffer: png,
+					extension: "png",
+					mimeType: "image/png",
+				});
+				managedStorageKey = managed.storageKey;
+
+				const withManagedImage = await updateAdminProduct(
+					productId,
+					adminProductUpdateSchema.parse({
+						images: [
+							{
+								id: existingImage.id,
+								url: existingImage.url,
+								alt: existingImage.alt,
+								position: 0,
+								isPrimary: true,
+								imageType: existingImage.imageType,
+							},
+							{
+								url: managed.url,
+								storageKey: managed.storageKey,
+								mimeType: managed.mimeType,
+								sizeBytes: managed.sizeBytes,
+								alt: "Managed integration image",
+								position: 1,
+								isPrimary: false,
+								imageType: "GALLERY",
+							},
+						],
+					}),
+				);
+				const managedImage = withManagedImage.data.images.find(
+					(image) => image.storageKey === managed.storageKey,
+				);
+				assert.ok(managedImage);
+				assert.equal(managedImage.mimeType, "image/png");
+				assert.equal(managedImage.sizeBytes, png.byteLength);
+
+				await updateAdminProduct(
+					productId,
+					adminProductUpdateSchema.parse({
+						images: [
+							{
+								id: existingImage.id,
+								url: existingImage.url,
+								alt: existingImage.alt,
+								position: 0,
+								isPrimary: true,
+								imageType: existingImage.imageType,
+							},
+						],
+					}),
+				);
+
+				await assert.rejects(
+					access(path.join(UPLOAD_ROOT, managed.storageKey)),
+				);
+				managedStorageKey = undefined;
+			},
+		);
+
+		await t.test(
 			"soft deactivation preserves product and order history",
 			async () => {
 				assert.ok(productId);
@@ -433,6 +510,9 @@ test("admin product CRUD foundation", async (t) => {
 			assert.equal(serialized.includes(sensitiveField), false);
 		}
 	} finally {
+		if (managedStorageKey !== undefined) {
+			await imageStorage.deleteProductImage(managedStorageKey);
+		}
 		if (orderId !== undefined) {
 			await prisma.order.deleteMany({ where: { id: orderId } });
 		}

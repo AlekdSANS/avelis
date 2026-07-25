@@ -398,6 +398,9 @@ function createProductData(input: AdminProductCreateInput) {
 		images: {
 			create: input.images.map((image) => ({
 				url: image.url,
+				storageKey: image.storageKey ?? null,
+				mimeType: image.mimeType ?? null,
+				sizeBytes: image.sizeBytes ?? null,
 				alt: image.alt,
 				position: image.position,
 				isPrimary: image.isPrimary,
@@ -539,12 +542,12 @@ async function reconcileImages(
 	tx: TransactionClient,
 	productId: string,
 	images: NonNullable<AdminProductUpdateInput["images"]>,
-	currentImageIds: string[],
+	currentImages: Array<{ id: string; storageKey: string | null }>,
 ) {
 	const preservedIds = images.flatMap((image) =>
 		image.id === undefined ? [] : [image.id],
 	);
-	const currentIdSet = new Set(currentImageIds);
+	const currentIdSet = new Set(currentImages.map((image) => image.id));
 
 	if (preservedIds.some((id) => !currentIdSet.has(id))) {
 		throw new Error("ADMIN_PRODUCT_INVALID_IMAGE_ID");
@@ -562,6 +565,9 @@ async function reconcileImages(
 	for (const image of images) {
 		const data = {
 			url: image.url,
+			storageKey: image.storageKey ?? null,
+			mimeType: image.mimeType ?? null,
+			sizeBytes: image.sizeBytes ?? null,
 			alt: image.alt,
 			position: image.position,
 			isPrimary: image.isPrimary,
@@ -582,6 +588,18 @@ async function reconcileImages(
 			});
 		}
 	}
+
+	const preservedStorageKeys = new Set(
+		images.flatMap((image) =>
+			image.storageKey === undefined ? [] : [image.storageKey],
+		),
+	);
+
+	return currentImages.flatMap((image) =>
+		image.storageKey !== null && !preservedStorageKeys.has(image.storageKey)
+			? [image.storageKey]
+			: [],
+	);
 }
 
 export function updateAdminProductRecord(
@@ -594,7 +612,7 @@ export function updateAdminProductRecord(
 			select: {
 				id: true,
 				variants: { select: { id: true } },
-				images: { select: { id: true } },
+				images: { select: { id: true, storageKey: true } },
 			},
 		});
 
@@ -605,7 +623,7 @@ export function updateAdminProductRecord(
 		const currentVariantIds = currentProduct.variants.map(
 			(variant) => variant.id,
 		);
-		const currentImageIds = currentProduct.images.map((image) => image.id);
+		let removedStorageKeys: string[] = [];
 
 		await validateReferencedRelations(tx, input.notes, input.collectionIds);
 		await validateUniqueFields(tx, {
@@ -632,7 +650,12 @@ export function updateAdminProductRecord(
 		}
 
 		if (input.images !== undefined) {
-			await reconcileImages(tx, id, input.images, currentImageIds);
+			removedStorageKeys = await reconcileImages(
+				tx,
+				id,
+				input.images,
+				currentProduct.images,
+			);
 		}
 
 		if (input.notes !== undefined) {
@@ -661,9 +684,11 @@ export function updateAdminProductRecord(
 			}
 		}
 
-		return tx.product.findUniqueOrThrow({
+		const product = await tx.product.findUniqueOrThrow({
 			where: { id },
 			select: productSelect,
 		});
+
+		return { product, removedStorageKeys };
 	});
 }

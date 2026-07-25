@@ -19,6 +19,7 @@ import {
 	mapAdminProductSummary,
 } from "../utils/adminProductMapper.js";
 import { HttpError } from "../utils/httpError.js";
+import { imageStorage } from "../storage/localImageStorage.js";
 
 function isMissingRecordError(error: unknown) {
 	return (
@@ -242,10 +243,25 @@ export async function updateAdminProduct(
 	input: AdminProductUpdateInput,
 ) {
 	try {
-		const product = await updateAdminProductRecord(
+		const { product, removedStorageKeys } = await updateAdminProductRecord(
 			id,
 			normalizeUpdateInput(input),
 		);
+
+		const cleanupResults = await Promise.allSettled(
+			removedStorageKeys.map((storageKey) =>
+				imageStorage.deleteProductImage(storageKey),
+			),
+		);
+
+		if (
+			process.env.NODE_ENV !== "production" &&
+			cleanupResults.some((result) => result.status === "rejected")
+		) {
+			console.error(
+				"One or more detached product image files could not be removed",
+			);
+		}
 
 		return {
 			data: mapAdminProductDetail(product),

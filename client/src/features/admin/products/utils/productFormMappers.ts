@@ -62,6 +62,20 @@ export function mapProductToForm(
 			.map((image, position) => ({
 				id: image.id,
 				url: image.url,
+				...(image.storageKey === null
+					? {}
+					: { storageKey: image.storageKey }),
+				...(image.mimeType === null
+					? {}
+					: {
+							mimeType: image.mimeType as
+								| "image/jpeg"
+								| "image/png"
+								| "image/webp",
+						}),
+				...(image.sizeBytes === null
+					? {}
+					: { sizeBytes: image.sizeBytes }),
 				alt: image.alt,
 				position,
 				isPrimary: image.isPrimary,
@@ -121,6 +135,15 @@ function mapCommonProductPayload(values: AdminProductFormValues) {
 		images: values.images.map((image, position) => ({
 			...(image.id === undefined ? {} : { id: image.id }),
 			url: image.url.trim(),
+			...(image.storageKey === undefined
+				? {}
+				: { storageKey: image.storageKey }),
+			...(image.mimeType === undefined
+				? {}
+				: { mimeType: image.mimeType }),
+			...(image.sizeBytes === undefined
+				? {}
+				: { sizeBytes: image.sizeBytes }),
 			alt: image.alt.trim(),
 			position,
 			isPrimary: image.isPrimary,
@@ -158,6 +181,15 @@ export function mapFormToCreatePayload(
 		})),
 		images: common.images.map((image) => ({
 			url: image.url,
+			...(image.storageKey === undefined
+				? {}
+				: { storageKey: image.storageKey }),
+			...(image.mimeType === undefined
+				? {}
+				: { mimeType: image.mimeType }),
+			...(image.sizeBytes === undefined
+				? {}
+				: { sizeBytes: image.sizeBytes }),
 			alt: image.alt,
 			position: image.position,
 			isPrimary: image.isPrimary,

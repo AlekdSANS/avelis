@@ -141,6 +141,13 @@ const imageFields = {
 	position: z.number().int().nonnegative(),
 	isPrimary: z.boolean(),
 	imageType: productImageTypeSchema,
+	storageKey: z
+		.string()
+		.trim()
+		.regex(/^products\/[0-9a-f-]+\.(?:jpg|png|webp)$/i)
+		.optional(),
+	mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]).optional(),
+	sizeBytes: z.number().int().positive().max(8 * 1024 * 1024).optional(),
 } as const;
 
 const createImageSchema = z.object(imageFields).strict();
@@ -207,7 +214,14 @@ function validateVariants(
 }
 
 function validateImages(
-	images: ReadonlyArray<{ id?: string | undefined; isPrimary: boolean }>,
+	images: ReadonlyArray<{
+		id?: string | undefined;
+		isPrimary: boolean;
+		url: string;
+		storageKey?: string | undefined;
+		mimeType?: string | undefined;
+		sizeBytes?: number | undefined;
+	}>,
 	context: z.RefinementCtx,
 ) {
 	const primaryCount = images.filter((image) => image.isPrimary).length;
@@ -222,6 +236,31 @@ function validateImages(
 
 	const ids = new Set<string>();
 	images.forEach((image, index) => {
+		const managedMetadataCount = [
+			image.storageKey,
+			image.mimeType,
+			image.sizeBytes,
+		].filter((value) => value !== undefined).length;
+
+		if (managedMetadataCount !== 0 && managedMetadataCount !== 3) {
+			context.addIssue({
+				code: "custom",
+				message: "Managed image metadata must be provided together",
+				path: ["images", index],
+			});
+		}
+
+		if (
+			image.storageKey !== undefined &&
+			image.url !== `/uploads/${image.storageKey}`
+		) {
+			context.addIssue({
+				code: "custom",
+				message: "Managed image URL must match its storage key",
+				path: ["images", index, "url"],
+			});
+		}
+
 		if (image.id === undefined) {
 			return;
 		}

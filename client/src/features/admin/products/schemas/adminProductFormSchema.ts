@@ -65,6 +65,9 @@ const imageSchema = z.object({
 	position: z.number().int().nonnegative(),
 	isPrimary: z.boolean(),
 	imageType: z.enum(["MAIN", "GALLERY", "HOVER", "REFILL"]),
+	storageKey: z.string().optional(),
+	mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]).optional(),
+	sizeBytes: z.number().int().positive().optional(),
 });
 
 const noteSchema = z.object({

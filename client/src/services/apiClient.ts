@@ -35,7 +35,7 @@ function isViteDevOrigin(url: string) {
   }
 }
 
-function getApiBaseUrl() {
+export function getApiBaseUrl() {
   const configuredUrl = import.meta.env.VITE_API_URL?.trim();
 
   if (
@@ -51,6 +51,18 @@ function getApiBaseUrl() {
   return withoutTrailingSlashes.endsWith("/api")
     ? withoutTrailingSlashes
     : `${withoutTrailingSlashes}/api`;
+}
+
+export function resolvePublicAssetUrl(src: string | undefined) {
+  if (src === undefined || !src.startsWith("/uploads/")) {
+    return src;
+  }
+
+  try {
+    return `${new URL(getApiBaseUrl()).origin}${src}`;
+  } catch {
+    return src;
+  }
 }
 
 function getApiErrorMessage(error: AxiosError<ApiError>) {

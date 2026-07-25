@@ -34,6 +34,9 @@ export const productSelect = {
 		select: {
 			id: true,
 			url: true,
+			storageKey: true,
+			mimeType: true,
+			sizeBytes: true,
 			alt: true,
 			position: true,
 			isPrimary: true,

@@ -105,6 +105,9 @@ export function mapAdminProductDetail(product: ProductRecord) {
 		images: product.images.map((image) => ({
 			id: image.id,
 			url: image.url,
+			storageKey: image.storageKey,
+			mimeType: image.mimeType,
+			sizeBytes: image.sizeBytes,
 			alt: image.alt,
 			position: image.position,
 			isPrimary: image.isPrimary,

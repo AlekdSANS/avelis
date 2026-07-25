@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ImgHTMLAttributes } from "react";
+import { resolvePublicAssetUrl } from "../../../services/apiClient";
 
 const fallbackImage = "/images/placeholders/product_placeholder.png";
 
@@ -15,7 +16,9 @@ export function ProductImage({
   ...props
 }: ProductImageProps) {
   const [failedSrc, setFailedSrc] = useState<string>();
-  const currentSrc = failedSrc === src ? fallbackSrc : src;
+  const resolvedSrc =
+    typeof src === "string" ? resolvePublicAssetUrl(src) : src;
+  const currentSrc = failedSrc === src ? fallbackSrc : resolvedSrc;
 
   return (
     <img

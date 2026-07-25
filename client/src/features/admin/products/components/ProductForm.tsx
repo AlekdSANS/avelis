@@ -10,6 +10,7 @@ import { Link, useBlocker, useNavigate } from "react-router-dom";
 
 import { Button } from "../../../../components/ui/Button/Button";
 import { Modal } from "../../../../components/ui/Modal/Modal";
+import { adminUploadService } from "../../../../services/adminUploadService";
 import type { AdminProductDetail } from "../../../../types/adminProduct";
 import { useCollections } from "../../../collections/hooks/useCollections";
 import {
@@ -89,6 +90,22 @@ export function ProductForm({
 			form.formState.isDirty &&
 			currentLocation.pathname !== nextLocation.pathname,
 	);
+
+	const cleanupUnsavedUploads = async () => {
+		const storageKeys = form
+			.getValues("images")
+			.flatMap((image) =>
+				image.id === undefined && image.storageKey !== undefined
+					? [image.storageKey]
+					: [],
+			);
+
+		await Promise.allSettled(
+			storageKeys.map((storageKey) =>
+				adminUploadService.deleteProductImage(storageKey),
+			),
+		);
+	};
 
 	useEffect(() => {
 		if (!form.formState.isDirty) {
@@ -280,8 +297,9 @@ export function ProductForm({
 								Keep editing
 							</Button>
 							<Button
-								onClick={() => {
+								onClick={async () => {
 									if (blocker.state === "blocked") {
+										await cleanupUnsavedUploads();
 										blocker.proceed();
 									}
 								}}
