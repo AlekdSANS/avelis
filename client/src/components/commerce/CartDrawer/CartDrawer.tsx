@@ -103,7 +103,7 @@ export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
           <div className={styles.emptyState}>
             <ShoppingBag aria-hidden="true" />
             <h3>Your bag is quiet for now</h3>
-            <p>Choose a fragrance to begin your AVELIS selection.</p>
+            <p>Choose a fragrance to begin your selection.</p>
           </div>
         ) : (
           <ul aria-label="Cart items" className={styles.items}>

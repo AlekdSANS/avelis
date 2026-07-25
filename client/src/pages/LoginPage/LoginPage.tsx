@@ -79,7 +79,7 @@ export function LoginPage() {
 			<div className={styles.panel}>
 				<div className={styles.heading}>
 					<p>Welcome back</p>
-					<h1>Sign in to AVELIS</h1>
+					<h1>Sign in to your account</h1>
 				</div>
 
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -132,7 +132,7 @@ export function LoginPage() {
 				</form>
 
 				<p className={styles.switchText}>
-					New to AVELIS? <Link to="/register">Create an account</Link>
+					New here? <Link to="/register">Create an account</Link>
 				</p>
 			</div>
 		</section>

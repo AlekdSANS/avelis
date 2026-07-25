@@ -69,7 +69,7 @@ export function CookieBanner({
           </div>
           <div className={styles.bannerCopy}>
             <p className={styles.eyebrow}>Your privacy, your choice</p>
-            <h2>Choose how AVELIS uses cookies</h2>
+            <h2>Choose how we use cookies</h2>
             <p>
               Necessary storage keeps the site working. With your
               permission, analytics helps us understand storefront use and
@@ -103,7 +103,7 @@ export function CookieBanner({
 
       <Modal
         className={styles.preferencesModal}
-        description="Necessary storage is always active. Choose whether AVELIS may use analytics and advertising storage."
+        description="Necessary storage is always active. Choose whether we may use analytics and advertising storage."
         footer={
           <>
             <Button

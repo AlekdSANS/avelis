@@ -71,7 +71,7 @@ export function SearchOverlay({
       />
       <div className={styles.panel}>
         <div className={styles.header}>
-          <p className={styles.eyebrow}>Search AVELIS</p>
+          <p className={styles.eyebrow}>Search fragrances</p>
           <IconButton aria-label="Close search" onClick={onClose}>
             <X />
           </IconButton>

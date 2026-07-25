@@ -25,7 +25,7 @@ export function NewsletterForm({
 
   return (
     <form className={classes} onSubmit={handleSubmit}>
-      <label htmlFor={inputId}>Receive AVELIS notes</label>
+      <label htmlFor={inputId}>Receive our notes</label>
       <div className={styles.control}>
         <input
           autoComplete="email"

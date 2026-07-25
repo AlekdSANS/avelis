@@ -141,7 +141,7 @@ export function ShopPage() {
     <div className={styles.page}>
       <header className={styles.hero}>
         <div className={styles.wideContainer}>
-          <p className={styles.eyebrow}>The AVELIS collection</p>
+          <p className={styles.eyebrow}>The perfume collection</p>
           <h1>Fragrances composed for a quieter kind of presence.</h1>
           <p className={styles.intro}>
             Explore perfume bottles and dedicated refills across luminous florals,

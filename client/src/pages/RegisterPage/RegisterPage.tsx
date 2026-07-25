@@ -102,7 +102,7 @@ export function RegisterPage() {
 			<div className={styles.panel}>
 				<div className={styles.heading}>
 					<p>Begin your collection</p>
-					<h1>Create your AVELIS account</h1>
+					<h1>Create your account</h1>
 				</div>
 
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

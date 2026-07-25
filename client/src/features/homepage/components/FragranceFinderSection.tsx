@@ -8,7 +8,7 @@ export function FragranceFinderSection() {
         <p className={styles.eyebrow}>A guided ritual</p>
         <h2 id="fragrance-finder-title">Find the scent that feels like you</h2>
         <p>
-          Follow mood, material and memory through a quiet edit of the AVELIS
+          Follow mood, material and memory through a quiet edit of our
           collection.
         </p>
         <ButtonLink

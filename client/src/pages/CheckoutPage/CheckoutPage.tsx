@@ -163,7 +163,7 @@ export function CheckoutPage() {
         <p className={styles.eyebrow}>Your selection</p>
         <h1>Your cart is waiting for a fragrance.</h1>
         <p>
-          Discover an AVELIS composition, then return here when your selection
+          Discover a composition, then return here when your selection
           feels complete.
         </p>
         <ButtonLink to="/shop">Explore fragrances</ButtonLink>

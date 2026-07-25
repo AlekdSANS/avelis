@@ -118,7 +118,7 @@ function OrderDetails({
         <h1 ref={headingRef} tabIndex={-1}>
           Your order is confirmed
         </h1>
-        <p>Thank you. We&apos;ve received your AVELIS order.</p>
+        <p>Thank you. We&apos;ve received your order.</p>
         <p className={styles.paymentMessage}>{getPaymentMessage(order)}</p>
       </header>
 
@@ -298,8 +298,7 @@ function OrderDetails({
             </div>
           </dl>
           <p className={styles.authorityNote}>
-            Prices and availability were verified by AVELIS when your order was
-            created.
+            Prices and availability were verified when your order was created.
           </p>
         </aside>
       </div>

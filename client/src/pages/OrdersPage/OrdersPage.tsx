@@ -163,7 +163,7 @@ export function OrdersPage() {
         <div>
           <p className={styles.eyebrow}>Account</p>
           <h1>Your orders</h1>
-          <p>Review each AVELIS selection and its current fulfilment status.</p>
+          <p>Review each fragrance selection and its fulfilment status.</p>
         </div>
         <div className={styles.filter}>
           <label htmlFor="order-status-filter">Status</label>
@@ -208,7 +208,7 @@ export function OrdersPage() {
           <p>
             {status
               ? "Choose another status to see the rest of your order history."
-              : "Your completed AVELIS selections will appear here."}
+              : "Your completed selections will appear here."}
           </p>
           {status ? (
             <Button onClick={() => setStatus("ALL")} variant="secondary">
