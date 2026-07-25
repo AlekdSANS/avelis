@@ -1,7 +1,10 @@
 import type { Order } from "../../../types/order";
+import { trackPurchase } from "../../../services/analytics";
 
 export function onOrderCreationConfirmed(order: Order) {
-  // Future purchase analytics should be emitted here, after POST /orders succeeds.
-  // Keeping the callback at the mutation-success boundary avoids refresh duplicates.
-  void order;
+  try {
+    trackPurchase(order);
+  } catch {
+    // Analytics must never interrupt cart clearing or confirmation navigation.
+  }
 }
