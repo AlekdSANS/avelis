@@ -141,6 +141,7 @@ export function mapProduct(product: ProductRecord) {
 			stock: variant.stock,
 		})),
 		notes: product.notes
+			.filter((note) => note.note.isActive)
 			.map((note) => ({
 				name: note.note.name,
 				type: note.type,
@@ -150,7 +151,15 @@ export function mapProduct(product: ProductRecord) {
 				const typeDelta = noteTypeRank[left.type] - noteTypeRank[right.type];
 				return typeDelta === 0 ? left.position - right.position : typeDelta;
 			}),
-		collections: product.collections.map(({ collection }) => collection),
+		collections: product.collections
+			.filter(({ collection }) => collection.isActive)
+			.map(({ collection }) => ({
+				id: collection.id,
+				slug: collection.slug,
+				name: collection.name,
+				description: collection.description,
+				imageUrl: collection.imageUrl,
+			})),
 		createdAt: product.createdAt.toISOString(),
 		updatedAt: product.updatedAt.toISOString(),
 	};

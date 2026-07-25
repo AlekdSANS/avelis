@@ -6,6 +6,8 @@ import {
 	ShoppingBag,
 	Store,
 	X,
+	Leaf,
+	FolderOpen,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -37,6 +39,16 @@ const adminNavigation = [
 		to: "/admin/orders",
 		icon: ShoppingBag,
 	},
+	{
+		label: "Notes",
+		to: "/admin/notes",
+		icon: Leaf,
+	},
+	{
+		label: "Collections",
+		to: "/admin/collections",
+		icon: FolderOpen,
+	},
 ];
 
 function getPageTitle(pathname: string) {
@@ -47,6 +59,8 @@ function getPageTitle(pathname: string) {
 		return "Edit product";
 	}
 	if (pathname.startsWith("/admin/orders")) return "Orders";
+	if (pathname.startsWith("/admin/notes")) return "Fragrance notes";
+	if (pathname.startsWith("/admin/collections")) return "Collections";
 
 	return "Admin";
 }

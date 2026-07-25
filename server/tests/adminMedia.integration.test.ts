@@ -3,9 +3,14 @@ import { access, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { storeAdminProductImages } from "../src/services/adminUploadService.js";
+import {
+	deleteAdminProductUpload,
+	storeAdminProductImages,
+} from "../src/services/adminUploadService.js";
 import { LocalImageStorage } from "../src/storage/localImageStorage.js";
 import { HttpError } from "../src/utils/httpError.js";
+import { prisma } from "../src/lib/prisma.js";
+import { randomUUID } from "node:crypto";
 
 const onePixelPng = Buffer.from(
 	"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
@@ -93,6 +98,70 @@ test("managed product image storage", async (t) => {
 				/INVALID_PRODUCT_STORAGE_KEY/,
 			);
 		});
+
+		await t.test(
+			"refuses referenced files and deletes unreferenced files idempotently",
+			async () => {
+				const uploaded = (
+					await storeAdminProductImages(
+						[buildUpload(onePixelPng, "image/png")],
+						storage,
+					)
+				).data[0];
+				assert.ok(uploaded);
+				const tag = randomUUID();
+				const product = await prisma.product.create({
+					data: {
+						slug: `admin-media-${tag}`,
+						name: "Admin Media Product",
+						description: "Temporary managed media test",
+						fragranceFamily: "Test",
+						concentration: "EDP",
+						season: [],
+						occasion: [],
+						images: {
+							create: {
+								url: uploaded.url,
+								storageKey: uploaded.storageKey,
+								mimeType: uploaded.mimeType,
+								sizeBytes: uploaded.sizeBytes,
+								alt: "Managed media test",
+								isPrimary: true,
+								imageType: "MAIN",
+							},
+						},
+					},
+					select: { id: true },
+				});
+
+				try {
+					await assert.rejects(
+						deleteAdminProductUpload(
+							{ storageKey: uploaded.storageKey },
+							storage,
+						),
+						(error: unknown) => {
+							assert.ok(error instanceof HttpError);
+							assert.equal(error.statusCode, 409);
+							return true;
+						},
+					);
+				} finally {
+					await prisma.product.delete({ where: { id: product.id } });
+				}
+
+				const deleted = await deleteAdminProductUpload(
+					{ storageKey: uploaded.storageKey },
+					storage,
+				);
+				const repeated = await deleteAdminProductUpload(
+					{ storageKey: uploaded.storageKey },
+					storage,
+				);
+				assert.equal(deleted.data.deleted, true);
+				assert.equal(repeated.data.deleted, false);
+			},
+		);
 	} finally {
 		await rm(rootDirectory, { recursive: true, force: true });
 	}

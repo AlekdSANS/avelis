@@ -15,6 +15,16 @@ import {
 } from "../src/services/adminNoteService.js";
 import { HttpError } from "../src/utils/httpError.js";
 import {
+	createAdminProduct,
+	updateAdminProduct,
+} from "../src/services/adminProductService.js";
+import {
+	adminProductCreateSchema,
+	adminProductUpdateSchema,
+} from "../src/schemas/adminProductSchemas.js";
+import { getProductBySlug } from "../src/services/productService.js";
+import { listCollections } from "../src/services/collectionService.js";
+import {
 	adminCollectionCreateSchema,
 	adminCollectionListQuerySchema,
 	adminCollectionUpdateSchema,
@@ -112,6 +122,69 @@ test("admin fragrance note management", async (t) => {
 			assert.equal(result.data.isActive, false);
 			assert.ok(relation);
 			assert.match(result.message, /relations are preserved/i);
+
+			const preserved = await updateAdminProduct(
+				productId,
+				adminProductUpdateSchema.parse({
+					notes: [{ noteId, type: "TOP", position: 0 }],
+				}),
+			);
+			assert.equal(preserved.data.notes[0]?.noteId, noteId);
+
+			await assert.rejects(
+				updateAdminProduct(
+					productId,
+					adminProductUpdateSchema.parse({
+						notes: [
+							{ noteId, type: "TOP", position: 0 },
+							{ noteId, type: "HEART", position: 0 },
+						],
+					}),
+				),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 409);
+					return true;
+				},
+			);
+
+			const publicProduct = await getProductBySlug(
+				`admin-note-product-${tag}`,
+			);
+			assert.equal(
+				publicProduct.data.notes.some(
+					(note) => note.name === `White Tea Blossom ${tag}`,
+				),
+				false,
+			);
+
+			await assert.rejects(
+				createAdminProduct(
+					adminProductCreateSchema.parse({
+						name: "Inactive Note Attachment",
+						slug: `inactive-note-attachment-${tag}`,
+						description: "Must not be created",
+						fragranceFamily: "Test",
+						concentration: "EDP",
+						variants: [
+							{
+								format: "BOTTLE",
+								volumeMl: 50,
+								price: 100,
+								compareAtPrice: null,
+								sku: `INACTIVE-NOTE-${tag}`,
+								stock: 1,
+							},
+						],
+						notes: [{ noteId, type: "TOP", position: 0 }],
+					}),
+				),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 409);
+					return true;
+				},
+			);
 		});
 	} finally {
 		if (productId !== undefined) {
@@ -212,6 +285,62 @@ test("admin collection management", async (t) => {
 			assert.equal(result.data.isActive, false);
 			assert.ok(relation);
 			assert.match(result.message, /relations are preserved/i);
+
+			const preserved = await updateAdminProduct(
+				productId,
+				adminProductUpdateSchema.parse({
+					collectionIds: [collectionId],
+				}),
+			);
+			assert.equal(
+				preserved.data.collections[0]?.id,
+				collectionId,
+			);
+
+			const publicProduct = await getProductBySlug(
+				`admin-collection-product-${tag}`,
+			);
+			assert.equal(
+				publicProduct.data.collections.some(
+					(collection) => collection.id === collectionId,
+				),
+				false,
+			);
+			const publicCollections = await listCollections();
+			assert.equal(
+				publicCollections.data.some(
+					(collection) => collection.id === collectionId,
+				),
+				false,
+			);
+
+			await assert.rejects(
+				createAdminProduct(
+					adminProductCreateSchema.parse({
+						name: "Inactive Collection Attachment",
+						slug: `inactive-collection-attachment-${tag}`,
+						description: "Must not be created",
+						fragranceFamily: "Test",
+						concentration: "EDP",
+						variants: [
+							{
+								format: "BOTTLE",
+								volumeMl: 50,
+								price: 100,
+								compareAtPrice: null,
+								sku: `INACTIVE-COLLECTION-${tag}`,
+								stock: 1,
+							},
+						],
+						collectionIds: [collectionId],
+					}),
+				),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 409);
+					return true;
+				},
+			);
 		});
 	} finally {
 		if (productId !== undefined) {

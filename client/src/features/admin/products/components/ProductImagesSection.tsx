@@ -58,7 +58,10 @@ export function ProductImagesSection() {
 	const deleteMutation = useDeleteAdminProductUpload();
 	const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
 	const [deletingKeys, setDeletingKeys] = useState<Set<string>>(new Set());
-	const [uploadFeedback, setUploadFeedback] = useState<string | null>(null);
+	const [uploadFeedback, setUploadFeedback] = useState<{
+		kind: "error" | "success";
+		message: string;
+	} | null>(null);
 	const [isDragActive, setIsDragActive] = useState(false);
 
 	const normalizePositions = () => {
@@ -85,7 +88,10 @@ export function ProductImagesSection() {
 			try {
 				await deleteMutation.mutateAsync(image.storageKey);
 			} catch (error) {
-				setUploadFeedback(uploadErrorMessage(error));
+				setUploadFeedback({
+					kind: "error",
+					message: uploadErrorMessage(error),
+				});
 				setDeletingKeys((current) => {
 					const next = new Set(current);
 					next.delete(image.storageKey!);
@@ -168,7 +174,10 @@ export function ProductImagesSection() {
 			setPendingUploads((current) =>
 				current.filter((candidate) => candidate.id !== entry.id),
 			);
-			setUploadFeedback("Image uploaded. Add descriptive alt text before saving.");
+			setUploadFeedback({
+				kind: "success",
+				message: "Image uploaded. Add descriptive alt text before saving.",
+			});
 		} catch (error) {
 			setPendingUploads((current) =>
 				current.map((candidate) =>
@@ -285,7 +294,7 @@ export function ProductImagesSection() {
 						<li key={entry.id}>
 							<div>
 								<strong>{entry.file.name}</strong>
-								<span>
+								<span role={entry.status === "error" ? "alert" : undefined}>
 									{entry.status === "error"
 										? entry.error
 										: `Uploading ${entry.progress}%`}
@@ -322,8 +331,11 @@ export function ProductImagesSection() {
 			) : null}
 
 			{uploadFeedback === null ? null : (
-				<p className={styles.uploadFeedback} role="status">
-					{uploadFeedback}
+				<p
+					className={styles.uploadFeedback}
+					role={uploadFeedback.kind === "error" ? "alert" : "status"}
+				>
+					{uploadFeedback.message}
 				</p>
 			)}
 

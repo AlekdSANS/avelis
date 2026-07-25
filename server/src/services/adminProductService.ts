@@ -40,6 +40,16 @@ function mapAdminProductPersistenceError(error: unknown): never {
 				throw new HttpError(404, "One or more notes were not found");
 			case "ADMIN_PRODUCT_COLLECTION_NOT_FOUND":
 				throw new HttpError(404, "One or more collections were not found");
+			case "ADMIN_PRODUCT_INACTIVE_NOTE":
+				throw new HttpError(
+					409,
+					"Inactive fragrance notes cannot be added to a product",
+				);
+			case "ADMIN_PRODUCT_INACTIVE_COLLECTION":
+				throw new HttpError(
+					409,
+					"Inactive collections cannot be added to a product",
+				);
 			case "ADMIN_PRODUCT_DUPLICATE_SLUG":
 				throw new HttpError(409, "A product with this slug already exists");
 			case "ADMIN_PRODUCT_DUPLICATE_SKU":

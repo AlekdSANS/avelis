@@ -3,6 +3,7 @@ import { productSelect } from "../utils/productMapper.js";
 
 export async function findCollections() {
 	return prisma.collection.findMany({
+		where: { isActive: true },
 		select: {
 			id: true,
 			slug: true,
@@ -26,8 +27,8 @@ export async function findCollections() {
 }
 
 export async function findCollectionBySlug(slug: string) {
-	return prisma.collection.findUnique({
-		where: { slug },
+	return prisma.collection.findFirst({
+		where: { slug, isActive: true },
 		select: {
 			id: true,
 			slug: true,

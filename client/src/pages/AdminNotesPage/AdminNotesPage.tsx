@@ -63,6 +63,7 @@ export function AdminNotesPage() {
 		null,
 	);
 	const [feedback, setFeedback] = useState<string | null>(null);
+	const [actionError, setActionError] = useState<string | null>(null);
 
 	const updateParams = (
 		updates: Record<string, string | undefined>,
@@ -91,6 +92,7 @@ export function AdminNotesPage() {
 		setName(note?.name ?? "");
 		setIsActive(note?.isActive ?? true);
 		setEditorError(null);
+		setActionError(null);
 	};
 
 	const saveNote = async (event: FormEvent) => {
@@ -116,6 +118,7 @@ export function AdminNotesPage() {
 				setFeedback("Fragrance note updated.");
 			}
 			setEditor(null);
+			setActionError(null);
 		} catch (error) {
 			setEditorError(mutationMessage(error));
 		}
@@ -127,8 +130,22 @@ export function AdminNotesPage() {
 			await deleteMutation.mutateAsync(deactivateTarget.id);
 			setFeedback("Fragrance note deactivated.");
 			setDeactivateTarget(null);
+			setActionError(null);
 		} catch (error) {
-			setEditorError(mutationMessage(error));
+			setActionError(mutationMessage(error));
+		}
+	};
+
+	const activateNote = async (note: AdminNote) => {
+		try {
+			await updateMutation.mutateAsync({
+				id: note.id,
+				input: { isActive: true },
+			});
+			setFeedback("Fragrance note activated.");
+			setActionError(null);
+		} catch (error) {
+			setActionError(mutationMessage(error));
 		}
 	};
 
@@ -154,6 +171,11 @@ export function AdminNotesPage() {
 			{feedback === null ? null : (
 				<p className={styles.feedback} role="status">
 					{feedback}
+				</p>
+			)}
+			{actionError === null ? null : (
+				<p className={styles.error} role="alert">
+					{actionError}
 				</p>
 			)}
 
@@ -282,18 +304,7 @@ export function AdminNotesPage() {
 													</button>
 												) : (
 													<button
-														onClick={() =>
-															void updateMutation
-																.mutateAsync({
-																	id: note.id,
-																	input: { isActive: true },
-																})
-																.then(() =>
-																	setFeedback(
-																		"Fragrance note activated.",
-																	),
-																)
-														}
+														onClick={() => void activateNote(note)}
 														type="button"
 													>
 														Activate
@@ -343,7 +354,14 @@ export function AdminNotesPage() {
 										>
 											Deactivate
 										</button>
-									) : null}
+									) : (
+										<button
+											onClick={() => void activateNote(note)}
+											type="button"
+										>
+											Activate
+										</button>
+									)}
 								</div>
 							</article>
 						))}
@@ -437,10 +455,17 @@ export function AdminNotesPage() {
 				onClose={() => setDeactivateTarget(null)}
 				title="Deactivate fragrance note?"
 			>
-				<p>
-					{deactivateTarget?.name} will no longer be available for new product
-					selections.
-				</p>
+				<>
+					<p>
+						{deactivateTarget?.name} will no longer be available for new
+						product selections.
+					</p>
+					{actionError === null ? null : (
+						<p className={styles.error} role="alert">
+							{actionError}
+						</p>
+					)}
+				</>
 			</Modal>
 		</section>
 	);

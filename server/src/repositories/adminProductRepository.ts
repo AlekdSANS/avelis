@@ -306,35 +306,83 @@ async function validateReferencedRelations(
 	tx: TransactionClient,
 	notes: AdminProductCreateInput["notes"] | undefined,
 	collectionIds: AdminProductCreateInput["collectionIds"] | undefined,
+	productId?: string,
 ) {
 	if (notes !== undefined) {
 		const noteIds = [...new Set(notes.map((note) => note.noteId))];
-		const existingNoteCount =
+		const existingNotes =
 			noteIds.length === 0
-				? 0
-				: await tx.note.count({
-						where: {
-							id: { in: noteIds },
-						},
+				? []
+				: await tx.note.findMany({
+						where: { id: { in: noteIds } },
+						select: { id: true, isActive: true },
 					});
 
-		if (existingNoteCount !== noteIds.length) {
+		if (existingNotes.length !== noteIds.length) {
 			throw new Error("ADMIN_PRODUCT_NOTE_NOT_FOUND");
+		}
+
+		const inactiveIds = existingNotes
+			.filter((note) => !note.isActive)
+			.map((note) => note.id);
+		if (inactiveIds.length > 0) {
+			const existingRelations =
+				productId === undefined
+					? []
+					: await tx.productNote.findMany({
+							where: {
+								productId,
+								noteId: { in: inactiveIds },
+							},
+							select: { noteId: true, type: true },
+						});
+			const inactiveIdSet = new Set(inactiveIds);
+			const existingRelationKeys = new Set(
+				existingRelations.map(
+					(relation) => `${relation.noteId}:${relation.type}`,
+				),
+			);
+			const includesNewInactiveRelation = notes
+				.filter((note) => inactiveIdSet.has(note.noteId))
+				.some(
+					(note) =>
+						!existingRelationKeys.has(`${note.noteId}:${note.type}`),
+				);
+			if (includesNewInactiveRelation) {
+				throw new Error("ADMIN_PRODUCT_INACTIVE_NOTE");
+			}
 		}
 	}
 
 	if (collectionIds !== undefined) {
-		const existingCollectionCount =
+		const existingCollections =
 			collectionIds.length === 0
-				? 0
-				: await tx.collection.count({
-						where: {
-							id: { in: collectionIds },
-						},
+				? []
+				: await tx.collection.findMany({
+						where: { id: { in: collectionIds } },
+						select: { id: true, isActive: true },
 					});
 
-		if (existingCollectionCount !== collectionIds.length) {
+		if (existingCollections.length !== collectionIds.length) {
 			throw new Error("ADMIN_PRODUCT_COLLECTION_NOT_FOUND");
+		}
+
+		const inactiveIds = existingCollections
+			.filter((collection) => !collection.isActive)
+			.map((collection) => collection.id);
+		if (inactiveIds.length > 0) {
+			const existingRelationCount =
+				productId === undefined
+					? 0
+					: await tx.productCollection.count({
+							where: {
+								productId,
+								collectionId: { in: inactiveIds },
+							},
+						});
+			if (existingRelationCount !== inactiveIds.length) {
+				throw new Error("ADMIN_PRODUCT_INACTIVE_COLLECTION");
+			}
 		}
 	}
 }
@@ -638,7 +686,12 @@ export function updateAdminProductRecord(
 		);
 		let removedStorageKeys: string[] = [];
 
-		await validateReferencedRelations(tx, input.notes, input.collectionIds);
+		await validateReferencedRelations(
+			tx,
+			input.notes,
+			input.collectionIds,
+			id,
+		);
 		await validateUniqueFields(tx, {
 			...(input.slug === undefined ? {} : { slug: input.slug }),
 			...(input.variants === undefined

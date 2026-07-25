@@ -142,10 +142,10 @@ export function ProductNotesSection() {
 											)?.name ??
 											"Unavailable note";
 										const isActive =
-											field.isActive ??
 											availableNotes.find(
 												(note) => note.id === field.noteId,
 											)?.isActive ??
+											field.isActive ??
 											false;
 
 										return (

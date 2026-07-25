@@ -76,6 +76,7 @@ export function AdminCollectionsPage() {
 	const [deactivateTarget, setDeactivateTarget] =
 		useState<AdminCollection | null>(null);
 	const [feedback, setFeedback] = useState<string | null>(null);
+	const [actionError, setActionError] = useState<string | null>(null);
 
 	const updateParams = (updates: Record<string, string | undefined>) => {
 		setSearchParams((current) => {
@@ -106,6 +107,7 @@ export function AdminCollectionsPage() {
 		setIsActive(collection?.isActive ?? true);
 		setSlugTouched(collection !== undefined);
 		setEditorError(null);
+		setActionError(null);
 	};
 
 	const saveCollection = async (event: FormEvent) => {
@@ -146,6 +148,7 @@ export function AdminCollectionsPage() {
 				setFeedback("Collection updated.");
 			}
 			setEditor(null);
+			setActionError(null);
 		} catch (error) {
 			setEditorError(errorMessage(error));
 		}
@@ -161,9 +164,9 @@ export function AdminCollectionsPage() {
 				input: { isActive: nextActive },
 			});
 			setFeedback(nextActive ? "Collection activated." : "Collection updated.");
+			setActionError(null);
 		} catch (error) {
-			setFeedback(null);
-			setEditorError(errorMessage(error));
+			setActionError(errorMessage(error));
 		}
 	};
 
@@ -173,8 +176,9 @@ export function AdminCollectionsPage() {
 			await deleteMutation.mutateAsync(deactivateTarget.id);
 			setFeedback("Collection deactivated.");
 			setDeactivateTarget(null);
+			setActionError(null);
 		} catch (error) {
-			setEditorError(errorMessage(error));
+			setActionError(errorMessage(error));
 		}
 	};
 
@@ -200,6 +204,11 @@ export function AdminCollectionsPage() {
 			{feedback === null ? null : (
 				<p className={styles.feedback} role="status">
 					{feedback}
+				</p>
+			)}
+			{actionError === null ? null : (
+				<p className={styles.error} role="alert">
+					{actionError}
 				</p>
 			)}
 
@@ -572,10 +581,17 @@ export function AdminCollectionsPage() {
 				onClose={() => setDeactivateTarget(null)}
 				title="Deactivate collection?"
 			>
-				<p>
-					{deactivateTarget?.name} will be hidden from new product selections
-					and public collection listings.
-				</p>
+				<>
+					<p>
+						{deactivateTarget?.name} will be hidden from new product
+						selections and public collection listings.
+					</p>
+					{actionError === null ? null : (
+						<p className={styles.error} role="alert">
+							{actionError}
+						</p>
+					)}
+				</>
 			</Modal>
 		</section>
 	);
