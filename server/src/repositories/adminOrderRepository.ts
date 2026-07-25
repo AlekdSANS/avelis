@@ -5,6 +5,10 @@ import {
 	adminOrderDetailSelect,
 	adminOrderSummarySelect,
 } from "../utils/adminOrderMapper.js";
+import type {
+	OrderStatus,
+	PaymentStatus,
+} from "../generated/prisma/enums.js";
 
 function buildAdminOrderWhere(
 	query: AdminOrderListQuery,
@@ -110,5 +114,101 @@ export function findAdminOrderByNumber(orderNumber: string) {
 	return prisma.order.findUnique({
 		where: { orderNumber },
 		select: adminOrderDetailSelect,
+	});
+}
+
+const transitionStateSelect = {
+	id: true,
+	status: true,
+	paymentStatus: true,
+	paymentMethod: true,
+	confirmedAt: true,
+	cancelledAt: true,
+} satisfies Prisma.OrderSelect;
+
+export type AdminOrderTransitionState = Prisma.OrderGetPayload<{
+	select: typeof transitionStateSelect;
+}>;
+
+export async function updateAdminOrderStatusAtomically(
+	orderNumber: string,
+	nextStatus: OrderStatus,
+	validate: (order: AdminOrderTransitionState) => void,
+) {
+	return prisma.$transaction(async (tx) => {
+		const current = await tx.order.findUnique({
+			where: { orderNumber },
+			select: transitionStateSelect,
+		});
+
+		if (current === null) {
+			throw new Error("ADMIN_ORDER_NOT_FOUND");
+		}
+
+		validate(current);
+		const now = new Date();
+		const updateResult = await tx.order.updateMany({
+			where: {
+				id: current.id,
+				status: current.status,
+				paymentStatus: current.paymentStatus,
+			},
+			data: {
+				status: nextStatus,
+				...(nextStatus === "CONFIRMED" && current.confirmedAt === null
+					? { confirmedAt: now }
+					: {}),
+				...(nextStatus === "CANCELLED" && current.cancelledAt === null
+					? { cancelledAt: now }
+					: {}),
+			},
+		});
+
+		if (updateResult.count !== 1) {
+			throw new Error("ADMIN_ORDER_TRANSITION_CONFLICT");
+		}
+
+		return tx.order.findUniqueOrThrow({
+			where: { orderNumber },
+			select: adminOrderDetailSelect,
+		});
+	});
+}
+
+export async function updateAdminPaymentStatusAtomically(
+	orderNumber: string,
+	nextStatus: PaymentStatus,
+	validate: (order: AdminOrderTransitionState) => void,
+) {
+	return prisma.$transaction(async (tx) => {
+		const current = await tx.order.findUnique({
+			where: { orderNumber },
+			select: transitionStateSelect,
+		});
+
+		if (current === null) {
+			throw new Error("ADMIN_ORDER_NOT_FOUND");
+		}
+
+		validate(current);
+		const updateResult = await tx.order.updateMany({
+			where: {
+				id: current.id,
+				status: current.status,
+				paymentStatus: current.paymentStatus,
+			},
+			data: {
+				paymentStatus: nextStatus,
+			},
+		});
+
+		if (updateResult.count !== 1) {
+			throw new Error("ADMIN_ORDER_TRANSITION_CONFLICT");
+		}
+
+		return tx.order.findUniqueOrThrow({
+			where: { orderNumber },
+			select: adminOrderDetailSelect,
+		});
 	});
 }

@@ -172,8 +172,15 @@ export function mapAdminOrderDetail(order: AdminOrderDetailRecord) {
 		createdAt: order.createdAt.toISOString(),
 		updatedAt: order.updatedAt.toISOString(),
 		allowedTransitions: {
-			orderStatus: getAllowedOrderStatusTransitions(order.status),
-			paymentStatus: getAllowedPaymentStatusTransitions(order.paymentStatus),
+			orderStatus: getAllowedOrderStatusTransitions({
+				status: order.status,
+				paymentStatus: order.paymentStatus,
+				paymentMethod: order.paymentMethod,
+			}),
+			paymentStatus: getAllowedPaymentStatusTransitions({
+				orderStatus: order.status,
+				paymentStatus: order.paymentStatus,
+			}),
 		},
 	};
 }
