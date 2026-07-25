@@ -30,6 +30,7 @@ export type CollectionMinAggregateOutputType = {
   name: string | null
   description: string | null
   imageUrl: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -40,6 +41,7 @@ export type CollectionMaxAggregateOutputType = {
   name: string | null
   description: string | null
   imageUrl: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +52,7 @@ export type CollectionCountAggregateOutputType = {
   name: number
   description: number
   imageUrl: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -62,6 +65,7 @@ export type CollectionMinAggregateInputType = {
   name?: true
   description?: true
   imageUrl?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -72,6 +76,7 @@ export type CollectionMaxAggregateInputType = {
   name?: true
   description?: true
   imageUrl?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +87,7 @@ export type CollectionCountAggregateInputType = {
   name?: true
   description?: true
   imageUrl?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -165,6 +171,7 @@ export type CollectionGroupByOutputType = {
   name: string
   description: string
   imageUrl: string | null
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: CollectionCountAggregateOutputType | null
@@ -196,6 +203,7 @@ export type CollectionWhereInput = {
   name?: Prisma.StringFilter<"Collection"> | string
   description?: Prisma.StringFilter<"Collection"> | string
   imageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  isActive?: Prisma.BoolFilter<"Collection"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   products?: Prisma.ProductCollectionListRelationFilter
@@ -207,6 +215,7 @@ export type CollectionOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   products?: Prisma.ProductCollectionOrderByRelationAggregateInput
@@ -221,6 +230,7 @@ export type CollectionWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Collection"> | string
   description?: Prisma.StringFilter<"Collection"> | string
   imageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  isActive?: Prisma.BoolFilter<"Collection"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   products?: Prisma.ProductCollectionListRelationFilter
@@ -232,6 +242,7 @@ export type CollectionOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CollectionCountOrderByAggregateInput
@@ -248,6 +259,7 @@ export type CollectionScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Collection"> | string
   description?: Prisma.StringWithAggregatesFilter<"Collection"> | string
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"Collection"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
 }
@@ -258,6 +270,7 @@ export type CollectionCreateInput = {
   name: string
   description: string
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCollectionCreateNestedManyWithoutCollectionInput
@@ -269,6 +282,7 @@ export type CollectionUncheckedCreateInput = {
   name: string
   description: string
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCollectionUncheckedCreateNestedManyWithoutCollectionInput
@@ -280,6 +294,7 @@ export type CollectionUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductCollectionUpdateManyWithoutCollectionNestedInput
@@ -291,6 +306,7 @@ export type CollectionUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductCollectionUncheckedUpdateManyWithoutCollectionNestedInput
@@ -302,6 +318,7 @@ export type CollectionCreateManyInput = {
   name: string
   description: string
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -312,6 +329,7 @@ export type CollectionUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -322,6 +340,7 @@ export type CollectionUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -332,6 +351,7 @@ export type CollectionCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -342,6 +362,7 @@ export type CollectionMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -352,6 +373,7 @@ export type CollectionMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -381,6 +403,7 @@ export type CollectionCreateWithoutProductsInput = {
   name: string
   description: string
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -391,6 +414,7 @@ export type CollectionUncheckedCreateWithoutProductsInput = {
   name: string
   description: string
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -417,6 +441,7 @@ export type CollectionUpdateWithoutProductsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -427,6 +452,7 @@ export type CollectionUncheckedUpdateWithoutProductsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -468,6 +494,7 @@ export type CollectionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   name?: boolean
   description?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   products?: boolean | Prisma.Collection$productsArgs<ExtArgs>
@@ -480,6 +507,7 @@ export type CollectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   description?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["collection"]>
@@ -490,6 +518,7 @@ export type CollectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   description?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["collection"]>
@@ -500,11 +529,12 @@ export type CollectionSelectScalar = {
   name?: boolean
   description?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "description" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
+export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "description" | "imageUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
 export type CollectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.Collection$productsArgs<ExtArgs>
   _count?: boolean | Prisma.CollectionCountOutputTypeDefaultArgs<ExtArgs>
@@ -523,6 +553,7 @@ export type $CollectionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     name: string
     description: string
     imageUrl: string | null
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["collection"]>
@@ -954,6 +985,7 @@ export interface CollectionFieldRefs {
   readonly name: Prisma.FieldRef<"Collection", 'String'>
   readonly description: Prisma.FieldRef<"Collection", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Collection", 'String'>
+  readonly isActive: Prisma.FieldRef<"Collection", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Collection", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Collection", 'DateTime'>
 }

@@ -161,6 +161,9 @@ export const ProductImageScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   url: 'url',
+  storageKey: 'storageKey',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
   alt: 'alt',
   position: 'position',
   isPrimary: 'isPrimary',
@@ -173,7 +176,10 @@ export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[k
 
 export const NoteScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
@@ -195,6 +201,7 @@ export const CollectionScalarFieldEnum = {
   name: 'name',
   description: 'description',
   imageUrl: 'imageUrl',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

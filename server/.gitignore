@@ -3,3 +3,7 @@ node_modules
 .env
 
 /generated/prisma
+
+# Product uploads are runtime data; keep only the directory marker.
+uploads/*
+!uploads/.gitkeep

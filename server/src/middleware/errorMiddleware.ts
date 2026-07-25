@@ -1,8 +1,19 @@
 import type { ErrorRequestHandler } from "express";
+import multer from "multer";
 import { ZodError } from "zod";
 import { HttpError } from "../utils/httpError.js";
 
 export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
+	if (error instanceof multer.MulterError) {
+		const isSizeError = error.code === "LIMIT_FILE_SIZE";
+		res.status(isSizeError ? 413 : 400).json({
+			message: isSizeError
+				? "Each image must be 8 MB or smaller"
+				: "The image upload request is invalid",
+		});
+		return;
+	}
+
 	if (error instanceof ZodError) {
 		res.status(400).json({
 			message: "Invalid request parameters",

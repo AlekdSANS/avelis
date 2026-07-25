@@ -8,10 +8,15 @@ import authRoutes from "./routes/authRoutes.js";
 import collectionRoutes from "./routes/collectionRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import { UPLOAD_ROOT } from "./storage/localImageStorage.js";
 
 const app = express();
 
-app.use(helmet());
+app.use(
+	helmet({
+		crossOriginResourcePolicy: { policy: "cross-origin" },
+	}),
+);
 
 app.use(
 	cors({
@@ -25,6 +30,15 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+	"/uploads",
+	express.static(UPLOAD_ROOT, {
+		dotfiles: "deny",
+		fallthrough: true,
+		index: false,
+		maxAge: process.env.NODE_ENV === "production" ? "7d" : 0,
+	}),
+);
 
 app.get("/api/health", (_req, res) => {
 	res.status(200).json({
