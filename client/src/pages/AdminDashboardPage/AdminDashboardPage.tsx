@@ -75,7 +75,12 @@ function RecentOrderDesktopRow({ order }: { order: AdminRecentOrder }) {
 	return (
 		<tr>
 			<td>
-				<strong className={styles.orderNumber}>{order.orderNumber}</strong>
+				<Link
+					className={styles.orderNumber}
+					to={`/admin/orders/${encodeURIComponent(order.orderNumber)}`}
+				>
+					{order.orderNumber}
+				</Link>
 			</td>
 			<td>{order.customerName}</td>
 			<td>
@@ -104,7 +109,12 @@ function RecentOrderMobileCard({ order }: { order: AdminRecentOrder }) {
 			<div className={styles.orderCardHeading}>
 				<div>
 					<p>Order</p>
-					<strong className={styles.orderNumber}>{order.orderNumber}</strong>
+					<Link
+						className={styles.orderNumber}
+						to={`/admin/orders/${encodeURIComponent(order.orderNumber)}`}
+					>
+						{order.orderNumber}
+					</Link>
 				</div>
 				<Price currency={order.currency} value={order.total} />
 			</div>
@@ -203,7 +213,7 @@ export function AdminDashboardPage() {
 					</p>
 				</div>
 				<div className={styles.quickActions} aria-label="Quick actions">
-					<Link className={styles.primaryLink} to="/admin/products">
+					<Link className={styles.primaryLink} to="/admin/products/new">
 						<Plus aria-hidden="true" />
 						Add product
 					</Link>
@@ -328,24 +338,24 @@ export function AdminDashboardPage() {
 								<Package aria-hidden="true" />
 							</div>
 							<div className={styles.actionList}>
-								<Link to="/admin/products">
+								<Link to="/admin/products/new">
 									<span>
 										<strong>Add a product</strong>
-										<small>Product tools arrive in Admin Part 2</small>
+										<small>Open the complete product editor</small>
 									</span>
 									<ArrowRight aria-hidden="true" />
 								</Link>
 								<Link to="/admin/products">
 									<span>
 										<strong>View products</strong>
-										<small>Open the product workspace placeholder</small>
+										<small>Manage catalogue, stock, and visibility</small>
 									</span>
 									<ArrowRight aria-hidden="true" />
 								</Link>
 								<Link to="/admin/orders">
 									<span>
 										<strong>View orders</strong>
-										<small>Open the order workspace placeholder</small>
+										<small>Review fulfilment and payment status</small>
 									</span>
 									<ArrowRight aria-hidden="true" />
 								</Link>

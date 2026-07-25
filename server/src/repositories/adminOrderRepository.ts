@@ -16,37 +16,39 @@ function buildAdminOrderWhere(
 	const where: Prisma.OrderWhereInput = {};
 
 	if (query.search !== undefined) {
-		where.OR = [
-			{
-				orderNumber: {
-					contains: query.search,
-					mode: "insensitive",
+		where.AND = query.search.split(/\s+/).map((searchTerm) => ({
+			OR: [
+				{
+					orderNumber: {
+						contains: searchTerm,
+						mode: "insensitive",
+					},
 				},
-			},
-			{
-				customerEmail: {
-					contains: query.search,
-					mode: "insensitive",
+				{
+					customerEmail: {
+						contains: searchTerm,
+						mode: "insensitive",
+					},
 				},
-			},
-			{
-				customerFirstName: {
-					contains: query.search,
-					mode: "insensitive",
+				{
+					customerFirstName: {
+						contains: searchTerm,
+						mode: "insensitive",
+					},
 				},
-			},
-			{
-				customerLastName: {
-					contains: query.search,
-					mode: "insensitive",
+				{
+					customerLastName: {
+						contains: searchTerm,
+						mode: "insensitive",
+					},
 				},
-			},
-			{
-				customerPhone: {
-					contains: query.search,
+				{
+					customerPhone: {
+						contains: searchTerm,
+					},
 				},
-			},
-		];
+			],
+		}));
 	}
 
 	if (query.status !== undefined) where.status = query.status;

@@ -30,9 +30,17 @@ function dateBoundary(position: "start" | "end") {
 		.string()
 		.trim()
 		.regex(/^\d{4}-\d{2}-\d{2}$/, "Date must use YYYY-MM-DD")
-		.refine((value) => !Number.isNaN(Date.parse(`${value}T00:00:00.000Z`)), {
-			message: "Date is invalid",
-		})
+		.refine((value) => {
+			const [year, month, day] = value.split("-").map(Number);
+			const date = new Date(`${value}T00:00:00.000Z`);
+
+			return (
+				!Number.isNaN(date.getTime()) &&
+				date.getUTCFullYear() === year &&
+				date.getUTCMonth() + 1 === month &&
+				date.getUTCDate() === day
+			);
+		}, "Date is invalid")
 		.transform(
 			(value) =>
 				new Date(
@@ -50,8 +58,20 @@ export const adminOrderListQuerySchema = z
 		shippingMethod: shippingMethodSchema.optional(),
 		dateFrom: dateBoundary("start").optional(),
 		dateTo: dateBoundary("end").optional(),
-		minTotal: z.coerce.number().nonnegative().max(99_999_999).optional(),
-		maxTotal: z.coerce.number().nonnegative().max(99_999_999).optional(),
+		minTotal: z.preprocess(
+			(value) =>
+				typeof value === "string" && value.trim() === ""
+					? Number.NaN
+					: value,
+			z.coerce.number().nonnegative().max(99_999_999),
+		).optional(),
+		maxTotal: z.preprocess(
+			(value) =>
+				typeof value === "string" && value.trim() === ""
+					? Number.NaN
+					: value,
+			z.coerce.number().nonnegative().max(99_999_999),
+		).optional(),
 		sort: z
 			.enum(["newest", "oldest", "total-asc", "total-desc"])
 			.default("newest"),

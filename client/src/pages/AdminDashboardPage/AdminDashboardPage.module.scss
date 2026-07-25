@@ -308,10 +308,16 @@
 .orderNumber {
 	display: block;
 	max-width: 17rem;
+	border-bottom: 1px solid transparent;
 	overflow-wrap: anywhere;
 	color: var(--color-text);
 	font-size: 0.73rem;
 	line-height: 1.35;
+}
+
+.orderNumber:hover {
+	border-color: currentColor;
+	color: var(--color-olive);
 }
 
 .statusLabel {

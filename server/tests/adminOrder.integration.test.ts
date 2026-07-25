@@ -132,7 +132,7 @@ test("admin order management", async (t) => {
 			"lists real summaries with filtering, sorting, and pagination",
 			async () => {
 				const query = adminOrderListQuerySchema.parse({
-					search: tag,
+					search: `Admin Customer ${tag}`,
 					status: "PENDING_PAYMENT",
 					paymentStatus: "PENDING",
 					paymentMethod: "CARD",
@@ -156,6 +156,12 @@ test("admin order management", async (t) => {
 					`/test/${tag}/order.webp`,
 				);
 				assert.equal("shippingAddress" in (result.data[0] ?? {}), false);
+				assert.equal(
+					adminOrderListQuerySchema.safeParse({
+						dateFrom: "2026-02-31",
+					}).success,
+					false,
+				);
 			},
 		);
 

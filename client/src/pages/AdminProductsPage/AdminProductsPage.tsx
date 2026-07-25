@@ -707,7 +707,7 @@ export function AdminProductsPage() {
 					<p>
 						{activeFilters.length > 0
 							? "Adjust or clear the filters to review the rest of the catalogue."
-							: "Use Add product to open the Part 2B form placeholder."}
+							: "Use Add product to create the first catalogue entry."}
 					</p>
 					{activeFilters.length > 0 ? (
 						<Button onClick={clearFilters} variant="secondary">
