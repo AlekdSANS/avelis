@@ -1,6 +1,8 @@
 import { Edit3, FolderOpen, Plus, RefreshCcw, Search } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../components/ui/Button/Button";
 import { Input } from "../../components/ui/Input/Input";
 import { Modal } from "../../components/ui/Modal/Modal";
@@ -13,6 +15,10 @@ import {
 	useDeleteAdminCollection,
 	useUpdateAdminCollection,
 } from "../../features/admin/hooks/useAdminCollections";
+import {
+	adminCollectionFormSchema,
+	type AdminCollectionFormValues,
+} from "../../features/admin/references/adminReferenceFormSchemas";
 import { ProductImage } from "../../features/products/components/ProductImage";
 import { ApiClientError } from "../../services/apiClient";
 import type { AdminCollection } from "../../types/adminCollection";
@@ -66,13 +72,21 @@ export function AdminCollectionsPage() {
 	const updateMutation = useUpdateAdminCollection();
 	const deleteMutation = useDeleteAdminCollection();
 	const [editor, setEditor] = useState<AdminCollection | "new" | null>(null);
-	const [name, setName] = useState("");
-	const [slug, setSlug] = useState("");
-	const [description, setDescription] = useState("");
-	const [imageUrl, setImageUrl] = useState("");
-	const [isActive, setIsActive] = useState(true);
+	const collectionForm = useForm<AdminCollectionFormValues>({
+		defaultValues: {
+			name: "",
+			slug: "",
+			description: "",
+			imageUrl: "",
+			isActive: true,
+		},
+		resolver: zodResolver(adminCollectionFormSchema),
+	});
+	const previewImageUrl = useWatch({
+		control: collectionForm.control,
+		name: "imageUrl",
+	});
 	const [slugTouched, setSlugTouched] = useState(false);
-	const [editorError, setEditorError] = useState<string | null>(null);
 	const [deactivateTarget, setDeactivateTarget] =
 		useState<AdminCollection | null>(null);
 	const [feedback, setFeedback] = useState<string | null>(null);
@@ -100,43 +114,27 @@ export function AdminCollectionsPage() {
 
 	const openEditor = (collection?: AdminCollection) => {
 		setEditor(collection ?? "new");
-		setName(collection?.name ?? "");
-		setSlug(collection?.slug ?? "");
-		setDescription(collection?.description ?? "");
-		setImageUrl(collection?.imageUrl ?? "");
-		setIsActive(collection?.isActive ?? true);
+		collectionForm.reset({
+			name: collection?.name ?? "",
+			slug: collection?.slug ?? "",
+			description: collection?.description ?? "",
+			imageUrl: collection?.imageUrl ?? "",
+			isActive: collection?.isActive ?? true,
+		});
 		setSlugTouched(collection !== undefined);
-		setEditorError(null);
 		setActionError(null);
 	};
 
-	const saveCollection = async (event: FormEvent) => {
-		event.preventDefault();
-		const normalizedSlug = createSlug(slug);
-		if (name.trim().length === 0 || normalizedSlug.length === 0) {
-			setEditorError("Collection name and slug are required.");
-			return;
-		}
-		if (description.trim().length === 0) {
-			setEditorError("Collection description is required.");
-			return;
-		}
-		if (
-			imageUrl.trim().length > 0 &&
-			!imageUrl.startsWith("/") &&
-			!imageUrl.startsWith("http://") &&
-			!imageUrl.startsWith("https://")
-		) {
-			setEditorError("Use an absolute image URL or root-relative path.");
-			return;
-		}
-
+	const saveCollection = async (values: AdminCollectionFormValues) => {
 		const input = {
-			name: name.trim(),
-			slug: normalizedSlug,
-			description: description.trim(),
-			imageUrl: imageUrl.trim().length === 0 ? null : imageUrl.trim(),
-			isActive,
+			name: values.name.trim(),
+			slug: createSlug(values.slug),
+			description: values.description.trim(),
+			imageUrl:
+				values.imageUrl.trim().length === 0
+					? null
+					: values.imageUrl.trim(),
+			isActive: values.isActive,
 		};
 
 		try {
@@ -150,7 +148,9 @@ export function AdminCollectionsPage() {
 			setEditor(null);
 			setActionError(null);
 		} catch (error) {
-			setEditorError(errorMessage(error));
+			collectionForm.setError("root.server", {
+				message: errorMessage(error),
+			});
 		}
 	};
 
@@ -489,71 +489,136 @@ export function AdminCollectionsPage() {
 				<form
 					className={styles.editorForm}
 					id="admin-collection-form"
-					onSubmit={(event) => void saveCollection(event)}
+					onSubmit={collectionForm.handleSubmit(saveCollection)}
 				>
 					<div className={styles.editorGrid}>
 						<label>
 							<span>Name</span>
 							<Input
+								aria-describedby={
+									collectionForm.formState.errors.name
+										? "admin-collection-name-error"
+										: undefined
+								}
+								aria-invalid={Boolean(
+									collectionForm.formState.errors.name,
+								)}
 								autoFocus
 								maxLength={160}
-								onChange={(event) => {
-									setName(event.target.value);
-									if (!slugTouched) setSlug(createSlug(event.target.value));
-								}}
-								value={name}
+								{...collectionForm.register("name", {
+									onChange: (event) => {
+										if (!slugTouched) {
+											collectionForm.setValue(
+												"slug",
+												createSlug(String(event.target.value)),
+												{ shouldValidate: true },
+											);
+										}
+									},
+								})}
 							/>
+							{collectionForm.formState.errors.name?.message ? (
+								<small
+									className={styles.error}
+									id="admin-collection-name-error"
+								>
+									{collectionForm.formState.errors.name.message}
+								</small>
+							) : null}
 						</label>
 						<label>
 							<span>Slug</span>
 							<Input
+								aria-describedby={
+									collectionForm.formState.errors.slug
+										? "admin-collection-slug-error"
+										: undefined
+								}
+								aria-invalid={Boolean(
+									collectionForm.formState.errors.slug,
+								)}
 								maxLength={120}
-								onChange={(event) => {
-									setSlugTouched(true);
-									setSlug(event.target.value);
-								}}
-								value={slug}
+								{...collectionForm.register("slug", {
+									onChange: () => setSlugTouched(true),
+								})}
 							/>
+							{collectionForm.formState.errors.slug?.message ? (
+								<small
+									className={styles.error}
+									id="admin-collection-slug-error"
+								>
+									{collectionForm.formState.errors.slug.message}
+								</small>
+							) : null}
 						</label>
 					</div>
 					<label>
 						<span>Description</span>
 						<textarea
+							aria-describedby={
+								collectionForm.formState.errors.description
+									? "admin-collection-description-error"
+									: undefined
+							}
+							aria-invalid={Boolean(
+								collectionForm.formState.errors.description,
+							)}
 							maxLength={2_000}
-							onChange={(event) => setDescription(event.target.value)}
 							rows={5}
-							value={description}
+							{...collectionForm.register("description")}
 						/>
+						{collectionForm.formState.errors.description?.message ? (
+							<small
+								className={styles.error}
+								id="admin-collection-description-error"
+							>
+								{collectionForm.formState.errors.description.message}
+							</small>
+						) : null}
 					</label>
 					<label>
 						<span>Image URL or path</span>
 						<Input
+							aria-describedby={
+								collectionForm.formState.errors.imageUrl
+									? "admin-collection-image-error"
+									: undefined
+							}
+							aria-invalid={Boolean(
+								collectionForm.formState.errors.imageUrl,
+							)}
 							maxLength={2_000}
-							onChange={(event) => setImageUrl(event.target.value)}
 							placeholder="/images/collections/summer.webp"
-							value={imageUrl}
+							{...collectionForm.register("imageUrl")}
 						/>
+						{collectionForm.formState.errors.imageUrl?.message ? (
+							<small
+								className={styles.error}
+								id="admin-collection-image-error"
+							>
+								{collectionForm.formState.errors.imageUrl.message}
+							</small>
+						) : null}
 					</label>
-					{imageUrl.length > 0 ? (
+					{previewImageUrl.length > 0 ? (
 						<ProductImage
 							alt="Collection image preview"
 							className={styles.imagePreview}
-							src={imageUrl}
+							src={previewImageUrl}
 						/>
 					) : null}
 					<label className={styles.check}>
 						<input
-							checked={isActive}
-							onChange={(event) => setIsActive(event.target.checked)}
 							type="checkbox"
+							{...collectionForm.register("isActive")}
 						/>
 						<span>Available for new product selections</span>
 					</label>
-					{editorError === null ? null : (
+					{collectionForm.formState.errors.root?.server?.message ? (
 						<p className={styles.error} role="alert">
-							{editorError}
+							{collectionForm.formState.errors.root.server.message}
 						</p>
-					)}
+					) : null}
 				</form>
 			</Modal>
 

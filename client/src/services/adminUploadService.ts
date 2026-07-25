@@ -16,7 +16,6 @@ export const adminUploadService = {
 			"/admin/uploads/products",
 			formData,
 			{
-				headers: { "Content-Type": "multipart/form-data" },
 				onUploadProgress: (event) => {
 					if (event.total === undefined || event.total <= 0) {
 						return;

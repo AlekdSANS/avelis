@@ -1,6 +1,8 @@
 import { Edit3, Leaf, Plus, RefreshCcw, Search } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../components/ui/Button/Button";
 import { Input } from "../../components/ui/Input/Input";
 import { Modal } from "../../components/ui/Modal/Modal";
@@ -13,6 +15,10 @@ import {
 	useDeleteAdminNote,
 	useUpdateAdminNote,
 } from "../../features/admin/hooks/useAdminNotes";
+import {
+	adminNoteFormSchema,
+	type AdminNoteFormValues,
+} from "../../features/admin/references/adminReferenceFormSchemas";
 import { ApiClientError } from "../../services/apiClient";
 import type {
 	AdminNote,
@@ -56,9 +62,10 @@ export function AdminNotesPage() {
 	const updateMutation = useUpdateAdminNote();
 	const deleteMutation = useDeleteAdminNote();
 	const [editor, setEditor] = useState<AdminNote | "new" | null>(null);
-	const [name, setName] = useState("");
-	const [isActive, setIsActive] = useState(true);
-	const [editorError, setEditorError] = useState<string | null>(null);
+	const noteForm = useForm<AdminNoteFormValues>({
+		defaultValues: { name: "", isActive: true },
+		resolver: zodResolver(adminNoteFormSchema),
+	});
 	const [deactivateTarget, setDeactivateTarget] = useState<AdminNote | null>(
 		null,
 	);
@@ -89,38 +96,37 @@ export function AdminNotesPage() {
 
 	const openEditor = (note?: AdminNote) => {
 		setEditor(note ?? "new");
-		setName(note?.name ?? "");
-		setIsActive(note?.isActive ?? true);
-		setEditorError(null);
+		noteForm.reset({
+			name: note?.name ?? "",
+			isActive: note?.isActive ?? true,
+		});
 		setActionError(null);
 	};
 
-	const saveNote = async (event: FormEvent) => {
-		event.preventDefault();
-		const normalizedName = name.trim().replace(/\s+/g, " ");
-		if (normalizedName.length === 0) {
-			setEditorError("Note name is required.");
-			return;
-		}
-
+	const saveNote = async (values: AdminNoteFormValues) => {
 		try {
 			if (editor === "new") {
 				await createMutation.mutateAsync({
-					name: normalizedName,
-					isActive,
+					name: values.name.trim().replace(/\s+/g, " "),
+					isActive: values.isActive,
 				});
 				setFeedback("Fragrance note created.");
 			} else if (editor !== null) {
 				await updateMutation.mutateAsync({
 					id: editor.id,
-					input: { name: normalizedName, isActive },
+					input: {
+						name: values.name.trim().replace(/\s+/g, " "),
+						isActive: values.isActive,
+					},
 				});
 				setFeedback("Fragrance note updated.");
 			}
 			setEditor(null);
 			setActionError(null);
 		} catch (error) {
-			setEditorError(mutationMessage(error));
+			noteForm.setError("root.server", {
+				message: mutationMessage(error),
+			});
 		}
 	};
 
@@ -405,31 +411,37 @@ export function AdminNotesPage() {
 				<form
 					className={styles.editorForm}
 					id="admin-note-form"
-					onSubmit={(event) => void saveNote(event)}
+					onSubmit={noteForm.handleSubmit(saveNote)}
 				>
 					<label>
 						<span>Name</span>
 						<Input
+							aria-describedby={
+								noteForm.formState.errors.name
+									? "admin-note-name-error"
+									: undefined
+							}
+							aria-invalid={Boolean(noteForm.formState.errors.name)}
 							autoComplete="off"
 							autoFocus
 							maxLength={120}
-							onChange={(event) => setName(event.target.value)}
-							value={name}
+							{...noteForm.register("name")}
 						/>
+						{noteForm.formState.errors.name?.message ? (
+							<small className={styles.error} id="admin-note-name-error">
+								{noteForm.formState.errors.name.message}
+							</small>
+						) : null}
 					</label>
 					<label className={styles.check}>
-						<input
-							checked={isActive}
-							onChange={(event) => setIsActive(event.target.checked)}
-							type="checkbox"
-						/>
+						<input type="checkbox" {...noteForm.register("isActive")} />
 						<span>Available for new product selections</span>
 					</label>
-					{editorError === null ? null : (
+					{noteForm.formState.errors.root?.server?.message ? (
 						<p className={styles.error} role="alert">
-							{editorError}
+							{noteForm.formState.errors.root.server.message}
 						</p>
-					)}
+					) : null}
 				</form>
 			</Modal>
 

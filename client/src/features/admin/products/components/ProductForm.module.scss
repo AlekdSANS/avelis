@@ -413,6 +413,32 @@
 	padding-left: var(--space-3);
 }
 
+.imageTypeGuide {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--space-2);
+	margin-bottom: var(--space-4);
+}
+
+.imageTypeGuide div {
+	display: grid;
+	gap: var(--space-1);
+	border-left: 1px solid var(--color-border);
+	padding-left: var(--space-3);
+}
+
+.imageTypeGuide dt {
+	font-size: 0.64rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.imageTypeGuide dd {
+	color: var(--color-text-muted);
+	font-size: 0.65rem;
+	line-height: 1.4;
+}
+
 .checkGroups {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -999,6 +1025,10 @@
 	.uploadZone label {
 		grid-column: 1 / -1;
 	}
+
+	.imageTypeGuide {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 @media (max-width: 29.99rem) {
@@ -1034,5 +1064,9 @@
 
 	.uploadActions {
 		justify-content: flex-start;
+	}
+
+	.imageTypeGuide {
+		grid-template-columns: 1fr;
 	}
 }

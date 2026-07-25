@@ -15,6 +15,8 @@ import {
 } from "react-hook-form";
 
 import { Input } from "../../../../components/ui/Input/Input";
+import { Button } from "../../../../components/ui/Button/Button";
+import { Modal } from "../../../../components/ui/Modal/Modal";
 import { Select } from "../../../../components/ui/Select/Select";
 import { ApiClientError } from "../../../../services/apiClient";
 import { useDeleteAdminProductUpload, useUploadAdminProductImages } from "../../hooks/useAdminUploads";
@@ -63,6 +65,9 @@ export function ProductImagesSection() {
 		message: string;
 	} | null>(null);
 	const [isDragActive, setIsDragActive] = useState(false);
+	const [primaryRemovalIndex, setPrimaryRemovalIndex] = useState<
+		number | null
+	>(null);
 
 	const normalizePositions = () => {
 		getValues("images").forEach((_image, index) => {
@@ -125,6 +130,15 @@ export function ProductImagesSection() {
 				shouldValidate: true,
 			});
 		});
+	};
+
+	const requestImageRemoval = (index: number) => {
+		if (getValues(`images.${index}.isPrimary`)) {
+			setPrimaryRemovalIndex(index);
+			return;
+		}
+
+		void removeImage(index);
 	};
 
 	const uploadFile = async (entry: PendingUpload) => {
@@ -283,6 +297,24 @@ export function ProductImagesSection() {
 					/>
 				</label>
 			</div>
+			<dl className={styles.imageTypeGuide}>
+				<div>
+					<dt>Main</dt>
+					<dd>Core product presentation</dd>
+				</div>
+				<div>
+					<dt>Gallery</dt>
+					<dd>Additional product view</dd>
+				</div>
+				<div>
+					<dt>Hover</dt>
+					<dd>Alternate catalogue-card view</dd>
+				</div>
+				<div>
+					<dt>Refill</dt>
+					<dd>Refill-specific presentation</dd>
+				</div>
+			</dl>
 
 			{pendingUploads.length > 0 ? (
 				<ul
@@ -497,7 +529,7 @@ export function ProductImagesSection() {
 									<button
 										aria-label={`Remove image ${index + 1}`}
 										disabled={isDeleting}
-										onClick={() => void removeImage(index)}
+										onClick={() => requestImageRemoval(index)}
 										type="button"
 									>
 										<Trash2 aria-hidden="true" />
@@ -509,6 +541,39 @@ export function ProductImagesSection() {
 					})}
 				</div>
 			)}
+
+			<Modal
+				description="Primary imagery is used as the product's default presentation."
+				footer={
+					<>
+						<Button
+							onClick={() => setPrimaryRemovalIndex(null)}
+							variant="secondary"
+						>
+							Keep image
+						</Button>
+						<Button
+							onClick={() => {
+								if (primaryRemovalIndex === null) return;
+								const index = primaryRemovalIndex;
+								setPrimaryRemovalIndex(null);
+								void removeImage(index);
+							}}
+						>
+							Remove primary image
+						</Button>
+					</>
+				}
+				isOpen={primaryRemovalIndex !== null}
+				onClose={() => setPrimaryRemovalIndex(null)}
+				title="Remove the primary image?"
+			>
+				<p>
+					{getValues("images").length > 1
+						? "The next image will become primary. Review that choice before saving."
+						: "The product will have no image until another one is added."}
+				</p>
+			</Modal>
 		</section>
 	);
 }
