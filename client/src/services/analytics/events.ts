@@ -17,6 +17,10 @@ import type {
   WishlistEvent,
 } from "./types";
 
+function calculateItemValue(item: AnalyticsItem): number {
+  return Math.round(item.price * item.quantity * 100) / 100;
+}
+
 export function createViewItemListEvent(
   itemListId: string,
   itemListName: string,
@@ -55,7 +59,7 @@ export function createViewItemEvent(
     event: "view_item",
     ecommerce: {
       currency,
-      value: item.price * item.quantity,
+      value: calculateItemValue(item),
       items: [item],
     },
   };
@@ -69,7 +73,7 @@ export function createAddToCartEvent(
     event: "add_to_cart",
     ecommerce: {
       currency,
-      value: item.price * item.quantity,
+      value: calculateItemValue(item),
       items: [item],
     },
   };
@@ -83,7 +87,7 @@ export function createRemoveFromCartEvent(
     event: "remove_from_cart",
     ecommerce: {
       currency,
-      value: item.price * item.quantity,
+      value: calculateItemValue(item),
       items: [item],
     },
   };
@@ -174,7 +178,7 @@ export function createWishlistEvent(
     event: action === "add" ? "add_to_wishlist" : "remove_from_wishlist",
     ecommerce: {
       currency,
-      value: item.price * item.quantity,
+      value: calculateItemValue(item),
       items: [item],
     },
   };

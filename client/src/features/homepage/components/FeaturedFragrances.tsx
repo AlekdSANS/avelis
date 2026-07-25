@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
@@ -22,9 +22,14 @@ type FeaturedFragrancesProps = {
 export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
   const location = useLocation();
   const featuredQuery = useFeaturedProducts(4);
-  const featuredProducts = featuredQuery.data ?? [];
+  const featuredProducts = useMemo(
+    () => featuredQuery.data ?? [],
+    [featuredQuery.data],
+  );
   const [selectedSlug, setSelectedSlug] = useState(activeSlug);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Product query data and
+     the parent-controlled active fragrance are external selection sources. */
   useEffect(() => {
     if (featuredProducts.some((product) => product.slug === activeSlug)) {
       setSelectedSlug(activeSlug);
@@ -35,6 +40,7 @@ export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
       setSelectedSlug(featuredProducts[0].slug);
     }
   }, [activeSlug, featuredProducts]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     if (!featuredQuery.isLoading && !featuredQuery.isError) {

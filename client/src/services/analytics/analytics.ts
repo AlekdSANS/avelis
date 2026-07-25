@@ -47,10 +47,12 @@ function emitOnce(key: string, emit: () => boolean): boolean {
 }
 
 function getCartValue(items: readonly CartItem[]): number {
-  return items.reduce(
-    (total, item) => total + item.variant.price * item.quantity,
+  const valueCents = items.reduce(
+    (total, item) =>
+      total + Math.round(item.variant.price * 100) * item.quantity,
     0,
   );
+  return valueCents / 100;
 }
 
 export function trackViewItemList(

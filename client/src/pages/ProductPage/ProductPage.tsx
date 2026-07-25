@@ -70,6 +70,8 @@ export function ProductPage() {
     slug: string;
   }>();
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Query-backed product
+     changes must reset the selected purchasable variant and related UI state. */
   useEffect(() => {
     if (!product) {
       return;
@@ -91,6 +93,7 @@ export function ProductPage() {
     setQuantityState({ slug: product.slug, value: 1 });
     setBagStatusState(undefined);
   }, [product, selectedVariantState]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const selectedVariantId =
     product && selectedVariantState?.slug === product.slug

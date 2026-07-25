@@ -1,4 +1,5 @@
 import { hasAnalyticsConsent } from "./consent";
+import { canEmitAnalytics, isAdminRoute } from "./policy";
 import type {
   AnalyticsEvent,
   DataLayerEntry,
@@ -13,10 +14,6 @@ const recentEvents: AnalyticsEvent[] = [];
 
 function isEcommerceEvent(event: AnalyticsEvent): event is EcommerceEvent {
   return "ecommerce" in event;
-}
-
-export function isAdminRoute(pathname: string): boolean {
-  return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
 function getCurrentPathname(): string {
@@ -62,14 +59,21 @@ function exposeDebugHelper(): void {
 
 export function pushToDataLayer(event: AnalyticsEvent): boolean {
   try {
-    if (isAdminRoute(getCurrentPathname())) {
+    const pathname = getCurrentPathname();
+    if (isAdminRoute(pathname)) {
       return false;
     }
 
     debugEvent(event);
     exposeDebugHelper();
 
-    if (!ANALYTICS_ENABLED || !hasAnalyticsConsent()) {
+    if (
+      !canEmitAnalytics({
+        analyticsEnabled: ANALYTICS_ENABLED,
+        consentGranted: hasAnalyticsConsent(),
+        pathname,
+      })
+    ) {
       return false;
     }
 

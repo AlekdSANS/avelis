@@ -11,6 +11,7 @@ import { ApiClientError } from "../../services/apiClient";
 import { Button } from "../../components/ui/Button/Button";
 import { IconButton } from "../../components/ui/IconButton/IconButton";
 import { Input } from "../../components/ui/Input/Input";
+import { trackAuth } from "../../services/analytics";
 
 const registerSchema = z
 	.object({
@@ -79,14 +80,17 @@ export function RegisterPage() {
 	});
 	const isSubmitting = registerMutation.isPending;
 
-	const onSubmit = async ({
-		confirmPassword: _confirmPassword,
-		...values
-	}: RegisterFormValues) => {
+	const onSubmit = async (values: RegisterFormValues) => {
 		setServerError(null);
 
 		try {
-			await registerMutation.mutateAsync(values);
+			const response = await registerMutation.mutateAsync({
+				firstName: values.firstName,
+				lastName: values.lastName,
+				email: values.email,
+				password: values.password,
+			});
+			trackAuth("sign_up", response.data.user.role);
 			navigate(getSafeRedirect(location.state), { replace: true });
 		} catch (error) {
 			setServerError(getRegisterErrorMessage(error));

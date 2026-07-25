@@ -11,6 +11,7 @@ import { ApiClientError } from "../../services/apiClient";
 import { Button } from "../../components/ui/Button/Button";
 import { IconButton } from "../../components/ui/IconButton/IconButton";
 import { Input } from "../../components/ui/Input/Input";
+import { trackAuth } from "../../services/analytics";
 
 const loginSchema = z.object({
 	email: z.string().trim().email("Enter a valid email address."),
@@ -60,7 +61,8 @@ export function LoginPage() {
 		setServerError(null);
 
 		try {
-			await login.mutateAsync(values);
+			const response = await login.mutateAsync(values);
+			trackAuth("login", response.data.user.role);
 			navigate(getSafeRedirect(location.state), { replace: true });
 		} catch (error) {
 			if (error instanceof ApiClientError) {

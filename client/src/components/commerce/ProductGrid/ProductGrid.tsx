@@ -17,6 +17,7 @@ type ProductGridProps = {
   errorMessage?: string;
   itemListId?: string;
   itemListName?: string;
+  listDataReady?: boolean;
   items: ProductGridItem[];
   onRetry?: () => void;
   onWishlistToggle?: (productId: string) => void;
@@ -29,6 +30,7 @@ export function ProductGrid({
   errorMessage = "The fragrance catalogue could not be shown.",
   itemListId,
   itemListName,
+  listDataReady = true,
   items,
   onRetry,
   onWishlistToggle,
@@ -44,6 +46,7 @@ export function ProductGrid({
   useEffect(() => {
     if (
       status !== "ready" ||
+      !listDataReady ||
       !itemListId ||
       !itemListName ||
       items.length === 0
@@ -60,6 +63,7 @@ export function ProductGrid({
     itemListId,
     itemListName,
     items,
+    listDataReady,
     location.key,
     productSignature,
     status,

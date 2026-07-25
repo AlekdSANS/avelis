@@ -229,6 +229,9 @@ export function ShopPage() {
             itemListId={listContext.itemListId}
             itemListName={listContext.itemListName}
             items={gridItems}
+            listDataReady={
+              productsQuery.isSuccess && !productsQuery.isPlaceholderData
+            }
             onRetry={() => void productsQuery.refetch()}
             onWishlistToggle={toggleWishlist}
             status={
