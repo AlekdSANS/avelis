@@ -393,7 +393,9 @@
 	}
 
 	.tableWrap th:nth-child(3),
-	.tableWrap td:nth-child(3) {
+	.tableWrap td:nth-child(3),
+	.tableWrap th:nth-child(6),
+	.tableWrap td:nth-child(6) {
 		display: none;
 	}
 }

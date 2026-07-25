@@ -110,9 +110,6 @@ function OrderIdentity({ order }: { order: AdminOrderListItem }) {
 				>
 					{order.orderNumber}
 				</Link>
-				<small>
-					{order.itemCount} {order.itemCount === 1 ? "item" : "items"}
-				</small>
 			</div>
 		</div>
 	);
@@ -141,6 +138,8 @@ function OrderTable({ orders }: { orders: AdminOrderListItem[] }) {
 						<th scope="col">Date</th>
 						<th scope="col">Order status</th>
 						<th scope="col">Payment</th>
+						<th scope="col">Delivery</th>
+						<th scope="col">Items</th>
 						<th scope="col">Total</th>
 						<th scope="col">Action</th>
 					</tr>
@@ -167,6 +166,8 @@ function OrderTable({ orders }: { orders: AdminOrderListItem[] }) {
 									status={order.paymentStatus}
 								/>
 							</td>
+							<td>{formatShippingMethod(order.shippingMethod)}</td>
+							<td>{order.itemCount}</td>
 							<td className={styles.total}>
 								<Price currency={order.currency} value={order.total} />
 							</td>
@@ -217,6 +218,10 @@ function OrderCards({ orders }: { orders: AdminOrderListItem[] }) {
 						<div>
 							<dt>Shipping</dt>
 							<dd>{formatShippingMethod(order.shippingMethod)}</dd>
+						</div>
+						<div>
+							<dt>Items</dt>
+							<dd>{order.itemCount}</dd>
 						</div>
 					</dl>
 					<Link
