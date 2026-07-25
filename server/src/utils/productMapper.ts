@@ -52,6 +52,7 @@ export const productSelect = {
 				select: {
 					id: true,
 					name: true,
+					isActive: true,
 				},
 			},
 		},

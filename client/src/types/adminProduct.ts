@@ -92,6 +92,7 @@ export interface AdminProductImage {
 export interface AdminProductNote {
 	noteId: string;
 	name: string;
+	isActive: boolean;
 	type: FragranceNoteType;
 	position: number;
 }
@@ -165,6 +166,7 @@ export interface AdminProductNoteInput {
 export interface AdminProductReferenceNote {
 	id: string;
 	name: string;
+	isActive: boolean;
 }
 
 export interface AdminProductCreateInput {

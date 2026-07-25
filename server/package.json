@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "tsx watch src/server.ts",
 		"build": "tsc",
-		"test": "tsx --test --test-concurrency=1 tests/order.integration.test.ts tests/admin.integration.test.ts tests/adminProduct.integration.test.ts tests/adminMedia.integration.test.ts",
+		"test": "tsx --test --test-concurrency=1 tests/order.integration.test.ts tests/admin.integration.test.ts tests/adminProduct.integration.test.ts tests/adminMedia.integration.test.ts tests/adminReference.integration.test.ts",
 		"start": "node dist/server.js"
 	},
 	"keywords": [],

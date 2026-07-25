@@ -50,6 +50,7 @@ export function ProductNotesSection() {
 		append({
 			noteId,
 			name: reference?.name,
+			isActive: reference?.isActive,
 			type,
 			position: fields.filter((field) => field.type === type).length,
 		});
@@ -113,7 +114,7 @@ export function ProductNotesSection() {
 									value={selected[group.type]}
 								>
 									<option value="">Select a note</option>
-									{availableNotes.map((note) => (
+									{availableNotes.filter((note) => note.isActive).map((note) => (
 										<option key={note.id} value={note.id}>
 											{note.name}
 										</option>
@@ -140,10 +141,19 @@ export function ProductNotesSection() {
 												(note) => note.id === field.noteId,
 											)?.name ??
 											"Unavailable note";
+										const isActive =
+											field.isActive ??
+											availableNotes.find(
+												(note) => note.id === field.noteId,
+											)?.isActive ??
+											false;
 
 										return (
 											<li key={field.fieldKey}>
-												<span>{name}</span>
+												<span>
+													{name}
+													{isActive ? null : " (Inactive)"}
+												</span>
 												<button
 													aria-label={`Remove ${name} from ${group.label.toLowerCase()}`}
 													onClick={() => remove(index)}

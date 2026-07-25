@@ -117,6 +117,7 @@ export function mapAdminProductDetail(product: ProductRecord) {
 			.map((relation) => ({
 				noteId: relation.note.id,
 				name: relation.note.name,
+				isActive: relation.note.isActive,
 				type: relation.type,
 				position: relation.position,
 			}))

@@ -3,6 +3,7 @@ import { adminDashboardController } from "../controllers/adminController.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import adminProductRoutes from "./adminProductRoutes.js";
 import adminUploadRoutes from "./adminUploadRoutes.js";
+import adminNoteRoutes from "./adminNoteRoutes.js";
 import {
 	optionalAuth,
 	requireAdmin,
@@ -20,5 +21,6 @@ router.get(
 );
 router.use("/products", adminProductRoutes);
 router.use("/uploads", adminUploadRoutes);
+router.use("/notes", adminNoteRoutes);
 
 export default router;

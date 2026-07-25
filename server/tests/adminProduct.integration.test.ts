@@ -248,6 +248,7 @@ test("admin product CRUD foundation", async (t) => {
 			assert.deepEqual(referenceNote, {
 				id: note.id,
 				name: `Admin product note ${tag}`,
+				isActive: true,
 			});
 			assert.equal(JSON.stringify(result).includes("productId"), false);
 		});

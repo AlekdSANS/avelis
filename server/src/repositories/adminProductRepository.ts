@@ -246,6 +246,7 @@ export function findAdminProductReferenceNotes() {
 		select: {
 			id: true,
 			name: true,
+			isActive: true,
 		},
 		orderBy: [{ name: "asc" }, { id: "asc" }],
 	});
