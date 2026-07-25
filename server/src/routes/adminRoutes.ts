@@ -4,6 +4,7 @@ import { asyncHandler } from "../middleware/asyncHandler.js";
 import adminProductRoutes from "./adminProductRoutes.js";
 import adminUploadRoutes from "./adminUploadRoutes.js";
 import adminNoteRoutes from "./adminNoteRoutes.js";
+import adminCollectionRoutes from "./adminCollectionRoutes.js";
 import {
 	optionalAuth,
 	requireAdmin,
@@ -22,5 +23,6 @@ router.get(
 router.use("/products", adminProductRoutes);
 router.use("/uploads", adminUploadRoutes);
 router.use("/notes", adminNoteRoutes);
+router.use("/collections", adminCollectionRoutes);
 
 export default router;

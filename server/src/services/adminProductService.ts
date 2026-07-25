@@ -4,6 +4,7 @@ import {
 	deactivateAdminProduct,
 	findAdminProductById,
 	findAdminProductReferenceNotes,
+	findAdminProductReferenceCollections,
 	findAdminProducts,
 	updateAdminProductStatus,
 	updateAdminProductRecord,
@@ -180,6 +181,12 @@ export async function getAdminProduct(id: string) {
 export async function listAdminProductReferenceNotes() {
 	return {
 		data: await findAdminProductReferenceNotes(),
+	};
+}
+
+export async function listAdminProductReferenceCollections() {
+	return {
+		data: await findAdminProductReferenceCollections(),
 	};
 }
 

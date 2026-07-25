@@ -252,6 +252,18 @@ export function findAdminProductReferenceNotes() {
 	});
 }
 
+export function findAdminProductReferenceCollections() {
+	return prisma.collection.findMany({
+		select: {
+			id: true,
+			name: true,
+			slug: true,
+			isActive: true,
+		},
+		orderBy: [{ name: "asc" }, { id: "asc" }],
+	});
+}
+
 export function updateAdminProductStatus(
 	id: string,
 	input: AdminProductStatusInput,

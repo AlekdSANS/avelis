@@ -861,6 +861,14 @@
 	overflow-wrap: anywhere;
 }
 
+.referenceInactive {
+	opacity: 0.6;
+}
+
+.referenceInactive input {
+	cursor: not-allowed;
+}
+
 .collectionList strong {
 	font-size: 0.78rem;
 }

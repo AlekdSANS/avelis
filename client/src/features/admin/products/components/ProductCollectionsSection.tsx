@@ -1,14 +1,15 @@
 import { RefreshCcw } from "lucide-react";
-import { useFormContext } from "react-hook-form";
-
+import { useFormContext, useWatch } from "react-hook-form";
 import { Skeleton } from "../../../../components/ui/Skeleton/Skeleton";
-import { useCollections } from "../../../collections/hooks/useCollections";
+import { useAdminProductReferenceCollections } from "../../hooks/useAdminProducts";
 import type { AdminProductFormValues } from "../schemas/adminProductFormSchema";
 import styles from "./ProductForm.module.scss";
 
 export function ProductCollectionsSection() {
-	const { register } = useFormContext<AdminProductFormValues>();
-	const collectionsQuery = useCollections();
+	const { control, register } = useFormContext<AdminProductFormValues>();
+	const selectedIds = useWatch({ control, name: "collectionIds" });
+	const collectionsQuery = useAdminProductReferenceCollections();
+	const collections = collectionsQuery.data?.data ?? [];
 
 	return (
 		<section
@@ -42,24 +43,36 @@ export function ProductCollectionsSection() {
 				</div>
 			) : null}
 
-			{collectionsQuery.data?.length === 0 ? (
+			{collections.length === 0 && !collectionsQuery.isLoading ? (
 				<p className={styles.groupEmpty}>No collections are available.</p>
 			) : null}
 
 			<div className={styles.collectionList}>
-				{collectionsQuery.data?.map((collection) => (
-					<label key={collection.id}>
-						<input
-							type="checkbox"
-							value={collection.id}
-							{...register("collectionIds")}
-						/>
-						<span>
-							<strong>{collection.name}</strong>
-							<small>{collection.slug}</small>
-						</span>
-					</label>
-				))}
+				{collections.map((collection) => {
+					const isSelected = selectedIds.includes(collection.id);
+					const isUnavailable = !collection.isActive && !isSelected;
+
+					return (
+						<label
+							className={isUnavailable ? styles.referenceInactive : undefined}
+							key={collection.id}
+						>
+							<input
+								disabled={isUnavailable}
+								type="checkbox"
+								value={collection.id}
+								{...register("collectionIds")}
+							/>
+							<span>
+								<strong>
+									{collection.name}
+									{collection.isActive ? null : " (Inactive)"}
+								</strong>
+								<small>{collection.slug}</small>
+							</span>
+						</label>
+					);
+				})}
 			</div>
 		</section>
 	);

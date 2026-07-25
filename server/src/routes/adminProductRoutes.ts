@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
 	adminProductDetailController,
 	adminProductReferenceNotesController,
+	adminProductReferenceCollectionsController,
 	createAdminProductController,
 	deleteAdminProductController,
 	listAdminProductsController,
@@ -39,6 +40,10 @@ router.post(
 router.get(
 	"/references/notes",
 	asyncHandler(adminProductReferenceNotesController),
+);
+router.get(
+	"/references/collections",
+	asyncHandler(adminProductReferenceCollectionsController),
 );
 router.patch(
 	"/:id/status",

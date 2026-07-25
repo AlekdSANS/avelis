@@ -24,6 +24,7 @@ import { AdminProductsPage } from "../pages/AdminProductsPage/AdminProductsPage"
 import { AdminOrdersPage } from "../pages/AdminOrdersPage/AdminOrdersPage";
 import { AdminProductFormPage } from "../pages/AdminProductFormPage/AdminProductFormPage";
 import { AdminNotesPage } from "../pages/AdminNotesPage/AdminNotesPage";
+import { AdminCollectionsPage } from "../pages/AdminCollectionsPage/AdminCollectionsPage";
 
 export const router = createBrowserRouter([
 	{
@@ -149,6 +150,10 @@ export const router = createBrowserRouter([
 			{
 				path: "notes",
 				element: <AdminNotesPage />,
+			},
+			{
+				path: "collections",
+				element: <AdminCollectionsPage />,
 			},
 		],
 	},

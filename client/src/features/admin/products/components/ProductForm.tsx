@@ -12,8 +12,8 @@ import { Button } from "../../../../components/ui/Button/Button";
 import { Modal } from "../../../../components/ui/Modal/Modal";
 import { adminUploadService } from "../../../../services/adminUploadService";
 import type { AdminProductDetail } from "../../../../types/adminProduct";
-import { useCollections } from "../../../collections/hooks/useCollections";
 import {
+	useAdminProductReferenceCollections,
 	useAdminProductReferenceNotes,
 	useCreateAdminProduct,
 	useUpdateAdminProduct,
@@ -54,7 +54,7 @@ export function ProductForm({
 	const createMutation = useCreateAdminProduct();
 	const updateMutation = useUpdateAdminProduct();
 	const notesQuery = useAdminProductReferenceNotes();
-	const collectionsQuery = useCollections();
+	const collectionsQuery = useAdminProductReferenceCollections();
 	const [feedback, setFeedback] = useState<{
 		kind: "error" | "success";
 		message: string;

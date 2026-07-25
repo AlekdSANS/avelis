@@ -67,6 +67,7 @@ export const productSelect = {
 					name: true,
 					description: true,
 					imageUrl: true,
+					isActive: true,
 				},
 			},
 		},

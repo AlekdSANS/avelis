@@ -14,6 +14,17 @@ import {
 	updateAdminNote,
 } from "../src/services/adminNoteService.js";
 import { HttpError } from "../src/utils/httpError.js";
+import {
+	adminCollectionCreateSchema,
+	adminCollectionListQuerySchema,
+	adminCollectionUpdateSchema,
+} from "../src/schemas/adminCollectionSchemas.js";
+import {
+	createAdminCollection,
+	listAdminCollections,
+	softDeleteAdminCollection,
+	updateAdminCollection,
+} from "../src/services/adminCollectionService.js";
 
 test("admin fragrance note management", async (t) => {
 	const tag = randomUUID();
@@ -108,6 +119,106 @@ test("admin fragrance note management", async (t) => {
 		}
 		if (noteId !== undefined) {
 			await prisma.note.deleteMany({ where: { id: noteId } });
+		}
+	}
+});
+
+test("admin collection management", async (t) => {
+	const tag = randomUUID();
+	let collectionId: string | undefined;
+	let productId: string | undefined;
+
+	try {
+		await t.test("creates, lists, and updates normalized collection data", async () => {
+			const created = await createAdminCollection(
+				adminCollectionCreateSchema.parse({
+					name: "Evening Rituals",
+					slug: ` Evening Rituals ${tag} `,
+					description: "A temporary collection integration record.",
+					imageUrl: `/images/collections/${tag}.webp`,
+				}),
+			);
+			collectionId = created.data.id;
+			assert.equal(created.data.slug, `evening-rituals-${tag}`);
+			assert.equal(created.data.isActive, true);
+
+			const listed = await listAdminCollections(
+				adminCollectionListQuerySchema.parse({
+					search: `evening-rituals-${tag}`,
+					status: "active",
+				}),
+			);
+			assert.equal(
+				listed.data.some((collection) => collection.id === collectionId),
+				true,
+			);
+
+			const updated = await updateAdminCollection(
+				collectionId,
+				adminCollectionUpdateSchema.parse({
+					description: "Updated collection copy.",
+				}),
+			);
+			assert.equal(updated.data.description, "Updated collection copy.");
+		});
+
+		await t.test("rejects duplicate normalized slugs", async () => {
+			assert.ok(collectionId);
+			await assert.rejects(
+				createAdminCollection(
+					adminCollectionCreateSchema.parse({
+						name: "Duplicate Collection",
+						slug: `evening rituals ${tag}`,
+						description: "Duplicate slug test.",
+					}),
+				),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 409);
+					return true;
+				},
+			);
+		});
+
+		await t.test("soft deactivation preserves existing product relations", async () => {
+			assert.ok(collectionId);
+			const product = await prisma.product.create({
+				data: {
+					slug: `admin-collection-product-${tag}`,
+					name: "Admin Collection Product",
+					description: "Temporary collection relation test",
+					fragranceFamily: "Test",
+					concentration: "EDP",
+					season: [],
+					occasion: [],
+					collections: {
+						create: { collectionId },
+					},
+				},
+				select: { id: true },
+			});
+			productId = product.id;
+
+			const result = await softDeleteAdminCollection(collectionId);
+			const relation = await prisma.productCollection.findUnique({
+				where: {
+					productId_collectionId: {
+						productId,
+						collectionId,
+					},
+				},
+			});
+
+			assert.equal(result.data.isActive, false);
+			assert.ok(relation);
+			assert.match(result.message, /relations are preserved/i);
+		});
+	} finally {
+		if (productId !== undefined) {
+			await prisma.product.deleteMany({ where: { id: productId } });
+		}
+		if (collectionId !== undefined) {
+			await prisma.collection.deleteMany({ where: { id: collectionId } });
 		}
 	}
 });

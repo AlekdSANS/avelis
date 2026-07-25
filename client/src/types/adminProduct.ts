@@ -101,7 +101,10 @@ export interface AdminProductCollection {
 	id: string;
 	slug: string;
 	name: string;
+	isActive: boolean;
 }
+
+export type AdminProductReferenceCollection = AdminProductCollection;
 
 export interface AdminProductDetail {
 	id: string;
@@ -223,6 +226,9 @@ export type AdminProductListResponse =
 export type AdminProductDetailResponse = ApiResponse<AdminProductDetail>;
 export type AdminProductReferenceNotesResponse = ApiResponse<
 	AdminProductReferenceNote[]
+>;
+export type AdminProductReferenceCollectionsResponse = ApiResponse<
+	AdminProductReferenceCollection[]
 >;
 export type AdminProductSummaryResponse = ApiResponse<AdminProductListItem>;
 export type AdminProductDeleteResponse = AdminProductSummaryResponse & {

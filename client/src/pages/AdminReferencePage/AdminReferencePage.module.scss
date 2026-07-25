@@ -117,6 +117,33 @@
 	border-bottom: 0;
 }
 
+.collectionName {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	min-width: 0;
+}
+
+.collectionName img {
+	width: 2.75rem;
+	height: 2.75rem;
+	flex: 0 0 auto;
+	object-fit: cover;
+	background: var(--color-bg);
+}
+
+.collectionName > span {
+	display: grid;
+	gap: var(--space-1);
+	min-width: 0;
+}
+
+.collectionName small {
+	overflow-wrap: anywhere;
+	color: var(--color-text-muted);
+	font-size: 0.65rem;
+}
+
 .status {
 	display: inline-flex;
 	align-items: center;
@@ -211,6 +238,31 @@
 	gap: var(--space-5);
 }
 
+.editorGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-4);
+}
+
+.editorForm textarea {
+	width: 100%;
+	resize: vertical;
+	border: 1px solid var(--color-border);
+	background: var(--color-surface);
+	padding: 0.8rem;
+	color: var(--color-text);
+	font: inherit;
+	font-size: 0.82rem;
+	line-height: 1.5;
+}
+
+.imagePreview {
+	width: 7rem;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	background: var(--color-bg);
+}
+
 .check {
 	grid-template-columns: auto minmax(0, 1fr);
 	align-items: center;
@@ -295,5 +347,9 @@
 
 	.search button {
 		grid-column: 1 / -1;
+	}
+
+	.editorGrid {
+		grid-template-columns: 1fr;
 	}
 }
