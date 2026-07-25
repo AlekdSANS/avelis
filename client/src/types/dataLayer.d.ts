@@ -14,6 +14,7 @@ declare global {
   interface ImportMetaEnv {
     readonly VITE_ANALYTICS_ENABLED?: string;
     readonly VITE_ANALYTICS_DEBUG?: string;
+    readonly VITE_GTM_CONTAINER_ID?: string;
   }
 }
 

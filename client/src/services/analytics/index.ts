@@ -17,7 +17,12 @@ export {
 export {
   getAnalyticsConsent,
   setAnalyticsConsent,
+  subscribeAnalyticsConsent,
 } from "./consent";
+export {
+  ensureGoogleTagManagerLoaded,
+  initializeGoogleTagManager,
+} from "./googleTagManager";
 export type {
   AnalyticsConsentState,
   ConsentStatus,

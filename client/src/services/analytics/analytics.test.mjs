@@ -21,6 +21,10 @@ import {
   canEmitAnalytics,
   isAdminRoute,
 } from "./policy.ts";
+import {
+  setAnalyticsConsent,
+  subscribeAnalyticsConsent,
+} from "./consent.ts";
 
 const product = {
   name: "Nocturne",
@@ -185,4 +189,18 @@ test("excludes admin routes and keeps disabled or unconsented analytics off", ()
     }),
     true,
   );
+});
+
+test("notifies the GTM integration when consent changes", () => {
+  const states = [];
+  const unsubscribe = subscribeAnalyticsConsent((state) => {
+    states.push(state);
+  });
+
+  setAnalyticsConsent({ analyticsStorage: "granted" });
+  unsubscribe();
+  setAnalyticsConsent({ analyticsStorage: "denied" });
+
+  assert.equal(states.length, 1);
+  assert.equal(states[0].analyticsStorage, "granted");
 });

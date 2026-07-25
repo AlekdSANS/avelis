@@ -1,4 +1,9 @@
 import { hasAnalyticsConsent } from "./consent";
+import {
+  ANALYTICS_DEBUG,
+  ANALYTICS_ENABLED,
+} from "./config";
+import { ensureGoogleTagManagerLoaded } from "./googleTagManager";
 import { canEmitAnalytics, isAdminRoute } from "./policy";
 import type {
   AnalyticsEvent,
@@ -6,9 +11,6 @@ import type {
   EcommerceEvent,
 } from "./types";
 
-const ANALYTICS_ENABLED = import.meta.env.VITE_ANALYTICS_ENABLED === "true";
-const ANALYTICS_DEBUG =
-  import.meta.env.DEV && import.meta.env.VITE_ANALYTICS_DEBUG === "true";
 const MAX_RECENT_EVENTS = 50;
 const recentEvents: AnalyticsEvent[] = [];
 
@@ -77,6 +79,7 @@ export function pushToDataLayer(event: AnalyticsEvent): boolean {
       return false;
     }
 
+    ensureGoogleTagManagerLoaded();
     const dataLayer = initializeDataLayer();
     if (dataLayer === null) {
       return false;

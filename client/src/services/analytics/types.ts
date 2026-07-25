@@ -158,4 +158,12 @@ export type EcommerceEvent =
 
 export type AnalyticsEvent = EcommerceEvent | SearchEvent | AuthEvent;
 
-export type DataLayerEntry = AnalyticsEvent | { ecommerce: null };
+export type GoogleTagManagerBootstrapEvent = {
+  "gtm.start": number;
+  event: "gtm.js";
+};
+
+export type DataLayerEntry =
+  | AnalyticsEvent
+  | GoogleTagManagerBootstrapEvent
+  | { ecommerce: null };
