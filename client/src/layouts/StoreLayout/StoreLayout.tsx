@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useCallback, useState } from "react";
 
 import { CartDrawer } from "../../components/commerce/CartDrawer/CartDrawer";
+import { CookieBanner } from "../../components/common/CookieBanner/CookieBanner";
 import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
 import { SearchOverlay } from "../../components/common/SearchOverlay/SearchOverlay";
@@ -12,6 +13,8 @@ export function StoreLayout() {
 	const { totalQuantity } = useCart();
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isCartOpen, setIsCartOpen] = useState(false);
+	const [isCookiePreferencesOpen, setIsCookiePreferencesOpen] =
+		useState(false);
 
 	const closeSearch = useCallback(() => setIsSearchOpen(false), []);
 	const closeCart = useCallback(() => setIsCartOpen(false), []);
@@ -38,7 +41,14 @@ export function StoreLayout() {
 				<Outlet />
 			</main>
 
-			<Footer />
+			<Footer
+				onCookieSettingsOpen={() => setIsCookiePreferencesOpen(true)}
+			/>
+			<CookieBanner
+				isPreferencesOpen={isCookiePreferencesOpen}
+				onPreferencesClose={() => setIsCookiePreferencesOpen(false)}
+				onPreferencesOpen={() => setIsCookiePreferencesOpen(true)}
+			/>
 			<SearchOverlay isOpen={isSearchOpen} onClose={closeSearch} />
 			<CartDrawer isOpen={isCartOpen} onClose={closeCart} />
 		</div>

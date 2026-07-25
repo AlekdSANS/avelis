@@ -3,7 +3,7 @@ import {
   GTM_CONTAINER_ID,
 } from "./config";
 import {
-  hasAnalyticsConsent,
+  hasGoogleTagManagerConsent,
   subscribeAnalyticsConsent,
 } from "./consent";
 import { isAdminRoute } from "./policy";
@@ -31,7 +31,7 @@ export function ensureGoogleTagManagerLoaded(): boolean {
     if (
       scriptRequested ||
       !ANALYTICS_ENABLED ||
-      !hasAnalyticsConsent() ||
+      !hasGoogleTagManagerConsent() ||
       typeof document === "undefined" ||
       isAdminRoute(getCurrentPathname())
     ) {

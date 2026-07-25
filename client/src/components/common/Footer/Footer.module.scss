@@ -48,14 +48,25 @@
 }
 
 .linkSection a,
-.socialLinks a {
+.socialLinks a,
+.cookieSettings {
   color: var(--color-text-muted);
   transition: color var(--transition-fast);
 }
 
 .linkSection a:hover,
-.socialLinks a:hover {
+.socialLinks a:hover,
+.cookieSettings:hover {
   color: var(--color-text);
+}
+
+.cookieSettings {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .bottom {

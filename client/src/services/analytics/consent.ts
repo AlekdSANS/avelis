@@ -41,6 +41,12 @@ export function hasAnalyticsConsent(): boolean {
   return consentState.analyticsStorage === "granted";
 }
 
+export function hasGoogleTagManagerConsent(): boolean {
+  return Object.values(consentState).some(
+    (status) => status === "granted",
+  );
+}
+
 export function subscribeAnalyticsConsent(
   listener: ConsentListener,
 ): () => void {

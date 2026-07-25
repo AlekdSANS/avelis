@@ -22,9 +22,17 @@ import {
   isAdminRoute,
 } from "./policy.ts";
 import {
+  getAnalyticsConsent,
   setAnalyticsConsent,
   subscribeAnalyticsConsent,
 } from "./consent.ts";
+import {
+  readCookiePreferences,
+  saveCookiePreferences,
+} from "./consentPreferences.ts";
+import {
+  mapAnalyticsConsentToGoogleConsent,
+} from "./googleConsentMode.ts";
 
 const product = {
   name: "Nocturne",
@@ -203,4 +211,34 @@ test("notifies the GTM integration when consent changes", () => {
 
   assert.equal(states.length, 1);
   assert.equal(states[0].analyticsStorage, "granted");
+});
+
+test("persists cookie choices and maps them to Consent Mode v2", () => {
+  const storage = new Map();
+  globalThis.window = {
+    localStorage: {
+      getItem: (key) => storage.get(key) ?? null,
+      removeItem: (key) => storage.delete(key),
+      setItem: (key, value) => storage.set(key, value),
+    },
+  };
+
+  saveCookiePreferences({
+    analytics: true,
+    advertising: false,
+  });
+
+  assert.deepEqual(readCookiePreferences(), {
+    analytics: true,
+    advertising: false,
+  });
+  assert.deepEqual(
+    mapAnalyticsConsentToGoogleConsent(getAnalyticsConsent()),
+    {
+      analytics_storage: "granted",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    },
+  );
 });

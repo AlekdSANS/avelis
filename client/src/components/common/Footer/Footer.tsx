@@ -6,6 +6,7 @@ import { NewsletterForm } from "../NewsletterForm/NewsletterForm";
 
 type FooterProps = {
   className?: string;
+  onCookieSettingsOpen?: () => void;
 };
 
 const footerSections = [
@@ -47,7 +48,10 @@ const footerSections = [
 
 const socialLinks = ["Instagram", "Pinterest", "TikTok"];
 
-export function Footer({ className }: FooterProps) {
+export function Footer({
+  className,
+  onCookieSettingsOpen,
+}: FooterProps) {
   const classes = [styles.footer, className ?? ""].filter(Boolean).join(" ");
 
   return (
@@ -86,7 +90,21 @@ export function Footer({ className }: FooterProps) {
 
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} AVELIS Parfums. All rights reserved.</p>
-          <ul aria-label="Social links" className={styles.socialLinks}>
+          <ul
+            aria-label="Footer utility and social links"
+            className={styles.socialLinks}
+          >
+            {onCookieSettingsOpen ? (
+              <li>
+                <button
+                  className={styles.cookieSettings}
+                  onClick={onCookieSettingsOpen}
+                  type="button"
+                >
+                  Cookie preferences
+                </button>
+              </li>
+            ) : null}
             {socialLinks.map((social) => (
               <li key={social}>
                 <a href="/" onClick={(event) => event.preventDefault()}>

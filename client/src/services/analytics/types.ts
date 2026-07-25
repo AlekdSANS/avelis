@@ -163,7 +163,15 @@ export type GoogleTagManagerBootstrapEvent = {
   event: "gtm.js";
 };
 
+export type GoogleConsentPayload = {
+  analytics_storage: "granted" | "denied";
+  ad_storage: "granted" | "denied";
+  ad_user_data: "granted" | "denied";
+  ad_personalization: "granted" | "denied";
+};
+
 export type DataLayerEntry =
   | AnalyticsEvent
   | GoogleTagManagerBootstrapEvent
+  | IArguments
   | { ecommerce: null };
