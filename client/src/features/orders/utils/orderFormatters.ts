@@ -25,6 +25,25 @@ export const ORDER_STATUS_VALUES: readonly OrderStatus[] = [
   "REFUNDED",
 ];
 
+export const PAYMENT_STATUS_VALUES: readonly PaymentStatus[] = [
+  "PENDING",
+  "PAID",
+  "FAILED",
+  "REFUNDED",
+  "CANCELLED",
+];
+
+export const PAYMENT_METHOD_VALUES: readonly PaymentMethod[] = [
+  "CARD",
+  "BLIK",
+  "CASH_ON_DELIVERY",
+];
+
+export const SHIPPING_METHOD_VALUES: readonly ShippingMethod[] = [
+  "STANDARD",
+  "EXPRESS",
+];
+
 const paymentStatusLabels: Record<PaymentStatus, string> = {
   PENDING: "Pending",
   PAID: "Paid",
@@ -70,5 +89,19 @@ export function formatOrderDate(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
     dateStyle: "long",
     timeStyle: "short",
+  }).format(date);
+}
+
+export function formatOrderShortDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Date unavailable";
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
   }).format(date);
 }
