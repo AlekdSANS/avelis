@@ -1,7 +1,7 @@
 import styles from "./ProductPage.module.scss";
 import { Heart, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import { AddToCartButton } from "../../components/commerce/AddToCartButton/AddToCartButton";
 import { ProductGallery } from "../../components/commerce/ProductGallery/ProductGallery";
@@ -30,6 +30,10 @@ import {
   getShortDescription,
 } from "../../features/products/utils/productCatalog";
 import type { FragranceNoteType, Product, ProductVariant } from "../../types/product";
+import {
+  trackViewItem,
+  trackWishlistChange,
+} from "../../services/analytics";
 
 const noteLabels: Record<FragranceNoteType, string> = {
   TOP: "Top notes",
@@ -49,6 +53,7 @@ function getDefaultVariant(product: Product) {
 
 export function ProductPage() {
   const { slug } = useParams();
+  const location = useLocation();
   const productQuery = useProduct(slug);
   const product = productQuery.data;
   const relatedQuery = useRelatedProducts(product?.id);
@@ -87,6 +92,20 @@ export function ProductPage() {
     setBagStatusState(undefined);
   }, [product, selectedVariantState]);
 
+  const selectedVariantId =
+    product && selectedVariantState?.slug === product.slug
+      ? selectedVariantState.id
+      : undefined;
+  const selectedVariant = product?.variants.find(
+    (variant) => variant.id === selectedVariantId,
+  );
+
+  useEffect(() => {
+    if (product && selectedVariant) {
+      trackViewItem(product, selectedVariant, location.key);
+    }
+  }, [location.key, product, selectedVariant]);
+
   if (productQuery.isLoading) {
     return <ProductPageSkeleton />;
   }
@@ -119,13 +138,6 @@ export function ProductPage() {
     );
   }
 
-  const selectedVariantId =
-    selectedVariantState && selectedVariantState.slug === product.slug
-      ? selectedVariantState.id
-      : undefined;
-  const selectedVariant = product.variants.find(
-    (variant) => variant.id === selectedVariantId,
-  );
   const quantity =
     quantityState.slug === product.slug
       ? Math.min(quantityState.value, selectedVariant?.stock ?? 1)
@@ -285,7 +297,11 @@ export function ProductPage() {
               }
               aria-pressed={wishlist.has(product.id)}
               className={styles.wishlist}
-              onClick={() => toggleWishlist(product.id)}
+              onClick={() => {
+                const action = wishlist.has(product.id) ? "remove" : "add";
+                toggleWishlist(product.id);
+                trackWishlistChange(action, product, selectedVariant);
+              }}
               variant="outline"
             >
               <Heart
@@ -349,6 +365,8 @@ export function ProductPage() {
           isLoading={relatedQuery.isLoading}
           products={relatedProducts}
           title="Related compositions"
+          itemListId="related_products"
+          itemListName="Related products"
           wishlist={wishlist}
           onWishlistToggle={toggleWishlist}
         />
@@ -359,6 +377,8 @@ export function ProductPage() {
           isLoading={recentlyViewed.isLoading}
           products={recentlyViewed.products}
           title="Recently viewed"
+          itemListId="recently_viewed"
+          itemListName="Recently viewed"
           wishlist={wishlist}
           onWishlistToggle={toggleWishlist}
         />
@@ -388,6 +408,8 @@ function ProductPageSkeleton() {
 }
 
 type ProductShelfProps = {
+  itemListId: string;
+  itemListName: string;
   isLoading?: boolean;
   onWishlistToggle: (productId: string) => void;
   products: Product[];
@@ -396,6 +418,8 @@ type ProductShelfProps = {
 };
 
 function ProductShelf({
+  itemListId,
+  itemListName,
   isLoading = false,
   onWishlistToggle,
   products: shelfProducts,
@@ -414,6 +438,8 @@ function ProductShelf({
         <Link to="/shop">Explore all fragrances</Link>
       </header>
       <ProductGrid
+        itemListId={itemListId}
+        itemListName={itemListName}
         items={shelfProducts.map((shelfProduct) => ({ product: shelfProduct }))}
         onWishlistToggle={onWishlistToggle}
         status={isLoading ? "loading" : "ready"}

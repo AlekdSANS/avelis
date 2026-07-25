@@ -1,5 +1,8 @@
 import styles from "./ProductGrid.module.scss";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import type { Product, ProductVariant } from "../../../types/product";
+import { trackViewItemList } from "../../../services/analytics";
 import { Button } from "../../ui/Button/Button";
 import { Skeleton } from "../../ui/Skeleton/Skeleton";
 import { ProductCard } from "../ProductCard/ProductCard";
@@ -12,6 +15,8 @@ export type ProductGridItem = {
 type ProductGridProps = {
   className?: string;
   errorMessage?: string;
+  itemListId?: string;
+  itemListName?: string;
   items: ProductGridItem[];
   onRetry?: () => void;
   onWishlistToggle?: (productId: string) => void;
@@ -22,13 +27,43 @@ type ProductGridProps = {
 export function ProductGrid({
   className,
   errorMessage = "The fragrance catalogue could not be shown.",
+  itemListId,
+  itemListName,
   items,
   onRetry,
   onWishlistToggle,
   status = "ready",
   wishlist = new Set(),
 }: ProductGridProps) {
+  const location = useLocation();
   const classes = [styles.grid, className ?? ""].filter(Boolean).join(" ");
+  const productSignature = items
+    .map(({ product }) => product.slug)
+    .join(",");
+
+  useEffect(() => {
+    if (
+      status !== "ready" ||
+      !itemListId ||
+      !itemListName ||
+      items.length === 0
+    ) {
+      return;
+    }
+
+    trackViewItemList(
+      items.map(({ product }) => product),
+      { itemListId, itemListName },
+      `${location.key}:${productSignature}`,
+    );
+  }, [
+    itemListId,
+    itemListName,
+    items,
+    location.key,
+    productSignature,
+    status,
+  ]);
 
   if (status === "loading") {
     return (
@@ -68,9 +103,12 @@ export function ProductGrid({
 
   return (
     <div className={classes}>
-      {items.map(({ product, variants }) => (
+      {items.map(({ product, variants }, index) => (
         <ProductCard
           isWishlisted={wishlist.has(product.id)}
+          itemIndex={index}
+          itemListId={itemListId}
+          itemListName={itemListName}
           key={product.id}
           matchingVariants={variants}
           onWishlistToggle={onWishlistToggle}

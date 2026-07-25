@@ -17,6 +17,7 @@ import { useProducts } from "../../features/products/hooks/useProducts";
 import { getActiveFilterCount } from "../../features/products/types";
 import { getMatchingVariants } from "../../features/products/utils/productCatalog";
 import type { ProductQueryParams } from "../../types";
+import { trackSearch } from "../../services/analytics";
 
 const PRODUCTS_PER_PAGE = 8;
 const LOVED_PRODUCTS_LIMIT = 48;
@@ -28,6 +29,7 @@ function joinValues(values: (string | number)[]) {
 export function ShopPage() {
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const lastTrackedSearchRef = useRef("");
   const { wishlist, toggleWishlist } = useLocalWishlist();
   const {
     filters,
@@ -87,6 +89,16 @@ export function ShopPage() {
     variants: getMatchingVariants(product, filters),
   }));
   const activeFilterCount = getActiveFilterCount(filters);
+  const normalizedSearch = filters.search.trim().replace(/\s+/g, " ");
+  const listContext = normalizedSearch
+    ? {
+        itemListId: "search_results",
+        itemListName: "Search results",
+      }
+    : {
+        itemListId: "shop_catalogue",
+        itemListName: "Shop catalogue",
+      };
 
   useEffect(() => {
     if (!filters.lovedOnly && page > totalPages) {
@@ -103,6 +115,15 @@ export function ShopPage() {
       behavior: reduceMotion ? "auto" : "smooth",
       block: "start",
     });
+  };
+  const handleSearchSubmit = () => {
+    if (
+      normalizedSearch &&
+      normalizedSearch !== lastTrackedSearchRef.current
+    ) {
+      trackSearch(normalizedSearch);
+      lastTrackedSearchRef.current = normalizedSearch;
+    }
   };
 
   const filterControls = (
@@ -142,7 +163,10 @@ export function ShopPage() {
           <div className={styles.toolbar} ref={resultsRef}>
             <form
               className={styles.search}
-              onSubmit={(event) => event.preventDefault()}
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSearchSubmit();
+              }}
               role="search"
             >
               <Search aria-hidden="true" />
@@ -202,6 +226,8 @@ export function ShopPage() {
 
           <ProductGrid
             errorMessage="The API catalogue could not be loaded. Check the backend connection and try again."
+            itemListId={listContext.itemListId}
+            itemListName={listContext.itemListName}
             items={gridItems}
             onRetry={() => void productsQuery.refetch()}
             onWishlistToggle={toggleWishlist}

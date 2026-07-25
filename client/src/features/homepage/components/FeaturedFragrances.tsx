@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
 import { useFeaturedProducts } from "../../products/hooks/useProducts";
@@ -10,12 +10,17 @@ import {
   getPrimaryProductImage,
 } from "../../products/utils/productCatalog";
 import styles from "./HomepageSections.module.scss";
+import {
+  trackSelectItem,
+  trackViewItemList,
+} from "../../../services/analytics";
 
 type FeaturedFragrancesProps = {
   activeSlug: string;
 };
 
 export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
+  const location = useLocation();
   const featuredQuery = useFeaturedProducts(4);
   const featuredProducts = featuredQuery.data ?? [];
   const [selectedSlug, setSelectedSlug] = useState(activeSlug);
@@ -30,6 +35,26 @@ export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
       setSelectedSlug(featuredProducts[0].slug);
     }
   }, [activeSlug, featuredProducts]);
+
+  useEffect(() => {
+    if (!featuredQuery.isLoading && !featuredQuery.isError) {
+      trackViewItemList(
+        featuredProducts,
+        {
+          itemListId: "featured_fragrances",
+          itemListName: "Featured fragrances",
+        },
+        `${location.key}:${featuredProducts
+          .map((product) => product.slug)
+          .join(",")}`,
+      );
+    }
+  }, [
+    featuredProducts,
+    featuredQuery.isError,
+    featuredQuery.isLoading,
+    location.key,
+  ]);
 
   return (
     <section
@@ -119,7 +144,17 @@ export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
                           ? `From ${cheapestVariant.price} PLN`
                           : "Currently unavailable"}
                       </p>
-                      <Link className={styles.textLink} to={`/products/${product.slug}`}>
+                      <Link
+                        className={styles.textLink}
+                        onClick={() =>
+                          trackSelectItem(product, {
+                            itemListId: "featured_fragrances",
+                            itemListName: "Featured fragrances",
+                            itemIndex: index,
+                          })
+                        }
+                        to={`/products/${product.slug}`}
+                      >
                         View fragrance
                         <ArrowUpRight aria-hidden="true" />
                       </Link>

@@ -109,7 +109,7 @@ export function trackViewItem(
   viewKey: string,
 ): boolean {
   return emitOnce(
-    `product:${viewKey}:${product.slug}:${variant.sku}`,
+    `product:${viewKey}:${product.slug}`,
     () =>
       pushToDataLayer(
         createViewItemEvent(

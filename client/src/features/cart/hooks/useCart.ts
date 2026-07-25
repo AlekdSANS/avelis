@@ -3,6 +3,10 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { CartItem } from "../../../types/cart";
 import type { Product, ProductVariant } from "../../../types/product";
+import {
+	trackAddToCart,
+	trackRemoveFromCart,
+} from "../../../services/analytics";
 
 const CART_STORAGE_KEY = "avelis-local-cart";
 
@@ -37,6 +41,8 @@ const useCartStore = create<CartStore>()(
 			hasHydrated: false,
 			items: [],
 			addItem: ({ product, quantity, variant }) => {
+				let addedQuantity = 0;
+
 				set((state) => {
 					const itemId = `${product.id}:${variant.id}`;
 					const existingItem = state.items.find((item) => item.id === itemId);
@@ -49,6 +55,7 @@ const useCartStore = create<CartStore>()(
 						return state;
 					}
 
+					addedQuantity = nextQuantity - (existingItem?.quantity ?? 0);
 					const nextItem: CartItem = {
 						id: itemId,
 						productId: product.id,
@@ -67,24 +74,57 @@ const useCartStore = create<CartStore>()(
 									),
 					};
 				});
+
+				if (addedQuantity > 0) {
+					trackAddToCart(product, variant, addedQuantity);
+				}
 			},
 			clearCart: () => set({ items: [] }),
 			markHydrated: () => set({ hasHydrated: true }),
-			removeItem: (itemId) =>
+			removeItem: (itemId) => {
+				let removedItem: CartItem | undefined;
+
+				set((state) => {
+					removedItem = state.items.find((item) => item.id === itemId);
+					return {
+						items: state.items.filter((item) => item.id !== itemId),
+					};
+				});
+
+				if (removedItem) {
+					trackRemoveFromCart(removedItem, removedItem.quantity);
+				}
+			},
+			updateQuantity: (itemId, quantity) => {
+				let changedItem: CartItem | undefined;
+				let quantityDelta = 0;
+
 				set((state) => ({
-					items: state.items.filter((item) => item.id !== itemId),
-				})),
-			updateQuantity: (itemId, quantity) =>
-				set((state) => ({
-					items: state.items.map((item) =>
-						item.id === itemId
-							? {
-									...item,
-									quantity: normalizeQuantity(quantity, item.variant.stock),
-								}
-							: item,
-					),
-				})),
+					items: state.items.map((item) => {
+						if (item.id !== itemId) {
+							return item;
+						}
+
+						const nextQuantity = normalizeQuantity(
+							quantity,
+							item.variant.stock,
+						);
+						changedItem = item;
+						quantityDelta = nextQuantity - item.quantity;
+						return { ...item, quantity: nextQuantity };
+					}),
+				}));
+
+				if (changedItem && quantityDelta > 0) {
+					trackAddToCart(
+						changedItem.product,
+						changedItem.variant,
+						quantityDelta,
+					);
+				} else if (changedItem && quantityDelta < 0) {
+					trackRemoveFromCart(changedItem, Math.abs(quantityDelta));
+				}
+			},
 		}),
 		{
 			name: CART_STORAGE_KEY,

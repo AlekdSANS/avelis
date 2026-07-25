@@ -13,11 +13,18 @@ import type { Product, ProductVariant } from "../../../types/product";
 import { Badge } from "../../ui/Badge/Badge";
 import { IconButton } from "../../ui/IconButton/IconButton";
 import { Price } from "../../ui/Price/Price";
+import {
+  trackSelectItem,
+  trackWishlistChange,
+} from "../../../services/analytics";
 
 export type ProductCardProps = {
   className?: string;
   isWishlisted?: boolean;
   matchingVariants?: ProductVariant[];
+  itemIndex?: number;
+  itemListId?: string;
+  itemListName?: string;
   onWishlistToggle?: (productId: string) => void;
   product: Product;
 };
@@ -26,6 +33,9 @@ export function ProductCard({
   className,
   isWishlisted = false,
   matchingVariants,
+  itemIndex,
+  itemListId,
+  itemListName,
   onWishlistToggle,
   product,
 }: ProductCardProps) {
@@ -54,6 +64,27 @@ export function ProductCard({
     product.rating === null
       ? "New"
       : `${product.rating.toFixed(1)} (${product.reviewCount})`;
+  const trackSelection = () => {
+    if (itemListId && itemListName) {
+      trackSelectItem(product, {
+        itemListId,
+        itemListName,
+        itemIndex,
+      });
+    }
+  };
+  const handleWishlistToggle = () => {
+    if (!onWishlistToggle) {
+      return;
+    }
+
+    onWishlistToggle(product.id);
+    trackWishlistChange(
+      isWishlisted ? "remove" : "add",
+      product,
+      cheapestVariant,
+    );
+  };
 
   return (
     <article className={[styles.card, className ?? ""].filter(Boolean).join(" ")}>
@@ -61,6 +92,7 @@ export function ProductCard({
         <Link
           aria-label={`View ${product.name}`}
           className={styles.imageLink}
+          onClick={trackSelection}
           to={`/products/${product.slug}`}
         >
           <ProductImage
@@ -95,7 +127,7 @@ export function ProductCard({
           }
           aria-pressed={isWishlisted}
           className={styles.wishlist}
-          onClick={() => onWishlistToggle?.(product.id)}
+          onClick={handleWishlistToggle}
           variant="soft"
         >
           <Heart aria-hidden="true" fill={isWishlisted ? "currentColor" : "none"} />
@@ -113,7 +145,9 @@ export function ProductCard({
 
         <div>
           <h3>
-            <Link to={`/products/${product.slug}`}>{product.name}</Link>
+            <Link onClick={trackSelection} to={`/products/${product.slug}`}>
+              {product.name}
+            </Link>
           </h3>
           <p className={styles.subtitle}>{product.subtitle}</p>
         </div>
@@ -135,7 +169,11 @@ export function ProductCard({
           ) : (
             <span>Currently unavailable</span>
           )}
-          <Link className={styles.viewLink} to={`/products/${product.slug}`}>
+          <Link
+            className={styles.viewLink}
+            onClick={trackSelection}
+            to={`/products/${product.slug}`}
+          >
             View fragrance
             <ArrowUpRight aria-hidden="true" />
           </Link>

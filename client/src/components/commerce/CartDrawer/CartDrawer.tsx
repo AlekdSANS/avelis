@@ -1,7 +1,7 @@
 import styles from "./CartDrawer.module.scss";
 import { ShoppingBag, X } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { ButtonLink } from "../../ui/Button/Button";
 import { IconButton } from "../../ui/IconButton/IconButton";
@@ -10,6 +10,7 @@ import { useCart } from "../../../features/cart/hooks/useCart";
 import { createCheckoutSummaryLines } from "../../../features/checkout/utils/cartSummary";
 import { ProductImage } from "../../../features/products/components/ProductImage";
 import { usePresence } from "../../../hooks/usePresence";
+import { trackViewCart } from "../../../services/analytics";
 
 type CartDrawerProps = {
   className?: string;
@@ -19,9 +20,23 @@ type CartDrawerProps = {
 
 export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
   const { isClosing, isMounted } = usePresence(isOpen);
+  const location = useLocation();
   const cart = useCart();
   const lines = createCheckoutSummaryLines(cart.items);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const openCountRef = useRef(0);
+  const wasOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (isOpen && !wasOpenRef.current) {
+      openCountRef.current += 1;
+      trackViewCart(
+        cart.items,
+        `${location.key}:drawer:${openCountRef.current}`,
+      );
+    }
+    wasOpenRef.current = isOpen;
+  }, [cart.items, isOpen, location.key]);
 
   useEffect(() => {
     if (!isOpen) {
