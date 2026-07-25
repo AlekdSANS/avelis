@@ -8,6 +8,8 @@ import {
 import { useFormContext, useWatch } from "react-hook-form";
 
 import { PAYMENT_METHODS } from "../constants/shippingMethods";
+import { trackAddPaymentInfo } from "../../../services/analytics";
+import { useCart } from "../../cart/hooks/useCart";
 import type {
 	CheckoutFormValues,
 	CheckoutPaymentMethod,
@@ -26,6 +28,7 @@ const paymentIcons: Record<
 
 export function PaymentMethodSection() {
 	const { control, register } = useFormContext<CheckoutFormValues>();
+	const cart = useCart();
 	const selectedMethod = useWatch({
 		control,
 		name: "paymentMethod",
@@ -58,7 +61,11 @@ export function PaymentMethodSection() {
 								<input
 									type="radio"
 									value={method.id}
-									{...register("paymentMethod")}
+									{...register("paymentMethod", {
+										onChange: () => {
+											trackAddPaymentInfo(cart.items, method.label);
+										},
+									})}
 								/>
 								<span className={styles.card}>
 									<span aria-hidden="true" className={styles.icon}>

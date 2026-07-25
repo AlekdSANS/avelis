@@ -2,6 +2,8 @@ import { Check, PackageCheck, Rocket } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import { Price } from "../../../components/ui/Price/Price";
+import { trackAddShippingInfo } from "../../../services/analytics";
+import { useCart } from "../../cart/hooks/useCart";
 import { SHIPPING_METHODS } from "../constants/shippingMethods";
 import type { CheckoutFormValues } from "../types";
 import styles from "./CheckoutOptions.module.scss";
@@ -9,6 +11,7 @@ import sectionStyles from "./CheckoutSections.module.scss";
 
 export function ShippingMethodSection() {
 	const { control, register } = useFormContext<CheckoutFormValues>();
+	const cart = useCart();
 	const selectedMethod = useWatch({
 		control,
 		name: "shippingMethod",
@@ -41,7 +44,11 @@ export function ShippingMethodSection() {
 								<input
 									type="radio"
 									value={method.id}
-									{...register("shippingMethod")}
+									{...register("shippingMethod", {
+										onChange: () => {
+											trackAddShippingInfo(cart.items, method.label);
+										},
+									})}
 								/>
 								<span className={styles.card}>
 									<span aria-hidden="true" className={styles.icon}>

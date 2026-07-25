@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LockKeyhole } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Button, ButtonLink } from "../../components/ui/Button/Button";
@@ -31,11 +31,13 @@ import {
 } from "../../features/checkout/utils/orderError";
 import { onOrderCreationConfirmed } from "../../features/checkout/utils/orderSuccess";
 import { orderKeys } from "../../features/orders/orderQueries";
+import { trackBeginCheckout } from "../../services/analytics";
 
 export function CheckoutPage() {
   const cart = useCart();
   const currentUser = useCurrentUser();
   const createOrder = useCreateOrder();
+  const location = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const prefilledUserIdRef = useRef<string | null>(null);
@@ -54,6 +56,12 @@ export function CheckoutPage() {
     getValues,
     setValue,
   } = form;
+
+  useEffect(() => {
+    if (cart.hasHydrated && cart.items.length > 0) {
+      trackBeginCheckout(cart.items, location.key);
+    }
+  }, [cart.hasHydrated, cart.items, location.key]);
 
   useEffect(() => {
     const user = currentUser.data;
