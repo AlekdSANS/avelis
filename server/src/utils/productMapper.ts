@@ -65,9 +65,13 @@ export const productSelect = {
 					id: true,
 					slug: true,
 					name: true,
+					eyebrow: true,
+					shortDescription: true,
 					description: true,
-					imageUrl: true,
-					isActive: true,
+					cardImageUrl: true,
+					heroImageUrl: true,
+					accentColor: true,
+					status: true,
 				},
 			},
 		},
@@ -152,13 +156,17 @@ export function mapProduct(product: ProductRecord) {
 				return typeDelta === 0 ? left.position - right.position : typeDelta;
 			}),
 		collections: product.collections
-			.filter(({ collection }) => collection.isActive)
+			.filter(({ collection }) => collection.status === "PUBLISHED")
 			.map(({ collection }) => ({
 				id: collection.id,
 				slug: collection.slug,
 				name: collection.name,
+				eyebrow: collection.eyebrow,
+				shortDescription: collection.shortDescription,
 				description: collection.description,
-				imageUrl: collection.imageUrl,
+				cardImageUrl: collection.cardImageUrl,
+				heroImageUrl: collection.heroImageUrl,
+				accentColor: collection.accentColor,
 			})),
 		createdAt: product.createdAt.toISOString(),
 		updatedAt: product.updatedAt.toISOString(),

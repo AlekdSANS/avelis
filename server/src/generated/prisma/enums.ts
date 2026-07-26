@@ -83,3 +83,12 @@ export const ShippingMethod = {
 } as const
 
 export type ShippingMethod = (typeof ShippingMethod)[keyof typeof ShippingMethod]
+
+
+export const CollectionStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type CollectionStatus = (typeof CollectionStatus)[keyof typeof CollectionStatus]

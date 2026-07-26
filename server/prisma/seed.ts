@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import {
+	CollectionStatus,
 	FragranceNoteType,
 	PrismaClient,
 	ProductFormat,
@@ -61,32 +62,82 @@ const collections = [
 	{
 		slug: "signature-woods",
 		name: "Signature Woods",
-		description: "Polished woods, resins, and soft spices shaped for everyday depth.",
-		imageUrl: "/images/collections/signature-woods.webp",
+		eyebrow: "The house signature",
+		shortDescription:
+			"Polished woods, quiet resins and soft spices shaped for everyday depth.",
+		description:
+			"An exploration of wood as atmosphere: cedar warmed by skin, sandalwood softened by light, and resinous shadows that settle slowly into the day.",
+		cardImageUrl: "/images/hero/home_hero_peach.png",
+		heroImageUrl: "/images/hero/home_hero_peach.png",
+		accentColor: "#B89878",
+		status: CollectionStatus.PUBLISHED,
+		isFeatured: true,
+		sortOrder: 10,
+		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
 		slug: "water-and-air",
 		name: "Water & Air",
-		description: "Transparent musks, cool florals, and mineral brightness.",
-		imageUrl: "/images/collections/water-and-air.webp",
+		eyebrow: "Luminous compositions",
+		shortDescription:
+			"Transparent musks, cool florals and mineral brightness.",
+		description:
+			"Fragrances with the clarity of open air and moving water, composed from sea salt, rain-lit petals, pale woods and skin-close musks.",
+		cardImageUrl: "/images/hero/home_hero_frost.png",
+		heroImageUrl: "/images/hero/home_hero_frost.png",
+		accentColor: "#A8BDC5",
+		status: CollectionStatus.PUBLISHED,
+		isFeatured: false,
+		sortOrder: 20,
+		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
 		slug: "floral-light",
 		name: "Floral Light",
-		description: "Modern petals with glassy texture, fruit, and clean woods.",
-		imageUrl: "/images/collections/floral-light.webp",
+		eyebrow: "Petals, reframed",
+		shortDescription:
+			"Modern petals with glassy texture, fruit and clean woods.",
+		description:
+			"A study in transparent florals: magnolia, osmanthus and iris lifted by fruit skin, green sap and clean woods rather than traditional sweetness.",
+		cardImageUrl: "/images/hero/home_hero_peach.png",
+		heroImageUrl: "/images/hero/home_hero_peach.png",
+		accentColor: "#D7B8A7",
+		status: CollectionStatus.PUBLISHED,
+		isFeatured: false,
+		sortOrder: 30,
+		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
 		slug: "nocturne-reserve",
 		name: "Nocturne Reserve",
-		description: "Evening compositions with amber, smoke, suede, and dark woods.",
-		imageUrl: "/images/collections/nocturne-reserve.webp",
+		eyebrow: "After-dark editions",
+		shortDescription:
+			"Evening compositions with amber, smoke, suede and dark woods.",
+		description:
+			"Deeper compositions for the hours after dusk, balancing incense, suede and resonant woods with a measured glow of amber.",
+		cardImageUrl: "/images/hero/home_hero_red.png",
+		heroImageUrl: "/images/hero/home_hero_red.png",
+		accentColor: "#7C4A43",
+		status: CollectionStatus.PUBLISHED,
+		isFeatured: false,
+		sortOrder: 40,
+		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
 		slug: "refill-ritual",
 		name: "Refill Ritual",
-		description: "AVELIS scents offered with lower-waste refill formats.",
-		imageUrl: "/images/placeholders/collection_placeholder.png",
+		eyebrow: "A considered return",
+		shortDescription:
+			"AVELIS scents offered with lower-waste refill formats.",
+		description:
+			"Return to the fragrances you live with through dedicated refill formats designed to keep the original bottle in use.",
+		cardImageUrl: "/images/placeholders/collection_placeholder.png",
+		heroImageUrl: "/images/placeholders/collection_placeholder.png",
+		accentColor: "#77785F",
+		status: CollectionStatus.PUBLISHED,
+		isFeatured: false,
+		sortOrder: 50,
+		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 ];
 
@@ -544,7 +595,11 @@ async function upsertNote(name: string) {
 	});
 }
 
-async function seedProduct(product: ProductSeed, collectionIds: Map<string, string>) {
+async function seedProduct(
+	product: ProductSeed,
+	collectionIds: Map<string, string>,
+	productSortOrder: number,
+) {
 	const savedProduct = await prisma.product.upsert({
 		where: { slug: product.slug },
 		update: {
@@ -637,6 +692,7 @@ async function seedProduct(product: ProductSeed, collectionIds: Map<string, stri
 		data: product.collections.map((slug) => ({
 			productId: savedProduct.id,
 			collectionId: collectionIds.get(slug) ?? "",
+			sortOrder: productSortOrder,
 		})),
 		skipDuplicates: true,
 	});
@@ -645,8 +701,8 @@ async function seedProduct(product: ProductSeed, collectionIds: Map<string, stri
 async function main() {
 	const collectionIds = await upsertCollections();
 
-	for (const product of products) {
-		await seedProduct(product, collectionIds);
+	for (const [index, product] of products.entries()) {
+		await seedProduct(product, collectionIds, index * 10);
 	}
 
 	const [productCount, variantCount, imageCount] = await Promise.all([

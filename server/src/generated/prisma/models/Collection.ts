@@ -20,17 +20,37 @@ export type CollectionModel = runtime.Types.Result.DefaultSelection<Prisma.$Coll
 
 export type AggregateCollection = {
   _count: CollectionCountAggregateOutputType | null
+  _avg: CollectionAvgAggregateOutputType | null
+  _sum: CollectionSumAggregateOutputType | null
   _min: CollectionMinAggregateOutputType | null
   _max: CollectionMaxAggregateOutputType | null
+}
+
+export type CollectionAvgAggregateOutputType = {
+  sortOrder: number | null
+}
+
+export type CollectionSumAggregateOutputType = {
+  sortOrder: number | null
 }
 
 export type CollectionMinAggregateOutputType = {
   id: string | null
   slug: string | null
   name: string | null
+  eyebrow: string | null
+  shortDescription: string | null
   description: string | null
-  imageUrl: string | null
-  isActive: boolean | null
+  heroImageUrl: string | null
+  cardImageUrl: string | null
+  mobileImageUrl: string | null
+  accentColor: string | null
+  status: $Enums.CollectionStatus | null
+  isFeatured: boolean | null
+  sortOrder: number | null
+  publishedAt: Date | null
+  seoTitle: string | null
+  seoDescription: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -39,9 +59,19 @@ export type CollectionMaxAggregateOutputType = {
   id: string | null
   slug: string | null
   name: string | null
+  eyebrow: string | null
+  shortDescription: string | null
   description: string | null
-  imageUrl: string | null
-  isActive: boolean | null
+  heroImageUrl: string | null
+  cardImageUrl: string | null
+  mobileImageUrl: string | null
+  accentColor: string | null
+  status: $Enums.CollectionStatus | null
+  isFeatured: boolean | null
+  sortOrder: number | null
+  publishedAt: Date | null
+  seoTitle: string | null
+  seoDescription: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,22 +80,50 @@ export type CollectionCountAggregateOutputType = {
   id: number
   slug: number
   name: number
+  eyebrow: number
+  shortDescription: number
   description: number
-  imageUrl: number
-  isActive: number
+  heroImageUrl: number
+  cardImageUrl: number
+  mobileImageUrl: number
+  accentColor: number
+  status: number
+  isFeatured: number
+  sortOrder: number
+  publishedAt: number
+  seoTitle: number
+  seoDescription: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
+export type CollectionAvgAggregateInputType = {
+  sortOrder?: true
+}
+
+export type CollectionSumAggregateInputType = {
+  sortOrder?: true
+}
+
 export type CollectionMinAggregateInputType = {
   id?: true
   slug?: true
   name?: true
+  eyebrow?: true
+  shortDescription?: true
   description?: true
-  imageUrl?: true
-  isActive?: true
+  heroImageUrl?: true
+  cardImageUrl?: true
+  mobileImageUrl?: true
+  accentColor?: true
+  status?: true
+  isFeatured?: true
+  sortOrder?: true
+  publishedAt?: true
+  seoTitle?: true
+  seoDescription?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -74,9 +132,19 @@ export type CollectionMaxAggregateInputType = {
   id?: true
   slug?: true
   name?: true
+  eyebrow?: true
+  shortDescription?: true
   description?: true
-  imageUrl?: true
-  isActive?: true
+  heroImageUrl?: true
+  cardImageUrl?: true
+  mobileImageUrl?: true
+  accentColor?: true
+  status?: true
+  isFeatured?: true
+  sortOrder?: true
+  publishedAt?: true
+  seoTitle?: true
+  seoDescription?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -85,9 +153,19 @@ export type CollectionCountAggregateInputType = {
   id?: true
   slug?: true
   name?: true
+  eyebrow?: true
+  shortDescription?: true
   description?: true
-  imageUrl?: true
-  isActive?: true
+  heroImageUrl?: true
+  cardImageUrl?: true
+  mobileImageUrl?: true
+  accentColor?: true
+  status?: true
+  isFeatured?: true
+  sortOrder?: true
+  publishedAt?: true
+  seoTitle?: true
+  seoDescription?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -131,6 +209,18 @@ export type CollectionAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CollectionAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CollectionSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CollectionMinAggregateInputType
@@ -161,6 +251,8 @@ export type CollectionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: CollectionCountAggregateInputType | true
+  _avg?: CollectionAvgAggregateInputType
+  _sum?: CollectionSumAggregateInputType
   _min?: CollectionMinAggregateInputType
   _max?: CollectionMaxAggregateInputType
 }
@@ -169,12 +261,24 @@ export type CollectionGroupByOutputType = {
   id: string
   slug: string
   name: string
+  eyebrow: string | null
+  shortDescription: string | null
   description: string
-  imageUrl: string | null
-  isActive: boolean
+  heroImageUrl: string | null
+  cardImageUrl: string | null
+  mobileImageUrl: string | null
+  accentColor: string | null
+  status: $Enums.CollectionStatus
+  isFeatured: boolean
+  sortOrder: number
+  publishedAt: Date | null
+  seoTitle: string | null
+  seoDescription: string | null
   createdAt: Date
   updatedAt: Date
   _count: CollectionCountAggregateOutputType | null
+  _avg: CollectionAvgAggregateOutputType | null
+  _sum: CollectionSumAggregateOutputType | null
   _min: CollectionMinAggregateOutputType | null
   _max: CollectionMaxAggregateOutputType | null
 }
@@ -201,9 +305,19 @@ export type CollectionWhereInput = {
   id?: Prisma.StringFilter<"Collection"> | string
   slug?: Prisma.StringFilter<"Collection"> | string
   name?: Prisma.StringFilter<"Collection"> | string
+  eyebrow?: Prisma.StringNullableFilter<"Collection"> | string | null
+  shortDescription?: Prisma.StringNullableFilter<"Collection"> | string | null
   description?: Prisma.StringFilter<"Collection"> | string
-  imageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
-  isActive?: Prisma.BoolFilter<"Collection"> | boolean
+  heroImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  cardImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  mobileImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  accentColor?: Prisma.StringNullableFilter<"Collection"> | string | null
+  status?: Prisma.EnumCollectionStatusFilter<"Collection"> | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFilter<"Collection"> | boolean
+  sortOrder?: Prisma.IntFilter<"Collection"> | number
+  publishedAt?: Prisma.DateTimeNullableFilter<"Collection"> | Date | string | null
+  seoTitle?: Prisma.StringNullableFilter<"Collection"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"Collection"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   products?: Prisma.ProductCollectionListRelationFilter
@@ -213,9 +327,19 @@ export type CollectionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  eyebrow?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  heroImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  cardImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  mobileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  accentColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   products?: Prisma.ProductCollectionOrderByRelationAggregateInput
@@ -228,9 +352,19 @@ export type CollectionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CollectionWhereInput[]
   NOT?: Prisma.CollectionWhereInput | Prisma.CollectionWhereInput[]
   name?: Prisma.StringFilter<"Collection"> | string
+  eyebrow?: Prisma.StringNullableFilter<"Collection"> | string | null
+  shortDescription?: Prisma.StringNullableFilter<"Collection"> | string | null
   description?: Prisma.StringFilter<"Collection"> | string
-  imageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
-  isActive?: Prisma.BoolFilter<"Collection"> | boolean
+  heroImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  cardImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  mobileImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  accentColor?: Prisma.StringNullableFilter<"Collection"> | string | null
+  status?: Prisma.EnumCollectionStatusFilter<"Collection"> | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFilter<"Collection"> | boolean
+  sortOrder?: Prisma.IntFilter<"Collection"> | number
+  publishedAt?: Prisma.DateTimeNullableFilter<"Collection"> | Date | string | null
+  seoTitle?: Prisma.StringNullableFilter<"Collection"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"Collection"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   products?: Prisma.ProductCollectionListRelationFilter
@@ -240,14 +374,26 @@ export type CollectionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  eyebrow?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  heroImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  cardImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  mobileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  accentColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CollectionCountOrderByAggregateInput
+  _avg?: Prisma.CollectionAvgOrderByAggregateInput
   _max?: Prisma.CollectionMaxOrderByAggregateInput
   _min?: Prisma.CollectionMinOrderByAggregateInput
+  _sum?: Prisma.CollectionSumOrderByAggregateInput
 }
 
 export type CollectionScalarWhereWithAggregatesInput = {
@@ -257,9 +403,19 @@ export type CollectionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Collection"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Collection"> | string
   name?: Prisma.StringWithAggregatesFilter<"Collection"> | string
+  eyebrow?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  shortDescription?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
   description?: Prisma.StringWithAggregatesFilter<"Collection"> | string
-  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
-  isActive?: Prisma.BoolWithAggregatesFilter<"Collection"> | boolean
+  heroImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  cardImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  mobileImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  accentColor?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  status?: Prisma.EnumCollectionStatusWithAggregatesFilter<"Collection"> | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolWithAggregatesFilter<"Collection"> | boolean
+  sortOrder?: Prisma.IntWithAggregatesFilter<"Collection"> | number
+  publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Collection"> | Date | string | null
+  seoTitle?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  seoDescription?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
 }
@@ -268,9 +424,19 @@ export type CollectionCreateInput = {
   id?: string
   slug: string
   name: string
+  eyebrow?: string | null
+  shortDescription?: string | null
   description: string
-  imageUrl?: string | null
-  isActive?: boolean
+  heroImageUrl?: string | null
+  cardImageUrl?: string | null
+  mobileImageUrl?: string | null
+  accentColor?: string | null
+  status?: $Enums.CollectionStatus
+  isFeatured?: boolean
+  sortOrder?: number
+  publishedAt?: Date | string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCollectionCreateNestedManyWithoutCollectionInput
@@ -280,9 +446,19 @@ export type CollectionUncheckedCreateInput = {
   id?: string
   slug: string
   name: string
+  eyebrow?: string | null
+  shortDescription?: string | null
   description: string
-  imageUrl?: string | null
-  isActive?: boolean
+  heroImageUrl?: string | null
+  cardImageUrl?: string | null
+  mobileImageUrl?: string | null
+  accentColor?: string | null
+  status?: $Enums.CollectionStatus
+  isFeatured?: boolean
+  sortOrder?: number
+  publishedAt?: Date | string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCollectionUncheckedCreateNestedManyWithoutCollectionInput
@@ -292,9 +468,19 @@ export type CollectionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heroImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCollectionStatusFieldUpdateOperationsInput | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductCollectionUpdateManyWithoutCollectionNestedInput
@@ -304,9 +490,19 @@ export type CollectionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heroImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCollectionStatusFieldUpdateOperationsInput | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductCollectionUncheckedUpdateManyWithoutCollectionNestedInput
@@ -316,9 +512,19 @@ export type CollectionCreateManyInput = {
   id?: string
   slug: string
   name: string
+  eyebrow?: string | null
+  shortDescription?: string | null
   description: string
-  imageUrl?: string | null
-  isActive?: boolean
+  heroImageUrl?: string | null
+  cardImageUrl?: string | null
+  mobileImageUrl?: string | null
+  accentColor?: string | null
+  status?: $Enums.CollectionStatus
+  isFeatured?: boolean
+  sortOrder?: number
+  publishedAt?: Date | string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -327,9 +533,19 @@ export type CollectionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heroImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCollectionStatusFieldUpdateOperationsInput | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -338,9 +554,19 @@ export type CollectionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heroImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCollectionStatusFieldUpdateOperationsInput | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -349,20 +575,44 @@ export type CollectionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  eyebrow?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  heroImageUrl?: Prisma.SortOrder
+  cardImageUrl?: Prisma.SortOrder
+  mobileImageUrl?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CollectionAvgOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
 }
 
 export type CollectionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  eyebrow?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  heroImageUrl?: Prisma.SortOrder
+  cardImageUrl?: Prisma.SortOrder
+  mobileImageUrl?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -371,16 +621,38 @@ export type CollectionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  eyebrow?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  imageUrl?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  heroImageUrl?: Prisma.SortOrder
+  cardImageUrl?: Prisma.SortOrder
+  mobileImageUrl?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CollectionSumOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
 }
 
 export type CollectionScalarRelationFilter = {
   is?: Prisma.CollectionWhereInput
   isNot?: Prisma.CollectionWhereInput
+}
+
+export type EnumCollectionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.CollectionStatus
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type CollectionCreateNestedOneWithoutProductsInput = {
@@ -401,9 +673,19 @@ export type CollectionCreateWithoutProductsInput = {
   id?: string
   slug: string
   name: string
+  eyebrow?: string | null
+  shortDescription?: string | null
   description: string
-  imageUrl?: string | null
-  isActive?: boolean
+  heroImageUrl?: string | null
+  cardImageUrl?: string | null
+  mobileImageUrl?: string | null
+  accentColor?: string | null
+  status?: $Enums.CollectionStatus
+  isFeatured?: boolean
+  sortOrder?: number
+  publishedAt?: Date | string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -412,9 +694,19 @@ export type CollectionUncheckedCreateWithoutProductsInput = {
   id?: string
   slug: string
   name: string
+  eyebrow?: string | null
+  shortDescription?: string | null
   description: string
-  imageUrl?: string | null
-  isActive?: boolean
+  heroImageUrl?: string | null
+  cardImageUrl?: string | null
+  mobileImageUrl?: string | null
+  accentColor?: string | null
+  status?: $Enums.CollectionStatus
+  isFeatured?: boolean
+  sortOrder?: number
+  publishedAt?: Date | string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -439,9 +731,19 @@ export type CollectionUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heroImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCollectionStatusFieldUpdateOperationsInput | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -450,9 +752,19 @@ export type CollectionUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heroImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cardImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCollectionStatusFieldUpdateOperationsInput | $Enums.CollectionStatus
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -492,9 +804,19 @@ export type CollectionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   slug?: boolean
   name?: boolean
+  eyebrow?: boolean
+  shortDescription?: boolean
   description?: boolean
-  imageUrl?: boolean
-  isActive?: boolean
+  heroImageUrl?: boolean
+  cardImageUrl?: boolean
+  mobileImageUrl?: boolean
+  accentColor?: boolean
+  status?: boolean
+  isFeatured?: boolean
+  sortOrder?: boolean
+  publishedAt?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   products?: boolean | Prisma.Collection$productsArgs<ExtArgs>
@@ -505,9 +827,19 @@ export type CollectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   slug?: boolean
   name?: boolean
+  eyebrow?: boolean
+  shortDescription?: boolean
   description?: boolean
-  imageUrl?: boolean
-  isActive?: boolean
+  heroImageUrl?: boolean
+  cardImageUrl?: boolean
+  mobileImageUrl?: boolean
+  accentColor?: boolean
+  status?: boolean
+  isFeatured?: boolean
+  sortOrder?: boolean
+  publishedAt?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["collection"]>
@@ -516,9 +848,19 @@ export type CollectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   slug?: boolean
   name?: boolean
+  eyebrow?: boolean
+  shortDescription?: boolean
   description?: boolean
-  imageUrl?: boolean
-  isActive?: boolean
+  heroImageUrl?: boolean
+  cardImageUrl?: boolean
+  mobileImageUrl?: boolean
+  accentColor?: boolean
+  status?: boolean
+  isFeatured?: boolean
+  sortOrder?: boolean
+  publishedAt?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["collection"]>
@@ -527,14 +869,24 @@ export type CollectionSelectScalar = {
   id?: boolean
   slug?: boolean
   name?: boolean
+  eyebrow?: boolean
+  shortDescription?: boolean
   description?: boolean
-  imageUrl?: boolean
-  isActive?: boolean
+  heroImageUrl?: boolean
+  cardImageUrl?: boolean
+  mobileImageUrl?: boolean
+  accentColor?: boolean
+  status?: boolean
+  isFeatured?: boolean
+  sortOrder?: boolean
+  publishedAt?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "description" | "imageUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
+export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "eyebrow" | "shortDescription" | "description" | "heroImageUrl" | "cardImageUrl" | "mobileImageUrl" | "accentColor" | "status" | "isFeatured" | "sortOrder" | "publishedAt" | "seoTitle" | "seoDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
 export type CollectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.Collection$productsArgs<ExtArgs>
   _count?: boolean | Prisma.CollectionCountOutputTypeDefaultArgs<ExtArgs>
@@ -551,9 +903,19 @@ export type $CollectionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     slug: string
     name: string
+    eyebrow: string | null
+    shortDescription: string | null
     description: string
-    imageUrl: string | null
-    isActive: boolean
+    heroImageUrl: string | null
+    cardImageUrl: string | null
+    mobileImageUrl: string | null
+    accentColor: string | null
+    status: $Enums.CollectionStatus
+    isFeatured: boolean
+    sortOrder: number
+    publishedAt: Date | null
+    seoTitle: string | null
+    seoDescription: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["collection"]>
@@ -983,9 +1345,19 @@ export interface CollectionFieldRefs {
   readonly id: Prisma.FieldRef<"Collection", 'String'>
   readonly slug: Prisma.FieldRef<"Collection", 'String'>
   readonly name: Prisma.FieldRef<"Collection", 'String'>
+  readonly eyebrow: Prisma.FieldRef<"Collection", 'String'>
+  readonly shortDescription: Prisma.FieldRef<"Collection", 'String'>
   readonly description: Prisma.FieldRef<"Collection", 'String'>
-  readonly imageUrl: Prisma.FieldRef<"Collection", 'String'>
-  readonly isActive: Prisma.FieldRef<"Collection", 'Boolean'>
+  readonly heroImageUrl: Prisma.FieldRef<"Collection", 'String'>
+  readonly cardImageUrl: Prisma.FieldRef<"Collection", 'String'>
+  readonly mobileImageUrl: Prisma.FieldRef<"Collection", 'String'>
+  readonly accentColor: Prisma.FieldRef<"Collection", 'String'>
+  readonly status: Prisma.FieldRef<"Collection", 'CollectionStatus'>
+  readonly isFeatured: Prisma.FieldRef<"Collection", 'Boolean'>
+  readonly sortOrder: Prisma.FieldRef<"Collection", 'Int'>
+  readonly publishedAt: Prisma.FieldRef<"Collection", 'DateTime'>
+  readonly seoTitle: Prisma.FieldRef<"Collection", 'String'>
+  readonly seoDescription: Prisma.FieldRef<"Collection", 'String'>
   readonly createdAt: Prisma.FieldRef<"Collection", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Collection", 'DateTime'>
 }

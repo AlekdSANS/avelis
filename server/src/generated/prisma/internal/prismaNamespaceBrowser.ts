@@ -199,9 +199,19 @@ export const CollectionScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   name: 'name',
+  eyebrow: 'eyebrow',
+  shortDescription: 'shortDescription',
   description: 'description',
-  imageUrl: 'imageUrl',
-  isActive: 'isActive',
+  heroImageUrl: 'heroImageUrl',
+  cardImageUrl: 'cardImageUrl',
+  mobileImageUrl: 'mobileImageUrl',
+  accentColor: 'accentColor',
+  status: 'status',
+  isFeatured: 'isFeatured',
+  sortOrder: 'sortOrder',
+  publishedAt: 'publishedAt',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -211,7 +221,8 @@ export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof
 
 export const ProductCollectionScalarFieldEnum = {
   productId: 'productId',
-  collectionId: 'collectionId'
+  collectionId: 'collectionId',
+  sortOrder: 'sortOrder'
 } as const
 
 export type ProductCollectionScalarFieldEnum = (typeof ProductCollectionScalarFieldEnum)[keyof typeof ProductCollectionScalarFieldEnum]

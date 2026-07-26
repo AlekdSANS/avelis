@@ -59,6 +59,12 @@ enum ShippingMethod {
   EXPRESS
 }
 
+enum CollectionStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
   id           String         @id @default(cuid())
   firstName    String
@@ -190,28 +196,42 @@ model ProductNote {
 }
 
 model Collection {
-  id          String              @id @default(cuid())
-  slug        String              @unique
-  name        String
-  description String
-  imageUrl    String?
-  isActive    Boolean             @default(true)
-  products    ProductCollection[]
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+  id               String              @id @default(cuid())
+  slug             String              @unique
+  name             String
+  eyebrow          String?
+  shortDescription String?
+  description      String
+  heroImageUrl     String?
+  cardImageUrl     String?
+  mobileImageUrl   String?
+  accentColor      String?
+  status           CollectionStatus    @default(DRAFT)
+  isFeatured       Boolean             @default(false)
+  sortOrder        Int                 @default(0)
+  publishedAt      DateTime?
+  seoTitle         String?
+  seoDescription   String?
+  products         ProductCollection[]
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
 
-  @@index([isActive])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([sortOrder])
+  @@index([status, isFeatured, sortOrder])
 }
 
 model ProductCollection {
   productId    String
   collectionId String
+  sortOrder    Int    @default(0)
 
   product    Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
   collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 
   @@id([productId, collectionId])
-  @@index([collectionId])
+  @@index([collectionId, sortOrder])
 }
 
 model Cart {

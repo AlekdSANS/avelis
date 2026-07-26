@@ -20,40 +20,64 @@ export type ProductCollectionModel = runtime.Types.Result.DefaultSelection<Prism
 
 export type AggregateProductCollection = {
   _count: ProductCollectionCountAggregateOutputType | null
+  _avg: ProductCollectionAvgAggregateOutputType | null
+  _sum: ProductCollectionSumAggregateOutputType | null
   _min: ProductCollectionMinAggregateOutputType | null
   _max: ProductCollectionMaxAggregateOutputType | null
+}
+
+export type ProductCollectionAvgAggregateOutputType = {
+  sortOrder: number | null
+}
+
+export type ProductCollectionSumAggregateOutputType = {
+  sortOrder: number | null
 }
 
 export type ProductCollectionMinAggregateOutputType = {
   productId: string | null
   collectionId: string | null
+  sortOrder: number | null
 }
 
 export type ProductCollectionMaxAggregateOutputType = {
   productId: string | null
   collectionId: string | null
+  sortOrder: number | null
 }
 
 export type ProductCollectionCountAggregateOutputType = {
   productId: number
   collectionId: number
+  sortOrder: number
   _all: number
 }
 
 
+export type ProductCollectionAvgAggregateInputType = {
+  sortOrder?: true
+}
+
+export type ProductCollectionSumAggregateInputType = {
+  sortOrder?: true
+}
+
 export type ProductCollectionMinAggregateInputType = {
   productId?: true
   collectionId?: true
+  sortOrder?: true
 }
 
 export type ProductCollectionMaxAggregateInputType = {
   productId?: true
   collectionId?: true
+  sortOrder?: true
 }
 
 export type ProductCollectionCountAggregateInputType = {
   productId?: true
   collectionId?: true
+  sortOrder?: true
   _all?: true
 }
 
@@ -95,6 +119,18 @@ export type ProductCollectionAggregateArgs<ExtArgs extends runtime.Types.Extensi
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProductCollectionAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProductCollectionSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProductCollectionMinAggregateInputType
@@ -125,6 +161,8 @@ export type ProductCollectionGroupByArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   _count?: ProductCollectionCountAggregateInputType | true
+  _avg?: ProductCollectionAvgAggregateInputType
+  _sum?: ProductCollectionSumAggregateInputType
   _min?: ProductCollectionMinAggregateInputType
   _max?: ProductCollectionMaxAggregateInputType
 }
@@ -132,7 +170,10 @@ export type ProductCollectionGroupByArgs<ExtArgs extends runtime.Types.Extension
 export type ProductCollectionGroupByOutputType = {
   productId: string
   collectionId: string
+  sortOrder: number
   _count: ProductCollectionCountAggregateOutputType | null
+  _avg: ProductCollectionAvgAggregateOutputType | null
+  _sum: ProductCollectionSumAggregateOutputType | null
   _min: ProductCollectionMinAggregateOutputType | null
   _max: ProductCollectionMaxAggregateOutputType | null
 }
@@ -158,6 +199,7 @@ export type ProductCollectionWhereInput = {
   NOT?: Prisma.ProductCollectionWhereInput | Prisma.ProductCollectionWhereInput[]
   productId?: Prisma.StringFilter<"ProductCollection"> | string
   collectionId?: Prisma.StringFilter<"ProductCollection"> | string
+  sortOrder?: Prisma.IntFilter<"ProductCollection"> | number
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   collection?: Prisma.XOR<Prisma.CollectionScalarRelationFilter, Prisma.CollectionWhereInput>
 }
@@ -165,6 +207,7 @@ export type ProductCollectionWhereInput = {
 export type ProductCollectionOrderByWithRelationInput = {
   productId?: Prisma.SortOrder
   collectionId?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   collection?: Prisma.CollectionOrderByWithRelationInput
 }
@@ -176,6 +219,7 @@ export type ProductCollectionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProductCollectionWhereInput | Prisma.ProductCollectionWhereInput[]
   productId?: Prisma.StringFilter<"ProductCollection"> | string
   collectionId?: Prisma.StringFilter<"ProductCollection"> | string
+  sortOrder?: Prisma.IntFilter<"ProductCollection"> | number
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   collection?: Prisma.XOR<Prisma.CollectionScalarRelationFilter, Prisma.CollectionWhereInput>
 }, "productId_collectionId">
@@ -183,9 +227,12 @@ export type ProductCollectionWhereUniqueInput = Prisma.AtLeast<{
 export type ProductCollectionOrderByWithAggregationInput = {
   productId?: Prisma.SortOrder
   collectionId?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   _count?: Prisma.ProductCollectionCountOrderByAggregateInput
+  _avg?: Prisma.ProductCollectionAvgOrderByAggregateInput
   _max?: Prisma.ProductCollectionMaxOrderByAggregateInput
   _min?: Prisma.ProductCollectionMinOrderByAggregateInput
+  _sum?: Prisma.ProductCollectionSumOrderByAggregateInput
 }
 
 export type ProductCollectionScalarWhereWithAggregatesInput = {
@@ -194,9 +241,11 @@ export type ProductCollectionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProductCollectionScalarWhereWithAggregatesInput | Prisma.ProductCollectionScalarWhereWithAggregatesInput[]
   productId?: Prisma.StringWithAggregatesFilter<"ProductCollection"> | string
   collectionId?: Prisma.StringWithAggregatesFilter<"ProductCollection"> | string
+  sortOrder?: Prisma.IntWithAggregatesFilter<"ProductCollection"> | number
 }
 
 export type ProductCollectionCreateInput = {
+  sortOrder?: number
   product: Prisma.ProductCreateNestedOneWithoutCollectionsInput
   collection: Prisma.CollectionCreateNestedOneWithoutProductsInput
 }
@@ -204,9 +253,11 @@ export type ProductCollectionCreateInput = {
 export type ProductCollectionUncheckedCreateInput = {
   productId: string
   collectionId: string
+  sortOrder?: number
 }
 
 export type ProductCollectionUpdateInput = {
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   product?: Prisma.ProductUpdateOneRequiredWithoutCollectionsNestedInput
   collection?: Prisma.CollectionUpdateOneRequiredWithoutProductsNestedInput
 }
@@ -214,20 +265,23 @@ export type ProductCollectionUpdateInput = {
 export type ProductCollectionUncheckedUpdateInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   collectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductCollectionCreateManyInput = {
   productId: string
   collectionId: string
+  sortOrder?: number
 }
 
 export type ProductCollectionUpdateManyMutationInput = {
-
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductCollectionUncheckedUpdateManyInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
   collectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductCollectionListRelationFilter = {
@@ -248,16 +302,27 @@ export type ProductCollectionProductIdCollectionIdCompoundUniqueInput = {
 export type ProductCollectionCountOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   collectionId?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+}
+
+export type ProductCollectionAvgOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
 }
 
 export type ProductCollectionMaxOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   collectionId?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type ProductCollectionMinOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   collectionId?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+}
+
+export type ProductCollectionSumOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
 }
 
 export type ProductCollectionCreateNestedManyWithoutProductInput = {
@@ -345,11 +410,13 @@ export type ProductCollectionUncheckedUpdateManyWithoutCollectionNestedInput = {
 }
 
 export type ProductCollectionCreateWithoutProductInput = {
+  sortOrder?: number
   collection: Prisma.CollectionCreateNestedOneWithoutProductsInput
 }
 
 export type ProductCollectionUncheckedCreateWithoutProductInput = {
   collectionId: string
+  sortOrder?: number
 }
 
 export type ProductCollectionCreateOrConnectWithoutProductInput = {
@@ -384,14 +451,17 @@ export type ProductCollectionScalarWhereInput = {
   NOT?: Prisma.ProductCollectionScalarWhereInput | Prisma.ProductCollectionScalarWhereInput[]
   productId?: Prisma.StringFilter<"ProductCollection"> | string
   collectionId?: Prisma.StringFilter<"ProductCollection"> | string
+  sortOrder?: Prisma.IntFilter<"ProductCollection"> | number
 }
 
 export type ProductCollectionCreateWithoutCollectionInput = {
+  sortOrder?: number
   product: Prisma.ProductCreateNestedOneWithoutCollectionsInput
 }
 
 export type ProductCollectionUncheckedCreateWithoutCollectionInput = {
   productId: string
+  sortOrder?: number
 }
 
 export type ProductCollectionCreateOrConnectWithoutCollectionInput = {
@@ -422,34 +492,42 @@ export type ProductCollectionUpdateManyWithWhereWithoutCollectionInput = {
 
 export type ProductCollectionCreateManyProductInput = {
   collectionId: string
+  sortOrder?: number
 }
 
 export type ProductCollectionUpdateWithoutProductInput = {
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   collection?: Prisma.CollectionUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductCollectionUncheckedUpdateWithoutProductInput = {
   collectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductCollectionUncheckedUpdateManyWithoutProductInput = {
   collectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductCollectionCreateManyCollectionInput = {
   productId: string
+  sortOrder?: number
 }
 
 export type ProductCollectionUpdateWithoutCollectionInput = {
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   product?: Prisma.ProductUpdateOneRequiredWithoutCollectionsNestedInput
 }
 
 export type ProductCollectionUncheckedUpdateWithoutCollectionInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductCollectionUncheckedUpdateManyWithoutCollectionInput = {
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -457,6 +535,7 @@ export type ProductCollectionUncheckedUpdateManyWithoutCollectionInput = {
 export type ProductCollectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   productId?: boolean
   collectionId?: boolean
+  sortOrder?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   collection?: boolean | Prisma.CollectionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productCollection"]>
@@ -464,6 +543,7 @@ export type ProductCollectionSelect<ExtArgs extends runtime.Types.Extensions.Int
 export type ProductCollectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   productId?: boolean
   collectionId?: boolean
+  sortOrder?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   collection?: boolean | Prisma.CollectionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productCollection"]>
@@ -471,6 +551,7 @@ export type ProductCollectionSelectCreateManyAndReturn<ExtArgs extends runtime.T
 export type ProductCollectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   productId?: boolean
   collectionId?: boolean
+  sortOrder?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   collection?: boolean | Prisma.CollectionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productCollection"]>
@@ -478,9 +559,10 @@ export type ProductCollectionSelectUpdateManyAndReturn<ExtArgs extends runtime.T
 export type ProductCollectionSelectScalar = {
   productId?: boolean
   collectionId?: boolean
+  sortOrder?: boolean
 }
 
-export type ProductCollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"productId" | "collectionId", ExtArgs["result"]["productCollection"]>
+export type ProductCollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"productId" | "collectionId" | "sortOrder", ExtArgs["result"]["productCollection"]>
 export type ProductCollectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   collection?: boolean | Prisma.CollectionDefaultArgs<ExtArgs>
@@ -503,6 +585,7 @@ export type $ProductCollectionPayload<ExtArgs extends runtime.Types.Extensions.I
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     productId: string
     collectionId: string
+    sortOrder: number
   }, ExtArgs["result"]["productCollection"]>
   composites: {}
 }
@@ -930,6 +1013,7 @@ export interface Prisma__ProductCollectionClient<T, Null = never, ExtArgs extend
 export interface ProductCollectionFieldRefs {
   readonly productId: Prisma.FieldRef<"ProductCollection", 'String'>
   readonly collectionId: Prisma.FieldRef<"ProductCollection", 'String'>
+  readonly sortOrder: Prisma.FieldRef<"ProductCollection", 'Int'>
 }
     
 
