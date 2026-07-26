@@ -1,15 +1,5 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"framework": null,
-	"functions": {
-		"api/index.ts": {
-			"includeFiles": "src/generated/prisma/**"
-		}
-	},
-	"rewrites": [
-		{
-			"source": "/(.*)",
-			"destination": "/api/index"
-		}
-	]
+	"framework": "express",
+	"buildCommand": "npm run build"
 }
