@@ -14,6 +14,9 @@ export type ProductGridItem = {
 
 type ProductGridProps = {
   className?: string;
+  emptyDescription?: string;
+  emptyLabel?: string;
+  emptyTitle?: string;
   errorMessage?: string;
   itemListId?: string;
   itemListName?: string;
@@ -27,6 +30,9 @@ type ProductGridProps = {
 
 export function ProductGrid({
   className,
+  emptyDescription = "Remove a filter or search for another note, family, or composition.",
+  emptyLabel = "No exact match",
+  emptyTitle = "Try a wider fragrance profile.",
   errorMessage = "The fragrance catalogue could not be shown.",
   itemListId,
   itemListName,
@@ -98,9 +104,9 @@ export function ProductGrid({
   if (items.length === 0) {
     return (
       <div className={styles.state}>
-        <p className={styles.stateLabel}>No exact match</p>
-        <h2>Try a wider fragrance profile.</h2>
-        <p>Remove a filter or search for another note, family, or composition.</p>
+        <p className={styles.stateLabel}>{emptyLabel}</p>
+        <h2>{emptyTitle}</h2>
+        <p>{emptyDescription}</p>
       </div>
     );
   }

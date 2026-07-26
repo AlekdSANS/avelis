@@ -4,10 +4,16 @@ export interface Collection {
   id: string;
   slug: string;
   name: string;
+  eyebrow: string | null;
+  shortDescription: string | null;
   description: string;
-  imageUrl: string | null;
-  productCount?: number;
+  heroImageUrl: string | null;
+  cardImageUrl: string | null;
+  mobileImageUrl: string | null;
+  accentColor: string | null;
+  isFeatured: boolean;
+  productCount: number;
   products?: Product[];
-  createdAt?: string;
-  updatedAt?: string;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 }

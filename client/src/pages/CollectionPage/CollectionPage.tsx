@@ -1,9 +1,158 @@
+import { ArrowLeft, RefreshCcw } from "lucide-react";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { ProductGrid } from "../../components/commerce/ProductGrid/ProductGrid";
+import { Button } from "../../components/ui/Button/Button";
+import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
+import { CollectionImage } from "../../features/collections/components/CollectionImage";
+import { useCollection } from "../../features/collections/hooks/useCollections";
+import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist";
+import { ApiClientError } from "../../services/apiClient";
 import styles from "./CollectionPage.module.scss";
 
+type AccentStyle = React.CSSProperties & {
+	"--collection-accent": string;
+};
+
+function CollectionLoading() {
+	return (
+		<div
+			aria-busy="true"
+			aria-label="Loading collection"
+			className={styles.loading}
+			role="status"
+		>
+			<Skeleton />
+			<div>
+				<Skeleton />
+				<Skeleton />
+				<Skeleton />
+			</div>
+		</div>
+	);
+}
+
 export function CollectionPage() {
-  return (
-    <section className={styles.page}>
-      <h1>CollectionPage</h1>
-    </section>
-  );
+	const { slug } = useParams();
+	const collectionQuery = useCollection(slug);
+	const collection = collectionQuery.data;
+	const { wishlist, toggleWishlist } = useLocalWishlist();
+	const isNotFound =
+		collectionQuery.error instanceof ApiClientError &&
+		collectionQuery.error.statusCode === 404;
+
+	useEffect(() => {
+		if (!collection) return;
+		const previousTitle = document.title;
+		document.title = `${collection.seoTitle ?? collection.name} | AVELIS`;
+		return () => {
+			document.title = previousTitle;
+		};
+	}, [collection]);
+
+	if (collectionQuery.isLoading) {
+		return <CollectionLoading />;
+	}
+
+	if (collectionQuery.isError) {
+		return (
+			<section className={styles.state} role={isNotFound ? undefined : "alert"}>
+				<p>{isNotFound ? "Collection not found" : "Collection unavailable"}</p>
+				<h1>
+					{isNotFound
+						? "This world is no longer in the archive."
+						: "The collection could not be shown."}
+				</h1>
+				<span>
+					{isNotFound
+						? "Explore the current AVELIS collections instead."
+						: "Please try loading the collection again."}
+				</span>
+				{isNotFound ? (
+					<Link to="/collections">
+						<ArrowLeft aria-hidden="true" />
+						All collections
+					</Link>
+				) : (
+					<Button onClick={() => void collectionQuery.refetch()}>
+						<RefreshCcw aria-hidden="true" />
+						Try again
+					</Button>
+				)}
+			</section>
+		);
+	}
+
+	if (!collection) return null;
+
+	const style: AccentStyle = {
+		"--collection-accent": collection.accentColor ?? "#727052",
+	};
+	const products = collection.products ?? [];
+
+	return (
+		<article className={styles.page} style={style}>
+			<header className={styles.hero}>
+				<div className={styles.heroMedia}>
+					<CollectionImage
+						alt={`${collection.name} collection`}
+						mobileSrc={collection.mobileImageUrl}
+						src={collection.heroImageUrl ?? collection.cardImageUrl}
+					/>
+				</div>
+				<div className={styles.heroContent}>
+					<Link to="/collections">
+						<ArrowLeft aria-hidden="true" />
+						All collections
+					</Link>
+					<p>{collection.eyebrow ?? "Avelis collection"}</p>
+					<h1>{collection.name}</h1>
+					<span>
+						{collection.shortDescription ?? collection.description}
+					</span>
+				</div>
+			</header>
+
+			<section aria-labelledby="collection-story-title" className={styles.story}>
+				<div>
+					<p>The collection story</p>
+					<h2 id="collection-story-title">An atmosphere, held in fragrance.</h2>
+				</div>
+				<div>
+					{collection.description
+						.split(/\n{2,}/)
+						.filter(Boolean)
+						.map((paragraph) => (
+							<p key={paragraph}>{paragraph}</p>
+						))}
+				</div>
+			</section>
+
+			<section
+				aria-labelledby="collection-products-title"
+				className={styles.products}
+			>
+				<header>
+					<p>The compositions</p>
+					<h2 id="collection-products-title">
+						Fragrances in this collection
+					</h2>
+					<span>
+						{products.length}{" "}
+						{products.length === 1 ? "fragrance" : "fragrances"}
+					</span>
+				</header>
+				<ProductGrid
+					emptyDescription="New fragrances may be added as this collection evolves."
+					emptyLabel="A collection in progress"
+					emptyTitle="No fragrances are available here yet."
+					itemListId={`collection_${collection.slug}`}
+					itemListName={collection.name}
+					items={products.map((product) => ({ product }))}
+					onWishlistToggle={toggleWishlist}
+					wishlist={wishlist}
+				/>
+			</section>
+		</article>
+	);
 }
