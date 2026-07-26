@@ -1,5 +1,6 @@
 import styles from "./Footer.module.scss";
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa6";
 
 import { Logo } from "../Logo/Logo";
 import { NewsletterForm } from "../NewsletterForm/NewsletterForm";
@@ -46,7 +47,23 @@ const footerSections = [
   },
 ];
 
-const socialLinks = ["Instagram", "Pinterest", "TikTok"];
+const socialLinks = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/",
+    icon: FaFacebookF,
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/",
+    icon: FaTiktok,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/",
+    icon: FaInstagram,
+  },
+];
 
 export function Footer({
   className,
@@ -90,29 +107,34 @@ export function Footer({
 
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} AVELIS Parfums. All rights reserved.</p>
-          <ul
-            aria-label="Footer utility and social links"
-            className={styles.socialLinks}
-          >
+          <div className={styles.footerActions}>
             {onCookieSettingsOpen ? (
-              <li>
-                <button
-                  className={styles.cookieSettings}
-                  onClick={onCookieSettingsOpen}
-                  type="button"
-                >
-                  Cookie preferences
-                </button>
-              </li>
+              <button
+                className={styles.cookieSettings}
+                onClick={onCookieSettingsOpen}
+                type="button"
+              >
+                Cookie preferences
+              </button>
             ) : null}
-            {socialLinks.map((social) => (
-              <li key={social}>
-                <a href="/" onClick={(event) => event.preventDefault()}>
-                  {social}
-                </a>
-              </li>
-            ))}
-          </ul>
+            <nav aria-label="Follow AVELIS on social media">
+              <ul className={styles.socialLinks}>
+                {socialLinks.map(({ href, icon: Icon, label }) => (
+                  <li key={label}>
+                    <a
+                      aria-label={`Follow AVELIS on ${label}`}
+                      href={href}
+                      rel="noreferrer"
+                      target="_blank"
+                      title={label}
+                    >
+                      <Icon aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </footer>
