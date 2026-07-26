@@ -30,6 +30,7 @@ import { CollectionsPage } from "../pages/CollectionsPage/CollectionsPage";
 import { CollectionPage } from "../pages/CollectionPage/CollectionPage";
 import { AdminCollectionFormPage } from "../pages/AdminCollectionFormPage/AdminCollectionFormPage";
 import { FragranceGuidePage } from "../pages/FragranceGuidePage/FragranceGuidePage";
+import { AboutPage } from "../pages/AboutPage/AboutPage";
 
 export const router = createBrowserRouter([
 	{
@@ -61,7 +62,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/about",
-				element: <PlaceholderPage title="About Avelis" />,
+				element: <AboutPage />,
 			},
 			{
 				path: "/cart",
