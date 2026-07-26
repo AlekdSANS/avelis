@@ -21,3 +21,16 @@ export function useDeleteAdminProductUpload() {
 		retry: false,
 	});
 }
+
+export function useUploadAdminCollectionImages() {
+	return useMutation({
+		mutationFn: ({
+			files,
+			onProgress,
+		}: {
+			files: File[];
+			onProgress?: (progress: number) => void;
+		}) => adminUploadService.uploadCollectionImages(files, onProgress),
+		retry: false,
+	});
+}

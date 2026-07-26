@@ -1,9 +1,15 @@
-import { Edit3, FolderOpen, Plus, RefreshCcw, Search } from "lucide-react";
+import {
+	Archive,
+	Edit3,
+	Eye,
+	FolderOpen,
+	Plus,
+	RefreshCcw,
+	Search,
+} from "lucide-react";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../../components/ui/Button/Button";
+import { Link, useSearchParams } from "react-router-dom";
+import { Button, ButtonLink } from "../../components/ui/Button/Button";
 import { Input } from "../../components/ui/Input/Input";
 import { Modal } from "../../components/ui/Modal/Modal";
 import { Pagination } from "../../components/ui/Pagination/Pagination";
@@ -11,19 +17,17 @@ import { Select } from "../../components/ui/Select/Select";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
 import {
 	useAdminCollections,
-	useCreateAdminCollection,
 	useDeleteAdminCollection,
 	useUpdateAdminCollection,
 } from "../../features/admin/hooks/useAdminCollections";
-import {
-	adminCollectionFormSchema,
-	type AdminCollectionFormValues,
-} from "../../features/admin/references/adminReferenceFormSchemas";
-import { ProductImage } from "../../features/products/components/ProductImage";
-import { ApiClientError } from "../../services/apiClient";
-import type { AdminCollection } from "../../types/adminCollection";
-import type { AdminReferenceStatus } from "../../types/adminNote";
-import styles from "../AdminReferencePage/AdminReferencePage.module.scss";
+import { CollectionImage } from "../../features/collections/components/CollectionImage";
+import type {
+	AdminCollectionFeaturedFilter,
+	AdminCollectionListItem,
+	AdminCollectionSort,
+	AdminCollectionStatusFilter,
+} from "../../types/adminCollection";
+import styles from "./AdminCollectionsPage.module.scss";
 
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
 	day: "2-digit",
@@ -31,76 +35,65 @@ const dateFormatter = new Intl.DateTimeFormat("en-GB", {
 	year: "numeric",
 });
 
-function createSlug(value: string) {
-	return value
-		.normalize("NFKD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toLowerCase()
-		.trim()
-		.replace(/['’]/g, "")
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-+|-+$/g, "");
-}
-
 function safePage(value: string | null) {
-	const page = Number(value);
-	return Number.isInteger(page) && page > 0 ? page : 1;
+	const parsed = Number(value);
+	return Number.isInteger(parsed) && parsed > 0 ? parsed : 1;
 }
 
-function errorMessage(error: unknown) {
-	return error instanceof ApiClientError
-		? error.message
-		: "The collection could not be saved.";
+function statusLabel(status: AdminCollectionListItem["status"]) {
+	return status.charAt(0) + status.slice(1).toLowerCase();
 }
 
 export function AdminCollectionsPage() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const search = searchParams.get("search") ?? "";
-	const statusParam = searchParams.get("status");
-	const status: AdminReferenceStatus =
-		statusParam === "active" || statusParam === "inactive"
-			? statusParam
+	const statusValue = searchParams.get("status");
+	const featuredValue = searchParams.get("featured");
+	const sortValue = searchParams.get("sort");
+	const status: AdminCollectionStatusFilter =
+		statusValue === "DRAFT" ||
+		statusValue === "PUBLISHED" ||
+		statusValue === "ARCHIVED"
+			? statusValue
 			: "all";
+	const featured: AdminCollectionFeaturedFilter =
+		featuredValue === "true" || featuredValue === "false"
+			? featuredValue
+			: "all";
+	const sort: AdminCollectionSort =
+		sortValue === "oldest" ||
+		sortValue === "name-asc" ||
+		sortValue === "name-desc" ||
+		sortValue === "sort-order"
+			? sortValue
+			: "newest";
 	const page = safePage(searchParams.get("page"));
 	const collectionsQuery = useAdminCollections({
-		...(search.length === 0 ? {} : { search }),
+		...(search ? { search } : {}),
 		status,
+		featured,
+		sort,
 		page,
 		limit: 20,
 	});
-	const createMutation = useCreateAdminCollection();
 	const updateMutation = useUpdateAdminCollection();
-	const deleteMutation = useDeleteAdminCollection();
-	const [editor, setEditor] = useState<AdminCollection | "new" | null>(null);
-	const collectionForm = useForm<AdminCollectionFormValues>({
-		defaultValues: {
-			name: "",
-			slug: "",
-			description: "",
-			imageUrl: "",
-			isActive: true,
-		},
-		resolver: zodResolver(adminCollectionFormSchema),
-	});
-	const previewImageUrl = useWatch({
-		control: collectionForm.control,
-		name: "imageUrl",
-	});
-	const [slugTouched, setSlugTouched] = useState(false);
-	const [deactivateTarget, setDeactivateTarget] =
-		useState<AdminCollection | null>(null);
+	const archiveMutation = useDeleteAdminCollection();
+	const [archiveTarget, setArchiveTarget] =
+		useState<AdminCollectionListItem | null>(null);
 	const [feedback, setFeedback] = useState<string | null>(null);
 	const [actionError, setActionError] = useState<string | null>(null);
+	const collections = collectionsQuery.data?.data ?? [];
 
 	const updateParams = (updates: Record<string, string | undefined>) => {
 		setSearchParams((current) => {
 			const next = new URLSearchParams(current);
 			Object.entries(updates).forEach(([key, value]) => {
 				if (
-					value === undefined ||
-					value.length === 0 ||
+					!value ||
+					(key === "page" && value === "1") ||
 					(key === "status" && value === "all") ||
-					(key === "page" && value === "1")
+					(key === "featured" && value === "all") ||
+					(key === "sort" && value === "newest")
 				) {
 					next.delete(key);
 				} else {
@@ -112,114 +105,115 @@ export function AdminCollectionsPage() {
 		});
 	};
 
-	const openEditor = (collection?: AdminCollection) => {
-		setEditor(collection ?? "new");
-		collectionForm.reset({
-			name: collection?.name ?? "",
-			slug: collection?.slug ?? "",
-			description: collection?.description ?? "",
-			imageUrl: collection?.imageUrl ?? "",
-			isActive: collection?.isActive ?? true,
-		});
-		setSlugTouched(collection !== undefined);
-		setActionError(null);
-	};
-
-	const saveCollection = async (values: AdminCollectionFormValues) => {
-		const input = {
-			name: values.name.trim(),
-			slug: createSlug(values.slug),
-			description: values.description.trim(),
-			imageUrl:
-				values.imageUrl.trim().length === 0
-					? null
-					: values.imageUrl.trim(),
-			isActive: values.isActive,
-		};
-
+	const togglePublishing = async (collection: AdminCollectionListItem) => {
 		try {
-			if (editor === "new") {
-				await createMutation.mutateAsync(input);
-				setFeedback("Collection created.");
-			} else if (editor !== null) {
-				await updateMutation.mutateAsync({ id: editor.id, input });
-				setFeedback("Collection updated.");
-			}
-			setEditor(null);
-			setActionError(null);
-		} catch (error) {
-			collectionForm.setError("root.server", {
-				message: errorMessage(error),
-			});
-		}
-	};
-
-	const setCollectionActive = async (
-		collection: AdminCollection,
-		nextActive: boolean,
-	) => {
-		try {
+			const nextStatus =
+				collection.status === "PUBLISHED" ? "DRAFT" : "PUBLISHED";
 			await updateMutation.mutateAsync({
 				id: collection.id,
-				input: { isActive: nextActive },
+				input: { status: nextStatus },
 			});
-			setFeedback(nextActive ? "Collection activated." : "Collection updated.");
+			setFeedback(
+				nextStatus === "PUBLISHED"
+					? `${collection.name} published.`
+					: `${collection.name} returned to draft.`,
+			);
 			setActionError(null);
 		} catch (error) {
-			setActionError(errorMessage(error));
+			setActionError(
+				error instanceof Error
+					? error.message
+					: "The publishing status could not be changed.",
+			);
 		}
 	};
 
-	const deactivateCollection = async () => {
-		if (deactivateTarget === null) return;
+	const archiveCollection = async () => {
+		if (!archiveTarget) return;
 		try {
-			await deleteMutation.mutateAsync(deactivateTarget.id);
-			setFeedback("Collection deactivated.");
-			setDeactivateTarget(null);
+			await archiveMutation.mutateAsync(archiveTarget.id);
+			setFeedback(`${archiveTarget.name} archived.`);
+			setArchiveTarget(null);
 			setActionError(null);
 		} catch (error) {
-			setActionError(errorMessage(error));
+			setActionError(
+				error instanceof Error
+					? error.message
+					: "The collection could not be archived.",
+			);
 		}
 	};
 
-	const collections = collectionsQuery.data?.data ?? [];
+	const actionsFor = (collection: AdminCollectionListItem) => (
+		<div className={styles.rowActions}>
+			<Link to={`/admin/collections/${collection.id}/edit`}>
+				<Edit3 aria-hidden="true" />
+				Edit
+			</Link>
+			{collection.status === "PUBLISHED" ? (
+				<Link
+					rel="noreferrer"
+					target="_blank"
+					to={`/collections/${collection.slug}`}
+				>
+					<Eye aria-hidden="true" />
+					Preview
+				</Link>
+			) : null}
+			{collection.status !== "ARCHIVED" ? (
+				<button
+					disabled={updateMutation.isPending}
+					onClick={() => void togglePublishing(collection)}
+					type="button"
+				>
+					{collection.status === "PUBLISHED" ? "Unpublish" : "Publish"}
+				</button>
+			) : null}
+			{collection.status !== "ARCHIVED" ? (
+				<button onClick={() => setArchiveTarget(collection)} type="button">
+					<Archive aria-hidden="true" />
+					Archive
+				</button>
+			) : null}
+		</div>
+	);
 
 	return (
 		<section className={styles.page}>
 			<header className={styles.heading}>
 				<div>
-					<p>Product reference data</p>
+					<p>Storefront curation</p>
 					<h2>Collections</h2>
 					<span>
-						Manage the curated catalogue groupings available to products and
-						the storefront.
+						Create editorial worlds, arrange their fragrances and control
+						storefront visibility.
 					</span>
 				</div>
-				<Button onClick={() => openEditor()}>
+				<ButtonLink to="/admin/collections/new">
 					<Plus aria-hidden="true" />
-					Add collection
-				</Button>
+					Create collection
+				</ButtonLink>
 			</header>
 
-			{feedback === null ? null : (
+			{feedback ? (
 				<p className={styles.feedback} role="status">
 					{feedback}
 				</p>
-			)}
-			{actionError === null ? null : (
+			) : null}
+			{actionError ? (
 				<p className={styles.error} role="alert">
 					{actionError}
 				</p>
-			)}
+			) : null}
 
 			<div className={styles.toolbar}>
 				<form
 					className={styles.search}
 					onSubmit={(event) => {
 						event.preventDefault();
-						const data = new FormData(event.currentTarget);
+						const formData = new FormData(event.currentTarget);
 						updateParams({
-							search: String(data.get("search") ?? "").trim(),
+							search: String(formData.get("search") ?? "").trim(),
 						});
 					}}
 					role="search"
@@ -230,7 +224,8 @@ export function AdminCollectionsPage() {
 						defaultValue={search}
 						key={search}
 						name="search"
-						placeholder="Search name or slug"
+						placeholder="Search name, slug or story"
+						type="search"
 					/>
 					<Button size="sm" type="submit" variant="secondary">
 						Search
@@ -239,15 +234,43 @@ export function AdminCollectionsPage() {
 				<label>
 					<span>Status</span>
 					<Select
-						aria-label="Filter collections by status"
 						onChange={(event) =>
 							updateParams({ status: event.target.value })
 						}
 						value={status}
 					>
 						<option value="all">All statuses</option>
-						<option value="active">Active</option>
-						<option value="inactive">Inactive</option>
+						<option value="DRAFT">Draft</option>
+						<option value="PUBLISHED">Published</option>
+						<option value="ARCHIVED">Archived</option>
+					</Select>
+				</label>
+				<label>
+					<span>Featured</span>
+					<Select
+						onChange={(event) =>
+							updateParams({ featured: event.target.value })
+						}
+						value={featured}
+					>
+						<option value="all">All collections</option>
+						<option value="true">Featured only</option>
+						<option value="false">Not featured</option>
+					</Select>
+				</label>
+				<label>
+					<span>Sort</span>
+					<Select
+						onChange={(event) =>
+							updateParams({ sort: event.target.value })
+						}
+						value={sort}
+					>
+						<option value="newest">Newest</option>
+						<option value="oldest">Oldest</option>
+						<option value="name-asc">Name A–Z</option>
+						<option value="name-desc">Name Z–A</option>
+						<option value="sort-order">Collection order</option>
 					</Select>
 				</label>
 			</div>
@@ -268,7 +291,7 @@ export function AdminCollectionsPage() {
 				<div className={styles.state} role="alert">
 					<RefreshCcw aria-hidden="true" />
 					<h3>Collections could not be loaded</h3>
-					<p>Check the connection and try this request again.</p>
+					<p>Check the connection and try again.</p>
 					<Button
 						onClick={() => void collectionsQuery.refetch()}
 						variant="secondary"
@@ -278,20 +301,18 @@ export function AdminCollectionsPage() {
 				</div>
 			) : null}
 
-			{!collectionsQuery.isLoading &&
-			!collectionsQuery.isError &&
-			collections.length === 0 ? (
+			{collectionsQuery.isSuccess && collections.length === 0 ? (
 				<div className={styles.state}>
 					<FolderOpen aria-hidden="true" />
 					<h3>
-						{search.length > 0 || status !== "all"
+						{search || status !== "all" || featured !== "all"
 							? "No collections match these filters"
-							: "No collections yet"}
+							: "No collections have been created yet"}
 					</h3>
 					<p>
-						{search.length > 0 || status !== "all"
-							? "Adjust the search or status filter."
-							: "Create the first reusable product collection."}
+						{search || status !== "all" || featured !== "all"
+							? "Adjust the search or filters."
+							: "Create the first editorial storefront collection."}
 					</p>
 				</div>
 			) : null}
@@ -305,6 +326,8 @@ export function AdminCollectionsPage() {
 									<th scope="col">Collection</th>
 									<th scope="col">Status</th>
 									<th scope="col">Products</th>
+									<th scope="col">Featured</th>
+									<th scope="col">Order</th>
 									<th scope="col">Updated</th>
 									<th scope="col">Actions</th>
 								</tr>
@@ -314,12 +337,9 @@ export function AdminCollectionsPage() {
 									<tr key={collection.id}>
 										<td>
 											<div className={styles.collectionName}>
-												<ProductImage
+												<CollectionImage
 													alt=""
-													src={
-														collection.imageUrl ??
-														"/images/placeholders/product_placeholder.png"
-													}
+													src={collection.cardImageUrl}
 												/>
 												<span>
 													<strong>{collection.name}</strong>
@@ -331,48 +351,19 @@ export function AdminCollectionsPage() {
 											<span
 												className={[
 													styles.status,
-													collection.isActive
-														? styles.active
-														: styles.inactive,
+													styles[collection.status.toLowerCase()],
 												].join(" ")}
 											>
-												{collection.isActive ? "Active" : "Inactive"}
+												{statusLabel(collection.status)}
 											</span>
 										</td>
 										<td>{collection.productCount}</td>
+										<td>{collection.isFeatured ? "Yes" : "No"}</td>
+										<td>{collection.sortOrder}</td>
 										<td>
 											{dateFormatter.format(new Date(collection.updatedAt))}
 										</td>
-										<td>
-											<div className={styles.rowActions}>
-												<button
-													onClick={() => openEditor(collection)}
-													type="button"
-												>
-													<Edit3 aria-hidden="true" />
-													Edit
-												</button>
-												{collection.isActive ? (
-													<button
-														onClick={() =>
-															setDeactivateTarget(collection)
-														}
-														type="button"
-													>
-														Deactivate
-													</button>
-												) : (
-													<button
-														onClick={() =>
-															void setCollectionActive(collection, true)
-														}
-														type="button"
-													>
-														Activate
-													</button>
-												)}
-											</div>
-										</td>
+										<td>{actionsFor(collection)}</td>
 									</tr>
 								))}
 							</tbody>
@@ -384,12 +375,9 @@ export function AdminCollectionsPage() {
 							<article key={collection.id}>
 								<header>
 									<div className={styles.collectionName}>
-										<ProductImage
+										<CollectionImage
 											alt=""
-											src={
-												collection.imageUrl ??
-												"/images/placeholders/product_placeholder.png"
-											}
+											src={collection.cardImageUrl}
 										/>
 										<span>
 											<strong>{collection.name}</strong>
@@ -399,18 +387,24 @@ export function AdminCollectionsPage() {
 									<span
 										className={[
 											styles.status,
-											collection.isActive
-												? styles.active
-												: styles.inactive,
+											styles[collection.status.toLowerCase()],
 										].join(" ")}
 									>
-										{collection.isActive ? "Active" : "Inactive"}
+										{statusLabel(collection.status)}
 									</span>
 								</header>
 								<dl>
 									<div>
 										<dt>Products</dt>
 										<dd>{collection.productCount}</dd>
+									</div>
+									<div>
+										<dt>Featured</dt>
+										<dd>{collection.isFeatured ? "Yes" : "No"}</dd>
+									</div>
+									<div>
+										<dt>Order</dt>
+										<dd>{collection.sortOrder}</dd>
 									</div>
 									<div>
 										<dt>Updated</dt>
@@ -421,32 +415,7 @@ export function AdminCollectionsPage() {
 										</dd>
 									</div>
 								</dl>
-								<div className={styles.rowActions}>
-									<button
-										onClick={() => openEditor(collection)}
-										type="button"
-									>
-										<Edit3 aria-hidden="true" />
-										Edit
-									</button>
-									{collection.isActive ? (
-										<button
-											onClick={() => setDeactivateTarget(collection)}
-											type="button"
-										>
-											Deactivate
-										</button>
-									) : (
-										<button
-											onClick={() =>
-												void setCollectionActive(collection, true)
-											}
-											type="button"
-										>
-											Activate
-										</button>
-									)}
-								</div>
+								{actionsFor(collection)}
 							</article>
 						))}
 					</div>
@@ -463,200 +432,33 @@ export function AdminCollectionsPage() {
 			) : null}
 
 			<Modal
-				description="Collections group products across the admin and storefront."
-				footer={
-					<>
-						<Button onClick={() => setEditor(null)} variant="secondary">
-							Cancel
-						</Button>
-						<Button
-							disabled={
-								createMutation.isPending || updateMutation.isPending
-							}
-							form="admin-collection-form"
-							type="submit"
-						>
-							{createMutation.isPending || updateMutation.isPending
-								? "Saving…"
-								: "Save collection"}
-						</Button>
-					</>
-				}
-				isOpen={editor !== null}
-				onClose={() => setEditor(null)}
-				title={editor === "new" ? "Add collection" : "Edit collection"}
-			>
-				<form
-					className={styles.editorForm}
-					id="admin-collection-form"
-					onSubmit={collectionForm.handleSubmit(saveCollection)}
-				>
-					<div className={styles.editorGrid}>
-						<label>
-							<span>Name</span>
-							<Input
-								aria-describedby={
-									collectionForm.formState.errors.name
-										? "admin-collection-name-error"
-										: undefined
-								}
-								aria-invalid={Boolean(
-									collectionForm.formState.errors.name,
-								)}
-								autoFocus
-								maxLength={160}
-								{...collectionForm.register("name", {
-									onChange: (event) => {
-										if (!slugTouched) {
-											collectionForm.setValue(
-												"slug",
-												createSlug(String(event.target.value)),
-												{ shouldValidate: true },
-											);
-										}
-									},
-								})}
-							/>
-							{collectionForm.formState.errors.name?.message ? (
-								<small
-									className={styles.error}
-									id="admin-collection-name-error"
-								>
-									{collectionForm.formState.errors.name.message}
-								</small>
-							) : null}
-						</label>
-						<label>
-							<span>Slug</span>
-							<Input
-								aria-describedby={
-									collectionForm.formState.errors.slug
-										? "admin-collection-slug-error"
-										: undefined
-								}
-								aria-invalid={Boolean(
-									collectionForm.formState.errors.slug,
-								)}
-								maxLength={120}
-								{...collectionForm.register("slug", {
-									onChange: () => setSlugTouched(true),
-								})}
-							/>
-							{collectionForm.formState.errors.slug?.message ? (
-								<small
-									className={styles.error}
-									id="admin-collection-slug-error"
-								>
-									{collectionForm.formState.errors.slug.message}
-								</small>
-							) : null}
-						</label>
-					</div>
-					<label>
-						<span>Description</span>
-						<textarea
-							aria-describedby={
-								collectionForm.formState.errors.description
-									? "admin-collection-description-error"
-									: undefined
-							}
-							aria-invalid={Boolean(
-								collectionForm.formState.errors.description,
-							)}
-							maxLength={2_000}
-							rows={5}
-							{...collectionForm.register("description")}
-						/>
-						{collectionForm.formState.errors.description?.message ? (
-							<small
-								className={styles.error}
-								id="admin-collection-description-error"
-							>
-								{collectionForm.formState.errors.description.message}
-							</small>
-						) : null}
-					</label>
-					<label>
-						<span>Image URL or path</span>
-						<Input
-							aria-describedby={
-								collectionForm.formState.errors.imageUrl
-									? "admin-collection-image-error"
-									: undefined
-							}
-							aria-invalid={Boolean(
-								collectionForm.formState.errors.imageUrl,
-							)}
-							maxLength={2_000}
-							placeholder="/images/collections/summer.webp"
-							{...collectionForm.register("imageUrl")}
-						/>
-						{collectionForm.formState.errors.imageUrl?.message ? (
-							<small
-								className={styles.error}
-								id="admin-collection-image-error"
-							>
-								{collectionForm.formState.errors.imageUrl.message}
-							</small>
-						) : null}
-					</label>
-					{previewImageUrl.length > 0 ? (
-						<ProductImage
-							alt="Collection image preview"
-							className={styles.imagePreview}
-							src={previewImageUrl}
-						/>
-					) : null}
-					<label className={styles.check}>
-						<input
-							type="checkbox"
-							{...collectionForm.register("isActive")}
-						/>
-						<span>Available for new product selections</span>
-					</label>
-					{collectionForm.formState.errors.root?.server?.message ? (
-						<p className={styles.error} role="alert">
-							{collectionForm.formState.errors.root.server.message}
-						</p>
-					) : null}
-				</form>
-			</Modal>
-
-			<Modal
-				description="Existing product relations will remain intact."
+				description="Archiving removes this collection from the storefront without deleting products or assignments."
 				footer={
 					<>
 						<Button
-							onClick={() => setDeactivateTarget(null)}
+							onClick={() => setArchiveTarget(null)}
 							variant="secondary"
 						>
 							Cancel
 						</Button>
 						<Button
-							disabled={deleteMutation.isPending}
-							onClick={() => void deactivateCollection()}
+							disabled={archiveMutation.isPending}
+							onClick={() => void archiveCollection()}
 						>
-							{deleteMutation.isPending
-								? "Deactivating…"
-								: "Deactivate collection"}
+							{archiveMutation.isPending
+								? "Archiving…"
+								: "Archive collection"}
 						</Button>
 					</>
 				}
-				isOpen={deactivateTarget !== null}
-				onClose={() => setDeactivateTarget(null)}
-				title="Deactivate collection?"
+				isOpen={archiveTarget !== null}
+				onClose={() => setArchiveTarget(null)}
+				title="Archive this collection?"
 			>
-				<>
-					<p>
-						{deactivateTarget?.name} will be hidden from new product
-						selections and public collection listings.
-					</p>
-					{actionError === null ? null : (
-						<p className={styles.error} role="alert">
-							{actionError}
-						</p>
-					)}
-				</>
+				<p>
+					<strong>{archiveTarget?.name}</strong> will no longer be public.
+					Product records will remain unchanged.
+				</p>
 			</Modal>
 		</section>
 	);

@@ -28,6 +28,7 @@ import { AdminCollectionsPage } from "../pages/AdminCollectionsPage/AdminCollect
 import { AdminOrderDetailPage } from "../pages/AdminOrderDetailPage/AdminOrderDetailPage";
 import { CollectionsPage } from "../pages/CollectionsPage/CollectionsPage";
 import { CollectionPage } from "../pages/CollectionPage/CollectionPage";
+import { AdminCollectionFormPage } from "../pages/AdminCollectionFormPage/AdminCollectionFormPage";
 
 export const router = createBrowserRouter([
 	{
@@ -161,6 +162,14 @@ export const router = createBrowserRouter([
 			{
 				path: "collections",
 				element: <AdminCollectionsPage />,
+			},
+			{
+				path: "collections/new",
+				element: <AdminCollectionFormPage />,
+			},
+			{
+				path: "collections/:collectionId/edit",
+				element: <AdminCollectionFormPage />,
 			},
 		],
 	},

@@ -15,8 +15,12 @@ import { adminProductKeys } from "./useAdminProducts";
 
 export const adminCollectionKeys = {
 	all: ["admin", "collections"] as const,
+	lists: () => [...adminCollectionKeys.all, "list"] as const,
 	list: (params: AdminCollectionListParams) =>
-		[...adminCollectionKeys.all, params] as const,
+		[...adminCollectionKeys.lists(), params] as const,
+	details: () => [...adminCollectionKeys.all, "detail"] as const,
+	detail: (id: string) =>
+		[...adminCollectionKeys.details(), id] as const,
 };
 
 export function useAdminCollections(params: AdminCollectionListParams) {
@@ -26,6 +30,16 @@ export function useAdminCollections(params: AdminCollectionListParams) {
 			adminCollectionService.getCollections(params, { signal }),
 		placeholderData: keepPreviousData,
 		staleTime: 30_000,
+	});
+}
+
+export function useAdminCollection(id?: string) {
+	return useQuery({
+		queryKey: adminCollectionKeys.detail(id ?? ""),
+		queryFn: ({ signal }) =>
+			adminCollectionService.getCollectionById(id ?? "", { signal }),
+		enabled: Boolean(id),
+		staleTime: 60_000,
 	});
 }
 
@@ -47,16 +61,24 @@ function useInvalidateCollectionQueries() {
 
 export function useCreateAdminCollection() {
 	const invalidate = useInvalidateCollectionQueries();
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (input: AdminCollectionCreateInput) =>
 			adminCollectionService.createCollection(input),
 		retry: false,
-		onSuccess: invalidate,
+		onSuccess: async (response) => {
+			queryClient.setQueryData(
+				adminCollectionKeys.detail(response.data.id),
+				response,
+			);
+			await invalidate();
+		},
 	});
 }
 
 export function useUpdateAdminCollection() {
 	const invalidate = useInvalidateCollectionQueries();
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: ({
 			id,
@@ -66,7 +88,13 @@ export function useUpdateAdminCollection() {
 			input: AdminCollectionUpdateInput;
 		}) => adminCollectionService.updateCollection(id, input),
 		retry: false,
-		onSuccess: invalidate,
+		onSuccess: async (response, variables) => {
+			queryClient.setQueryData(
+				adminCollectionKeys.detail(variables.id),
+				response,
+			);
+			await invalidate();
+		},
 	});
 }
 

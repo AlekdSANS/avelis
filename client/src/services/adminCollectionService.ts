@@ -30,6 +30,17 @@ export const adminCollectionService = {
 		return response.data;
 	},
 
+	async getCollectionById(
+		id: string,
+		options?: { signal?: AbortSignal },
+	): Promise<AdminCollectionResponse> {
+		const response = await apiClient.get<AdminCollectionResponse>(
+			`/admin/collections/${encodeURIComponent(id)}`,
+			{ signal: options?.signal },
+		);
+		return response.data;
+	},
+
 	async updateCollection(
 		id: string,
 		input: AdminCollectionUpdateInput,
