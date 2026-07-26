@@ -29,6 +29,7 @@ import { AdminOrderDetailPage } from "../pages/AdminOrderDetailPage/AdminOrderDe
 import { CollectionsPage } from "../pages/CollectionsPage/CollectionsPage";
 import { CollectionPage } from "../pages/CollectionPage/CollectionPage";
 import { AdminCollectionFormPage } from "../pages/AdminCollectionFormPage/AdminCollectionFormPage";
+import { FragranceGuidePage } from "../pages/FragranceGuidePage/FragranceGuidePage";
 
 export const router = createBrowserRouter([
 	{
@@ -56,7 +57,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/fragrance-guide",
-				element: <PlaceholderPage title="Fragrance Guide" />,
+				element: <FragranceGuidePage />,
 			},
 			{
 				path: "/about",
