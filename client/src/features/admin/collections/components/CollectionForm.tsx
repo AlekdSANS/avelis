@@ -48,30 +48,6 @@ type ImageFieldName =
 	| "heroImageUrl"
 	| "mobileImageUrl";
 
-function emptyToNull(value: string) {
-	return value.trim().length === 0 ? null : value.trim();
-}
-
-export function collectionFormValuesToInput(values: AdminCollectionFormValues) {
-	return {
-		name: values.name.trim(),
-		slug: createCollectionSlug(values.slug),
-		eyebrow: emptyToNull(values.eyebrow),
-		shortDescription: emptyToNull(values.shortDescription),
-		description: values.description.trim(),
-		heroImageUrl: emptyToNull(values.heroImageUrl),
-		cardImageUrl: emptyToNull(values.cardImageUrl),
-		mobileImageUrl: emptyToNull(values.mobileImageUrl),
-		accentColor: emptyToNull(values.accentColor),
-		status: values.status,
-		isFeatured: values.isFeatured,
-		sortOrder: values.sortOrder,
-		seoTitle: emptyToNull(values.seoTitle),
-		seoDescription: emptyToNull(values.seoDescription),
-		productIds: values.productIds,
-	};
-}
-
 function productFromListItem(
 	product: AdminProductListItem,
 	sortOrder: number,
@@ -164,7 +140,10 @@ export function CollectionForm({
 	);
 	const [pendingSlugChange, setPendingSlugChange] =
 		useState<AdminCollectionFormValues | null>(null);
-	const productIds = values.productIds ?? [];
+	const productIds = useMemo(
+		() => values.productIds ?? [],
+		[values.productIds],
+	);
 	const availableProducts = productsQuery.data?.data ?? [];
 	const selectedProducts = productIds
 		.map((id) => knownProducts.get(id))
@@ -243,6 +222,19 @@ export function CollectionForm({
 		}
 	};
 
+	const persistValues = async (submittedValues: AdminCollectionFormValues) => {
+		try {
+			await onSubmit(submittedValues);
+		} catch (error) {
+			setError("root.server", {
+				message:
+					error instanceof Error
+						? error.message
+						: "The collection could not be saved.",
+			});
+		}
+	};
+
 	const submitValues = async (submittedValues: AdminCollectionFormValues) => {
 		const normalized = {
 			...submittedValues,
@@ -255,16 +247,7 @@ export function CollectionForm({
 			setPendingSlugChange(normalized);
 			return;
 		}
-		try {
-			await onSubmit(normalized);
-		} catch (error) {
-			setError("root.server", {
-				message:
-					error instanceof Error
-						? error.message
-						: "The collection could not be saved.",
-			});
-		}
+		await persistValues(normalized);
 	};
 
 	const saveWithStatus = (status: "DRAFT" | "PUBLISHED") => {
@@ -746,7 +729,7 @@ export function CollectionForm({
 							onClick={() => {
 								const pending = pendingSlugChange;
 								setPendingSlugChange(null);
-								if (pending) void onSubmit(pending);
+								if (pending) void persistValues(pending);
 							}}
 						>
 							Change published slug

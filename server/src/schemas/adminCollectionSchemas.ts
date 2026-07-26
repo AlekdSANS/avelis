@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export function normalizeCollectionSlug(value: string) {
 	return value
+		.replace(/[łŁ]/g, "l")
 		.normalize("NFKD")
 		.replace(/[\u0300-\u036f]/g, "")
 		.trim()

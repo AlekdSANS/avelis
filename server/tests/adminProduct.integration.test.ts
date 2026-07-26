@@ -48,6 +48,8 @@ test("admin product CRUD foundation", async (t) => {
 			slug: `admin-product-collection-${tag}`,
 			name: `Admin Product Collection ${tag}`,
 			description: "Temporary admin product integration collection",
+			status: "PUBLISHED",
+			publishedAt: new Date(),
 		},
 		select: { id: true },
 	});

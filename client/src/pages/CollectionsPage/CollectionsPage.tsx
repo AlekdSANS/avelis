@@ -1,11 +1,11 @@
 import { ArrowRight, RefreshCcw } from "lucide-react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/Button/Button";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
 import { CollectionImage } from "../../features/collections/components/CollectionImage";
 import { useCollections } from "../../features/collections/hooks/useCollections";
 import type { Collection } from "../../types/collection";
+import { useDocumentMetadata } from "../../hooks/useDocumentMetadata";
 import styles from "./CollectionsPage.module.scss";
 
 type AccentStyle = React.CSSProperties & {
@@ -83,13 +83,12 @@ export function CollectionsPage() {
 		? collections.filter((collection) => collection.id !== featured.id)
 		: collections;
 
-	useEffect(() => {
-		const previousTitle = document.title;
-		document.title = "Perfume Collections | AVELIS";
-		return () => {
-			document.title = previousTitle;
-		};
-	}, []);
+	useDocumentMetadata({
+		title: "Perfume Collections | AVELIS",
+		description:
+			"Explore AVELIS perfume collections, each composed around a distinct atmosphere, material palette and fragrance story.",
+		canonicalPath: "/collections",
+	});
 
 	return (
 		<div className={styles.page}>

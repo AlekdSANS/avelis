@@ -150,6 +150,32 @@ test("managed product image storage", async (t) => {
 					await prisma.product.delete({ where: { id: product.id } });
 				}
 
+				const collection = await prisma.collection.create({
+					data: {
+						slug: `admin-media-collection-${tag}`,
+						name: "Admin Media Collection",
+						description: "Temporary collection media reference",
+						heroImageUrl: uploaded.url,
+					},
+					select: { id: true },
+				});
+
+				try {
+					await assert.rejects(
+						deleteAdminProductUpload(
+							{ storageKey: uploaded.storageKey },
+							storage,
+						),
+						(error: unknown) => {
+							assert.ok(error instanceof HttpError);
+							assert.equal(error.statusCode, 409);
+							return true;
+						},
+					);
+				} finally {
+					await prisma.collection.delete({ where: { id: collection.id } });
+				}
+
 				const deleted = await deleteAdminProductUpload(
 					{ storageKey: uploaded.storageKey },
 					storage,

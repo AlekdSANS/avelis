@@ -23,16 +23,20 @@ import {
 	adminProductUpdateSchema,
 } from "../src/schemas/adminProductSchemas.js";
 import { getProductBySlug } from "../src/services/productService.js";
-import { listCollections } from "../src/services/collectionService.js";
+import {
+	getCollectionBySlug,
+	listCollections,
+} from "../src/services/collectionService.js";
 import {
 	adminCollectionCreateSchema,
 	adminCollectionListQuerySchema,
 	adminCollectionUpdateSchema,
 } from "../src/schemas/adminCollectionSchemas.js";
 import {
+	archiveAdminCollection,
 	createAdminCollection,
+	getAdminCollection,
 	listAdminCollections,
-	softDeleteAdminCollection,
 	updateAdminCollection,
 } from "../src/services/adminCollectionService.js";
 
@@ -199,26 +203,31 @@ test("admin fragrance note management", async (t) => {
 test("admin collection management", async (t) => {
 	const tag = randomUUID();
 	let collectionId: string | undefined;
-	let productId: string | undefined;
+	const productIds: string[] = [];
 
 	try {
-		await t.test("creates, lists, and updates normalized collection data", async () => {
+		await t.test("creates and lists a normalized draft", async () => {
 			const created = await createAdminCollection(
 				adminCollectionCreateSchema.parse({
 					name: "Evening Rituals",
 					slug: ` Evening Rituals ${tag} `,
 					description: "A temporary collection integration record.",
-					imageUrl: `/images/collections/${tag}.webp`,
+					cardImageUrl: `/images/test/${tag}/collection-card.webp`,
+					heroImageUrl: `/images/test/${tag}/collection-hero.webp`,
+					accentColor: "#776655",
+					status: "DRAFT",
 				}),
 			);
 			collectionId = created.data.id;
 			assert.equal(created.data.slug, `evening-rituals-${tag}`);
-			assert.equal(created.data.isActive, true);
+			assert.equal(created.data.status, "DRAFT");
+			assert.equal(created.data.publishedAt, null);
 
 			const listed = await listAdminCollections(
 				adminCollectionListQuerySchema.parse({
 					search: `evening-rituals-${tag}`,
-					status: "active",
+					status: "DRAFT",
+					sort: "sort-order",
 				}),
 			);
 			assert.equal(
@@ -226,13 +235,21 @@ test("admin collection management", async (t) => {
 				true,
 			);
 
-			const updated = await updateAdminCollection(
-				collectionId,
-				adminCollectionUpdateSchema.parse({
-					description: "Updated collection copy.",
-				}),
+			const publicCollections = await listCollections();
+			assert.equal(
+				publicCollections.data.some(
+					(collection) => collection.id === collectionId,
+				),
+				false,
 			);
-			assert.equal(updated.data.description, "Updated collection copy.");
+			await assert.rejects(
+				getCollectionBySlug(`evening-rituals-${tag}`),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 404);
+					return true;
+				},
+			);
 		});
 
 		await t.test("rejects duplicate normalized slugs", async () => {
@@ -243,6 +260,7 @@ test("admin collection management", async (t) => {
 						name: "Duplicate Collection",
 						slug: `evening rituals ${tag}`,
 						description: "Duplicate slug test.",
+						status: "DRAFT",
 					}),
 				),
 				(error: unknown) => {
@@ -253,59 +271,96 @@ test("admin collection management", async (t) => {
 			);
 		});
 
-		await t.test("soft deactivation preserves existing product relations", async () => {
+		await t.test("rejects unknown product assignments", async () => {
+			await assert.rejects(
+				createAdminCollection(
+					adminCollectionCreateSchema.parse({
+						name: "Unknown product assignment",
+						slug: `unknown-product-${tag}`,
+						description: "Must not be created.",
+						productIds: [`missing-${tag}`],
+					}),
+				),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 400);
+					return true;
+				},
+			);
+		});
+
+		await t.test("publishes with ordered storefront products", async () => {
 			assert.ok(collectionId);
-			const product = await prisma.product.create({
-				data: {
-					slug: `admin-collection-product-${tag}`,
-					name: "Admin Collection Product",
-					description: "Temporary collection relation test",
-					fragranceFamily: "Test",
-					concentration: "EDP",
-					season: [],
-					occasion: [],
-					collections: {
-						create: { collectionId },
+			for (const index of [1, 2]) {
+				const product = await prisma.product.create({
+					data: {
+						slug: `admin-collection-product-${index}-${tag}`,
+						name: `Admin Collection Product ${index}`,
+						description: "Temporary collection relation test",
+						fragranceFamily: "Test",
+						concentration: "EDP",
+						season: [],
+						occasion: [],
 					},
-				},
-				select: { id: true },
-			});
-			productId = product.id;
+					select: { id: true },
+				});
+				productIds.push(product.id);
+			}
 
-			const result = await softDeleteAdminCollection(collectionId);
-			const relation = await prisma.productCollection.findUnique({
-				where: {
-					productId_collectionId: {
-						productId,
-						collectionId,
-					},
-				},
+			const published = await updateAdminCollection(
+				collectionId,
+				adminCollectionUpdateSchema.parse({
+					description: "Updated collection copy.",
+					status: "PUBLISHED",
+					productIds: [productIds[1], productIds[0]],
+				}),
+			);
+			assert.equal(published.data.status, "PUBLISHED");
+			assert.ok(published.data.publishedAt);
+			assert.deepEqual(
+				published.data.products.map((product) => product.id),
+				[productIds[1], productIds[0]],
+			);
+
+			const detail = await getAdminCollection(collectionId);
+			assert.deepEqual(detail.data.productIds, [productIds[1], productIds[0]]);
+
+			const publicDetail = await getCollectionBySlug(
+				`evening-rituals-${tag}`,
+			);
+			assert.deepEqual(
+				publicDetail.data.products.map((product) => product.id),
+				[productIds[1], productIds[0]],
+			);
+		});
+
+		await t.test("archive preserves assignments and product records", async () => {
+			assert.ok(collectionId);
+			const result = await archiveAdminCollection(collectionId);
+			const relations = await prisma.productCollection.findMany({
+				where: { collectionId },
+				orderBy: { sortOrder: "asc" },
+			});
+			const products = await prisma.product.count({
+				where: { id: { in: productIds } },
 			});
 
-			assert.equal(result.data.isActive, false);
-			assert.ok(relation);
-			assert.match(result.message, /relations are preserved/i);
+			assert.equal(result.data.status, "ARCHIVED");
+			assert.deepEqual(
+				relations.map((relation) => relation.productId),
+				[productIds[1], productIds[0]],
+			);
+			assert.equal(products, 2);
+			assert.match(result.message, /assignments were preserved/i);
 
 			const preserved = await updateAdminProduct(
-				productId,
+				productIds[0]!,
 				adminProductUpdateSchema.parse({
 					collectionIds: [collectionId],
 				}),
 			);
-			assert.equal(
-				preserved.data.collections[0]?.id,
-				collectionId,
-			);
+			assert.equal(preserved.data.collections[0]?.id, collectionId);
 
-			const publicProduct = await getProductBySlug(
-				`admin-collection-product-${tag}`,
-			);
-			assert.equal(
-				publicProduct.data.collections.some(
-					(collection) => collection.id === collectionId,
-				),
-				false,
-			);
 			const publicCollections = await listCollections();
 			assert.equal(
 				publicCollections.data.some(
@@ -313,12 +368,20 @@ test("admin collection management", async (t) => {
 				),
 				false,
 			);
+			await assert.rejects(
+				getCollectionBySlug(`evening-rituals-${tag}`),
+				(error: unknown) => {
+					assert.ok(error instanceof HttpError);
+					assert.equal(error.statusCode, 404);
+					return true;
+				},
+			);
 
 			await assert.rejects(
 				createAdminProduct(
 					adminProductCreateSchema.parse({
-						name: "Inactive Collection Attachment",
-						slug: `inactive-collection-attachment-${tag}`,
+						name: "Archived Collection Attachment",
+						slug: `archived-collection-attachment-${tag}`,
 						description: "Must not be created",
 						fragranceFamily: "Test",
 						concentration: "EDP",
@@ -328,7 +391,7 @@ test("admin collection management", async (t) => {
 								volumeMl: 50,
 								price: 100,
 								compareAtPrice: null,
-								sku: `INACTIVE-COLLECTION-${tag}`,
+								sku: `ARCHIVED-COLLECTION-${tag}`,
 								stock: 1,
 							},
 						],
@@ -343,8 +406,8 @@ test("admin collection management", async (t) => {
 			);
 		});
 	} finally {
-		if (productId !== undefined) {
-			await prisma.product.deleteMany({ where: { id: productId } });
+		if (productIds.length > 0) {
+			await prisma.product.deleteMany({ where: { id: { in: productIds } } });
 		}
 		if (collectionId !== undefined) {
 			await prisma.collection.deleteMany({ where: { id: collectionId } });

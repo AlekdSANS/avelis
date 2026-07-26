@@ -1,5 +1,4 @@
 import { ArrowLeft, RefreshCcw } from "lucide-react";
-import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ProductGrid } from "../../components/commerce/ProductGrid/ProductGrid";
 import { Button } from "../../components/ui/Button/Button";
@@ -8,6 +7,7 @@ import { CollectionImage } from "../../features/collections/components/Collectio
 import { useCollection } from "../../features/collections/hooks/useCollections";
 import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist";
 import { ApiClientError } from "../../services/apiClient";
+import { useDocumentMetadata } from "../../hooks/useDocumentMetadata";
 import styles from "./CollectionPage.module.scss";
 
 type AccentStyle = React.CSSProperties & {
@@ -41,14 +41,14 @@ export function CollectionPage() {
 		collectionQuery.error instanceof ApiClientError &&
 		collectionQuery.error.statusCode === 404;
 
-	useEffect(() => {
-		if (!collection) return;
-		const previousTitle = document.title;
-		document.title = `${collection.seoTitle ?? collection.name} | AVELIS`;
-		return () => {
-			document.title = previousTitle;
-		};
-	}, [collection]);
+	useDocumentMetadata({
+		title: `${collection?.seoTitle ?? collection?.name ?? "Collection"} | AVELIS`,
+		description:
+			collection?.seoDescription ??
+			collection?.shortDescription ??
+			"Discover an AVELIS perfume collection and its fragrances.",
+		canonicalPath: `/collections/${slug ?? ""}`,
+	});
 
 	if (collectionQuery.isLoading) {
 		return <CollectionLoading />;

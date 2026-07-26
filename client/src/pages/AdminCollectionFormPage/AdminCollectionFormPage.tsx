@@ -1,12 +1,17 @@
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+	Link,
+	useLocation,
+	useNavigate,
+	useParams,
+} from "react-router-dom";
 import { Button } from "../../components/ui/Button/Button";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
 import {
 	CollectionForm,
-	collectionFormValuesToInput,
 } from "../../features/admin/collections/components/CollectionForm";
+import { collectionFormValuesToInput } from "../../features/admin/collections/utils/collectionFormMappers";
 import type { AdminCollectionFormValues } from "../../features/admin/collections/schemas/adminCollectionFormSchema";
 import {
 	useAdminCollection,
@@ -19,10 +24,18 @@ export function AdminCollectionFormPage() {
 	const { collectionId } = useParams();
 	const isEditing = Boolean(collectionId);
 	const navigate = useNavigate();
+	const location = useLocation();
 	const collectionQuery = useAdminCollection(collectionId);
 	const createMutation = useCreateAdminCollection();
 	const updateMutation = useUpdateAdminCollection();
 	const [feedback, setFeedback] = useState<string | null>(null);
+	const navigationFeedback =
+		typeof location.state === "object" &&
+		location.state !== null &&
+		"feedback" in location.state &&
+		typeof location.state.feedback === "string"
+			? location.state.feedback
+			: null;
 
 	const saveCollection = async (values: AdminCollectionFormValues) => {
 		const input = collectionFormValuesToInput(values);
@@ -96,9 +109,9 @@ export function AdminCollectionFormPage() {
 				</div>
 			</header>
 
-			{feedback ? (
+			{feedback ?? navigationFeedback ? (
 				<p className={styles.feedback} role="status">
-					{feedback}
+					{feedback ?? navigationFeedback}
 				</p>
 			) : null}
 

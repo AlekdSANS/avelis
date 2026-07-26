@@ -14,6 +14,7 @@ import type {
 } from "../schemas/adminCollectionSchemas.js";
 import { normalizeCollectionSlug } from "../schemas/adminCollectionSchemas.js";
 import { HttpError } from "../utils/httpError.js";
+import { deleteAdminProductUpload } from "./adminUploadService.js";
 
 function mapCollectionListItem(
 	collection: Awaited<ReturnType<typeof findAdminCollections>>[number],
@@ -102,6 +103,14 @@ function assertPublishable(input: {
 	}
 }
 
+function managedStorageKey(url: string | null) {
+	if (url === null) return null;
+	const match = url.match(
+		/^\/uploads\/(products\/[0-9a-f-]+\.(?:jpg|png|webp))$/i,
+	);
+	return match?.[1] ?? null;
+}
+
 export async function listAdminCollections(query: AdminCollectionListQuery) {
 	const [total, collections] = await Promise.all([
 		countAdminCollections(query),
@@ -171,10 +180,30 @@ export async function updateAdminCollection(
 	});
 
 	try {
-		return {
-			data: mapCollectionDetail(
-				await updateAdminCollectionRecord(id, input),
+		const previousImageUrls = [
+			current.heroImageUrl,
+			current.cardImageUrl,
+			current.mobileImageUrl,
+		];
+		const updated = await updateAdminCollectionRecord(id, input);
+		const nextImageUrls = new Set([
+			updated.heroImageUrl,
+			updated.cardImageUrl,
+			updated.mobileImageUrl,
+		]);
+		const detachedStorageKeys = previousImageUrls
+			.filter((url) => url !== null && !nextImageUrls.has(url))
+			.map(managedStorageKey)
+			.filter((key): key is string => key !== null);
+
+		await Promise.allSettled(
+			[...new Set(detachedStorageKeys)].map((storageKey) =>
+				deleteAdminProductUpload({ storageKey }),
 			),
+		);
+
+		return {
+			data: mapCollectionDetail(updated),
 		};
 	} catch (error) {
 		mapCollectionPersistenceError(error);

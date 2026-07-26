@@ -1,4 +1,5 @@
 import styles from "../../app/router.module.scss";
+import { Link } from "react-router-dom";
 
 type PlaceholderPageProps = {
   title: string;
@@ -7,9 +8,13 @@ type PlaceholderPageProps = {
 export function PlaceholderPage({ title }: PlaceholderPageProps) {
   return (
     <section className={styles.placeholderPage}>
-      <p className={styles.eyebrow}>Storefront foundation</p>
+      <p className={styles.eyebrow}>AVELIS</p>
       <h1>{title}</h1>
-      <p>This route is ready for its permanent page content in a later pass.</p>
+      <p>
+        <Link to="/shop">Explore fragrances</Link>
+        {" · "}
+        <Link to="/collections">View collections</Link>
+      </p>
     </section>
   );
 }
