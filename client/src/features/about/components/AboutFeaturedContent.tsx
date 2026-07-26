@@ -1,6 +1,7 @@
 import { CollectionCard } from "../../collections/components/CollectionCard";
 import { useCollections } from "../../collections/hooks/useCollections";
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
+import { selectAboutCollections } from "../utils/selectAboutCollections";
 import styles from "../../../pages/AboutPage/AboutPage.module.scss";
 
 function FeaturedCollectionsLoading() {
@@ -24,11 +25,9 @@ function FeaturedCollectionsLoading() {
 
 export function AboutFeaturedContent() {
   const collectionsQuery = useCollections();
-  const selectedCollections = [...(collectionsQuery.data ?? [])]
-    .sort(
-      (left, right) => Number(right.isFeatured) - Number(left.isFeatured),
-    )
-    .slice(0, 3);
+  const selectedCollections = selectAboutCollections(
+    collectionsQuery.data ?? [],
+  );
 
   if (
     collectionsQuery.isError ||

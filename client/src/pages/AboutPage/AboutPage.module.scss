@@ -81,6 +81,8 @@
   right: clamp(1.25rem, 3vw, 3rem);
   bottom: clamp(1.25rem, 3vw, 3rem);
   max-width: 18rem;
+  background: rgba(46, 33, 27, 0.86);
+  padding: var(--space-3) var(--space-4);
   color: var(--color-surface);
   font-size: 0.7rem;
   line-height: 1.5;
@@ -257,7 +259,9 @@
   position: absolute;
   right: var(--space-8);
   bottom: var(--space-8);
-  left: var(--space-8);
+  left: auto;
+  background: rgba(252, 250, 247, 0.88);
+  padding: var(--space-3) var(--space-4);
   color: var(--color-text);
   font-size: 0.68rem;
   font-weight: 700;
