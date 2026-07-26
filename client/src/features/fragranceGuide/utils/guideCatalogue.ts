@@ -7,7 +7,7 @@ import {
   guideFamilies,
   type GuideFamily,
   type GuideFamilyName,
-} from "../data/fragranceGuideContent";
+} from "../data/fragranceGuideContent.ts";
 
 export type GuideNote = {
   label: string;

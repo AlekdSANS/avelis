@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test src/services/analytics/*.test.mjs src/features/admin/collections/adminCollectionForm.test.mjs"
+    "test": "node --experimental-strip-types --test src/services/analytics/*.test.mjs src/features/admin/collections/adminCollectionForm.test.mjs src/features/fragranceGuide/fragranceGuide.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

@@ -1,4 +1,4 @@
-import { productFilterOptions } from "../../products/data/productFilterOptions";
+import { productFilterOptions } from "../../products/data/productFilterOptions.ts";
 import type { ProductVariantFormat } from "../../../types/product";
 
 export type GuideFamilyName = (typeof productFilterOptions.families)[number];

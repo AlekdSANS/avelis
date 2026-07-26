@@ -27,8 +27,11 @@ export function FormatGuide({ products }: FormatGuideProps) {
         />
 
         <div className={styles.formatGrid}>
-          {formatGuideItems.map((item, index) => (
-            <article className={styles.formatCard} key={item.format}>
+          {formatGuideItems.map((item, index) => {
+            const volumes = getFormatVolumes(products, item.format);
+
+            return (
+              <article className={styles.formatCard} key={item.format}>
               <div aria-hidden="true" className={styles.formatMark}>
                 <span>{index === 0 ? "A" : "R"}</span>
               </div>
@@ -37,10 +40,9 @@ export function FormatGuide({ products }: FormatGuideProps) {
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
                 <p className={styles.formatDetail}>{item.detail}</p>
-                {getFormatVolumes(products, item.format).length > 0 ? (
+                {volumes.length > 0 ? (
                   <p className={styles.formatSizes}>
-                    Catalogue sizes:{" "}
-                    {getFormatVolumes(products, item.format).join(", ")} ml
+                    Catalogue sizes: {volumes.join(", ")} ml
                   </p>
                 ) : null}
                 <ButtonLink
@@ -51,8 +53,9 @@ export function FormatGuide({ products }: FormatGuideProps) {
                   <ArrowRight aria-hidden="true" />
                 </ButtonLink>
               </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
