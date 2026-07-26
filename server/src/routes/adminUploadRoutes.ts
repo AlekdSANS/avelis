@@ -5,7 +5,9 @@ import {
 	PRODUCT_UPLOAD_MAX_FILES,
 } from "../config/uploads.js";
 import {
+	deleteAdminCollectionUploadController,
 	deleteAdminProductUploadController,
+	uploadAdminCollectionImagesController,
 	uploadAdminProductImagesController,
 } from "../controllers/adminUploadController.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
@@ -33,10 +35,20 @@ router.post(
 	productImageUpload.array("images", PRODUCT_UPLOAD_MAX_FILES),
 	asyncHandler(uploadAdminProductImagesController),
 );
+router.post(
+	"/collections",
+	productImageUpload.array("images", PRODUCT_UPLOAD_MAX_FILES),
+	asyncHandler(uploadAdminCollectionImagesController),
+);
 router.delete(
 	"/products",
 	validateBody(deleteProductUploadSchema),
 	asyncHandler(deleteAdminProductUploadController),
+);
+router.delete(
+	"/collections",
+	validateBody(deleteProductUploadSchema),
+	asyncHandler(deleteAdminCollectionUploadController),
 );
 
 export default router;

@@ -258,9 +258,9 @@ export function findAdminProductReferenceCollections() {
 			id: true,
 			name: true,
 			slug: true,
-			isActive: true,
+			status: true,
 		},
-		orderBy: [{ name: "asc" }, { id: "asc" }],
+		orderBy: [{ sortOrder: "asc" }, { name: "asc" }, { id: "asc" }],
 	});
 }
 
@@ -360,7 +360,7 @@ async function validateReferencedRelations(
 				? []
 				: await tx.collection.findMany({
 						where: { id: { in: collectionIds } },
-						select: { id: true, isActive: true },
+						select: { id: true, status: true },
 					});
 
 		if (existingCollections.length !== collectionIds.length) {
@@ -368,7 +368,7 @@ async function validateReferencedRelations(
 		}
 
 		const inactiveIds = existingCollections
-			.filter((collection) => !collection.isActive)
+			.filter((collection) => collection.status !== "PUBLISHED")
 			.map((collection) => collection.id);
 		if (inactiveIds.length > 0) {
 			const existingRelationCount =

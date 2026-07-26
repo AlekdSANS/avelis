@@ -80,11 +80,21 @@ export async function deleteAdminProductUpload(
 	const referenceCount = await prisma.productImage.count({
 		where: { storageKey: input.storageKey },
 	});
+	const managedUrl = `/uploads/${input.storageKey}`;
+	const collectionReferenceCount = await prisma.collection.count({
+		where: {
+			OR: [
+				{ heroImageUrl: managedUrl },
+				{ cardImageUrl: managedUrl },
+				{ mobileImageUrl: managedUrl },
+			],
+		},
+	});
 
-	if (referenceCount > 0) {
+	if (referenceCount + collectionReferenceCount > 0) {
 		throw new HttpError(
 			409,
-			"This image is still attached to a product and cannot be removed",
+			"This image is still attached and cannot be removed",
 		);
 	}
 

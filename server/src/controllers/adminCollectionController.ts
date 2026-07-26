@@ -5,9 +5,10 @@ import type {
 	AdminCollectionUpdateInput,
 } from "../schemas/adminCollectionSchemas.js";
 import {
+	archiveAdminCollection,
 	createAdminCollection,
+	getAdminCollection,
 	listAdminCollections,
-	softDeleteAdminCollection,
 	updateAdminCollection,
 } from "../services/adminCollectionService.js";
 
@@ -19,6 +20,15 @@ export async function listAdminCollectionsController(
 		await listAdminCollections(
 			res.locals.query as AdminCollectionListQuery,
 		),
+	);
+}
+
+export async function getAdminCollectionController(
+	req: Request,
+	res: Response,
+) {
+	res.status(200).json(
+		await getAdminCollection(String(req.params.id ?? "")),
 	);
 }
 
@@ -50,6 +60,6 @@ export async function deleteAdminCollectionController(
 	res: Response,
 ) {
 	res.status(200).json(
-		await softDeleteAdminCollection(String(req.params.id ?? "")),
+		await archiveAdminCollection(String(req.params.id ?? "")),
 	);
 }

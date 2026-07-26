@@ -196,7 +196,12 @@ export async function listAdminProductReferenceNotes() {
 
 export async function listAdminProductReferenceCollections() {
 	return {
-		data: await findAdminProductReferenceCollections(),
+		data: (await findAdminProductReferenceCollections()).map((collection) => ({
+			id: collection.id,
+			name: collection.name,
+			slug: collection.slug,
+			isActive: collection.status === "PUBLISHED",
+		})),
 	};
 }
 

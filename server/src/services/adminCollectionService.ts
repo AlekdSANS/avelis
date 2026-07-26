@@ -1,7 +1,8 @@
 import {
+	archiveAdminCollectionRecord,
 	countAdminCollections,
 	createAdminCollectionRecord,
-	deactivateAdminCollectionRecord,
+	findAdminCollectionById,
 	findAdminCollectionBySlug,
 	findAdminCollections,
 	updateAdminCollectionRecord,
@@ -11,19 +12,40 @@ import type {
 	AdminCollectionListQuery,
 	AdminCollectionUpdateInput,
 } from "../schemas/adminCollectionSchemas.js";
+import { normalizeCollectionSlug } from "../schemas/adminCollectionSchemas.js";
 import { HttpError } from "../utils/httpError.js";
 
-function mapCollection(
-	collection: Awaited<ReturnType<typeof createAdminCollectionRecord>>,
+function mapCollectionListItem(
+	collection: Awaited<ReturnType<typeof findAdminCollections>>[number],
 ) {
 	return {
-		id: collection.id,
-		name: collection.name,
-		slug: collection.slug,
-		description: collection.description,
-		imageUrl: collection.imageUrl,
-		isActive: collection.isActive,
+		...collection,
 		productCount: collection._count.products,
+		publishedAt: collection.publishedAt?.toISOString() ?? null,
+		createdAt: collection.createdAt.toISOString(),
+		updatedAt: collection.updatedAt.toISOString(),
+		_count: undefined,
+	};
+}
+
+function mapCollectionDetail(
+	collection: NonNullable<Awaited<ReturnType<typeof findAdminCollectionById>>>,
+) {
+	const products = collection.products.map(({ product, sortOrder }) => ({
+		id: product.id,
+		name: product.name,
+		slug: product.slug,
+		sku: product.variants[0]?.sku ?? null,
+		image: product.images[0] ?? null,
+		isActive: product.isActive,
+		sortOrder,
+	}));
+
+	return {
+		...collection,
+		productIds: products.map((product) => product.id),
+		products,
+		publishedAt: collection.publishedAt?.toISOString() ?? null,
 		createdAt: collection.createdAt.toISOString(),
 		updatedAt: collection.updatedAt.toISOString(),
 	};
@@ -39,8 +61,17 @@ function isPrismaError(error: unknown, code: string) {
 }
 
 function mapCollectionPersistenceError(error: unknown): never {
-	if (isPrismaError(error, "P2025")) {
+	if (
+		(error instanceof Error && error.message === "ADMIN_COLLECTION_NOT_FOUND") ||
+		isPrismaError(error, "P2025")
+	) {
 		throw new HttpError(404, "Collection not found");
+	}
+	if (
+		error instanceof Error &&
+		error.message === "ADMIN_COLLECTION_PRODUCT_NOT_FOUND"
+	) {
+		throw new HttpError(400, "One or more products were not found");
 	}
 	if (isPrismaError(error, "P2002")) {
 		throw new HttpError(409, "A collection with this slug already exists");
@@ -54,6 +85,23 @@ async function ensureUniqueSlug(slug: string, excludingId?: string) {
 	}
 }
 
+function assertPublishable(input: {
+	description: string;
+	heroImageUrl: string | null;
+	cardImageUrl: string | null;
+	productIds: readonly string[];
+	status: string;
+}) {
+	if (
+		input.status === "PUBLISHED" &&
+		(input.description.trim().length === 0 ||
+			(input.heroImageUrl === null && input.cardImageUrl === null) ||
+			input.productIds.length === 0)
+	) {
+		throw new HttpError(409, "This collection cannot be published yet");
+	}
+}
+
 export async function listAdminCollections(query: AdminCollectionListQuery) {
 	const [total, collections] = await Promise.all([
 		countAdminCollections(query),
@@ -61,7 +109,7 @@ export async function listAdminCollections(query: AdminCollectionListQuery) {
 	]);
 
 	return {
-		data: collections.map(mapCollection),
+		data: collections.map(mapCollectionListItem),
 		page: query.page,
 		limit: query.limit,
 		total,
@@ -69,13 +117,29 @@ export async function listAdminCollections(query: AdminCollectionListQuery) {
 	};
 }
 
-export async function createAdminCollection(
-	input: AdminCollectionCreateInput,
-) {
-	await ensureUniqueSlug(input.slug);
+export async function getAdminCollection(id: string) {
+	const collection = await findAdminCollectionById(id);
+	if (collection === null) throw new HttpError(404, "Collection not found");
+	return { data: mapCollectionDetail(collection) };
+}
+
+export async function createAdminCollection(input: AdminCollectionCreateInput) {
+	const slug = input.slug ?? normalizeCollectionSlug(input.name);
+	if (slug.length === 0) throw new HttpError(400, "Collection slug is required");
+	await ensureUniqueSlug(slug);
+	assertPublishable({
+		description: input.description,
+		heroImageUrl: input.heroImageUrl ?? null,
+		cardImageUrl: input.cardImageUrl ?? null,
+		productIds: input.productIds,
+		status: input.status,
+	});
+
 	try {
 		return {
-			data: mapCollection(await createAdminCollectionRecord(input)),
+			data: mapCollectionDetail(
+				await createAdminCollectionRecord({ ...input, slug }),
+			),
 		};
 	} catch (error) {
 		mapCollectionPersistenceError(error);
@@ -86,24 +150,43 @@ export async function updateAdminCollection(
 	id: string,
 	input: AdminCollectionUpdateInput,
 ) {
-	if (input.slug !== undefined) {
-		await ensureUniqueSlug(input.slug, id);
-	}
+	const current = await findAdminCollectionById(id);
+	if (current === null) throw new HttpError(404, "Collection not found");
+
+	if (input.slug !== undefined) await ensureUniqueSlug(input.slug, id);
+
+	assertPublishable({
+		description: input.description ?? current.description,
+		heroImageUrl:
+			input.heroImageUrl === undefined
+				? current.heroImageUrl
+				: input.heroImageUrl,
+		cardImageUrl:
+			input.cardImageUrl === undefined
+				? current.cardImageUrl
+				: input.cardImageUrl,
+		productIds:
+			input.productIds ?? current.products.map(({ product }) => product.id),
+		status: input.status ?? current.status,
+	});
+
 	try {
 		return {
-			data: mapCollection(await updateAdminCollectionRecord(id, input)),
+			data: mapCollectionDetail(
+				await updateAdminCollectionRecord(id, input),
+			),
 		};
 	} catch (error) {
 		mapCollectionPersistenceError(error);
 	}
 }
 
-export async function softDeleteAdminCollection(id: string) {
+export async function archiveAdminCollection(id: string) {
 	try {
 		return {
-			data: mapCollection(await deactivateAdminCollectionRecord(id)),
+			data: mapCollectionDetail(await archiveAdminCollectionRecord(id)),
 			message:
-				"Collection deactivated. Existing product relations are preserved.",
+				"Collection archived. Product records and assignments were preserved.",
 		};
 	} catch (error) {
 		mapCollectionPersistenceError(error);

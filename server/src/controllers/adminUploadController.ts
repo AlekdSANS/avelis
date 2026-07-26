@@ -14,6 +14,9 @@ export async function uploadAdminProductImagesController(
 	res.status(201).json(response);
 }
 
+export const uploadAdminCollectionImagesController =
+	uploadAdminProductImagesController;
+
 export async function deleteAdminProductUploadController(
 	_req: Request,
 	res: Response,
@@ -23,3 +26,6 @@ export async function deleteAdminProductUploadController(
 	);
 	res.status(200).json(response);
 }
+
+export const deleteAdminCollectionUploadController =
+	deleteAdminProductUploadController;

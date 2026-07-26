@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
 	createAdminCollectionController,
 	deleteAdminCollectionController,
+	getAdminCollectionController,
 	listAdminCollectionsController,
 	updateAdminCollectionController,
 } from "../controllers/adminCollectionController.js";
@@ -26,6 +27,7 @@ router.get(
 	validateQuery(adminCollectionListQuerySchema),
 	asyncHandler(listAdminCollectionsController),
 );
+router.get("/:id", asyncHandler(getAdminCollectionController));
 router.post(
 	"/",
 	validateBody(adminCollectionCreateSchema),

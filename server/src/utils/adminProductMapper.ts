@@ -130,7 +130,7 @@ export function mapAdminProductDetail(product: ProductRecord) {
 				id: collection.id,
 				slug: collection.slug,
 				name: collection.name,
-				isActive: collection.isActive,
+				isActive: collection.status === "PUBLISHED",
 			}))
 			.sort((left, right) => left.name.localeCompare(right.name)),
 		createdAt: product.createdAt.toISOString(),
