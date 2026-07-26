@@ -24,6 +24,7 @@ type ProductGridProps = {
   items: ProductGridItem[];
   onRetry?: () => void;
   onWishlistToggle?: (productId: string) => void;
+  skeletonCount?: number;
   status?: "ready" | "loading" | "error";
   wishlist?: Set<string>;
 };
@@ -40,6 +41,7 @@ export function ProductGrid({
   items,
   onRetry,
   onWishlistToggle,
+  skeletonCount = 8,
   status = "ready",
   wishlist = new Set(),
 }: ProductGridProps) {
@@ -78,7 +80,7 @@ export function ProductGrid({
   if (status === "loading") {
     return (
       <div aria-busy="true" aria-label="Loading fragrances" className={classes}>
-        {Array.from({ length: 8 }, (_, index) => (
+        {Array.from({ length: skeletonCount }, (_, index) => (
           <div className={styles.skeletonCard} key={index}>
             <Skeleton className={styles.skeletonImage} />
             <Skeleton className={styles.skeletonLine} />

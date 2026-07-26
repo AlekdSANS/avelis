@@ -1,12 +1,18 @@
 import { ArrowRight } from "lucide-react";
 
 import { ButtonLink } from "../../../components/ui/Button/Button";
+import type { Product } from "../../../types/product";
 import { formatGuideItems } from "../data/fragranceGuideContent";
+import { getFormatVolumes } from "../utils/guideCatalogue";
 import { buildGuideShopHref } from "../utils/shopLinks";
 import { GuideSectionHeading } from "./GuideSectionHeading";
 import styles from "../../../pages/FragranceGuidePage/FragranceGuidePage.module.scss";
 
-export function FormatGuide() {
+type FormatGuideProps = {
+  products: Product[];
+};
+
+export function FormatGuide({ products }: FormatGuideProps) {
   return (
     <section
       aria-labelledby="format-guide-title"
@@ -31,6 +37,12 @@ export function FormatGuide() {
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
                 <p className={styles.formatDetail}>{item.detail}</p>
+                {getFormatVolumes(products, item.format).length > 0 ? (
+                  <p className={styles.formatSizes}>
+                    Catalogue sizes:{" "}
+                    {getFormatVolumes(products, item.format).join(", ")} ml
+                  </p>
+                ) : null}
                 <ButtonLink
                   to={buildGuideShopHref({ format: item.format })}
                   variant={index === 0 ? "primary" : "secondary"}

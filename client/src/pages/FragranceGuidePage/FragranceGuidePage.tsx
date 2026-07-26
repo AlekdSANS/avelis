@@ -1,8 +1,10 @@
 import { ConcentrationGuide } from "../../features/fragranceGuide/components/ConcentrationGuide";
 import { FormatGuide } from "../../features/fragranceGuide/components/FormatGuide";
 import { FragranceFamilyGrid } from "../../features/fragranceGuide/components/FragranceFamilyGrid";
+import { FragranceGuideCollections } from "../../features/fragranceGuide/components/FragranceGuideCollections";
 import { FragranceGuideCta } from "../../features/fragranceGuide/components/FragranceGuideCta";
 import { FragranceGuideHero } from "../../features/fragranceGuide/components/FragranceGuideHero";
+import { FragranceGuideProducts } from "../../features/fragranceGuide/components/FragranceGuideProducts";
 import { NotesGuide } from "../../features/fragranceGuide/components/NotesGuide";
 import { ScentCharacterGrid } from "../../features/fragranceGuide/components/ScentCharacterGrid";
 import { useProducts } from "../../features/products/hooks/useProducts";
@@ -33,8 +35,10 @@ export function FragranceGuidePage() {
       />
       <NotesGuide products={catalogueProducts} status={catalogueStatus} />
       <ConcentrationGuide />
-      <FormatGuide />
+      <FormatGuide products={catalogueProducts} />
       <ScentCharacterGrid />
+      <FragranceGuideProducts fallbackProducts={catalogueProducts} />
+      <FragranceGuideCollections />
       <FragranceGuideCta />
     </div>
   );
