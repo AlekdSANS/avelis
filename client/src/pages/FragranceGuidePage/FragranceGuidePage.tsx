@@ -5,9 +5,18 @@ import { FragranceGuideCta } from "../../features/fragranceGuide/components/Frag
 import { FragranceGuideHero } from "../../features/fragranceGuide/components/FragranceGuideHero";
 import { NotesGuide } from "../../features/fragranceGuide/components/NotesGuide";
 import { ScentCharacterGrid } from "../../features/fragranceGuide/components/ScentCharacterGrid";
+import { useProducts } from "../../features/products/hooks/useProducts";
 import { useDocumentMetadata } from "../../hooks/useDocumentMetadata";
 
 export function FragranceGuidePage() {
+  const catalogueQuery = useProducts({ limit: 48 });
+  const catalogueProducts = catalogueQuery.data?.data ?? [];
+  const catalogueStatus = catalogueQuery.isLoading
+    ? "loading"
+    : catalogueQuery.isError
+      ? "error"
+      : "ready";
+
   useDocumentMetadata({
     title: "Fragrance Guide | AVELIS",
     description:
@@ -18,8 +27,11 @@ export function FragranceGuidePage() {
   return (
     <div>
       <FragranceGuideHero />
-      <FragranceFamilyGrid />
-      <NotesGuide />
+      <FragranceFamilyGrid
+        products={catalogueProducts}
+        status={catalogueStatus}
+      />
+      <NotesGuide products={catalogueProducts} status={catalogueStatus} />
       <ConcentrationGuide />
       <FormatGuide />
       <ScentCharacterGrid />

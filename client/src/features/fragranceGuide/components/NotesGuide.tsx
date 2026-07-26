@@ -1,8 +1,15 @@
+import type { Product } from "../../../types/product";
 import { noteLayers } from "../data/fragranceGuideContent";
 import { GuideSectionHeading } from "./GuideSectionHeading";
+import { NoteExplorer } from "./NoteExplorer";
 import styles from "../../../pages/FragranceGuidePage/FragranceGuidePage.module.scss";
 
-export function NotesGuide() {
+type NotesGuideProps = {
+  products: Product[];
+  status: "loading" | "error" | "ready";
+};
+
+export function NotesGuide({ products, status }: NotesGuideProps) {
   return (
     <section
       aria-labelledby="notes-guide-title"
@@ -33,6 +40,8 @@ export function NotesGuide() {
           These layers overlap rather than changing at a fixed moment. Skin,
           climate and the composition itself all influence what you notice.
         </p>
+
+        <NoteExplorer products={products} status={status} />
       </div>
     </section>
   );
