@@ -468,6 +468,92 @@
   line-height: 1.7;
 }
 
+.featuredCollections {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  padding: clamp(5rem, 9vw, 10rem) var(--site-gutter);
+}
+
+.featuredHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+  align-items: end;
+  gap: clamp(2rem, 7vw, 9rem);
+  width: min(100%, var(--wide-container-width));
+  margin-inline: auto;
+}
+
+.featuredHeader h2 {
+  max-width: 70rem;
+  margin-top: var(--space-6);
+  font-size: clamp(4rem, 7.5vw, 8.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+}
+
+.featuredHeader > p {
+  max-width: 29rem;
+  padding-bottom: var(--space-3);
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 3vw, 4rem) clamp(1rem, 2vw, 2.5rem);
+  width: min(100%, var(--wide-container-width));
+  margin: clamp(3.5rem, 7vw, 7rem) auto 0;
+}
+
+.featuredSkeleton > :first-child {
+  aspect-ratio: 4 / 3;
+}
+
+.featuredSkeleton > :nth-child(2) {
+  width: 35%;
+  height: 0.75rem;
+  margin-top: var(--space-6);
+}
+
+.featuredSkeleton > :last-child {
+  width: 70%;
+  height: 3.5rem;
+  margin-top: var(--space-3);
+}
+
+.finalCta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  background:
+    radial-gradient(circle at 50% 115%, rgba(114, 112, 82, 0.15), transparent 40%),
+    var(--color-surface);
+  padding: clamp(5rem, 11vw, 12rem) var(--site-gutter);
+  text-align: center;
+}
+
+.finalCta h2 {
+  max-width: 76rem;
+  margin-top: var(--space-6);
+  font-size: clamp(4rem, 8vw, 9rem);
+  line-height: 0.87;
+  letter-spacing: -0.045em;
+}
+
+.finalCta > p:not(.eyebrow) {
+  max-width: 36rem;
+  margin-top: var(--space-8);
+  color: var(--color-text-muted);
+  font-size: clamp(1rem, 1.25vw, 1.16rem);
+  line-height: 1.8;
+}
+
+.finalCta .actions {
+  justify-content: center;
+}
+
 @media (max-width: 63.99rem) {
   .hero {
     grid-template-columns: 1fr;
@@ -499,6 +585,15 @@
 
   .principles {
     grid-template-columns: 1fr;
+  }
+
+  .featuredHeader {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .featuredGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -611,6 +706,18 @@
 
   .principlesList p {
     grid-column: 2;
+  }
+
+  .featuredCollections {
+    padding-inline: 1rem;
+  }
+
+  .featuredGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .finalCta {
+    padding-inline: 1rem;
   }
 }
 

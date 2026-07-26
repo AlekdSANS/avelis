@@ -1,3 +1,5 @@
+import { AboutCta } from "../../features/about/components/AboutCta";
+import { AboutFeaturedContent } from "../../features/about/components/AboutFeaturedContent";
 import { AboutHero } from "../../features/about/components/AboutHero";
 import { BottleRefillSection } from "../../features/about/components/BottleRefillSection";
 import { BrandPrinciples } from "../../features/about/components/BrandPrinciples";
@@ -23,6 +25,8 @@ export function AboutPage() {
       <MaterialsSection />
       <BottleRefillSection />
       <BrandPrinciples />
+      <AboutFeaturedContent />
+      <AboutCta />
     </div>
   );
 }

@@ -2,57 +2,12 @@ import { ArrowRight, RefreshCcw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/Button/Button";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
+import { CollectionCard } from "../../features/collections/components/CollectionCard";
 import { CollectionImage } from "../../features/collections/components/CollectionImage";
 import { useCollections } from "../../features/collections/hooks/useCollections";
-import type { Collection } from "../../types/collection";
+import { getCollectionAccentStyle } from "../../features/collections/utils/collectionAccent";
 import { useDocumentMetadata } from "../../hooks/useDocumentMetadata";
 import styles from "./CollectionsPage.module.scss";
-
-type AccentStyle = React.CSSProperties & {
-	"--collection-accent": string;
-};
-
-function accentStyle(collection: Collection): AccentStyle {
-	return {
-		"--collection-accent": collection.accentColor ?? "#727052",
-	};
-}
-
-function CollectionCard({ collection }: { collection: Collection }) {
-	return (
-		<Link
-			aria-label={`View ${collection.name} collection`}
-			className={styles.card}
-			style={accentStyle(collection)}
-			to={`/collections/${collection.slug}`}
-		>
-			<div className={styles.cardMedia}>
-				<CollectionImage
-					alt={`${collection.name} collection`}
-					loading="lazy"
-					src={collection.cardImageUrl ?? collection.heroImageUrl}
-				/>
-			</div>
-			<div className={styles.cardContent}>
-				<p>{collection.eyebrow ?? "Avelis collection"}</p>
-				<h2>{collection.name}</h2>
-				<span>
-					{collection.shortDescription ?? collection.description}
-				</span>
-				<footer>
-					<small>
-						{collection.productCount}{" "}
-						{collection.productCount === 1 ? "fragrance" : "fragrances"}
-					</small>
-					<strong>
-						View collection
-						<ArrowRight aria-hidden="true" />
-					</strong>
-				</footer>
-			</div>
-		</Link>
-	);
-}
 
 function CollectionsLoading() {
 	return (
@@ -129,7 +84,7 @@ export function CollectionsPage() {
 				<section
 					aria-labelledby="featured-collection-title"
 					className={styles.featured}
-					style={accentStyle(featured)}
+					style={getCollectionAccentStyle(featured)}
 				>
 					<div className={styles.featuredMedia}>
 						<CollectionImage
