@@ -51,6 +51,10 @@ export type CollectionMinAggregateOutputType = {
   publishedAt: Date | null
   seoTitle: string | null
   seoDescription: string | null
+  storyHeadline: string | null
+  storyBody: string | null
+  storyImageUrl: string | null
+  campaignLabel: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +76,10 @@ export type CollectionMaxAggregateOutputType = {
   publishedAt: Date | null
   seoTitle: string | null
   seoDescription: string | null
+  storyHeadline: string | null
+  storyBody: string | null
+  storyImageUrl: string | null
+  campaignLabel: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -93,6 +101,11 @@ export type CollectionCountAggregateOutputType = {
   publishedAt: number
   seoTitle: number
   seoDescription: number
+  storyHeadline: number
+  storyBody: number
+  storyImageUrl: number
+  materialNotes: number
+  campaignLabel: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -124,6 +137,10 @@ export type CollectionMinAggregateInputType = {
   publishedAt?: true
   seoTitle?: true
   seoDescription?: true
+  storyHeadline?: true
+  storyBody?: true
+  storyImageUrl?: true
+  campaignLabel?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -145,6 +162,10 @@ export type CollectionMaxAggregateInputType = {
   publishedAt?: true
   seoTitle?: true
   seoDescription?: true
+  storyHeadline?: true
+  storyBody?: true
+  storyImageUrl?: true
+  campaignLabel?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -166,6 +187,11 @@ export type CollectionCountAggregateInputType = {
   publishedAt?: true
   seoTitle?: true
   seoDescription?: true
+  storyHeadline?: true
+  storyBody?: true
+  storyImageUrl?: true
+  materialNotes?: true
+  campaignLabel?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -274,6 +300,11 @@ export type CollectionGroupByOutputType = {
   publishedAt: Date | null
   seoTitle: string | null
   seoDescription: string | null
+  storyHeadline: string | null
+  storyBody: string | null
+  storyImageUrl: string | null
+  materialNotes: string[]
+  campaignLabel: string | null
   createdAt: Date
   updatedAt: Date
   _count: CollectionCountAggregateOutputType | null
@@ -318,6 +349,11 @@ export type CollectionWhereInput = {
   publishedAt?: Prisma.DateTimeNullableFilter<"Collection"> | Date | string | null
   seoTitle?: Prisma.StringNullableFilter<"Collection"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"Collection"> | string | null
+  storyHeadline?: Prisma.StringNullableFilter<"Collection"> | string | null
+  storyBody?: Prisma.StringNullableFilter<"Collection"> | string | null
+  storyImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  materialNotes?: Prisma.StringNullableListFilter<"Collection">
+  campaignLabel?: Prisma.StringNullableFilter<"Collection"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   products?: Prisma.ProductCollectionListRelationFilter
@@ -340,6 +376,11 @@ export type CollectionOrderByWithRelationInput = {
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  storyHeadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  storyBody?: Prisma.SortOrderInput | Prisma.SortOrder
+  storyImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  materialNotes?: Prisma.SortOrder
+  campaignLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   products?: Prisma.ProductCollectionOrderByRelationAggregateInput
@@ -365,6 +406,11 @@ export type CollectionWhereUniqueInput = Prisma.AtLeast<{
   publishedAt?: Prisma.DateTimeNullableFilter<"Collection"> | Date | string | null
   seoTitle?: Prisma.StringNullableFilter<"Collection"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"Collection"> | string | null
+  storyHeadline?: Prisma.StringNullableFilter<"Collection"> | string | null
+  storyBody?: Prisma.StringNullableFilter<"Collection"> | string | null
+  storyImageUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  materialNotes?: Prisma.StringNullableListFilter<"Collection">
+  campaignLabel?: Prisma.StringNullableFilter<"Collection"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   products?: Prisma.ProductCollectionListRelationFilter
@@ -387,6 +433,11 @@ export type CollectionOrderByWithAggregationInput = {
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  storyHeadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  storyBody?: Prisma.SortOrderInput | Prisma.SortOrder
+  storyImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  materialNotes?: Prisma.SortOrder
+  campaignLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CollectionCountOrderByAggregateInput
@@ -416,6 +467,11 @@ export type CollectionScalarWhereWithAggregatesInput = {
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Collection"> | Date | string | null
   seoTitle?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
   seoDescription?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  storyHeadline?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  storyBody?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  storyImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  materialNotes?: Prisma.StringNullableListFilter<"Collection">
+  campaignLabel?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
 }
@@ -437,6 +493,11 @@ export type CollectionCreateInput = {
   publishedAt?: Date | string | null
   seoTitle?: string | null
   seoDescription?: string | null
+  storyHeadline?: string | null
+  storyBody?: string | null
+  storyImageUrl?: string | null
+  materialNotes?: Prisma.CollectionCreatematerialNotesInput | string[]
+  campaignLabel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCollectionCreateNestedManyWithoutCollectionInput
@@ -459,6 +520,11 @@ export type CollectionUncheckedCreateInput = {
   publishedAt?: Date | string | null
   seoTitle?: string | null
   seoDescription?: string | null
+  storyHeadline?: string | null
+  storyBody?: string | null
+  storyImageUrl?: string | null
+  materialNotes?: Prisma.CollectionCreatematerialNotesInput | string[]
+  campaignLabel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCollectionUncheckedCreateNestedManyWithoutCollectionInput
@@ -481,6 +547,11 @@ export type CollectionUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyHeadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyBody?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialNotes?: Prisma.CollectionUpdatematerialNotesInput | string[]
+  campaignLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductCollectionUpdateManyWithoutCollectionNestedInput
@@ -503,6 +574,11 @@ export type CollectionUncheckedUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyHeadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyBody?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialNotes?: Prisma.CollectionUpdatematerialNotesInput | string[]
+  campaignLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductCollectionUncheckedUpdateManyWithoutCollectionNestedInput
@@ -525,6 +601,11 @@ export type CollectionCreateManyInput = {
   publishedAt?: Date | string | null
   seoTitle?: string | null
   seoDescription?: string | null
+  storyHeadline?: string | null
+  storyBody?: string | null
+  storyImageUrl?: string | null
+  materialNotes?: Prisma.CollectionCreatematerialNotesInput | string[]
+  campaignLabel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -546,6 +627,11 @@ export type CollectionUpdateManyMutationInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyHeadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyBody?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialNotes?: Prisma.CollectionUpdatematerialNotesInput | string[]
+  campaignLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -567,6 +653,11 @@ export type CollectionUncheckedUpdateManyInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyHeadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyBody?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialNotes?: Prisma.CollectionUpdatematerialNotesInput | string[]
+  campaignLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -588,6 +679,11 @@ export type CollectionCountOrderByAggregateInput = {
   publishedAt?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
+  storyHeadline?: Prisma.SortOrder
+  storyBody?: Prisma.SortOrder
+  storyImageUrl?: Prisma.SortOrder
+  materialNotes?: Prisma.SortOrder
+  campaignLabel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -613,6 +709,10 @@ export type CollectionMaxOrderByAggregateInput = {
   publishedAt?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
+  storyHeadline?: Prisma.SortOrder
+  storyBody?: Prisma.SortOrder
+  storyImageUrl?: Prisma.SortOrder
+  campaignLabel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -634,6 +734,10 @@ export type CollectionMinOrderByAggregateInput = {
   publishedAt?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
+  storyHeadline?: Prisma.SortOrder
+  storyBody?: Prisma.SortOrder
+  storyImageUrl?: Prisma.SortOrder
+  campaignLabel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -647,12 +751,21 @@ export type CollectionScalarRelationFilter = {
   isNot?: Prisma.CollectionWhereInput
 }
 
+export type CollectionCreatematerialNotesInput = {
+  set: string[]
+}
+
 export type EnumCollectionStatusFieldUpdateOperationsInput = {
   set?: $Enums.CollectionStatus
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type CollectionUpdatematerialNotesInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type CollectionCreateNestedOneWithoutProductsInput = {
@@ -686,6 +799,11 @@ export type CollectionCreateWithoutProductsInput = {
   publishedAt?: Date | string | null
   seoTitle?: string | null
   seoDescription?: string | null
+  storyHeadline?: string | null
+  storyBody?: string | null
+  storyImageUrl?: string | null
+  materialNotes?: Prisma.CollectionCreatematerialNotesInput | string[]
+  campaignLabel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -707,6 +825,11 @@ export type CollectionUncheckedCreateWithoutProductsInput = {
   publishedAt?: Date | string | null
   seoTitle?: string | null
   seoDescription?: string | null
+  storyHeadline?: string | null
+  storyBody?: string | null
+  storyImageUrl?: string | null
+  materialNotes?: Prisma.CollectionCreatematerialNotesInput | string[]
+  campaignLabel?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -744,6 +867,11 @@ export type CollectionUpdateWithoutProductsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyHeadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyBody?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialNotes?: Prisma.CollectionUpdatematerialNotesInput | string[]
+  campaignLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -765,6 +893,11 @@ export type CollectionUncheckedUpdateWithoutProductsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyHeadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyBody?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storyImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialNotes?: Prisma.CollectionUpdatematerialNotesInput | string[]
+  campaignLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -817,6 +950,11 @@ export type CollectionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   publishedAt?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  storyHeadline?: boolean
+  storyBody?: boolean
+  storyImageUrl?: boolean
+  materialNotes?: boolean
+  campaignLabel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   products?: boolean | Prisma.Collection$productsArgs<ExtArgs>
@@ -840,6 +978,11 @@ export type CollectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   publishedAt?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  storyHeadline?: boolean
+  storyBody?: boolean
+  storyImageUrl?: boolean
+  materialNotes?: boolean
+  campaignLabel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["collection"]>
@@ -861,6 +1004,11 @@ export type CollectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   publishedAt?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  storyHeadline?: boolean
+  storyBody?: boolean
+  storyImageUrl?: boolean
+  materialNotes?: boolean
+  campaignLabel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["collection"]>
@@ -882,11 +1030,16 @@ export type CollectionSelectScalar = {
   publishedAt?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  storyHeadline?: boolean
+  storyBody?: boolean
+  storyImageUrl?: boolean
+  materialNotes?: boolean
+  campaignLabel?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "eyebrow" | "shortDescription" | "description" | "heroImageUrl" | "cardImageUrl" | "mobileImageUrl" | "accentColor" | "status" | "isFeatured" | "sortOrder" | "publishedAt" | "seoTitle" | "seoDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
+export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "eyebrow" | "shortDescription" | "description" | "heroImageUrl" | "cardImageUrl" | "mobileImageUrl" | "accentColor" | "status" | "isFeatured" | "sortOrder" | "publishedAt" | "seoTitle" | "seoDescription" | "storyHeadline" | "storyBody" | "storyImageUrl" | "materialNotes" | "campaignLabel" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
 export type CollectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.Collection$productsArgs<ExtArgs>
   _count?: boolean | Prisma.CollectionCountOutputTypeDefaultArgs<ExtArgs>
@@ -916,6 +1069,11 @@ export type $CollectionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     publishedAt: Date | null
     seoTitle: string | null
     seoDescription: string | null
+    storyHeadline: string | null
+    storyBody: string | null
+    storyImageUrl: string | null
+    materialNotes: string[]
+    campaignLabel: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["collection"]>
@@ -1358,6 +1516,11 @@ export interface CollectionFieldRefs {
   readonly publishedAt: Prisma.FieldRef<"Collection", 'DateTime'>
   readonly seoTitle: Prisma.FieldRef<"Collection", 'String'>
   readonly seoDescription: Prisma.FieldRef<"Collection", 'String'>
+  readonly storyHeadline: Prisma.FieldRef<"Collection", 'String'>
+  readonly storyBody: Prisma.FieldRef<"Collection", 'String'>
+  readonly storyImageUrl: Prisma.FieldRef<"Collection", 'String'>
+  readonly materialNotes: Prisma.FieldRef<"Collection", 'String[]'>
+  readonly campaignLabel: Prisma.FieldRef<"Collection", 'String'>
   readonly createdAt: Prisma.FieldRef<"Collection", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Collection", 'DateTime'>
 }

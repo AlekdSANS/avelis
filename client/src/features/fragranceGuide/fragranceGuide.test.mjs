@@ -86,10 +86,10 @@ test("builds shareable Shop URLs using the catalogue's real query keys", () => {
   );
 });
 
-test("derives available guide families and their notes from real products", () => {
+test("shows the complete guide family set and derives notes from real products", () => {
   assert.deepEqual(
-    getAvailableGuideFamilies(catalogue).map((family) => family.name),
-    ["Woody", "Floral", "Amber", "Aquatic"],
+    getAvailableGuideFamilies().map((family) => family.name),
+    ["Woody", "Floral", "Amber", "Fresh", "Spicy", "Gourmand", "Aquatic", "Powdery"],
   );
   assert.deepEqual(
     getFamilyNotes(catalogue, "Woody").map((note) => note.label),

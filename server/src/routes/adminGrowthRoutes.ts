@@ -1,0 +1,15 @@
+import { Router } from "express";
+import { adminArticlesController, adminReviewsController, createArticleController, deleteArticleController, moderateReviewController, updateArticleController } from "../controllers/growthController.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
+import { optionalAuth, requireAdmin, requireAuth } from "../middleware/authMiddleware.js";
+import { validateBody } from "../middleware/validate.js";
+import { journalArticleSchema, journalArticleUpdateSchema, reviewModerationSchema } from "../schemas/growthSchemas.js";
+const router = Router();
+router.use(asyncHandler(optionalAuth), requireAuth, requireAdmin);
+router.get("/articles", asyncHandler(adminArticlesController));
+router.post("/articles", validateBody(journalArticleSchema), asyncHandler(createArticleController));
+router.patch("/articles/:id", validateBody(journalArticleUpdateSchema), asyncHandler(updateArticleController));
+router.delete("/articles/:id", asyncHandler(deleteArticleController));
+router.get("/reviews", asyncHandler(adminReviewsController));
+router.patch("/reviews/:id", validateBody(reviewModerationSchema), asyncHandler(moderateReviewController));
+export default router;

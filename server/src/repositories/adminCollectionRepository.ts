@@ -37,6 +37,11 @@ export const adminCollectionDetailSelect = {
 	publishedAt: true,
 	seoTitle: true,
 	seoDescription: true,
+	storyHeadline: true,
+	storyBody: true,
+	storyImageUrl: true,
+	materialNotes: true,
+	campaignLabel: true,
 	createdAt: true,
 	updatedAt: true,
 	products: {
@@ -179,6 +184,11 @@ export function createAdminCollectionRecord(
 				sortOrder: data.sortOrder,
 				seoTitle: data.seoTitle ?? null,
 				seoDescription: data.seoDescription ?? null,
+				storyHeadline: data.storyHeadline ?? null,
+				storyBody: data.storyBody ?? null,
+				storyImageUrl: data.storyImageUrl ?? null,
+				materialNotes: data.materialNotes,
+				campaignLabel: data.campaignLabel ?? null,
 				publishedAt: data.status === "PUBLISHED" ? new Date() : null,
 				products: {
 					create: productIds.map((productId, sortOrder) => ({
@@ -235,6 +245,11 @@ export function updateAdminCollectionRecord(
 		if (fields.seoDescription !== undefined) {
 			data.seoDescription = fields.seoDescription;
 		}
+		if (fields.storyHeadline !== undefined) data.storyHeadline = fields.storyHeadline;
+		if (fields.storyBody !== undefined) data.storyBody = fields.storyBody;
+		if (fields.storyImageUrl !== undefined) data.storyImageUrl = fields.storyImageUrl;
+		if (fields.materialNotes !== undefined) data.materialNotes = { set: fields.materialNotes };
+		if (fields.campaignLabel !== undefined) data.campaignLabel = fields.campaignLabel;
 		if (fields.status === "PUBLISHED" && current.publishedAt === null) {
 			data.publishedAt = new Date();
 		}

@@ -8,6 +8,8 @@ import {
 	X,
 	Leaf,
 	FolderOpen,
+	Newspaper,
+	MessageSquareText,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -49,6 +51,8 @@ const adminNavigation = [
 		to: "/admin/collections",
 		icon: FolderOpen,
 	},
+	{ label: "Journal", to: "/admin/journal", icon: Newspaper },
+	{ label: "Reviews", to: "/admin/reviews", icon: MessageSquareText },
 ];
 
 function getPageTitle(pathname: string) {
@@ -66,6 +70,8 @@ function getPageTitle(pathname: string) {
 		return "Edit collection";
 	}
 	if (pathname.startsWith("/admin/collections")) return "Collections";
+	if (pathname.startsWith("/admin/journal")) return "Journal studio";
+	if (pathname.startsWith("/admin/reviews")) return "Review moderation";
 
 	return "Admin";
 }

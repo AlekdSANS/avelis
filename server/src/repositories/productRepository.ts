@@ -56,6 +56,18 @@ function buildTextSearch(term: string) {
 					},
 				},
 			},
+			{
+				collections: {
+					some: {
+						collection: {
+							OR: [
+								{ name: { contains: term, mode: insensitive } },
+								{ slug: { contains: term, mode: insensitive } },
+							],
+						},
+					},
+				},
+			},
 		],
 	} satisfies Prisma.ProductWhereInput;
 }

@@ -61,10 +61,13 @@ export const orderSummarySelect = {
 	},
 	items: {
 		select: {
+			id: true,
+			productName: true,
 			imageUrl: true,
+			quantity: true,
 		},
 		orderBy: [{ id: "asc" }],
-		take: 1,
+		take: 4,
 	},
 } satisfies Prisma.OrderSelect;
 
@@ -139,6 +142,12 @@ export function mapOrderSummary(order: OrderSummaryRecord) {
 		total: moneyToNumber(order.total),
 		currency: order.currency,
 		firstItemImageUrl: order.items[0]?.imageUrl ?? null,
+		itemPreviews: order.items.map((item) => ({
+			id: item.id,
+			productName: item.productName,
+			imageUrl: item.imageUrl,
+			quantity: item.quantity,
+		})),
 		createdAt: order.createdAt.toISOString(),
 	};
 }

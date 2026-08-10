@@ -20,6 +20,11 @@ const draftValues = {
 	sortOrder: 10,
 	seoTitle: "",
 	seoDescription: "",
+	storyHeadline: "",
+	storyBody: "",
+	storyImageUrl: "",
+	materialNotes: "",
+	campaignLabel: "",
 	productIds: [],
 };
 

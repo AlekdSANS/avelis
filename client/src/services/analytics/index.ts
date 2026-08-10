@@ -13,6 +13,7 @@ export {
   trackViewItem,
   trackViewItemList,
   trackWishlistChange,
+  trackGrowth,
 } from "./analytics";
 export {
   getAnalyticsConsent,
@@ -46,4 +47,5 @@ export type {
   AnalyticsItem,
   AnalyticsListContext,
   PromotionItem,
+  GrowthEvent,
 } from "./types";

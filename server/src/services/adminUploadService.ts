@@ -5,8 +5,8 @@ import {
 } from "../config/uploads.js";
 import { prisma } from "../lib/prisma.js";
 import type { DeleteProductUploadInput } from "../schemas/adminUploadSchemas.js";
-import { imageStorage } from "../storage/localImageStorage.js";
 import type { ImageStorage, StoredImage } from "../storage/imageStorage.js";
+import { imageStorage } from "../storage/index.js";
 import { HttpError } from "../utils/httpError.js";
 
 const allowedMimeTypes = new Set<string>(PRODUCT_UPLOAD_MIME_TYPES);
@@ -80,13 +80,16 @@ export async function deleteAdminProductUpload(
 	const referenceCount = await prisma.productImage.count({
 		where: { storageKey: input.storageKey },
 	});
-	const managedUrl = `/uploads/${input.storageKey}`;
+	const managedUrls = [
+		storage.getPublicUrl(input.storageKey),
+		`/uploads/${input.storageKey}`,
+	];
 	const collectionReferenceCount = await prisma.collection.count({
 		where: {
 			OR: [
-				{ heroImageUrl: managedUrl },
-				{ cardImageUrl: managedUrl },
-				{ mobileImageUrl: managedUrl },
+				{ heroImageUrl: { in: managedUrls } },
+				{ cardImageUrl: { in: managedUrls } },
+				{ mobileImageUrl: { in: managedUrls } },
 			],
 		},
 	});

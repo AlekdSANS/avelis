@@ -1,0 +1,1 @@
+{"version":3,"file":"adminController.js","sourceRoot":"","sources":["../../src/controllers/adminController.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,iBAAiB,EAAE,MAAM,6BAA6B,CAAC;AAEhE,MAAM,CAAC,KAAK,UAAU,wBAAwB,CAC7C,IAAa,EACb,GAAa;IAEb,MAAM,SAAS,GAAG,MAAM,iBAAiB,EAAE,CAAC;IAE5C,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC;AACjC,CAAC"}

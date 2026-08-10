@@ -1,0 +1,1 @@
+{"version":3,"file":"adminUploadSchemas.js","sourceRoot":"","sources":["../../src/schemas/adminUploadSchemas.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,CAAC,EAAE,MAAM,KAAK,CAAC;AAExB,MAAM,CAAC,MAAM,yBAAyB,GAAG,CAAC,CAAC,MAAM,CAAC;IACjD,UAAU,EAAE,CAAC;SACX,MAAM,EAAE;SACR,IAAI,EAAE;SACN,KAAK,CACL,2CAA2C,EAC3C,mCAAmC,CACnC;CACF,CAAC,CAAC"}

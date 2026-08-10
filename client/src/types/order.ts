@@ -105,6 +105,12 @@ export interface OrderSummary {
   total: number;
   currency: string;
   firstItemImageUrl: string | null;
+  itemPreviews: Array<{
+    id: string;
+    productName: string;
+    imageUrl: string | null;
+    quantity: number;
+  }>;
   createdAt: string;
 }
 

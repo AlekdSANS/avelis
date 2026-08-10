@@ -16,4 +16,9 @@ export interface Collection {
   products?: Product[];
   seoTitle?: string | null;
   seoDescription?: string | null;
+  storyHeadline: string | null;
+  storyBody: string | null;
+  storyImageUrl: string | null;
+  materialNotes: string[];
+  campaignLabel: string | null;
 }

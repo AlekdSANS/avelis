@@ -128,6 +128,16 @@ export interface AuthEvent {
   method: "email";
 }
 
+export interface GrowthEvent {
+  event: "scent_finder_start" | "scent_finder_complete" | "scent_finder_select" | "journal_view" | "review_submit" | "experiment_impression" | "experiment_conversion" | "collection_campaign_view";
+  content_id?: string;
+  content_type?: string;
+  campaign_id?: string;
+  experiment_id?: string;
+  variant_id?: string;
+  result_ids?: string;
+}
+
 export type PromotionItem = {
   promotion_id: string;
   promotion_name: string;
@@ -156,7 +166,7 @@ export type EcommerceEvent =
   | WishlistEvent
   | PromotionEvent;
 
-export type AnalyticsEvent = EcommerceEvent | SearchEvent | AuthEvent;
+export type AnalyticsEvent = EcommerceEvent | SearchEvent | AuthEvent | GrowthEvent;
 
 export type GoogleTagManagerBootstrapEvent = {
   "gtm.start": number;

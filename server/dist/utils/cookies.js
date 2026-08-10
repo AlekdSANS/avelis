@@ -1,14 +1,15 @@
+import { env } from "../config/env.js";
 import { getSessionTtlMs } from "./session.js";
 export function getAuthCookieName() {
-    if (process.env.SESSION_COOKIE_NAME !== undefined) {
-        return process.env.SESSION_COOKIE_NAME;
+    if (env.SESSION_COOKIE_NAME !== undefined) {
+        return env.SESSION_COOKIE_NAME;
     }
-    return process.env.NODE_ENV === "production"
+    return env.NODE_ENV === "production"
         ? "__Secure-avelis_session"
         : "avelis_session";
 }
 export function getAuthCookieOptions() {
-    const secure = process.env.NODE_ENV === "production";
+    const secure = env.NODE_ENV === "production";
     return {
         httpOnly: true,
         sameSite: "lax",

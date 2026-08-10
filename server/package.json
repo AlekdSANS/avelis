@@ -5,8 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "tsx watch src/server.ts",
-		"build": "tsc",
-		"test": "tsx --test --test-concurrency=1 tests/order.integration.test.ts tests/admin.integration.test.ts tests/adminProduct.integration.test.ts tests/adminMedia.integration.test.ts tests/adminReference.integration.test.ts tests/adminOrder.integration.test.ts",
+		"validate:env": "tsx src/scripts/validateEnvironment.ts",
+		"build": "npm run validate:env && tsc",
+		"test:unit": "tsx --test tests/storage.unit.test.ts",
+		"test": "npm run test:unit && tsx --test --test-concurrency=1 tests/order.integration.test.ts tests/admin.integration.test.ts tests/adminProduct.integration.test.ts tests/adminMedia.integration.test.ts tests/adminReference.integration.test.ts tests/adminOrder.integration.test.ts",
 		"start": "node dist/server.js"
 	},
 	"keywords": [],
@@ -14,6 +16,7 @@
 	"license": "ISC",
 	"type": "module",
 	"dependencies": {
+		"@aws-sdk/client-s3": "^3.1106.0",
 		"@prisma/adapter-pg": "^7.9.0",
 		"@prisma/client": "^7.9.0",
 		"bcrypt": "^6.0.0",
@@ -27,7 +30,6 @@
 		"jsonwebtoken": "^9.0.3",
 		"multer": "^2.2.0",
 		"pg": "^8.22.0",
-		"prisma": "^7.9.0",
 		"zod": "^4.4.3"
 	},
 	"devDependencies": {
@@ -38,6 +40,7 @@
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/multer": "^2.2.0",
 		"@types/node": "^26.1.1",
+		"prisma": "^7.9.0",
 		"tsx": "^4.23.1",
 		"typescript": "^7.0.2"
 	},

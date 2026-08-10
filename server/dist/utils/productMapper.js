@@ -32,6 +32,9 @@ export const productSelect = {
         select: {
             id: true,
             url: true,
+            storageKey: true,
+            mimeType: true,
+            sizeBytes: true,
             alt: true,
             position: true,
             isPrimary: true,
@@ -47,6 +50,7 @@ export const productSelect = {
                 select: {
                     id: true,
                     name: true,
+                    isActive: true,
                 },
             },
         },
@@ -59,13 +63,19 @@ export const productSelect = {
                     id: true,
                     slug: true,
                     name: true,
+                    eyebrow: true,
+                    shortDescription: true,
                     description: true,
-                    imageUrl: true,
+                    cardImageUrl: true,
+                    heroImageUrl: true,
+                    accentColor: true,
+                    status: true,
                 },
             },
         },
     },
     reviews: {
+        where: { status: "APPROVED" },
         select: {
             rating: true,
         },
@@ -121,6 +131,7 @@ export function mapProduct(product) {
             stock: variant.stock,
         })),
         notes: product.notes
+            .filter((note) => note.note.isActive)
             .map((note) => ({
             name: note.note.name,
             type: note.type,
@@ -130,7 +141,19 @@ export function mapProduct(product) {
             const typeDelta = noteTypeRank[left.type] - noteTypeRank[right.type];
             return typeDelta === 0 ? left.position - right.position : typeDelta;
         }),
-        collections: product.collections.map(({ collection }) => collection),
+        collections: product.collections
+            .filter(({ collection }) => collection.status === "PUBLISHED")
+            .map(({ collection }) => ({
+            id: collection.id,
+            slug: collection.slug,
+            name: collection.name,
+            eyebrow: collection.eyebrow,
+            shortDescription: collection.shortDescription,
+            description: collection.description,
+            cardImageUrl: collection.cardImageUrl,
+            heroImageUrl: collection.heroImageUrl,
+            accentColor: collection.accentColor,
+        })),
         createdAt: product.createdAt.toISOString(),
         updatedAt: product.updatedAt.toISOString(),
     };

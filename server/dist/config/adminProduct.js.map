@@ -1,0 +1,1 @@
+{"version":3,"file":"adminProduct.js","sourceRoot":"","sources":["../../src/config/adminProduct.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,MAAM,8BAA8B,GAAG;IAC7C,MAAM,EAAE,CAAC,EAAE,EAAE,GAAG,CAAC;IACjB,MAAM,EAAE,CAAC,EAAE,EAAE,GAAG,EAAE,GAAG,CAAC;CACsC,CAAC;AAE9D,MAAM,CAAC,MAAM,+BAA+B,GAAG,EAAE,CAAC;AAClD,MAAM,CAAC,MAAM,2BAA2B,GAAG,GAAG,CAAC"}

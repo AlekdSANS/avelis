@@ -82,6 +82,11 @@ const collectionFields = {
 	sortOrder: z.number().int().min(-10_000).max(10_000),
 	seoTitle: nullableText(160),
 	seoDescription: nullableText(320),
+	storyHeadline: nullableText(220),
+	storyBody: nullableText(10_000),
+	storyImageUrl: nullableImageUrlSchema,
+	materialNotes: z.array(z.string().trim().min(1).max(120)).max(20).default([]),
+	campaignLabel: nullableText(120),
 	productIds: productIdsSchema,
 } as const;
 
@@ -126,6 +131,11 @@ export const adminCollectionUpdateSchema = z
 		sortOrder: collectionFields.sortOrder.optional(),
 		seoTitle: collectionFields.seoTitle,
 		seoDescription: collectionFields.seoDescription,
+		storyHeadline: collectionFields.storyHeadline,
+		storyBody: collectionFields.storyBody,
+		storyImageUrl: collectionFields.storyImageUrl,
+		materialNotes: collectionFields.materialNotes.optional(),
+		campaignLabel: collectionFields.campaignLabel,
 		productIds: collectionFields.productIds.optional(),
 	})
 	.strict()

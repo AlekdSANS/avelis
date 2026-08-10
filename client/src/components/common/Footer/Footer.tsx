@@ -27,6 +27,7 @@ const footerSections = [
       { label: "Delivery & Returns", to: "/delivery-returns" },
       { label: "FAQ", to: "/faq" },
       { label: "Fragrance Guide", to: "/fragrance-guide" },
+	  { label: "Scent Finder", to: "/scent-finder" },
     ],
   },
   {

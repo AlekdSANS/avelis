@@ -1,0 +1,99 @@
+.loading {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.loading > div:first-child {
+  display: grid;
+  max-width: 36rem;
+  gap: var(--space-3);
+}
+
+.loading > div:first-child > :first-child {
+  min-height: 3rem;
+}
+
+.loadingLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(17rem, 0.8fr);
+  gap: var(--space-6);
+}
+
+.loadingLayout > div {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+}
+
+.loadingLayout > div > * {
+  min-height: 15rem;
+  border: 1px solid var(--color-border);
+}
+
+.state {
+  display: grid;
+  min-height: calc(100dvh - 10rem);
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: clamp(2rem, 7vw, 6rem);
+  text-align: center;
+}
+
+.state > svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-olive);
+}
+
+.eyebrow {
+  color: var(--color-olive);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.state h2 {
+  max-width: 40rem;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.state > p:not(.eyebrow) {
+  max-width: 35rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.state > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.state a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: 1px solid currentColor;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.state a svg {
+  width: 0.9rem;
+}
+
+@media (max-width: 63.99rem) {
+  .loadingLayout {
+    grid-template-columns: 1fr;
+  }
+}/*# sourceMappingURL=AdminProductFormPage.module.css.map */

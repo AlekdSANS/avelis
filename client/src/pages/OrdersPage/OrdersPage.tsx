@@ -51,20 +51,40 @@ function OrderHistorySkeleton() {
 }
 
 function OrderCard({ order }: { order: OrderSummary }) {
+  const hiddenItemCount = Math.max(order.itemCount - order.itemPreviews.length, 0);
+
   return (
     <article className={styles.card}>
-      <ProductImage
-        alt={
-          order.firstItemImageUrl === null
-            ? ""
-            : `First item from order ${order.orderNumber}`
-        }
-        className={styles.image}
-        src={
-          order.firstItemImageUrl ??
-          "/images/placeholders/product_placeholder.png"
-        }
-      />
+      <div className={styles.orderPreview}>
+        <div className={styles.previewImages}>
+          {order.itemPreviews.length > 0 ? (
+            order.itemPreviews.map((item) => (
+              <ProductImage
+                alt={item.productName}
+                className={styles.image}
+                key={item.id}
+                src={item.imageUrl ?? "/images/placeholders/product_placeholder.png"}
+              />
+            ))
+          ) : (
+            <ProductImage
+              alt=""
+              className={styles.image}
+              src={order.firstItemImageUrl ?? "/images/placeholders/product_placeholder.png"}
+            />
+          )}
+          {hiddenItemCount > 0 ? (
+            <span className={styles.moreItems}>+{hiddenItemCount}</span>
+          ) : null}
+        </div>
+        <p>
+          {order.itemPreviews.length > 0
+            ? order.itemPreviews
+                .map((item) => `${item.productName}${item.quantity > 1 ? ` × ${item.quantity}` : ""}`)
+                .join(", ")
+            : "Order items"}
+        </p>
+      </div>
       <div className={styles.cardBody}>
         <div className={styles.cardHeading}>
           <div>
@@ -82,7 +102,7 @@ function OrderCard({ order }: { order: OrderSummary }) {
         </div>
         <dl className={styles.cardMeta}>
           <div>
-            <dt>Items</dt>
+            <dt>Grouped in this order</dt>
             <dd>
               {order.itemCount} {order.itemCount === 1 ? "item" : "items"}
             </dd>

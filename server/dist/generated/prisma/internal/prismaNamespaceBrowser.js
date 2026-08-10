@@ -47,6 +47,7 @@ export const ModelName = {
     Note: 'Note',
     ProductNote: 'ProductNote',
     Collection: 'Collection',
+    JournalArticle: 'JournalArticle',
     ProductCollection: 'ProductCollection',
     Cart: 'Cart',
     CartItem: 'CartItem',
@@ -125,6 +126,9 @@ export const ProductImageScalarFieldEnum = {
     id: 'id',
     productId: 'productId',
     url: 'url',
+    storageKey: 'storageKey',
+    mimeType: 'mimeType',
+    sizeBytes: 'sizeBytes',
     alt: 'alt',
     position: 'position',
     isPrimary: 'isPrimary',
@@ -133,7 +137,10 @@ export const ProductImageScalarFieldEnum = {
 };
 export const NoteScalarFieldEnum = {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const ProductNoteScalarFieldEnum = {
     productId: 'productId',
@@ -145,14 +152,50 @@ export const CollectionScalarFieldEnum = {
     id: 'id',
     slug: 'slug',
     name: 'name',
+    eyebrow: 'eyebrow',
+    shortDescription: 'shortDescription',
     description: 'description',
-    imageUrl: 'imageUrl',
+    heroImageUrl: 'heroImageUrl',
+    cardImageUrl: 'cardImageUrl',
+    mobileImageUrl: 'mobileImageUrl',
+    accentColor: 'accentColor',
+    status: 'status',
+    isFeatured: 'isFeatured',
+    sortOrder: 'sortOrder',
+    publishedAt: 'publishedAt',
+    seoTitle: 'seoTitle',
+    seoDescription: 'seoDescription',
+    storyHeadline: 'storyHeadline',
+    storyBody: 'storyBody',
+    storyImageUrl: 'storyImageUrl',
+    materialNotes: 'materialNotes',
+    campaignLabel: 'campaignLabel',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const JournalArticleScalarFieldEnum = {
+    id: 'id',
+    slug: 'slug',
+    title: 'title',
+    eyebrow: 'eyebrow',
+    excerpt: 'excerpt',
+    body: 'body',
+    coverImageUrl: 'coverImageUrl',
+    authorName: 'authorName',
+    tags: 'tags',
+    readingTimeMinutes: 'readingTimeMinutes',
+    status: 'status',
+    isFeatured: 'isFeatured',
+    publishedAt: 'publishedAt',
+    seoTitle: 'seoTitle',
+    seoDescription: 'seoDescription',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
 export const ProductCollectionScalarFieldEnum = {
     productId: 'productId',
-    collectionId: 'collectionId'
+    collectionId: 'collectionId',
+    sortOrder: 'sortOrder'
 };
 export const CartScalarFieldEnum = {
     id: 'id',
@@ -228,6 +271,9 @@ export const ReviewScalarFieldEnum = {
     rating: 'rating',
     title: 'title',
     content: 'content',
+    status: 'status',
+    verifiedPurchase: 'verifiedPurchase',
+    moderatedAt: 'moderatedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

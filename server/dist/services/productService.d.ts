@@ -41,11 +41,15 @@ export declare function listProducts(query: ProductListQuery): Promise<{
             position: number;
         }[];
         collections: {
-            description: string;
             id: string;
-            imageUrl: string | null;
-            name: string;
             slug: string;
+            name: string;
+            eyebrow: string | null;
+            shortDescription: string | null;
+            description: string;
+            cardImageUrl: string | null;
+            heroImageUrl: string | null;
+            accentColor: string | null;
         }[];
         createdAt: string;
         updatedAt: string;
@@ -97,11 +101,15 @@ export declare function getFeaturedProducts(query: FeaturedProductsQuery): Promi
             position: number;
         }[];
         collections: {
-            description: string;
             id: string;
-            imageUrl: string | null;
-            name: string;
             slug: string;
+            name: string;
+            eyebrow: string | null;
+            shortDescription: string | null;
+            description: string;
+            cardImageUrl: string | null;
+            heroImageUrl: string | null;
+            accentColor: string | null;
         }[];
         createdAt: string;
         updatedAt: string;
@@ -149,11 +157,15 @@ export declare function getProductBySlug(slug: string): Promise<{
             position: number;
         }[];
         collections: {
-            description: string;
             id: string;
-            imageUrl: string | null;
-            name: string;
             slug: string;
+            name: string;
+            eyebrow: string | null;
+            shortDescription: string | null;
+            description: string;
+            cardImageUrl: string | null;
+            heroImageUrl: string | null;
+            accentColor: string | null;
         }[];
         createdAt: string;
         updatedAt: string;
@@ -201,11 +213,15 @@ export declare function getRelatedProducts(productId: string): Promise<{
             position: number;
         }[];
         collections: {
-            description: string;
             id: string;
-            imageUrl: string | null;
-            name: string;
             slug: string;
+            name: string;
+            eyebrow: string | null;
+            shortDescription: string | null;
+            description: string;
+            cardImageUrl: string | null;
+            heroImageUrl: string | null;
+            accentColor: string | null;
         }[];
         createdAt: string;
         updatedAt: string;

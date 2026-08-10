@@ -2,26 +2,51 @@ export declare function findCollections(): Promise<{
     _count: {
         products: number;
     };
+    accentColor: string | null;
+    campaignLabel: string | null;
+    cardImageUrl: string | null;
     description: string;
+    eyebrow: string | null;
+    heroImageUrl: string | null;
     id: string;
-    imageUrl: string | null;
+    isFeatured: boolean;
+    materialNotes: string[];
+    mobileImageUrl: string | null;
     name: string;
+    publishedAt: Date | null;
+    shortDescription: string | null;
     slug: string;
+    sortOrder: number;
+    storyBody: string | null;
+    storyHeadline: string | null;
+    storyImageUrl: string | null;
 }[]>;
 export declare function findCollectionBySlug(slug: string): Promise<{
+    accentColor: string | null;
+    campaignLabel: string | null;
+    cardImageUrl: string | null;
     description: string;
+    eyebrow: string | null;
+    heroImageUrl: string | null;
     id: string;
-    imageUrl: string | null;
+    isFeatured: boolean;
+    materialNotes: string[];
+    mobileImageUrl: string | null;
     name: string;
     products: {
         product: {
             collections: {
                 collection: {
+                    accentColor: string | null;
+                    cardImageUrl: string | null;
                     description: string;
+                    eyebrow: string | null;
+                    heroImageUrl: string | null;
                     id: string;
-                    imageUrl: string | null;
                     name: string;
+                    shortDescription: string | null;
                     slug: string;
+                    status: import("../generated/prisma/enums.js").CollectionStatus;
                 };
             }[];
             concentration: string;
@@ -35,7 +60,10 @@ export declare function findCollectionBySlug(slug: string): Promise<{
                 id: string;
                 imageType: import("../generated/prisma/enums.js").ProductImageType;
                 isPrimary: boolean;
+                mimeType: string | null;
                 position: number;
+                sizeBytes: number | null;
+                storageKey: string | null;
                 url: string;
             }[];
             isActive: boolean;
@@ -47,6 +75,7 @@ export declare function findCollectionBySlug(slug: string): Promise<{
             notes: {
                 note: {
                     id: string;
+                    isActive: boolean;
                     name: string;
                 };
                 position: number;
@@ -71,6 +100,12 @@ export declare function findCollectionBySlug(slug: string): Promise<{
             }[];
         };
     }[];
+    seoDescription: string | null;
+    seoTitle: string | null;
+    shortDescription: string | null;
     slug: string;
+    storyBody: string | null;
+    storyHeadline: string | null;
+    storyImageUrl: string | null;
 } | null>;
 //# sourceMappingURL=collectionRepository.d.ts.map

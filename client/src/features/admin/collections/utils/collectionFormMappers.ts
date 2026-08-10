@@ -23,6 +23,11 @@ export function collectionFormValuesToInput(values: AdminCollectionFormValues) {
 		sortOrder: values.sortOrder,
 		seoTitle: emptyToNull(values.seoTitle),
 		seoDescription: emptyToNull(values.seoDescription),
+		storyHeadline: emptyToNull(values.storyHeadline),
+		storyBody: emptyToNull(values.storyBody),
+		storyImageUrl: emptyToNull(values.storyImageUrl),
+		materialNotes: values.materialNotes.split(",").map((value) => value.trim()).filter(Boolean),
+		campaignLabel: emptyToNull(values.campaignLabel),
 		productIds: values.productIds,
 	};
 }

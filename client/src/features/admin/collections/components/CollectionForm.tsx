@@ -97,6 +97,11 @@ export function CollectionForm({
 		sortOrder: initialCollection?.sortOrder ?? 0,
 		seoTitle: initialCollection?.seoTitle ?? "",
 		seoDescription: initialCollection?.seoDescription ?? "",
+		storyHeadline: initialCollection?.storyHeadline ?? "",
+		storyBody: initialCollection?.storyBody ?? "",
+		storyImageUrl: initialCollection?.storyImageUrl ?? "",
+		materialNotes: initialCollection?.materialNotes.join(", ") ?? "",
+		campaignLabel: initialCollection?.campaignLabel ?? "",
 		productIds: initialCollection?.productIds ?? [],
 	};
 	const form = useForm<AdminCollectionFormValues>({
@@ -448,6 +453,13 @@ export function CollectionForm({
 							message={errors.description?.message}
 						/>
 					</label>
+					<div className={styles.fields}>
+						<label className={styles.field}><span>Story headline</span><Input {...register("storyHeadline")} /></label>
+						<label className={styles.field}><span>Campaign label</span><Input {...register("campaignLabel")} placeholder="e.g. blue-hour-2026" /></label>
+						<label className={[styles.field, styles.full].join(" ")}><span>Extended story</span><textarea rows={8} {...register("storyBody")} /></label>
+						<label className={styles.field}><span>Story image URL</span><Input {...register("storyImageUrl")} /></label>
+						<label className={styles.field}><span>Material notes (comma separated)</span><Input {...register("materialNotes")} /></label>
+					</div>
 				</section>
 
 				<section aria-labelledby="collection-images-title" className={styles.section}>

@@ -2,11 +2,12 @@
 	--collection-accent: var(--color-olive);
 	background: var(--color-section-surface);
 	color: var(--color-text);
+	overflow-x: hidden;
 }
 
 .hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1.35fr) minmax(25rem, 0.65fr);
+	grid-template-columns: minmax(0, 1.12fr) minmax(30rem, 0.88fr);
 	min-height: min(54rem, calc(100vh - var(--header-height)));
 	border-bottom: 1px solid var(--color-border);
 	background:
@@ -35,6 +36,7 @@
 	justify-content: center;
 	align-items: flex-start;
 	padding: clamp(3rem, 6vw, 7rem);
+	min-width: 0;
 }
 
 .heroContent > a,
@@ -72,7 +74,7 @@
 
 .heroContent h1 {
 	margin-top: var(--space-4);
-	font-size: clamp(4.5rem, 7vw, 9rem);
+	font-size: clamp(4.5rem, 6vw, 8rem);
 	line-height: 0.84;
 	letter-spacing: -0.04em;
 }
@@ -100,6 +102,20 @@
 	gap: clamp(3rem, 9vw, 10rem);
 	padding-block: clamp(5rem, 10vw, 10rem);
 }
+
+.materialStory {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr);
+  width: min(calc(100% - (2 * var(--site-gutter))), var(--wide-container-width));
+  margin: 0 auto clamp(5rem, 9vw, 9rem);
+  background: color-mix(in srgb, var(--collection-accent) 12%, #f6f2ec);
+}
+
+.materialStory > :first-child { width: 100%; min-height: 28rem; object-fit: cover; }
+.materialStory > div { display: grid; align-content: center; gap: 1.5rem; padding: clamp(2rem, 5vw, 5rem); }
+.materialStory p { color: var(--collection-accent); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.materialStory ul { display: grid; gap: 1rem; }
+.materialStory li { border-top: 1px solid color-mix(in srgb, var(--collection-accent) 35%, transparent); padding-top: 1rem; font-family: var(--font-heading); font-size: clamp(1.35rem, 2vw, 2rem); }
 
 .story h2 {
 	max-width: 38rem;
@@ -214,6 +230,7 @@
 }
 
 @media (max-width: 63.99rem) {
+	.materialStory { grid-template-columns: 1fr; }
 	.hero {
 		grid-template-columns: 1fr;
 		min-height: 0;

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LockKeyhole } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Button, ButtonLink } from "../../components/ui/Button/Button";
@@ -263,6 +263,14 @@ export function CheckoutPage() {
             <p className={styles.submitNote}>
               The server will verify current prices and availability before
               creating the order. Payment processing is not connected yet.
+            </p>
+            <p className={styles.policyNote}>
+              By placing this demonstration order, you acknowledge the{" "}
+              <Link to="/terms">Terms</Link>,{" "}
+              <Link to="/privacy">Privacy Notice</Link> and{" "}
+              <Link to="/delivery-returns">Delivery &amp; Returns Policy</Link>.
+              For help, read the <Link to="/faq">FAQ</Link> or{" "}
+              <Link to="/contact">contact customer care</Link>.
             </p>
           </section>
         </form>

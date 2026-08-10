@@ -61,6 +61,12 @@ export declare function listCustomerOrders(userId: string, query: OrderListQuery
         total: number;
         currency: string;
         firstItemImageUrl: string | null;
+        itemPreviews: {
+            id: string;
+            productName: string;
+            imageUrl: string | null;
+            quantity: number;
+        }[];
         createdAt: string;
     }[];
     page: number;

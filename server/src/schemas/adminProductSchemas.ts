@@ -4,6 +4,7 @@ import {
 	ADMIN_PRODUCT_MAX_PAGE_SIZE,
 	ADMIN_PRODUCT_VOLUME_BY_FORMAT,
 } from "../config/adminProduct.js";
+import { imageStorage } from "../storage/index.js";
 
 const productFormatSchema = z.enum(["BOTTLE", "REFILL"]);
 const productImageTypeSchema = z.enum(["MAIN", "GALLERY", "HOVER", "REFILL"]);
@@ -252,7 +253,7 @@ function validateImages(
 
 		if (
 			image.storageKey !== undefined &&
-			image.url !== `/uploads/${image.storageKey}`
+			image.url !== imageStorage.getPublicUrl(image.storageKey)
 		) {
 			context.addIssue({
 				code: "custom",

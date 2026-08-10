@@ -9,6 +9,8 @@ import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist
 import { ApiClientError } from "../../services/apiClient";
 import { useDocumentMetadata } from "../../hooks/useDocumentMetadata";
 import styles from "./CollectionPage.module.scss";
+import { useEffect } from "react";
+import { trackGrowth } from "../../services/analytics";
 
 type AccentStyle = React.CSSProperties & {
 	"--collection-accent": string;
@@ -40,6 +42,7 @@ export function CollectionPage() {
 	const isNotFound =
 		collectionQuery.error instanceof ApiClientError &&
 		collectionQuery.error.statusCode === 404;
+	useEffect(() => { if (collection?.campaignLabel) trackGrowth({ event: "collection_campaign_view", content_id: collection.id, campaign_id: collection.campaignLabel }); }, [collection]);
 
 	useDocumentMetadata({
 		title: `${collection?.seoTitle ?? collection?.name ?? "Collection"} | AVELIS`,
@@ -115,11 +118,11 @@ export function CollectionPage() {
 
 			<section aria-labelledby="collection-story-title" className={styles.story}>
 				<div>
-					<p>The collection story</p>
-					<h2 id="collection-story-title">An atmosphere, held in fragrance.</h2>
+					<p>{collection.campaignLabel ?? "The collection story"}</p>
+					<h2 id="collection-story-title">{collection.storyHeadline ?? "An atmosphere, held in fragrance."}</h2>
 				</div>
 				<div>
-					{collection.description
+					{(collection.storyBody ?? collection.description)
 						.split(/\n{2,}/)
 						.filter(Boolean)
 						.map((paragraph) => (
@@ -127,6 +130,13 @@ export function CollectionPage() {
 						))}
 				</div>
 			</section>
+
+			{collection.storyImageUrl || collection.materialNotes.length > 0 ? (
+				<section className={styles.materialStory} aria-label="Collection materials">
+					{collection.storyImageUrl ? <CollectionImage alt={`${collection.name} materials`} src={collection.storyImageUrl} /> : null}
+					{collection.materialNotes.length > 0 ? <div><p>Palette and materials</p><ul>{collection.materialNotes.map((note) => <li key={note}>{note}</li>)}</ul></div> : null}
+				</section>
+			) : null}
 
 			<section
 				aria-labelledby="collection-products-title"

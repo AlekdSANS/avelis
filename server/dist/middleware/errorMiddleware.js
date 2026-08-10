@@ -1,6 +1,17 @@
+import multer from "multer";
 import { ZodError } from "zod";
+import { env } from "../config/env.js";
 import { HttpError } from "../utils/httpError.js";
 export const errorHandler = (error, _req, res, _next) => {
+    if (error instanceof multer.MulterError) {
+        const isSizeError = error.code === "LIMIT_FILE_SIZE";
+        res.status(isSizeError ? 413 : 400).json({
+            message: isSizeError
+                ? "Each image must be 8 MB or smaller"
+                : "The image upload request is invalid",
+        });
+        return;
+    }
     if (error instanceof ZodError) {
         res.status(400).json({
             message: "Invalid request parameters",
@@ -15,7 +26,7 @@ export const errorHandler = (error, _req, res, _next) => {
         res.status(error.statusCode).json({ message: error.message });
         return;
     }
-    if (process.env.NODE_ENV !== "production") {
+    if (env.NODE_ENV !== "production") {
         console.error(error);
     }
     res.status(500).json({ message: "Internal server error" });

@@ -59,6 +59,7 @@ export const ModelName = {
   Note: 'Note',
   ProductNote: 'ProductNote',
   Collection: 'Collection',
+  JournalArticle: 'JournalArticle',
   ProductCollection: 'ProductCollection',
   Cart: 'Cart',
   CartItem: 'CartItem',
@@ -212,11 +213,39 @@ export const CollectionScalarFieldEnum = {
   publishedAt: 'publishedAt',
   seoTitle: 'seoTitle',
   seoDescription: 'seoDescription',
+  storyHeadline: 'storyHeadline',
+  storyBody: 'storyBody',
+  storyImageUrl: 'storyImageUrl',
+  materialNotes: 'materialNotes',
+  campaignLabel: 'campaignLabel',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
+
+
+export const JournalArticleScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  eyebrow: 'eyebrow',
+  excerpt: 'excerpt',
+  body: 'body',
+  coverImageUrl: 'coverImageUrl',
+  authorName: 'authorName',
+  tags: 'tags',
+  readingTimeMinutes: 'readingTimeMinutes',
+  status: 'status',
+  isFeatured: 'isFeatured',
+  publishedAt: 'publishedAt',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JournalArticleScalarFieldEnum = (typeof JournalArticleScalarFieldEnum)[keyof typeof JournalArticleScalarFieldEnum]
 
 
 export const ProductCollectionScalarFieldEnum = {
@@ -322,6 +351,9 @@ export const ReviewScalarFieldEnum = {
   rating: 'rating',
   title: 'title',
   content: 'content',
+  status: 'status',
+  verifiedPurchase: 'verifiedPurchase',
+  moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

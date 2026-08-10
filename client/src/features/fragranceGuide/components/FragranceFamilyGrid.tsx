@@ -20,7 +20,7 @@ export function FragranceFamilyGrid({
   products,
   status,
 }: FragranceFamilyGridProps) {
-  const families = getAvailableGuideFamilies(products);
+  const families = getAvailableGuideFamilies();
 
   return (
     <section

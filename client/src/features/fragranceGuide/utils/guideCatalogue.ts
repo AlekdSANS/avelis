@@ -51,14 +51,8 @@ function belongsToFamily(product: Product, family: GuideFamilyName) {
     .includes(family.toLocaleLowerCase());
 }
 
-export function getAvailableGuideFamilies(products: Product[]): GuideFamily[] {
-  if (products.length === 0) {
-    return guideFamilies;
-  }
-
-  return guideFamilies.filter((family) =>
-    products.some((product) => belongsToFamily(product, family.name)),
-  );
+export function getAvailableGuideFamilies(): GuideFamily[] {
+  return guideFamilies;
 }
 
 export function getFamilyNotes(

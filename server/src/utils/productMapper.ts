@@ -77,6 +77,7 @@ export const productSelect = {
 		},
 	},
 	reviews: {
+		where: { status: "APPROVED" },
 		select: {
 			rating: true,
 		},

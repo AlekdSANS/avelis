@@ -206,6 +206,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.journalArticle`: Exposes CRUD operations for the **JournalArticle** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more JournalArticles
+      * const journalArticles = await prisma.journalArticle.findMany()
+      * ```
+      */
+    get journalArticle(): Prisma.JournalArticleDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.productCollection`: Exposes CRUD operations for the **ProductCollection** model.
       * Example usage:
       * ```ts

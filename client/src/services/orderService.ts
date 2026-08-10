@@ -239,6 +239,23 @@ function parseOrderSummary(payload: unknown): OrderSummary {
     });
   }
 
+  const itemPreviews = Array.isArray(payload.itemPreviews)
+    ? payload.itemPreviews.map((item) => {
+        if (!isRecord(item)) {
+          throw new ApiClientError({
+            message: "The order history response contained an invalid item preview.",
+          });
+        }
+
+        return {
+          id: readString(item, "id"),
+          productName: readString(item, "productName"),
+          imageUrl: typeof item.imageUrl === "string" ? item.imageUrl : null,
+          quantity: readPositiveInteger(item, "quantity"),
+        };
+      })
+    : [];
+
   return {
     id: readString(payload, "id"),
     orderNumber: readString(payload, "orderNumber"),
@@ -255,6 +272,7 @@ function parseOrderSummary(payload: unknown): OrderSummary {
       typeof payload.firstItemImageUrl === "string"
         ? payload.firstItemImageUrl
         : null,
+    itemPreviews,
     createdAt: readString(payload, "createdAt"),
   };
 }

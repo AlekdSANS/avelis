@@ -46,7 +46,7 @@ export type PrismaVersion = {
     engine: string;
 };
 /**
- * Prisma Client JS version: 7.9.0
+ * Prisma Client JS version: 7.9.1
  * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
  */
 export declare const prismaVersion: PrismaVersion;
@@ -252,6 +252,7 @@ export declare const ModelName: {
     readonly Note: 'Note';
     readonly ProductNote: 'ProductNote';
     readonly Collection: 'Collection';
+    readonly JournalArticle: 'JournalArticle';
     readonly ProductCollection: 'ProductCollection';
     readonly Cart: 'Cart';
     readonly CartItem: 'CartItem';
@@ -272,7 +273,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user" | "address" | "product" | "productVariant" | "productImage" | "note" | "productNote" | "collection" | "productCollection" | "cart" | "cartItem" | "wishlistItem" | "order" | "orderItem" | "review" | "session";
+        modelProps: "user" | "address" | "product" | "productVariant" | "productImage" | "note" | "productNote" | "collection" | "journalArticle" | "productCollection" | "cart" | "cartItem" | "wishlistItem" | "order" | "orderItem" | "review" | "session";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -865,6 +866,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 count: {
                     args: Prisma.CollectionCountArgs<ExtArgs>;
                     result: runtime.Types.Utils.Optional<Prisma.CollectionCountAggregateOutputType> | number;
+                };
+            };
+        };
+        JournalArticle: {
+            payload: Prisma.$JournalArticlePayload<ExtArgs>;
+            fields: Prisma.JournalArticleFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.JournalArticleFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.JournalArticleFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>;
+                };
+                findFirst: {
+                    args: Prisma.JournalArticleFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.JournalArticleFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>;
+                };
+                findMany: {
+                    args: Prisma.JournalArticleFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>[];
+                };
+                create: {
+                    args: Prisma.JournalArticleCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>;
+                };
+                createMany: {
+                    args: Prisma.JournalArticleCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.JournalArticleCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>[];
+                };
+                delete: {
+                    args: Prisma.JournalArticleDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>;
+                };
+                update: {
+                    args: Prisma.JournalArticleUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>;
+                };
+                deleteMany: {
+                    args: Prisma.JournalArticleDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.JournalArticleUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.JournalArticleUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>[];
+                };
+                upsert: {
+                    args: Prisma.JournalArticleUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>;
+                };
+                aggregate: {
+                    args: Prisma.JournalArticleAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateJournalArticle>;
+                };
+                groupBy: {
+                    args: Prisma.JournalArticleGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.JournalArticleGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.JournalArticleCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.JournalArticleCountAggregateOutputType> | number;
                 };
             };
         };
@@ -1558,6 +1633,9 @@ export declare const ProductImageScalarFieldEnum: {
     readonly id: 'id';
     readonly productId: 'productId';
     readonly url: 'url';
+    readonly storageKey: 'storageKey';
+    readonly mimeType: 'mimeType';
+    readonly sizeBytes: 'sizeBytes';
     readonly alt: 'alt';
     readonly position: 'position';
     readonly isPrimary: 'isPrimary';
@@ -1568,6 +1646,9 @@ export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[k
 export declare const NoteScalarFieldEnum: {
     readonly id: 'id';
     readonly name: 'name';
+    readonly isActive: 'isActive';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
 };
 export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum];
 export declare const ProductNoteScalarFieldEnum: {
@@ -1581,15 +1662,52 @@ export declare const CollectionScalarFieldEnum: {
     readonly id: 'id';
     readonly slug: 'slug';
     readonly name: 'name';
+    readonly eyebrow: 'eyebrow';
+    readonly shortDescription: 'shortDescription';
     readonly description: 'description';
-    readonly imageUrl: 'imageUrl';
+    readonly heroImageUrl: 'heroImageUrl';
+    readonly cardImageUrl: 'cardImageUrl';
+    readonly mobileImageUrl: 'mobileImageUrl';
+    readonly accentColor: 'accentColor';
+    readonly status: 'status';
+    readonly isFeatured: 'isFeatured';
+    readonly sortOrder: 'sortOrder';
+    readonly publishedAt: 'publishedAt';
+    readonly seoTitle: 'seoTitle';
+    readonly seoDescription: 'seoDescription';
+    readonly storyHeadline: 'storyHeadline';
+    readonly storyBody: 'storyBody';
+    readonly storyImageUrl: 'storyImageUrl';
+    readonly materialNotes: 'materialNotes';
+    readonly campaignLabel: 'campaignLabel';
     readonly createdAt: 'createdAt';
     readonly updatedAt: 'updatedAt';
 };
 export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum];
+export declare const JournalArticleScalarFieldEnum: {
+    readonly id: 'id';
+    readonly slug: 'slug';
+    readonly title: 'title';
+    readonly eyebrow: 'eyebrow';
+    readonly excerpt: 'excerpt';
+    readonly body: 'body';
+    readonly coverImageUrl: 'coverImageUrl';
+    readonly authorName: 'authorName';
+    readonly tags: 'tags';
+    readonly readingTimeMinutes: 'readingTimeMinutes';
+    readonly status: 'status';
+    readonly isFeatured: 'isFeatured';
+    readonly publishedAt: 'publishedAt';
+    readonly seoTitle: 'seoTitle';
+    readonly seoDescription: 'seoDescription';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
+};
+export type JournalArticleScalarFieldEnum = (typeof JournalArticleScalarFieldEnum)[keyof typeof JournalArticleScalarFieldEnum];
 export declare const ProductCollectionScalarFieldEnum: {
     readonly productId: 'productId';
     readonly collectionId: 'collectionId';
+    readonly sortOrder: 'sortOrder';
 };
 export type ProductCollectionScalarFieldEnum = (typeof ProductCollectionScalarFieldEnum)[keyof typeof ProductCollectionScalarFieldEnum];
 export declare const CartScalarFieldEnum: {
@@ -1671,6 +1789,9 @@ export declare const ReviewScalarFieldEnum: {
     readonly rating: 'rating';
     readonly title: 'title';
     readonly content: 'content';
+    readonly status: 'status';
+    readonly verifiedPurchase: 'verifiedPurchase';
+    readonly moderatedAt: 'moderatedAt';
     readonly createdAt: 'createdAt';
     readonly updatedAt: 'updatedAt';
 };
@@ -1770,6 +1891,22 @@ export type EnumFragranceNoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType
  */
 export type ListEnumFragranceNoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FragranceNoteType[]'>;
 /**
+ * Reference to a field of type 'CollectionStatus'
+ */
+export type EnumCollectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CollectionStatus'>;
+/**
+ * Reference to a field of type 'CollectionStatus[]'
+ */
+export type ListEnumCollectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CollectionStatus[]'>;
+/**
+ * Reference to a field of type 'JournalStatus'
+ */
+export type EnumJournalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalStatus'>;
+/**
+ * Reference to a field of type 'JournalStatus[]'
+ */
+export type ListEnumJournalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalStatus[]'>;
+/**
  * Reference to a field of type 'ShippingMethod'
  */
 export type EnumShippingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingMethod'>;
@@ -1801,6 +1938,14 @@ export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'OrderStatus[]'
  */
 export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>;
+/**
+ * Reference to a field of type 'ReviewStatus'
+ */
+export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>;
+/**
+ * Reference to a field of type 'ReviewStatus[]'
+ */
+export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>;
 /**
  * Reference to a field of type 'Float'
  */
@@ -1964,6 +2109,7 @@ export type GlobalOmitConfig = {
     note?: Prisma.NoteOmit;
     productNote?: Prisma.ProductNoteOmit;
     collection?: Prisma.CollectionOmit;
+    journalArticle?: Prisma.JournalArticleOmit;
     productCollection?: Prisma.ProductCollectionOmit;
     cart?: Prisma.CartOmit;
     cartItem?: Prisma.CartItemOmit;

@@ -2,12 +2,26 @@ import { prisma } from "../lib/prisma.js";
 import { productSelect } from "../utils/productMapper.js";
 export async function findCollections() {
     return prisma.collection.findMany({
+        where: { status: "PUBLISHED" },
         select: {
             id: true,
             slug: true,
             name: true,
+            eyebrow: true,
+            shortDescription: true,
             description: true,
-            imageUrl: true,
+            heroImageUrl: true,
+            cardImageUrl: true,
+            mobileImageUrl: true,
+            accentColor: true,
+            storyHeadline: true,
+            storyBody: true,
+            storyImageUrl: true,
+            materialNotes: true,
+            campaignLabel: true,
+            isFeatured: true,
+            sortOrder: true,
+            publishedAt: true,
             _count: {
                 select: {
                     products: {
@@ -20,18 +34,37 @@ export async function findCollections() {
                 },
             },
         },
-        orderBy: [{ name: "asc" }],
+        orderBy: [
+            { isFeatured: "desc" },
+            { sortOrder: "asc" },
+            { publishedAt: "desc" },
+            { name: "asc" },
+            { id: "asc" },
+        ],
     });
 }
 export async function findCollectionBySlug(slug) {
-    return prisma.collection.findUnique({
-        where: { slug },
+    return prisma.collection.findFirst({
+        where: { slug, status: "PUBLISHED" },
         select: {
             id: true,
             slug: true,
             name: true,
+            eyebrow: true,
+            shortDescription: true,
             description: true,
-            imageUrl: true,
+            heroImageUrl: true,
+            cardImageUrl: true,
+            mobileImageUrl: true,
+            accentColor: true,
+            storyHeadline: true,
+            storyBody: true,
+            storyImageUrl: true,
+            materialNotes: true,
+            campaignLabel: true,
+            isFeatured: true,
+            seoTitle: true,
+            seoDescription: true,
             products: {
                 where: {
                     product: {
@@ -43,7 +76,7 @@ export async function findCollectionBySlug(slug) {
                         select: productSelect,
                     },
                 },
-                orderBy: [{ productId: "asc" }],
+                orderBy: [{ sortOrder: "asc" }, { productId: "asc" }],
             },
         },
     });

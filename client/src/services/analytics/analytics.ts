@@ -31,8 +31,13 @@ import {
 } from "./purchaseDeduplication";
 import type {
   AnalyticsListContext,
+  GrowthEvent,
   PromotionItem,
 } from "./types";
+
+export function trackGrowth(event: GrowthEvent): boolean {
+  return pushToDataLayer(event);
+}
 
 const DEFAULT_CURRENCY = "PLN";
 const emittedViewKeys = new Set<string>();

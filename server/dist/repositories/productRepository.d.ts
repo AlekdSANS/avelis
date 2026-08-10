@@ -6,11 +6,16 @@ export declare function countProducts(query: ProductListQuery): Promise<number>;
 export declare function findProducts(query: ProductListQuery): Promise<{
     collections: {
         collection: {
+            accentColor: string | null;
+            cardImageUrl: string | null;
             description: string;
+            eyebrow: string | null;
+            heroImageUrl: string | null;
             id: string;
-            imageUrl: string | null;
             name: string;
+            shortDescription: string | null;
             slug: string;
+            status: import("../generated/prisma/enums.js").CollectionStatus;
         };
     }[];
     concentration: string;
@@ -24,7 +29,10 @@ export declare function findProducts(query: ProductListQuery): Promise<{
         id: string;
         imageType: import("../generated/prisma/enums.js").ProductImageType;
         isPrimary: boolean;
+        mimeType: string | null;
         position: number;
+        sizeBytes: number | null;
+        storageKey: string | null;
         url: string;
     }[];
     isActive: boolean;
@@ -36,6 +44,7 @@ export declare function findProducts(query: ProductListQuery): Promise<{
     notes: {
         note: {
             id: string;
+            isActive: boolean;
             name: string;
         };
         position: number;
@@ -62,11 +71,16 @@ export declare function findProducts(query: ProductListQuery): Promise<{
 export declare function findFeaturedProducts(limit: number): Promise<{
     collections: {
         collection: {
+            accentColor: string | null;
+            cardImageUrl: string | null;
             description: string;
+            eyebrow: string | null;
+            heroImageUrl: string | null;
             id: string;
-            imageUrl: string | null;
             name: string;
+            shortDescription: string | null;
             slug: string;
+            status: import("../generated/prisma/enums.js").CollectionStatus;
         };
     }[];
     concentration: string;
@@ -80,7 +94,10 @@ export declare function findFeaturedProducts(limit: number): Promise<{
         id: string;
         imageType: import("../generated/prisma/enums.js").ProductImageType;
         isPrimary: boolean;
+        mimeType: string | null;
         position: number;
+        sizeBytes: number | null;
+        storageKey: string | null;
         url: string;
     }[];
     isActive: boolean;
@@ -92,6 +109,7 @@ export declare function findFeaturedProducts(limit: number): Promise<{
     notes: {
         note: {
             id: string;
+            isActive: boolean;
             name: string;
         };
         position: number;
@@ -118,11 +136,16 @@ export declare function findFeaturedProducts(limit: number): Promise<{
 export declare function findProductBySlug(slug: string): Promise<{
     collections: {
         collection: {
+            accentColor: string | null;
+            cardImageUrl: string | null;
             description: string;
+            eyebrow: string | null;
+            heroImageUrl: string | null;
             id: string;
-            imageUrl: string | null;
             name: string;
+            shortDescription: string | null;
             slug: string;
+            status: import("../generated/prisma/enums.js").CollectionStatus;
         };
     }[];
     concentration: string;
@@ -136,7 +159,10 @@ export declare function findProductBySlug(slug: string): Promise<{
         id: string;
         imageType: import("../generated/prisma/enums.js").ProductImageType;
         isPrimary: boolean;
+        mimeType: string | null;
         position: number;
+        sizeBytes: number | null;
+        storageKey: string | null;
         url: string;
     }[];
     isActive: boolean;
@@ -148,6 +174,7 @@ export declare function findProductBySlug(slug: string): Promise<{
     notes: {
         note: {
             id: string;
+            isActive: boolean;
             name: string;
         };
         position: number;
@@ -189,11 +216,16 @@ export declare function findRelatedCandidates(params: {
 }): Promise<{
     collections: {
         collection: {
+            accentColor: string | null;
+            cardImageUrl: string | null;
             description: string;
+            eyebrow: string | null;
+            heroImageUrl: string | null;
             id: string;
-            imageUrl: string | null;
             name: string;
+            shortDescription: string | null;
             slug: string;
+            status: import("../generated/prisma/enums.js").CollectionStatus;
         };
     }[];
     concentration: string;
@@ -207,7 +239,10 @@ export declare function findRelatedCandidates(params: {
         id: string;
         imageType: import("../generated/prisma/enums.js").ProductImageType;
         isPrimary: boolean;
+        mimeType: string | null;
         position: number;
+        sizeBytes: number | null;
+        storageKey: string | null;
         url: string;
     }[];
     isActive: boolean;
@@ -219,6 +254,7 @@ export declare function findRelatedCandidates(params: {
     notes: {
         note: {
             id: string;
+            isActive: boolean;
             name: string;
         };
         position: number;
@@ -248,11 +284,16 @@ export declare function findRelatedFallback(params: {
 }): Promise<{
     collections: {
         collection: {
+            accentColor: string | null;
+            cardImageUrl: string | null;
             description: string;
+            eyebrow: string | null;
+            heroImageUrl: string | null;
             id: string;
-            imageUrl: string | null;
             name: string;
+            shortDescription: string | null;
             slug: string;
+            status: import("../generated/prisma/enums.js").CollectionStatus;
         };
     }[];
     concentration: string;
@@ -266,7 +307,10 @@ export declare function findRelatedFallback(params: {
         id: string;
         imageType: import("../generated/prisma/enums.js").ProductImageType;
         isPrimary: boolean;
+        mimeType: string | null;
         position: number;
+        sizeBytes: number | null;
+        storageKey: string | null;
         url: string;
     }[];
     isActive: boolean;
@@ -278,6 +322,7 @@ export declare function findRelatedFallback(params: {
     notes: {
         note: {
             id: string;
+            isActive: boolean;
             name: string;
         };
         position: number;

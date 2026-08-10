@@ -63,6 +63,11 @@ export const adminCollectionFormSchema = z
 		sortOrder: z.number().int().min(-10_000).max(10_000),
 		seoTitle: z.string().trim().max(160),
 		seoDescription: z.string().trim().max(320),
+		storyHeadline: z.string().trim().max(220),
+		storyBody: z.string().trim().max(10_000),
+		storyImageUrl: optionalUrl,
+		materialNotes: z.string().trim().max(1_000),
+		campaignLabel: z.string().trim().max(120),
 		productIds: z.array(z.string()).max(200),
 	})
 	.superRefine((values, context) => {

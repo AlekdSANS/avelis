@@ -48,14 +48,23 @@
 }
 
 .linkSection a,
-.socialLinks a {
+.cookieSettings {
   color: var(--color-text-muted);
   transition: color var(--transition-fast);
 }
 
 .linkSection a:hover,
-.socialLinks a:hover {
+.cookieSettings:hover {
   color: var(--color-text);
+}
+
+.cookieSettings {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .bottom {
@@ -68,10 +77,45 @@
   font-size: 0.86rem;
 }
 
-.socialLinks {
+.footerActions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-4);
+}
+
+.socialLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.socialLinks a {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.socialLinks svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.socialLinks a:hover {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-section-surface);
+  transform: translateY(-2px);
+}
+
+.socialLinks a:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
 }
 
 @media (min-width: 48rem) {

@@ -27,15 +27,15 @@ export const homepageThemes: HomepageTheme[] = [
 		buttonTextColor: "#FFFFFF",
 	},
 	{
-		id: "bluewood",
-		collectionSlug: "bluewood",
-		title: "Bluewood",
+		id: "azurewood",
+		collectionSlug: "azurewood",
+		title: "Azurewood",
 		eyebrow: "New collection",
 		description:
 			"Cool florals, pale woods and crystalline freshness wrapped in quiet blue light.",
 		image: "/images/hero/home_hero_frost.png",
 		imageAlt:
-			"Bluewood perfume bottle on driftwood beneath pale blue magnolia branches.",
+			"Azurewood perfume bottle on driftwood beneath pale blue magnolia branches.",
 		accent: "#6699C8",
 		accentDark: "#315F8C",
 		accentSoft: "#CFE0EF",
@@ -45,7 +45,7 @@ export const homepageThemes: HomepageTheme[] = [
 		heroBackground: "#EDF4FB",
 		storyImage: "/images/hero/home_hero_frost.png",
 		storyImageAlt:
-			"Bluewood perfume bottle beneath pale blue magnolia branches on driftwood.",
+			"Azurewood perfume bottle beneath pale blue magnolia branches on driftwood.",
 		surface: "#F0F6FB",
 		surfaceAlt: "#E1ECF5",
 		textColor: "#1D2B38",

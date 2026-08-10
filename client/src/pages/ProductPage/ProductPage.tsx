@@ -34,6 +34,7 @@ import {
   trackViewItem,
   trackWishlistChange,
 } from "../../services/analytics";
+import { ProductReviews } from "../../features/reviews/ProductReviews";
 
 const noteLabels: Record<FragranceNoteType, string> = {
   TOP: "Top notes",
@@ -362,6 +363,8 @@ export function ProductPage() {
           ))}
         </div>
       </section>
+
+      <ProductReviews slug={product.slug} />
 
       {relatedQuery.isLoading || relatedProducts.length > 0 ? (
         <ProductShelf

@@ -13,6 +13,7 @@ import type {
 	AdminCollectionUpdateInput,
 } from "../schemas/adminCollectionSchemas.js";
 import { normalizeCollectionSlug } from "../schemas/adminCollectionSchemas.js";
+import { imageStorage } from "../storage/index.js";
 import { HttpError } from "../utils/httpError.js";
 import { deleteAdminProductUpload } from "./adminUploadService.js";
 
@@ -105,10 +106,7 @@ function assertPublishable(input: {
 
 function managedStorageKey(url: string | null) {
 	if (url === null) return null;
-	const match = url.match(
-		/^\/uploads\/(products\/[0-9a-f-]+\.(?:jpg|png|webp))$/i,
-	);
-	return match?.[1] ?? null;
+	return imageStorage.getStorageKeyFromUrl(url);
 }
 
 export async function listAdminCollections(query: AdminCollectionListQuery) {

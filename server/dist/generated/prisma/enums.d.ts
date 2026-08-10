@@ -50,4 +50,22 @@ export declare const ShippingMethod: {
     readonly EXPRESS: 'EXPRESS';
 };
 export type ShippingMethod = (typeof ShippingMethod)[keyof typeof ShippingMethod];
+export declare const CollectionStatus: {
+    readonly DRAFT: 'DRAFT';
+    readonly PUBLISHED: 'PUBLISHED';
+    readonly ARCHIVED: 'ARCHIVED';
+};
+export type CollectionStatus = (typeof CollectionStatus)[keyof typeof CollectionStatus];
+export declare const ReviewStatus: {
+    readonly PENDING: 'PENDING';
+    readonly APPROVED: 'APPROVED';
+    readonly REJECTED: 'REJECTED';
+};
+export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus];
+export declare const JournalStatus: {
+    readonly DRAFT: 'DRAFT';
+    readonly PUBLISHED: 'PUBLISHED';
+    readonly ARCHIVED: 'ARCHIVED';
+};
+export type JournalStatus = (typeof JournalStatus)[keyof typeof JournalStatus];
 //# sourceMappingURL=enums.d.ts.map

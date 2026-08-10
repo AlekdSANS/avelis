@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { ArrowLeft, Store } from "lucide-react";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 import "./AccountLayout.scss";
 
@@ -32,6 +33,11 @@ export function AccountLayout() {
 						</NavLink>
 					))}
 				</nav>
+				<Link className="account-layout__storefront" to="/">
+					<Store aria-hidden="true" />
+					<span>Back to storefront</span>
+					<ArrowLeft aria-hidden="true" />
+				</Link>
 			</aside>
 
 			<main className="account-layout__main">

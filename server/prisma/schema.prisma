@@ -65,6 +65,18 @@ enum CollectionStatus {
   ARCHIVED
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum JournalStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
   id           String         @id @default(cuid())
   firstName    String
@@ -212,6 +224,11 @@ model Collection {
   publishedAt      DateTime?
   seoTitle         String?
   seoDescription   String?
+  storyHeadline    String?
+  storyBody        String?
+  storyImageUrl    String?
+  materialNotes    String[]            @default([])
+  campaignLabel    String?
   products         ProductCollection[]
   createdAt        DateTime            @default(now())
   updatedAt        DateTime            @updatedAt
@@ -220,6 +237,29 @@ model Collection {
   @@index([isFeatured])
   @@index([sortOrder])
   @@index([status, isFeatured, sortOrder])
+}
+
+model JournalArticle {
+  id                 String        @id @default(cuid())
+  slug               String        @unique
+  title              String
+  eyebrow            String?
+  excerpt            String
+  body               String
+  coverImageUrl      String?
+  authorName         String        @default("AVELIS Editorial")
+  tags               String[]      @default([])
+  readingTimeMinutes Int           @default(4)
+  status             JournalStatus @default(DRAFT)
+  isFeatured         Boolean       @default(false)
+  publishedAt        DateTime?
+  seoTitle           String?
+  seoDescription     String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([isFeatured])
 }
 
 model ProductCollection {
@@ -336,19 +376,23 @@ model OrderItem {
 }
 
 model Review {
-  id        String   @id @default(cuid())
-  userId    String
-  productId String
-  rating    Int
-  title     String?
-  content   String?
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String       @id @default(cuid())
+  userId           String
+  productId        String
+  rating           Int
+  title            String?
+  content          String?
+  status           ReviewStatus @default(PENDING)
+  verifiedPurchase Boolean      @default(false)
+  moderatedAt      DateTime?
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product          Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
   @@unique([userId, productId])
   @@index([productId])
+  @@index([status, createdAt])
 }
 
 model Session {

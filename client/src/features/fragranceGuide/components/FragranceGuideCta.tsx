@@ -14,8 +14,8 @@ export function FragranceGuideCta() {
           format.
         </p>
         <div>
-          <ButtonLink to="/shop">
-            Shop all fragrances
+          <ButtonLink to="/scent-finder">
+            Take the scent finder
             <ArrowRight aria-hidden="true" />
           </ButtonLink>
           <ButtonLink to="/collections" variant="secondary">

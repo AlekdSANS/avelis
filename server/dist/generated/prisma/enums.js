@@ -51,4 +51,19 @@ export const ShippingMethod = {
     STANDARD: 'STANDARD',
     EXPRESS: 'EXPRESS'
 };
+export const CollectionStatus = {
+    DRAFT: 'DRAFT',
+    PUBLISHED: 'PUBLISHED',
+    ARCHIVED: 'ARCHIVED'
+};
+export const ReviewStatus = {
+    PENDING: 'PENDING',
+    APPROVED: 'APPROVED',
+    REJECTED: 'REJECTED'
+};
+export const JournalStatus = {
+    DRAFT: 'DRAFT',
+    PUBLISHED: 'PUBLISHED',
+    ARCHIVED: 'ARCHIVED'
+};
 //# sourceMappingURL=enums.js.map

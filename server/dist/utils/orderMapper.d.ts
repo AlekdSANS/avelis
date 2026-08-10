@@ -61,7 +61,10 @@ export declare const orderSummarySelect: {
     };
     items: {
         select: {
+            id: true;
+            productName: true;
             imageUrl: true;
+            quantity: true;
         };
         orderBy: {
             id: "asc";
@@ -130,6 +133,12 @@ export declare function mapOrderSummary(order: OrderSummaryRecord): {
     total: number;
     currency: string;
     firstItemImageUrl: string | null;
+    itemPreviews: {
+        id: string;
+        productName: string;
+        imageUrl: string | null;
+        quantity: number;
+    }[];
     createdAt: string;
 };
 //# sourceMappingURL=orderMapper.d.ts.map

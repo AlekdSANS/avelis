@@ -13,27 +13,45 @@ export type AggregateNote = {
 export type NoteMinAggregateOutputType = {
     id: string | null;
     name: string | null;
+    isActive: boolean | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 };
 export type NoteMaxAggregateOutputType = {
     id: string | null;
     name: string | null;
+    isActive: boolean | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 };
 export type NoteCountAggregateOutputType = {
     id: number;
     name: number;
+    isActive: number;
+    createdAt: number;
+    updatedAt: number;
     _all: number;
 };
 export type NoteMinAggregateInputType = {
     id?: true;
     name?: true;
+    isActive?: true;
+    createdAt?: true;
+    updatedAt?: true;
 };
 export type NoteMaxAggregateInputType = {
     id?: true;
     name?: true;
+    isActive?: true;
+    createdAt?: true;
+    updatedAt?: true;
 };
 export type NoteCountAggregateInputType = {
     id?: true;
     name?: true;
+    isActive?: true;
+    createdAt?: true;
+    updatedAt?: true;
     _all?: true;
 };
 export type NoteAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -101,6 +119,9 @@ export type NoteGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type NoteGroupByOutputType = {
     id: string;
     name: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
     _count: NoteCountAggregateOutputType | null;
     _min: NoteMinAggregateOutputType | null;
     _max: NoteMaxAggregateOutputType | null;
@@ -114,11 +135,17 @@ export type NoteWhereInput = {
     NOT?: Prisma.NoteWhereInput | Prisma.NoteWhereInput[];
     id?: Prisma.StringFilter<"Note"> | string;
     name?: Prisma.StringFilter<"Note"> | string;
+    isActive?: Prisma.BoolFilter<"Note"> | boolean;
+    createdAt?: Prisma.DateTimeFilter<"Note"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Note"> | Date | string;
     products?: Prisma.ProductNoteListRelationFilter;
 };
 export type NoteOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
     products?: Prisma.ProductNoteOrderByRelationAggregateInput;
 };
 export type NoteWhereUniqueInput = Prisma.AtLeast<{
@@ -127,11 +154,17 @@ export type NoteWhereUniqueInput = Prisma.AtLeast<{
     AND?: Prisma.NoteWhereInput | Prisma.NoteWhereInput[];
     OR?: Prisma.NoteWhereInput[];
     NOT?: Prisma.NoteWhereInput | Prisma.NoteWhereInput[];
+    isActive?: Prisma.BoolFilter<"Note"> | boolean;
+    createdAt?: Prisma.DateTimeFilter<"Note"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Note"> | Date | string;
     products?: Prisma.ProductNoteListRelationFilter;
 }, "id" | "name">;
 export type NoteOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
     _count?: Prisma.NoteCountOrderByAggregateInput;
     _max?: Prisma.NoteMaxOrderByAggregateInput;
     _min?: Prisma.NoteMinOrderByAggregateInput;
@@ -142,50 +175,83 @@ export type NoteScalarWhereWithAggregatesInput = {
     NOT?: Prisma.NoteScalarWhereWithAggregatesInput | Prisma.NoteScalarWhereWithAggregatesInput[];
     id?: Prisma.StringWithAggregatesFilter<"Note"> | string;
     name?: Prisma.StringWithAggregatesFilter<"Note"> | string;
+    isActive?: Prisma.BoolWithAggregatesFilter<"Note"> | boolean;
+    createdAt?: Prisma.DateTimeWithAggregatesFilter<"Note"> | Date | string;
+    updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Note"> | Date | string;
 };
 export type NoteCreateInput = {
     id?: string;
     name: string;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
     products?: Prisma.ProductNoteCreateNestedManyWithoutNoteInput;
 };
 export type NoteUncheckedCreateInput = {
     id?: string;
     name: string;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
     products?: Prisma.ProductNoteUncheckedCreateNestedManyWithoutNoteInput;
 };
 export type NoteUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     products?: Prisma.ProductNoteUpdateManyWithoutNoteNestedInput;
 };
 export type NoteUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     products?: Prisma.ProductNoteUncheckedUpdateManyWithoutNoteNestedInput;
 };
 export type NoteCreateManyInput = {
     id?: string;
     name: string;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 };
 export type NoteUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type NoteUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type NoteCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type NoteMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type NoteMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     name?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
 };
 export type NoteScalarRelationFilter = {
     is?: Prisma.NoteWhereInput;
@@ -206,10 +272,16 @@ export type NoteUpdateOneRequiredWithoutProductsNestedInput = {
 export type NoteCreateWithoutProductsInput = {
     id?: string;
     name: string;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 };
 export type NoteUncheckedCreateWithoutProductsInput = {
     id?: string;
     name: string;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 };
 export type NoteCreateOrConnectWithoutProductsInput = {
     where: Prisma.NoteWhereUniqueInput;
@@ -227,10 +299,16 @@ export type NoteUpdateToOneWithWhereWithoutProductsInput = {
 export type NoteUpdateWithoutProductsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type NoteUncheckedUpdateWithoutProductsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
     name?: Prisma.StringFieldUpdateOperationsInput | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 /**
  * Count Type NoteCountOutputType
@@ -259,22 +337,34 @@ export type NoteCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.E
 export type NoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     name?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
     products?: boolean | Prisma.Note$productsArgs<ExtArgs>;
     _count?: boolean | Prisma.NoteCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["note"]>;
 export type NoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     name?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 }, ExtArgs["result"]["note"]>;
 export type NoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     name?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 }, ExtArgs["result"]["note"]>;
 export type NoteSelectScalar = {
     id?: boolean;
     name?: boolean;
+    isActive?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
 };
-export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["note"]>;
+export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["note"]>;
 export type NoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     products?: boolean | Prisma.Note$productsArgs<ExtArgs>;
     _count?: boolean | Prisma.NoteCountOutputTypeDefaultArgs<ExtArgs>;
@@ -289,6 +379,9 @@ export type $NotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
         name: string;
+        isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
     }, ExtArgs["result"]["note"]>;
     composites: {};
 };
@@ -646,6 +739,9 @@ export interface Prisma__NoteClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface NoteFieldRefs {
     readonly id: Prisma.FieldRef<"Note", 'String'>;
     readonly name: Prisma.FieldRef<"Note", 'String'>;
+    readonly isActive: Prisma.FieldRef<"Note", 'Boolean'>;
+    readonly createdAt: Prisma.FieldRef<"Note", 'DateTime'>;
+    readonly updatedAt: Prisma.FieldRef<"Note", 'DateTime'>;
 }
 /**
  * Note findUnique

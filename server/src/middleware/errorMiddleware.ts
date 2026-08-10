@@ -1,6 +1,7 @@
 import type { ErrorRequestHandler } from "express";
 import multer from "multer";
 import { ZodError } from "zod";
+import { env } from "../config/env.js";
 import { HttpError } from "../utils/httpError.js";
 
 export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
@@ -30,7 +31,7 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
 		return;
 	}
 
-	if (process.env.NODE_ENV !== "production") {
+	if (env.NODE_ENV !== "production") {
 		console.error(error);
 	}
 

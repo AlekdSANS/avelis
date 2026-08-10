@@ -39,6 +39,9 @@ export declare const productSelect: {
         select: {
             id: true;
             url: true;
+            storageKey: true;
+            mimeType: true;
+            sizeBytes: true;
             alt: true;
             position: true;
             isPrimary: true;
@@ -60,6 +63,7 @@ export declare const productSelect: {
                 select: {
                     id: true;
                     name: true;
+                    isActive: true;
                 };
             };
         };
@@ -74,13 +78,21 @@ export declare const productSelect: {
                     id: true;
                     slug: true;
                     name: true;
+                    eyebrow: true;
+                    shortDescription: true;
                     description: true;
-                    imageUrl: true;
+                    cardImageUrl: true;
+                    heroImageUrl: true;
+                    accentColor: true;
+                    status: true;
                 };
             };
         };
     };
     reviews: {
+        where: {
+            status: "APPROVED";
+        };
         select: {
             rating: true;
         };
@@ -130,11 +142,15 @@ export declare function mapProduct(product: ProductRecord): {
         position: number;
     }[];
     collections: {
-        description: string;
         id: string;
-        imageUrl: string | null;
-        name: string;
         slug: string;
+        name: string;
+        eyebrow: string | null;
+        shortDescription: string | null;
+        description: string;
+        cardImageUrl: string | null;
+        heroImageUrl: string | null;
+        accentColor: string | null;
     }[];
     createdAt: string;
     updatedAt: string;

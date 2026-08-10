@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 
 import { CartDrawer } from "../../components/commerce/CartDrawer/CartDrawer";
 import { CookieBanner } from "../../components/common/CookieBanner/CookieBanner";
@@ -10,6 +10,7 @@ import { useCart } from "../../features/cart/hooks/useCart";
 import "./StoreLayout.scss";
 
 export function StoreLayout() {
+	const { pathname } = useLocation();
 	const { totalQuantity } = useCart();
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isCartOpen, setIsCartOpen] = useState(false);
@@ -28,6 +29,10 @@ export function StoreLayout() {
 		setIsSearchOpen(false);
 		setIsCartOpen(true);
 	};
+
+	useEffect(() => {
+		window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+	}, [pathname]);
 
 	return (
 		<div className="store-layout">

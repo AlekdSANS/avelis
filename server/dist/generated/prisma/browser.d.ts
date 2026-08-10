@@ -43,6 +43,11 @@ export type ProductNote = Prisma.ProductNoteModel;
  */
 export type Collection = Prisma.CollectionModel;
 /**
+ * Model JournalArticle
+ *
+ */
+export type JournalArticle = Prisma.JournalArticleModel;
+/**
  * Model ProductCollection
  *
  */

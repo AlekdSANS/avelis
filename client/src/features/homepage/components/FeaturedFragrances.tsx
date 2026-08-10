@@ -19,11 +19,35 @@ type FeaturedFragrancesProps = {
   activeSlug: string;
 };
 
+const homepageFeaturedSlugs = [
+  "ashwood",
+  "redwood",
+  "azurewood",
+  "peachwood",
+] as const;
+
 export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
   const location = useLocation();
-  const featuredQuery = useFeaturedProducts(4);
+  const featuredQuery = useFeaturedProducts(12);
   const featuredProducts = useMemo(
-    () => featuredQuery.data ?? [],
+    () => {
+      const products = featuredQuery.data ?? [];
+      const featuredBySlug = new Map(
+        products.map((product) => [product.slug, product]),
+      );
+      const preferred = homepageFeaturedSlugs
+        .map((slug) => featuredBySlug.get(slug))
+        .filter((product): product is NonNullable<typeof product> =>
+          Boolean(product),
+        );
+      const fallbacks = products.filter(
+        (product) => !homepageFeaturedSlugs.includes(
+          product.slug as (typeof homepageFeaturedSlugs)[number],
+        ),
+      );
+
+      return [...preferred, ...fallbacks].slice(0, 4);
+    },
     [featuredQuery.data],
   );
   const [selectedSlug, setSelectedSlug] = useState(activeSlug);

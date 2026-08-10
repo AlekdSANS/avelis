@@ -60,13 +60,13 @@ type ProductSeed = {
 
 const collections = [
 	{
-		slug: "signature-woods",
-		name: "Signature Woods",
-		eyebrow: "The house signature",
+		slug: "chromatic-woods",
+		name: "Chromatic Woods",
+		eyebrow: "Wood, seen in colour",
 		shortDescription:
-			"Polished woods, quiet resins and soft spices shaped for everyday depth.",
+			"Five vivid studies of timber, mineral light, spice and smoke.",
 		description:
-			"An exploration of wood as atmosphere: cedar warmed by skin, sandalwood softened by light, and resinous shadows that settle slowly into the day.",
+			"Chromatic Woods moves from peach-lit sandalwood to mineral blue cypress, glowing red cedar, nocturnal resins and the quiet smoke of ash.",
 		cardImageUrl: "/images/hero/home_hero_peach.png",
 		heroImageUrl: "/images/hero/home_hero_peach.png",
 		accentColor: "#B89878",
@@ -76,61 +76,61 @@ const collections = [
 		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
-		slug: "water-and-air",
-		name: "Water & Air",
-		eyebrow: "Luminous compositions",
+		slug: "resonance",
+		name: "Resonance",
+		eyebrow: "Compositions in motion",
 		shortDescription:
-			"Transparent musks, cool florals and mineral brightness.",
+			"Four fragrances shaped by rhythm, tension and a lingering echo.",
 		description:
-			"Fragrances with the clarity of open air and moving water, composed from sea salt, rain-lit petals, pale woods and skin-close musks.",
-		cardImageUrl: "/images/hero/home_hero_frost.png",
-		heroImageUrl: "/images/hero/home_hero_frost.png",
-		accentColor: "#A8BDC5",
+			"Resonance translates musical gesture into scent: a lyrical floral, a bright tremor of citrus, textured distortion and an after-dark nocturne.",
+		cardImageUrl: "/images/hero/home_hero_red.png",
+		heroImageUrl: "/images/hero/home_hero_red.png",
+		accentColor: "#7C4A43",
 		status: CollectionStatus.PUBLISHED,
 		isFeatured: false,
 		sortOrder: 20,
 		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
-		slug: "floral-light",
-		name: "Floral Light",
-		eyebrow: "Petals, reframed",
+		slug: "gift-sets",
+		name: "Gift Sets",
+		eyebrow: "Objects of consideration",
 		shortDescription:
-			"Modern petals with glassy texture, fruit and clean woods.",
+			"Seven curated fragrance rituals composed for thoughtful giving.",
 		description:
-			"A study in transparent florals: magnolia, osmanthus and iris lifted by fruit skin, green sap and clean woods rather than traditional sweetness.",
-		cardImageUrl: "/images/hero/home_hero_peach.png",
-		heroImageUrl: "/images/hero/home_hero_peach.png",
-		accentColor: "#D7B8A7",
+			"Gift Sets pair complementary compositions and presentation objects, from intimate duos to a complete four-season wardrobe.",
+		cardImageUrl: "/images/placeholders/collection_placeholder.png",
+		heroImageUrl: "/images/placeholders/collection_placeholder.png",
+		accentColor: "#B89878",
 		status: CollectionStatus.PUBLISHED,
 		isFeatured: false,
 		sortOrder: 30,
 		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
-		slug: "nocturne-reserve",
-		name: "Nocturne Reserve",
-		eyebrow: "After-dark editions",
+		slug: "tidal-waves",
+		name: "Tidal Waves",
+		eyebrow: "The pull of open water",
 		shortDescription:
-			"Evening compositions with amber, smoke, suede and dark woods.",
+			"Salt, foam, mineral air and the darkening depth below.",
 		description:
-			"Deeper compositions for the hours after dusk, balancing incense, suede and resonant woods with a measured glow of amber.",
-		cardImageUrl: "/images/hero/home_hero_red.png",
-		heroImageUrl: "/images/hero/home_hero_red.png",
-		accentColor: "#7C4A43",
+			"Tidal Waves follows water from sunlit seafoam to the still pressure of the abyss, composed with salt, translucent florals, kelp and mineral woods.",
+		cardImageUrl: "/images/hero/home_hero_frost.png",
+		heroImageUrl: "/images/hero/home_hero_frost.png",
+		accentColor: "#6D91A6",
 		status: CollectionStatus.PUBLISHED,
 		isFeatured: false,
 		sortOrder: 40,
 		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
 	{
-		slug: "refill-ritual",
-		name: "Refill Ritual",
-		eyebrow: "A considered return",
+		slug: "questbound",
+		name: "Questbound",
+		eyebrow: "Maps, materials, memory",
 		shortDescription:
-			"AVELIS scents offered with lower-waste refill formats.",
+			"Three far-reaching compositions of leather, oak and cold starlight.",
 		description:
-			"Return to the fragrances you live with through dedicated refill formats designed to keep the original bottle in use.",
+			"Questbound is a compact trilogy about departure and return: a gilded promise, the warmth of an oak cask and Polaris held above a winter route.",
 		cardImageUrl: "/images/placeholders/collection_placeholder.png",
 		heroImageUrl: "/images/placeholders/collection_placeholder.png",
 		accentColor: "#77785F",
@@ -139,9 +139,77 @@ const collections = [
 		sortOrder: 50,
 		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
 	},
+	{
+		slug: "the-glass-garden",
+		name: "The Glass Garden",
+		eyebrow: "Petals under glass",
+		shortDescription:
+			"Five floral portraits balancing translucence, bloom and thorn.",
+		description:
+			"The Glass Garden frames flowers as structure rather than ornament: luminous petalia, cool iris, white camellia, night bloom and a rose edged with shadow.",
+		cardImageUrl: "/images/hero/home_hero_peach.png",
+		heroImageUrl: "/images/hero/home_hero_peach.png",
+		accentColor: "#C7A7A2",
+		status: CollectionStatus.PUBLISHED,
+		isFeatured: false,
+		sortOrder: 60,
+		publishedAt: new Date("2026-07-22T12:00:00.000Z"),
+	},
 ];
 
-const products: ProductSeed[] = [
+type CatalogueProductDefinition = {
+	slug: string;
+	name: string;
+	subtitle: string;
+	description: string;
+	fragranceFamily: string;
+	skuPrefix: string;
+	collection: string;
+	notes: NoteSet;
+	isFeatured?: boolean;
+	isLimited?: boolean;
+	mainImage?: string;
+};
+
+function createCatalogueProduct(
+	definition: CatalogueProductDefinition,
+	index: number,
+): ProductSeed {
+	const priceStep = (index % 7) * 20;
+	const bottle50 = 329 + priceStep;
+	const bottle100 = bottle50 + 180;
+	const refill50 = bottle50 - 90;
+	const refill100 = bottle50 + 50;
+	const refill150 = bottle50 + 210;
+	const { collection, ...productDefinition } = definition;
+
+	return {
+		...productDefinition,
+		collections: [collection],
+		concentration: "Eau de Parfum",
+		gender: "Unisex",
+		longevity: "7-10 hours",
+		season: ["spring", "summer", "autumn", "winter"],
+		occasion: ["day", "evening"],
+		variants: {
+			bottle50: { price: `${bottle50}.00`, stock: 36 + (index % 9) },
+			bottle100: {
+				price: `${bottle100}.00`,
+				compareAtPrice: `${bottle100 + 50}.00`,
+				stock: 24 + (index % 7),
+			},
+			refill50: { price: `${refill50}.00`, stock: 42 + (index % 8) },
+			refill100: { price: `${refill100}.00`, stock: 30 + (index % 6) },
+			refill150: {
+				price: `${refill150}.00`,
+				compareAtPrice: `${refill150 + 50}.00`,
+				stock: 18 + (index % 5),
+			},
+		},
+	};
+}
+
+const catalogueDefinitions: CatalogueProductDefinition[] = [
 	{
 		slug: "peachwood",
 		name: "Peachwood",
@@ -149,54 +217,30 @@ const products: ProductSeed[] = [
 		description:
 			"A soft-focus woody fruity fragrance where ripe peach and osmanthus settle into sandalwood, cedar, and airy musk.",
 		fragranceFamily: "Woody Fruity",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "8-10 hours",
-		season: ["spring", "summer", "early autumn"],
-		occasion: ["day", "office", "weekend"],
 		isFeatured: true,
 		skuPrefix: "PCH",
-		collections: ["signature-woods", "floral-light", "refill-ritual"],
+		collection: "chromatic-woods",
 		notes: {
 			top: ["white peach", "bergamot", "green tea"],
 			heart: ["osmanthus", "orris", "apricot skin"],
 			base: ["sandalwood", "cedarwood", "white musk"],
 		},
-		variants: {
-			bottle50: { price: "349.00", stock: 48 },
-			bottle100: { price: "529.00", compareAtPrice: "579.00", stock: 31 },
-			refill50: { price: "259.00", stock: 55 },
-			refill100: { price: "399.00", stock: 40 },
-			refill150: { price: "559.00", compareAtPrice: "609.00", stock: 22 },
-		},
 		mainImage: "/images/hero/home_hero_peach.png",
 	},
 	{
-		slug: "bluewood",
-		name: "Bluewood",
+		slug: "azurewood",
+		name: "Azurewood",
 		subtitle: "Juniper water, blue cypress, and mineral amber.",
 		description:
 			"A cool aromatic wood scent with crisp juniper, salt air, blue cypress, and a clean ambergris-style finish.",
 		fragranceFamily: "Aromatic Woody",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "7-9 hours",
-		season: ["spring", "summer"],
-		occasion: ["day", "travel", "office"],
 		isFeatured: true,
-		skuPrefix: "BLW",
-		collections: ["signature-woods", "water-and-air", "refill-ritual"],
+		skuPrefix: "AZW",
+		collection: "chromatic-woods",
 		notes: {
 			top: ["juniper berry", "lemon zest", "sea salt"],
 			heart: ["blue cypress", "lavender", "violet leaf"],
 			base: ["driftwood", "mineral amber", "clean musk"],
-		},
-		variants: {
-			bottle50: { price: "369.00", stock: 44 },
-			bottle100: { price: "549.00", compareAtPrice: "599.00", stock: 27 },
-			refill50: { price: "269.00", stock: 50 },
-			refill100: { price: "419.00", stock: 34 },
-			refill150: { price: "589.00", compareAtPrice: "639.00", stock: 19 },
 		},
 		mainImage: "/images/hero/home_hero_frost.png",
 	},
@@ -207,277 +251,156 @@ const products: ProductSeed[] = [
 		description:
 			"A resonant woody amber built around red cedar, plum, saffron, incense, and polished patchouli.",
 		fragranceFamily: "Woody Amber",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "9-12 hours",
-		season: ["autumn", "winter"],
-		occasion: ["evening", "dinner", "special occasions"],
 		isFeatured: true,
-		isLimited: true,
 		skuPrefix: "RDW",
-		collections: ["signature-woods", "nocturne-reserve", "refill-ritual"],
+		collection: "chromatic-woods",
 		notes: {
 			top: ["saffron", "black pepper", "dark plum"],
 			heart: ["red cedar", "incense", "rosewood"],
 			base: ["patchouli", "labdanum", "smoked amber"],
 		},
-		variants: {
-			bottle50: { price: "389.00", stock: 36 },
-			bottle100: { price: "589.00", compareAtPrice: "649.00", stock: 24 },
-			refill50: { price: "289.00", stock: 42 },
-			refill100: { price: "439.00", stock: 29 },
-			refill150: { price: "619.00", compareAtPrice: "679.00", stock: 15 },
+		mainImage: "/images/hero/home_hero_red.png",
+	},
+	{
+		slug: "midnightwood",
+		name: "Midnightwood",
+		subtitle: "Black tea, midnight cedar, and a trace of suede.",
+		description:
+			"A deep woody composition where black tea and violet leaf settle into midnight cedar, suede and resinous amber.",
+		fragranceFamily: "Woody Amber",
+		isFeatured: true,
+		isLimited: true,
+		skuPrefix: "MDW",
+		collection: "chromatic-woods",
+		notes: {
+			top: ["black tea", "violet leaf", "pink pepper"],
+			heart: ["midnight cedar", "suede", "pale incense"],
+			base: ["labdanum", "tonka bean", "dark musk"],
 		},
 		mainImage: "/images/hero/home_hero_red.png",
 	},
 	{
-		slug: "white-ember",
-		name: "White Ember",
-		subtitle: "Cashmere smoke, white tea, and glowing woods.",
+		slug: "ashwood",
+		name: "Ashwood",
+		subtitle: "Silver ash, incense air, and mineral woods.",
 		description:
-			"A luminous smoky scent that pairs white tea and cardamom with cashmere woods, pale incense, and tonka.",
-		fragranceFamily: "Soft Amber",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "8-11 hours",
-		season: ["autumn", "winter", "spring"],
-		occasion: ["evening", "home", "creative work"],
-		skuPrefix: "WHE",
-		collections: ["water-and-air", "nocturne-reserve", "refill-ritual"],
-		notes: {
-			top: ["white tea", "cardamom", "pink pepper"],
-			heart: ["cashmere wood", "pale incense", "iris milk"],
-			base: ["tonka bean", "white amber", "cedar ash"],
-		},
-		variants: {
-			bottle50: { price: "419.00", stock: 32 },
-			bottle100: { price: "629.00", compareAtPrice: "689.00", stock: 18 },
-			refill50: { price: "309.00", stock: 39 },
-			refill100: { price: "469.00", stock: 26 },
-			refill150: { price: "659.00", compareAtPrice: "719.00", stock: 13 },
-		},
-	},
-	{
-		slug: "tidal-veil",
-		name: "Tidal Veil",
-		subtitle: "Neroli mist, rainwater musk, and sea glass.",
-		description:
-			"A sheer aquatic floral with neroli, wet stone, transparent jasmine, and a soft musky trail.",
-		fragranceFamily: "Aquatic Floral",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "6-8 hours",
-		season: ["spring", "summer"],
-		occasion: ["day", "holiday", "gym bag"],
-		isNew: true,
-		skuPrefix: "TDV",
-		collections: ["water-and-air", "floral-light", "refill-ritual"],
-		notes: {
-			top: ["neroli", "rainwater accord", "yuzu"],
-			heart: ["jasmine sambac", "sea glass accord", "water mint"],
-			base: ["ambrette", "white musk", "pale cedar"],
-		},
-		variants: {
-			bottle50: { price: "359.00", stock: 46 },
-			bottle100: { price: "539.00", compareAtPrice: "589.00", stock: 33 },
-			refill50: { price: "259.00", stock: 58 },
-			refill100: { price: "409.00", stock: 43 },
-			refill150: { price: "579.00", compareAtPrice: "629.00", stock: 25 },
-		},
-	},
-	{
-		slug: "magnolia-glass",
-		name: "Magnolia Glass",
-		subtitle: "Magnolia petal, pear skin, and clean woods.",
-		description:
-			"A crystalline floral fragrance where magnolia and pear shimmer over muguet, vetiver, and musk.",
-		fragranceFamily: "Transparent Floral",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "7-9 hours",
-		season: ["spring", "summer"],
-		occasion: ["day", "wedding guest", "office"],
-		isFeatured: true,
-		skuPrefix: "MGL",
-		collections: ["floral-light", "water-and-air", "refill-ritual"],
-		notes: {
-			top: ["pear skin", "mandarin", "green sap"],
-			heart: ["magnolia", "muguet", "jasmine tea"],
-			base: ["vetiver", "white musk", "blonde woods"],
-		},
-		variants: {
-			bottle50: { price: "379.00", stock: 40 },
-			bottle100: { price: "569.00", compareAtPrice: "619.00", stock: 28 },
-			refill50: { price: "279.00", stock: 47 },
-			refill100: { price: "429.00", stock: 36 },
-			refill150: { price: "599.00", compareAtPrice: "649.00", stock: 21 },
-		},
-	},
-	{
-		slug: "velvet-current",
-		name: "Velvet Current",
-		subtitle: "Blackcurrant velvet, rose water, and moss.",
-		description:
-			"A textured fruity floral with cassis, rose water, violet, and mossy woods for a polished evening signature.",
-		fragranceFamily: "Fruity Floral",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "8-10 hours",
-		season: ["spring", "autumn", "winter"],
-		occasion: ["evening", "date", "gallery opening"],
-		skuPrefix: "VLC",
-		collections: ["floral-light", "nocturne-reserve", "refill-ritual"],
-		notes: {
-			top: ["blackcurrant", "pink pepper", "mandarin leaf"],
-			heart: ["rose water", "violet", "plum velvet"],
-			base: ["oakmoss", "sandalwood", "skin musk"],
-		},
-		variants: {
-			bottle50: { price: "399.00", stock: 35 },
-			bottle100: { price: "609.00", compareAtPrice: "669.00", stock: 20 },
-			refill50: { price: "299.00", stock: 41 },
-			refill100: { price: "459.00", stock: 27 },
-			refill150: { price: "639.00", compareAtPrice: "699.00", stock: 16 },
-		},
-	},
-	{
-		slug: "amber-bloom",
-		name: "Amber Bloom",
-		subtitle: "Orange blossom, honeyed amber, and vanilla resin.",
-		description:
-			"A golden floral amber with orange blossom and broom flower wrapped in benzoin, vanilla, and soft woods.",
-		fragranceFamily: "Floral Amber",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "8-11 hours",
-		season: ["autumn", "winter", "spring"],
-		occasion: ["dinner", "events", "weekend"],
-		skuPrefix: "AMB",
-		collections: ["floral-light", "nocturne-reserve", "refill-ritual"],
-		notes: {
-			top: ["orange blossom", "bergamot", "ginger flower"],
-			heart: ["broom flower", "honey accord", "heliotrope"],
-			base: ["benzoin", "vanilla resin", "amber woods"],
-		},
-		variants: {
-			bottle50: { price: "389.00", stock: 39 },
-			bottle100: { price: "589.00", compareAtPrice: "649.00", stock: 23 },
-			refill50: { price: "289.00", stock: 44 },
-			refill100: { price: "439.00", stock: 31 },
-			refill150: { price: "619.00", compareAtPrice: "679.00", stock: 18 },
-		},
-	},
-	{
-		slug: "cedar-nocturne",
-		name: "Cedar Nocturne",
-		subtitle: "Atlas cedar, black tea, and suede shadow.",
-		description:
-			"A dry, elegant evening wood fragrance with black tea, clove leaf, atlas cedar, suede, and vetiver smoke.",
+			"A quiet, mineral wood scent where silver ash and elemi hover over incense, vetiver root and skin-close musk.",
 		fragranceFamily: "Dry Woods",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "9-12 hours",
-		season: ["autumn", "winter"],
-		occasion: ["evening", "formal", "late work"],
+		isFeatured: true,
 		isLimited: true,
-		skuPrefix: "CDN",
-		collections: ["signature-woods", "nocturne-reserve", "refill-ritual"],
+		skuPrefix: "ASH",
+		collection: "chromatic-woods",
 		notes: {
-			top: ["black tea", "clove leaf", "bergamot rind"],
-			heart: ["atlas cedar", "suede", "cistus"],
+			top: ["elemi", "juniper", "silver pepper"],
+			heart: ["ash wood", "pale incense", "orris"],
+			base: ["vetiver root", "mineral musk", "dry cedar"],
+		},
+		mainImage: "/images/hero/home_hero_frost.png",
+	},
+	{
+		slug: "serenade",
+		name: "Serenade",
+		subtitle: "Orange blossom, soft rose, and sandalwood.",
+		description:
+			"A lyrical floral progression from luminous citrus to rosewater, orange blossom and a warm sandalwood close.",
+		fragranceFamily: "Floral",
+		skuPrefix: "SER",
+		collection: "resonance",
+		notes: {
+			top: ["bergamot", "mandarin", "pear leaf"],
+			heart: ["orange blossom", "rosewater", "jasmine tea"],
+			base: ["sandalwood", "white musk", "benzoin"],
+		},
+	},
+	{
+		slug: "tremolo",
+		name: "Tremolo",
+		subtitle: "Citron pulse, aromatic herbs, and pale woods.",
+		description:
+			"A quick bright rhythm of citron and shiso over lavender, cedar and a clean mineral finish.",
+		fragranceFamily: "Fresh Aromatic",
+		skuPrefix: "TRE",
+		collection: "resonance",
+		notes: {
+			top: ["citron", "shiso", "green mandarin"],
+			heart: ["lavender", "rosemary", "violet leaf"],
+			base: ["pale cedar", "mineral amber", "clean musk"],
+		},
+	},
+	{
+		slug: "distortion",
+		name: "Distortion",
+		subtitle: "Saffron static, smoked plum, and hot resin.",
+		description:
+			"A deliberately textured amber where saffron, smoked fruit and metallic spice bend into labdanum and dark woods.",
+		fragranceFamily: "Spicy Amber",
+		skuPrefix: "DIS",
+		collection: "resonance",
+		notes: {
+			top: ["saffron", "metallic pepper", "smoked plum"],
+			heart: ["myrrh", "rose oxide", "incense"],
+			base: ["labdanum", "dark cedar", "amber musk"],
+		},
+	},
+	{
+		slug: "nocturne",
+		name: "Nocturne",
+		subtitle: "Black violet, incense, and suede shadow.",
+		description:
+			"An after-dark floral amber of black violet, incense, suede and a restrained trail of smoked vetiver.",
+		fragranceFamily: "Floral Amber",
+		isLimited: true,
+		skuPrefix: "NOC",
+		collection: "resonance",
+		notes: {
+			top: ["black violet", "bergamot rind", "clove leaf"],
+			heart: ["incense", "suede", "cistus"],
 			base: ["vetiver smoke", "patchouli", "ambergris accord"],
 		},
-		variants: {
-			bottle50: { price: "429.00", stock: 30 },
-			bottle100: { price: "659.00", compareAtPrice: "719.00", stock: 17 },
-			refill50: { price: "319.00", stock: 37 },
-			refill100: { price: "489.00", stock: 24 },
-			refill150: { price: "689.00", compareAtPrice: "749.00", stock: 12 },
-		},
 	},
-	{
-		slug: "quiet-fig",
-		name: "Quiet Fig",
-		subtitle: "Fig leaf, almond milk, and sunlit cedar.",
-		description:
-			"A calm green fig scent with creamy almond milk, fig pulp, iris, cedar, and a mineral musk drydown.",
-		fragranceFamily: "Green Woody",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "7-9 hours",
-		season: ["spring", "summer", "early autumn"],
-		occasion: ["day", "weekend", "home"],
-		skuPrefix: "QFG",
-		collections: ["signature-woods", "water-and-air", "refill-ritual"],
-		notes: {
-			top: ["fig leaf", "bergamot", "green pepper"],
-			heart: ["fig pulp", "almond milk", "iris"],
-			base: ["sunlit cedar", "mineral musk", "tonka husk"],
-		},
-		variants: {
-			bottle50: { price: "349.00", stock: 43 },
-			bottle100: { price: "519.00", compareAtPrice: "569.00", stock: 30 },
-			refill50: { price: "249.00", stock: 53 },
-			refill100: { price: "389.00", stock: 39 },
-			refill150: { price: "549.00", compareAtPrice: "599.00", stock: 24 },
-		},
-	},
-	{
-		slug: "saffron-mist",
-		name: "Saffron Mist",
-		subtitle: "Saffron vapor, rose dust, and ambered woods.",
-		description:
-			"A plush spicy amber centered on saffron, rose dust, myrrh, cedarwood, and a long amber-musk trail.",
-		fragranceFamily: "Spicy Amber",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "10-12 hours",
-		season: ["autumn", "winter"],
-		occasion: ["evening", "formal", "special occasions"],
-		isNew: true,
-		isLimited: true,
-		skuPrefix: "SFM",
-		collections: ["nocturne-reserve", "signature-woods", "refill-ritual"],
-		notes: {
-			top: ["saffron", "pink pepper", "mandarin smoke"],
-			heart: ["rose dust", "myrrh", "cinnamon bark"],
-			base: ["amber woods", "benzoin", "velvet musk"],
-		},
-		variants: {
-			bottle50: { price: "459.00", stock: 26 },
-			bottle100: { price: "699.00", compareAtPrice: "769.00", stock: 14 },
-			refill50: { price: "349.00", stock: 32 },
-			refill100: { price: "529.00", stock: 21 },
-			refill150: { price: "749.00", compareAtPrice: "819.00", stock: 10 },
-		},
-	},
-	{
-		slug: "orris-rain",
-		name: "Orris Rain",
-		subtitle: "Iris concrete, pear rain, and silver musk.",
-		description:
-			"A powdery-clean iris fragrance with pear, violet leaf, orris butter, carrot seed, and silver musk.",
-		fragranceFamily: "Powdery Floral",
-		concentration: "Eau de Parfum",
-		gender: "Unisex",
-		longevity: "8-10 hours",
-		season: ["spring", "autumn"],
-		occasion: ["office", "day", "quiet evenings"],
-		skuPrefix: "ORS",
-		collections: ["floral-light", "water-and-air", "refill-ritual"],
-		notes: {
-			top: ["pear rain", "violet leaf", "aldehydes"],
-			heart: ["orris butter", "iris concrete", "carrot seed"],
-			base: ["silver musk", "sandalwood", "ambrette"],
-		},
-		variants: {
-			bottle50: { price: "409.00", stock: 34 },
-			bottle100: { price: "619.00", compareAtPrice: "679.00", stock: 19 },
-			refill50: { price: "299.00", stock: 40 },
-			refill100: { price: "469.00", stock: 26 },
-			refill150: { price: "659.00", compareAtPrice: "719.00", stock: 14 },
-		},
-	},
+	{ slug: "love-within", name: "Love Within", subtitle: "Rose, pear and a soft musk embrace.", description: "An intimate floral pairing of rosewater, pear skin and sandalwood musk.", fragranceFamily: "Floral", skuPrefix: "LWI", collection: "gift-sets", notes: { top: ["pear skin", "bergamot", "pink pepper"], heart: ["rosewater", "peony", "iris"], base: ["sandalwood", "white musk", "benzoin"] } },
+	{ slug: "rosemary", name: "Rosemary", subtitle: "Aromatic leaves, citrus and clean cedar.", description: "A fresh aromatic composition built around rosemary, lemon rind and pale cedar.", fragranceFamily: "Fresh Aromatic", skuPrefix: "ROS", collection: "gift-sets", notes: { top: ["lemon rind", "juniper", "mint"], heart: ["rosemary", "lavender", "sage"], base: ["pale cedar", "moss", "clean musk"] } },
+	{ slug: "excalibur-stone", name: "Excalibur Stone", subtitle: "Cold metal, stone and weathered oak.", description: "Mineral woods and aromatic smoke arranged as a precise, sculptural gift composition.", fragranceFamily: "Woody", skuPrefix: "EXC", collection: "gift-sets", notes: { top: ["cold metal accord", "bergamot", "pepper"], heart: ["wet stone", "oak", "sage"], base: ["vetiver", "leather", "mineral musk"] } },
+	{ slug: "moon-and-sun", name: "Moon & Sun", subtitle: "Two luminous moods in one ritual.", description: "A bright citrus-floral opening paired with an ambered, skin-close evening trail.", fragranceFamily: "Floral Amber", skuPrefix: "MAS", collection: "gift-sets", notes: { top: ["mandarin", "neroli", "pear"], heart: ["jasmine", "heliotrope", "orange blossom"], base: ["amber", "tonka bean", "musk"] } },
+	{ slug: "the-four-seasons", name: "The Four Seasons", subtitle: "A complete wardrobe from bloom to ember.", description: "Four olfactory climates gathered into a versatile year-round fragrance set.", fragranceFamily: "Fresh Woody", skuPrefix: "TFS", collection: "gift-sets", notes: { top: ["citrus", "green leaf", "pear"], heart: ["rose", "tea", "cedar"], base: ["amber", "moss", "musk"] } },
+	{ slug: "secret-letter", name: "Secret Letter", subtitle: "Ink, violet and folded cedar paper.", description: "A powdery woody composition recalling violet ink, cedar paper and quiet amber.", fragranceFamily: "Powdery Woody", skuPrefix: "SLE", collection: "gift-sets", notes: { top: ["violet leaf", "black tea", "bergamot"], heart: ["orris", "paper accord", "rose"], base: ["cedar", "amber", "musk"] } },
+	{ slug: "alchemists-cabinet", name: "Alchemist's Cabinet", subtitle: "Cacao, spice and polished apothecary woods.", description: "A modern gourmand of bitter cacao, cardamom and resinous cabinet woods.", fragranceFamily: "Gourmand Amber", skuPrefix: "ALC", collection: "gift-sets", notes: { top: ["cardamom", "orange peel", "black pepper"], heart: ["cacao", "coffee flower", "myrrh"], base: ["vanilla", "benzoin", "polished oak"] } },
+	{ slug: "seafoam", name: "Seafoam", subtitle: "Neroli foam, salt air and white musk.", description: "A bright aquatic fragrance with citrus foam, sea salt and transparent musk.", fragranceFamily: "Aquatic Fresh", skuPrefix: "SEA", collection: "tidal-waves", notes: { top: ["neroli", "lemon", "sea salt"], heart: ["water mint", "jasmine", "seafoam accord"], base: ["white musk", "driftwood", "ambergris accord"] } },
+	{ slug: "salt-veil", name: "Salt Veil", subtitle: "Mineral salt, pale florals and skin musk.", description: "A sheer salt veil carried by ambrette, wet stone and translucent petals.", fragranceFamily: "Aquatic Floral", skuPrefix: "SVE", collection: "tidal-waves", notes: { top: ["sea salt", "yuzu", "rainwater accord"], heart: ["muguet", "ambrette", "wet stone"], base: ["skin musk", "pale cedar", "mineral amber"] } },
+	{ slug: "sirens-wake", name: "Siren's Wake", subtitle: "Green fig, marine flowers and dark water.", description: "A magnetic aquatic floral where green fig and marine blossom trail into mossy woods.", fragranceFamily: "Aquatic Floral", skuPrefix: "SIW", collection: "tidal-waves", notes: { top: ["green fig", "mandarin", "salt spray"], heart: ["marine blossom", "violet leaf", "jasmine"], base: ["oakmoss", "driftwood", "musk"] } },
+	{ slug: "undertow", name: "Undertow", subtitle: "Kelp, black tea and submerged woods.", description: "A darker current of aromatic tea, kelp and waterlogged cedar over mineral amber.", fragranceFamily: "Aquatic Woody", skuPrefix: "UND", collection: "tidal-waves", notes: { top: ["black tea", "juniper", "salt"], heart: ["kelp", "violet leaf", "cypress"], base: ["submerged cedar", "mineral amber", "musk"] } },
+	{ slug: "abyss", name: "Abyss", subtitle: "Ink-dark water, incense and oceanic woods.", description: "A limited deep-water composition of mineral smoke, incense and resonant marine woods.", fragranceFamily: "Aquatic Amber", skuPrefix: "ABY", collection: "tidal-waves", isLimited: true, notes: { top: ["black pepper", "ozonic air", "salt"], heart: ["incense", "seaweed", "iris"], base: ["dark driftwood", "labdanum", "ambergris accord"] } },
+	{ slug: "gilded-oath", name: "Gilded Oath", subtitle: "Saffron leather, amber and burnished woods.", description: "A warm, confident composition of saffron, leather and luminous resinous woods.", fragranceFamily: "Spicy Woody", skuPrefix: "GIO", collection: "questbound", notes: { top: ["saffron", "bergamot", "black pepper"], heart: ["leather", "rose", "cedar"], base: ["amber", "labdanum", "sandalwood"] } },
+	{ slug: "oak-cask", name: "Oak Cask", subtitle: "Toasted oak, dried fruit and vanilla resin.", description: "A rounded woody gourmand with toasted oak, dried plum and restrained vanilla resin.", fragranceFamily: "Gourmand Woody", skuPrefix: "OAK", collection: "questbound", notes: { top: ["dried plum", "orange peel", "clove"], heart: ["toasted oak", "cacao husk", "tobacco leaf"], base: ["vanilla resin", "benzoin", "sandalwood"] } },
+	{ slug: "polaris", name: "Polaris", subtitle: "Frozen air, juniper and northern pine.", description: "A clean, directional fresh wood scent lit by juniper, pine needle and mineral musk.", fragranceFamily: "Fresh Woody", skuPrefix: "POL", collection: "questbound", notes: { top: ["juniper", "grapefruit", "frozen air accord"], heart: ["pine needle", "lavender", "violet leaf"], base: ["white cedar", "mineral musk", "amber"] } },
+	{ slug: "petalia", name: "Petalia", subtitle: "Peony light, pear and clean woods.", description: "A translucent floral study of peony, pear skin and softly polished woods.", fragranceFamily: "Floral", skuPrefix: "PET", collection: "the-glass-garden", notes: { top: ["pear skin", "bergamot", "green sap"], heart: ["peony", "rosewater", "muguet"], base: ["blonde woods", "white musk", "ambrette"] } },
+	{ slug: "iris-veil", name: "Iris Veil", subtitle: "Iris concrete, carrot seed and silver musk.", description: "A softly diffused powdery floral built from iris, carrot seed and silver musk.", fragranceFamily: "Powdery Floral", skuPrefix: "IRV", collection: "the-glass-garden", notes: { top: ["aldehydes", "pear", "violet leaf"], heart: ["iris concrete", "orris butter", "carrot seed"], base: ["silver musk", "sandalwood", "ambrette"] } },
+	{ slug: "white-camellia", name: "White Camellia", subtitle: "Tea petals, citrus and pale cedar.", description: "A clean white floral with tea-like petals, luminous citrus and a pale cedar frame.", fragranceFamily: "Fresh Floral", skuPrefix: "WCA", collection: "the-glass-garden", notes: { top: ["bergamot", "white tea", "lemon leaf"], heart: ["camellia", "jasmine", "muguet"], base: ["pale cedar", "white musk", "vetiver"] } },
+	{ slug: "night-bloom", name: "Night Bloom", subtitle: "Moonlit jasmine, plum skin and amber.", description: "A nocturnal floral where jasmine and plum skin gather over a warm amber base.", fragranceFamily: "Floral Amber", skuPrefix: "NBL", collection: "the-glass-garden", notes: { top: ["plum skin", "pink pepper", "mandarin"], heart: ["night jasmine", "tuberose", "violet"], base: ["amber", "sandalwood", "musk"] } },
+	{ slug: "thorned-rose", name: "Thorned Rose", subtitle: "Rose stem, blackcurrant and dark moss.", description: "A limited rose portrait sharpened by green stem, blackcurrant and shadowed moss.", fragranceFamily: "Floral Woody", skuPrefix: "THR", collection: "the-glass-garden", isLimited: true, notes: { top: ["blackcurrant", "rose stem", "pink pepper"], heart: ["damask rose", "geranium", "violet"], base: ["oakmoss", "patchouli", "dark cedar"] } },
+];
+
+const products: ProductSeed[] = catalogueDefinitions.map(createCatalogueProduct);
+
+const legacyCollectionSlugs = [
+	"signature-woods",
+	"water-and-air",
+	"floral-light",
+	"nocturne-reserve",
+	"refill-ritual",
+];
+
+const legacyProductSlugs = [
+	"bluewood",
+	"white-ember",
+	"tidal-veil",
+	"magnolia-glass",
+	"velvet-current",
+	"amber-bloom",
+	"cedar-nocturne",
+	"quiet-fig",
+	"saffron-mist",
+	"orris-rain",
 ];
 
 function imagePath(slug: string, name: string) {
@@ -575,16 +498,83 @@ async function upsertCollections() {
 	const collectionIds = new Map<string, string>();
 
 	for (const collection of collections) {
+		const editorial = collection.slug === "chromatic-woods" ? {
+			storyHeadline: "Timber, refracted through five kinds of light.",
+			storyBody: "The collection begins with the grain rather than the tree. Cedar, sandalwood and cypress are treated as surfaces that catch colour, warmth and mineral shadow.\n\nEach composition moves at its own hour: peach at dawn, blue at the edge of rain, red at ember-light, nocturnal resin and the pale smoke left after fire.",
+			storyImageUrl: collection.heroImageUrl,
+			materialNotes: ["Cedar grain", "Mineral pigment", "Smoked glass", "Sandalwood dust"],
+			campaignLabel: "chromatic-woods-editorial-2026",
+		} : {};
+		const collectionData = { ...collection, ...editorial };
 		const saved = await prisma.collection.upsert({
 			where: { slug: collection.slug },
-			update: collection,
-			create: collection,
+			update: collectionData,
+			create: collectionData,
 		});
 
 		collectionIds.set(collection.slug, saved.id);
 	}
 
 	return collectionIds;
+}
+
+async function upsertJournalArticles() {
+	const articles = [
+		{
+			slug: "how-a-fragrance-changes-on-skin",
+			title: "How a fragrance changes on skin",
+			eyebrow: "The wearing ritual",
+			excerpt: "A practical field note on evaporation, warmth and why the same composition never tells exactly the same story twice.",
+			body: "A fragrance is not a fixed object. The first minutes belong to the most volatile materials: citrus peel, herbs, aldehydes and bright spices. They travel quickly, creating the opening gesture before giving way to the heart.\n\nSkin temperature, humidity and the natural oils on the body influence that movement. This is why testing on paper is useful for structure, while testing on skin reveals character. Give a composition at least two hours before deciding.\n\nApply without rubbing, then notice it at intervals rather than continuously. The most useful question is not whether it stays identical, but whether each stage feels coherent with the next.",
+			coverImageUrl: "/images/hero/home_hero_frost.png",
+			authorName: "AVELIS Editorial",
+			tags: ["Education", "Ritual"],
+			readingTimeMinutes: 4,
+			status: "PUBLISHED" as const,
+			isFeatured: true,
+			publishedAt: new Date("2026-08-01T09:00:00.000Z"),
+			seoTitle: "How perfume changes on skin",
+			seoDescription: "Understand perfume evaporation, skin chemistry and how to test a fragrance over time.",
+		},
+		{
+			slug: "a-quiet-guide-to-woods",
+			title: "A quiet guide to woods",
+			eyebrow: "Materials",
+			excerpt: "Cedar, sandalwood, vetiver and patchouli each create a different kind of structure. Here is how to recognise their grain.",
+			body: "Woody is a family, but not a single sensation. Cedar can feel dry and architectural; sandalwood is rounder, warmer and almost tactile. Vetiver brings root, earth and a clean mineral edge. Patchouli can move from damp soil to dark velvet.\n\nLook for the role a wood plays rather than only its name. It may be the frame beneath florals, the lasting trace after citrus, or the central subject of the composition.\n\nThe Chromatic Woods collection makes those roles visible by placing texture and colour around the material, allowing each wood to hold a distinct atmosphere.",
+			coverImageUrl: "/images/hero/home_hero_peach.png",
+			authorName: "AVELIS Editorial",
+			tags: ["Materials", "Woods"],
+			readingTimeMinutes: 3,
+			status: "PUBLISHED" as const,
+			isFeatured: false,
+			publishedAt: new Date("2026-07-26T09:00:00.000Z"),
+			seoTitle: "A guide to woody fragrance materials",
+			seoDescription: "Learn the character of cedar, sandalwood, vetiver and patchouli in perfume.",
+		},
+	];
+	for (const article of articles) await prisma.journalArticle.upsert({ where: { slug: article.slug }, update: article, create: article });
+}
+
+async function retireLegacyCatalogue() {
+	await Promise.all([
+		prisma.collection.updateMany({
+			where: { slug: { in: legacyCollectionSlugs } },
+			data: {
+				status: CollectionStatus.ARCHIVED,
+				isFeatured: false,
+				publishedAt: null,
+			},
+		}),
+		prisma.product.updateMany({
+			where: { slug: { in: legacyProductSlugs } },
+			data: {
+				isActive: false,
+				isFeatured: false,
+				isLimited: false,
+			},
+		}),
+	]);
 }
 
 async function upsertNote(name: string) {
@@ -699,11 +689,13 @@ async function seedProduct(
 }
 
 async function main() {
+	await retireLegacyCatalogue();
 	const collectionIds = await upsertCollections();
 
 	for (const [index, product] of products.entries()) {
 		await seedProduct(product, collectionIds, index * 10);
 	}
+	await upsertJournalArticles();
 
 	const [productCount, variantCount, imageCount] = await Promise.all([
 		prisma.product.count({

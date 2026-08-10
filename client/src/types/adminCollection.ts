@@ -60,6 +60,11 @@ export interface AdminCollection {
 	publishedAt: string | null;
 	seoTitle: string | null;
 	seoDescription: string | null;
+	storyHeadline: string | null;
+	storyBody: string | null;
+	storyImageUrl: string | null;
+	materialNotes: string[];
+	campaignLabel: string | null;
 	productIds: string[];
 	products: AdminCollectionProduct[];
 	createdAt: string;
@@ -81,6 +86,11 @@ export interface AdminCollectionCreateInput {
 	sortOrder?: number;
 	seoTitle?: string | null;
 	seoDescription?: string | null;
+	storyHeadline?: string | null;
+	storyBody?: string | null;
+	storyImageUrl?: string | null;
+	materialNotes?: string[];
+	campaignLabel?: string | null;
 	productIds?: string[];
 }
 

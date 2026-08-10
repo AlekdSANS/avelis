@@ -34,6 +34,7 @@ export declare const ModelName: {
     readonly Note: 'Note';
     readonly ProductNote: 'ProductNote';
     readonly Collection: 'Collection';
+    readonly JournalArticle: 'JournalArticle';
     readonly ProductCollection: 'ProductCollection';
     readonly Cart: 'Cart';
     readonly CartItem: 'CartItem';
@@ -115,6 +116,9 @@ export declare const ProductImageScalarFieldEnum: {
     readonly id: 'id';
     readonly productId: 'productId';
     readonly url: 'url';
+    readonly storageKey: 'storageKey';
+    readonly mimeType: 'mimeType';
+    readonly sizeBytes: 'sizeBytes';
     readonly alt: 'alt';
     readonly position: 'position';
     readonly isPrimary: 'isPrimary';
@@ -125,6 +129,9 @@ export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[k
 export declare const NoteScalarFieldEnum: {
     readonly id: 'id';
     readonly name: 'name';
+    readonly isActive: 'isActive';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
 };
 export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum];
 export declare const ProductNoteScalarFieldEnum: {
@@ -138,15 +145,52 @@ export declare const CollectionScalarFieldEnum: {
     readonly id: 'id';
     readonly slug: 'slug';
     readonly name: 'name';
+    readonly eyebrow: 'eyebrow';
+    readonly shortDescription: 'shortDescription';
     readonly description: 'description';
-    readonly imageUrl: 'imageUrl';
+    readonly heroImageUrl: 'heroImageUrl';
+    readonly cardImageUrl: 'cardImageUrl';
+    readonly mobileImageUrl: 'mobileImageUrl';
+    readonly accentColor: 'accentColor';
+    readonly status: 'status';
+    readonly isFeatured: 'isFeatured';
+    readonly sortOrder: 'sortOrder';
+    readonly publishedAt: 'publishedAt';
+    readonly seoTitle: 'seoTitle';
+    readonly seoDescription: 'seoDescription';
+    readonly storyHeadline: 'storyHeadline';
+    readonly storyBody: 'storyBody';
+    readonly storyImageUrl: 'storyImageUrl';
+    readonly materialNotes: 'materialNotes';
+    readonly campaignLabel: 'campaignLabel';
     readonly createdAt: 'createdAt';
     readonly updatedAt: 'updatedAt';
 };
 export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum];
+export declare const JournalArticleScalarFieldEnum: {
+    readonly id: 'id';
+    readonly slug: 'slug';
+    readonly title: 'title';
+    readonly eyebrow: 'eyebrow';
+    readonly excerpt: 'excerpt';
+    readonly body: 'body';
+    readonly coverImageUrl: 'coverImageUrl';
+    readonly authorName: 'authorName';
+    readonly tags: 'tags';
+    readonly readingTimeMinutes: 'readingTimeMinutes';
+    readonly status: 'status';
+    readonly isFeatured: 'isFeatured';
+    readonly publishedAt: 'publishedAt';
+    readonly seoTitle: 'seoTitle';
+    readonly seoDescription: 'seoDescription';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
+};
+export type JournalArticleScalarFieldEnum = (typeof JournalArticleScalarFieldEnum)[keyof typeof JournalArticleScalarFieldEnum];
 export declare const ProductCollectionScalarFieldEnum: {
     readonly productId: 'productId';
     readonly collectionId: 'collectionId';
+    readonly sortOrder: 'sortOrder';
 };
 export type ProductCollectionScalarFieldEnum = (typeof ProductCollectionScalarFieldEnum)[keyof typeof ProductCollectionScalarFieldEnum];
 export declare const CartScalarFieldEnum: {
@@ -228,6 +272,9 @@ export declare const ReviewScalarFieldEnum: {
     readonly rating: 'rating';
     readonly title: 'title';
     readonly content: 'content';
+    readonly status: 'status';
+    readonly verifiedPurchase: 'verifiedPurchase';
+    readonly moderatedAt: 'moderatedAt';
     readonly createdAt: 'createdAt';
     readonly updatedAt: 'updatedAt';
 };

@@ -42,7 +42,10 @@ export declare function findCustomerOrderPage(userId: string, query: OrderListQu
     currency: string;
     id: string;
     items: {
+        id: string;
         imageUrl: string | null;
+        productName: string;
+        quantity: number;
     }[];
     orderNumber: string;
     paymentStatus: import("../generated/prisma/enums.js").PaymentStatus;

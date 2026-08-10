@@ -80,11 +80,11 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.9.0
+ * Prisma Client JS version: 7.9.1
  * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.9.0",
+  client: "7.9.1",
   engine: "e922089b7d7502aff4249d5da3420f6fa55fc6ad"
 }
 
@@ -405,6 +405,7 @@ export const ModelName = {
   Note: 'Note',
   ProductNote: 'ProductNote',
   Collection: 'Collection',
+  JournalArticle: 'JournalArticle',
   ProductCollection: 'ProductCollection',
   Cart: 'Cart',
   CartItem: 'CartItem',
@@ -428,7 +429,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "product" | "productVariant" | "productImage" | "note" | "productNote" | "collection" | "productCollection" | "cart" | "cartItem" | "wishlistItem" | "order" | "orderItem" | "review" | "session"
+    modelProps: "user" | "address" | "product" | "productVariant" | "productImage" | "note" | "productNote" | "collection" | "journalArticle" | "productCollection" | "cart" | "cartItem" | "wishlistItem" | "order" | "orderItem" | "review" | "session"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1021,6 +1022,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CollectionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CollectionCountAggregateOutputType> | number
+        }
+      }
+    }
+    JournalArticle: {
+      payload: Prisma.$JournalArticlePayload<ExtArgs>
+      fields: Prisma.JournalArticleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.JournalArticleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.JournalArticleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>
+        }
+        findFirst: {
+          args: Prisma.JournalArticleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.JournalArticleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>
+        }
+        findMany: {
+          args: Prisma.JournalArticleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>[]
+        }
+        create: {
+          args: Prisma.JournalArticleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>
+        }
+        createMany: {
+          args: Prisma.JournalArticleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.JournalArticleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>[]
+        }
+        delete: {
+          args: Prisma.JournalArticleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>
+        }
+        update: {
+          args: Prisma.JournalArticleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>
+        }
+        deleteMany: {
+          args: Prisma.JournalArticleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.JournalArticleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.JournalArticleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>[]
+        }
+        upsert: {
+          args: Prisma.JournalArticleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JournalArticlePayload>
+        }
+        aggregate: {
+          args: Prisma.JournalArticleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateJournalArticle>
+        }
+        groupBy: {
+          args: Prisma.JournalArticleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.JournalArticleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.JournalArticleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.JournalArticleCountAggregateOutputType> | number
         }
       }
     }
@@ -1782,11 +1857,39 @@ export const CollectionScalarFieldEnum = {
   publishedAt: 'publishedAt',
   seoTitle: 'seoTitle',
   seoDescription: 'seoDescription',
+  storyHeadline: 'storyHeadline',
+  storyBody: 'storyBody',
+  storyImageUrl: 'storyImageUrl',
+  materialNotes: 'materialNotes',
+  campaignLabel: 'campaignLabel',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
+
+
+export const JournalArticleScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  eyebrow: 'eyebrow',
+  excerpt: 'excerpt',
+  body: 'body',
+  coverImageUrl: 'coverImageUrl',
+  authorName: 'authorName',
+  tags: 'tags',
+  readingTimeMinutes: 'readingTimeMinutes',
+  status: 'status',
+  isFeatured: 'isFeatured',
+  publishedAt: 'publishedAt',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JournalArticleScalarFieldEnum = (typeof JournalArticleScalarFieldEnum)[keyof typeof JournalArticleScalarFieldEnum]
 
 
 export const ProductCollectionScalarFieldEnum = {
@@ -1892,6 +1995,9 @@ export const ReviewScalarFieldEnum = {
   rating: 'rating',
   title: 'title',
   content: 'content',
+  status: 'status',
+  verifiedPurchase: 'verifiedPurchase',
+  moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2074,6 +2180,20 @@ export type ListEnumCollectionStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'JournalStatus'
+ */
+export type EnumJournalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'JournalStatus[]'
+ */
+export type ListEnumJournalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JournalStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'ShippingMethod'
  */
 export type EnumShippingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingMethod'>
@@ -2126,6 +2246,20 @@ export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'OrderStatus[]'
  */
 export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus'
+ */
+export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReviewStatus[]'
+ */
+export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
     
 
 
@@ -2301,6 +2435,7 @@ export type GlobalOmitConfig = {
   note?: Prisma.NoteOmit
   productNote?: Prisma.ProductNoteOmit
   collection?: Prisma.CollectionOmit
+  journalArticle?: Prisma.JournalArticleOmit
   productCollection?: Prisma.ProductCollectionOmit
   cart?: Prisma.CartOmit
   cartItem?: Prisma.CartItemOmit

@@ -20,7 +20,7 @@ import {
 	mapAdminProductSummary,
 } from "../utils/adminProductMapper.js";
 import { HttpError } from "../utils/httpError.js";
-import { imageStorage } from "../storage/localImageStorage.js";
+import { imageStorage } from "../storage/index.js";
 
 function isMissingRecordError(error: unknown) {
 	return (

@@ -7,13 +7,14 @@ import type {
 	ImageStorageWrite,
 	StoredImage,
 } from "./imageStorage.js";
+import {
+	assertManagedProductKey,
+	MANAGED_PRODUCT_KEY,
+} from "./imageStorage.js";
 
 export const UPLOAD_ROOT = fileURLToPath(
 	new URL("../../uploads/", import.meta.url),
 );
-
-const MANAGED_PRODUCT_KEY =
-	/^products\/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.(?:jpg|png|webp)$/i;
 
 export class LocalImageStorage implements ImageStorage {
 	constructor(
@@ -22,9 +23,7 @@ export class LocalImageStorage implements ImageStorage {
 	) {}
 
 	private resolveManagedPath(storageKey: string) {
-		if (!MANAGED_PRODUCT_KEY.test(storageKey)) {
-			throw new Error("INVALID_PRODUCT_STORAGE_KEY");
-		}
+		assertManagedProductKey(storageKey);
 
 		const absolutePath = path.resolve(this.rootDirectory, storageKey);
 		const relativePath = path.relative(this.rootDirectory, absolutePath);
@@ -39,6 +38,19 @@ export class LocalImageStorage implements ImageStorage {
 		return absolutePath;
 	}
 
+	getPublicUrl(storageKey: string) {
+		assertManagedProductKey(storageKey);
+		return `${this.publicPrefix}/${storageKey}`;
+	}
+
+	getStorageKeyFromUrl(url: string) {
+		const prefix = `${this.publicPrefix}/`;
+		if (!url.startsWith(prefix)) return null;
+
+		const storageKey = url.slice(prefix.length);
+		return MANAGED_PRODUCT_KEY.test(storageKey) ? storageKey : null;
+	}
+
 	async saveProductImage(input: ImageStorageWrite): Promise<StoredImage> {
 		const storageKey = `products/${randomUUID()}.${input.extension}`;
 		const absolutePath = this.resolveManagedPath(storageKey);
@@ -47,7 +59,7 @@ export class LocalImageStorage implements ImageStorage {
 		await writeFile(absolutePath, input.buffer, { flag: "wx" });
 
 		return {
-			url: `${this.publicPrefix}/${storageKey}`,
+			url: this.getPublicUrl(storageKey),
 			storageKey,
 			mimeType: input.mimeType,
 			sizeBytes: input.buffer.byteLength,
@@ -75,4 +87,6 @@ export class LocalImageStorage implements ImageStorage {
 	}
 }
 
+// Kept as an explicit local adapter for integration tests and maintenance tools.
+// Runtime application code imports the environment-selected adapter from index.ts.
 export const imageStorage = new LocalImageStorage();

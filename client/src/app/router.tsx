@@ -31,6 +31,13 @@ import { CollectionPage } from "../pages/CollectionPage/CollectionPage";
 import { AdminCollectionFormPage } from "../pages/AdminCollectionFormPage/AdminCollectionFormPage";
 import { FragranceGuidePage } from "../pages/FragranceGuidePage/FragranceGuidePage";
 import { AboutPage } from "../pages/AboutPage/AboutPage";
+import { InformationPage } from "../pages/InformationPage/InformationPage";
+import { informationPages } from "../pages/InformationPage/informationPages";
+import { ScentFinderPage } from "../pages/ScentFinderPage/ScentFinderPage";
+import { JournalPage } from "../pages/JournalPage/JournalPage";
+import { JournalArticlePage } from "../pages/JournalArticlePage/JournalArticlePage";
+import { AdminJournalPage } from "../pages/AdminJournalPage/AdminJournalPage";
+import { AdminReviewsPage } from "../pages/AdminReviewsPage/AdminReviewsPage";
 
 export const router = createBrowserRouter([
 	{
@@ -60,9 +67,40 @@ export const router = createBrowserRouter([
 				path: "/fragrance-guide",
 				element: <FragranceGuidePage />,
 			},
+			{ path: "/scent-finder", element: <ScentFinderPage /> },
 			{
 				path: "/about",
 				element: <AboutPage />,
+			},
+			{
+				path: "/contact",
+				element: <InformationPage content={informationPages.contact} />,
+			},
+			{
+				path: "/delivery-returns",
+				element: <InformationPage content={informationPages.deliveryReturns} />,
+			},
+			{
+				path: "/faq",
+				element: <InformationPage content={informationPages.faq} />,
+			},
+			{
+				path: "/materials",
+				element: <InformationPage content={informationPages.materials} />,
+			},
+			{ path: "/journal", element: <JournalPage /> },
+			{ path: "/journal/:slug", element: <JournalArticlePage /> },
+			{
+				path: "/privacy",
+				element: <InformationPage content={informationPages.privacy} />,
+			},
+			{
+				path: "/terms",
+				element: <InformationPage content={informationPages.terms} />,
+			},
+			{
+				path: "/cookies",
+				element: <InformationPage content={informationPages.cookies} />,
 			},
 			{
 				path: "/cart",
@@ -173,6 +211,8 @@ export const router = createBrowserRouter([
 				path: "collections/:collectionId/edit",
 				element: <AdminCollectionFormPage />,
 			},
+			{ path: "journal", element: <AdminJournalPage /> },
+			{ path: "reviews", element: <AdminReviewsPage /> },
 		],
 	},
 	{
