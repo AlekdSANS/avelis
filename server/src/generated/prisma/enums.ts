@@ -110,3 +110,37 @@ export const JournalStatus = {
 } as const
 
 export type JournalStatus = (typeof JournalStatus)[keyof typeof JournalStatus]
+
+
+export const PromotionDiscountType = {
+  PERCENT: 'PERCENT',
+  FIXED: 'FIXED'
+} as const
+
+export type PromotionDiscountType = (typeof PromotionDiscountType)[keyof typeof PromotionDiscountType]
+
+
+export const MerchandisingCampaignType = {
+  GIFT_SET: 'GIFT_SET',
+  CURATED_EDIT: 'CURATED_EDIT'
+} as const
+
+export type MerchandisingCampaignType = (typeof MerchandisingCampaignType)[keyof typeof MerchandisingCampaignType]
+
+
+export const MerchandisingStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type MerchandisingStatus = (typeof MerchandisingStatus)[keyof typeof MerchandisingStatus]
+
+
+export const StockAlertStatus = {
+  PENDING: 'PENDING',
+  NOTIFIED: 'NOTIFIED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type StockAlertStatus = (typeof StockAlertStatus)[keyof typeof StockAlertStatus]

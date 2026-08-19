@@ -77,6 +77,28 @@ enum JournalStatus {
   ARCHIVED
 }
 
+enum PromotionDiscountType {
+  PERCENT
+  FIXED
+}
+
+enum MerchandisingCampaignType {
+  GIFT_SET
+  CURATED_EDIT
+}
+
+enum MerchandisingStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum StockAlertStatus {
+  PENDING
+  NOTIFIED
+  CANCELLED
+}
+
 model User {
   id           String         @id @default(cuid())
   firstName    String
@@ -90,6 +112,7 @@ model User {
   orders       Order[]
   reviews      Review[]
   sessions     Session[]
+  stockAlerts  StockAlert[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
@@ -116,31 +139,37 @@ model Address {
 }
 
 model Product {
-  id              String              @id @default(cuid())
-  slug            String              @unique
-  name            String
-  subtitle        String?
-  description     String
-  fragranceFamily String
-  concentration   String
-  gender          String?
-  longevity       String?
-  season          String[]
-  occasion        String[]
-  isFeatured      Boolean             @default(false)
-  isNew           Boolean             @default(false)
-  isLimited       Boolean             @default(false)
-  isActive        Boolean             @default(true)
-  variants        ProductVariant[]
-  images          ProductImage[]
-  notes           ProductNote[]
-  collections     ProductCollection[]
-  cartItems       CartItem[]
-  wishlistItems   WishlistItem[]
-  orderItems      OrderItem[]
-  reviews         Review[]
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
+  id                 String                         @id @default(cuid())
+  slug               String                         @unique
+  name               String
+  subtitle           String?
+  description        String
+  fragranceFamily    String
+  concentration      String
+  gender             String?
+  longevity          String?
+  season             String[]
+  occasion           String[]
+  isFeatured         Boolean                        @default(false)
+  isNew              Boolean                        @default(false)
+  isLimited          Boolean                        @default(false)
+  isActive           Boolean                        @default(true)
+  variants           ProductVariant[]
+  images             ProductImage[]
+  notes              ProductNote[]
+  collections        ProductCollection[]
+  cartItems          CartItem[]
+  wishlistItems      WishlistItem[]
+  orderItems         OrderItem[]
+  reviews            Review[]
+  lowStockThreshold  Int                            @default(5)
+  sampleAvailable    Boolean                        @default(false)
+  samplePrice        Decimal?                       @db.Decimal(10, 2)
+  backInStockEnabled Boolean                        @default(true)
+  campaignItems      MerchandisingCampaignProduct[]
+  stockAlerts        StockAlert[]
+  createdAt          DateTime                       @default(now())
+  updatedAt          DateTime                       @updatedAt
 
   @@index([fragranceFamily])
   @@index([isFeatured])
@@ -334,8 +363,9 @@ model Order {
   subtotal           Decimal        @db.Decimal(10, 2)
   shippingTotal      Decimal        @db.Decimal(10, 2)
   discountTotal      Decimal        @default(0) @db.Decimal(10, 2)
+  promotionCode      String?
   total              Decimal        @db.Decimal(10, 2)
-  currency           String         @default("PLN")
+  currency           String         @default("EUR")
   confirmedAt        DateTime?
   cancelledAt        DateTime?
   idempotencyScope   String?
@@ -350,6 +380,70 @@ model Order {
   @@index([customerEmail])
   @@index([createdAt])
   @@index([status])
+}
+
+model PromotionCode {
+  id           String                @id @default(cuid())
+  code         String                @unique
+  description  String
+  discountType PromotionDiscountType
+  amount       Decimal               @db.Decimal(10, 2)
+  minSubtotal  Decimal               @default(0) @db.Decimal(10, 2)
+  startsAt     DateTime?
+  endsAt       DateTime?
+  usageLimit   Int?
+  usageCount   Int                   @default(0)
+  isActive     Boolean               @default(true)
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+
+  @@index([isActive, startsAt, endsAt])
+}
+
+model MerchandisingCampaign {
+  id          String                         @id @default(cuid())
+  slug        String                         @unique
+  type        MerchandisingCampaignType
+  title       String
+  eyebrow     String?
+  description String
+  imageUrl    String?
+  status      MerchandisingStatus            @default(DRAFT)
+  isFeatured  Boolean                        @default(false)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  products    MerchandisingCampaignProduct[]
+  createdAt   DateTime                       @default(now())
+  updatedAt   DateTime                       @updatedAt
+
+  @@index([status, type, isFeatured])
+}
+
+model MerchandisingCampaignProduct {
+  campaignId String
+  productId  String
+  sortOrder  Int                   @default(0)
+  campaign   MerchandisingCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  product    Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([campaignId, productId])
+  @@index([productId])
+}
+
+model StockAlert {
+  id         String           @id @default(cuid())
+  email      String
+  userId     String?
+  productId  String
+  status     StockAlertStatus @default(PENDING)
+  notifiedAt DateTime?
+  user       User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  product    Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([email, productId])
+  @@index([status, createdAt])
 }
 
 model OrderItem {

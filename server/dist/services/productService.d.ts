@@ -16,6 +16,10 @@ export declare function listProducts(query: ProductListQuery): Promise<{
         isNew: boolean;
         isLimited: boolean;
         isActive: boolean;
+        lowStockThreshold: number;
+        sampleAvailable: boolean;
+        samplePrice: number | null;
+        backInStockEnabled: boolean;
         rating: number | null;
         reviewCount: number;
         images: {
@@ -76,6 +80,10 @@ export declare function getFeaturedProducts(query: FeaturedProductsQuery): Promi
         isNew: boolean;
         isLimited: boolean;
         isActive: boolean;
+        lowStockThreshold: number;
+        sampleAvailable: boolean;
+        samplePrice: number | null;
+        backInStockEnabled: boolean;
         rating: number | null;
         reviewCount: number;
         images: {
@@ -132,6 +140,10 @@ export declare function getProductBySlug(slug: string): Promise<{
         isNew: boolean;
         isLimited: boolean;
         isActive: boolean;
+        lowStockThreshold: number;
+        sampleAvailable: boolean;
+        samplePrice: number | null;
+        backInStockEnabled: boolean;
         rating: number | null;
         reviewCount: number;
         images: {
@@ -188,6 +200,10 @@ export declare function getRelatedProducts(productId: string): Promise<{
         isNew: boolean;
         isLimited: boolean;
         isActive: boolean;
+        lowStockThreshold: number;
+        sampleAvailable: boolean;
+        samplePrice: number | null;
+        backInStockEnabled: boolean;
         rating: number | null;
         reviewCount: number;
         images: {

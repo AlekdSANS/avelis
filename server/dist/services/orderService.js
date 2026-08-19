@@ -44,6 +44,7 @@ export async function createOrder(input, userId) {
         shippingMethod: input.shippingMethod,
         paymentMethod: input.paymentMethod,
         items: mergeOrderItems(input.items),
+        promotionCode: input.promotionCode ?? null,
     });
     return {
         data: mapOrderDetail(result.order),

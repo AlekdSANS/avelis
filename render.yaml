@@ -29,6 +29,14 @@ services:
         sync: false
       - key: S3_PUBLIC_BASE_URL
         sync: false
+      - key: LOG_LEVEL
+        value: info
+      - key: SERVICE_VERSION
+        value: render
+      - key: OBSERVABILITY_WEBHOOK_URL
+        sync: false
+      - key: OBSERVABILITY_TOKEN
+        sync: false
 
   - type: web
     name: avelis-storefront

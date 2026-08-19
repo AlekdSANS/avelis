@@ -14,6 +14,10 @@ export const productSelect = {
     isNew: true,
     isLimited: true,
     isActive: true,
+    lowStockThreshold: true,
+    sampleAvailable: true,
+    samplePrice: true,
+    backInStockEnabled: true,
     createdAt: true,
     updatedAt: true,
     variants: {
@@ -111,6 +115,10 @@ export function mapProduct(product) {
         isNew: product.isNew,
         isLimited: product.isLimited,
         isActive: product.isActive,
+        lowStockThreshold: product.lowStockThreshold,
+        sampleAvailable: product.sampleAvailable,
+        samplePrice: decimalToNumber(product.samplePrice),
+        backInStockEnabled: product.backInStockEnabled,
         rating,
         reviewCount,
         images: product.images.map((image) => ({

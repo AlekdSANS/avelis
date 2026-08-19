@@ -18,7 +18,7 @@ export declare function getAdminDashboard(): Promise<{
         };
         revenue: {
             total: number;
-            currency: "PLN";
+            currency: "EUR";
         };
         recentOrders: {
             orderNumber: string;

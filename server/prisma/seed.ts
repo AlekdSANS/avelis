@@ -556,6 +556,25 @@ async function upsertJournalArticles() {
 	for (const article of articles) await prisma.journalArticle.upsert({ where: { slug: article.slug }, update: article, create: article });
 }
 
+async function seedMerchandising() {
+	await prisma.promotionCode.upsert({
+		where: { code: "WELCOME10" },
+		update: { description: "10% off a first AVELIS edit", discountType: "PERCENT", amount: 10, minSubtotal: 200, isActive: true },
+		create: { code: "WELCOME10", description: "10% off a first AVELIS edit", discountType: "PERCENT", amount: 10, minSubtotal: 200, isActive: true },
+	});
+	const selected = await prisma.product.findMany({ where: { slug: { in: ["peachwood", "redwood", "midnightwood", "nocturne"] } }, select: { id: true, slug: true } });
+	const bySlug = new Map(selected.map((product) => [product.slug, product.id]));
+	const campaigns = [
+		{ slug: "chromatic-woods-gift-edit", type: "GIFT_SET" as const, title: "The Chromatic Woods trio", eyebrow: "Gift edit No. 01", description: "Three studies of coloured timber, selected as a complete gifting ritual.", imageUrl: "/images/hero/home_hero_peach.png", status: "PUBLISHED" as const, isFeatured: true, productIds: [bySlug.get("peachwood"), bySlug.get("redwood"), bySlug.get("midnightwood")].filter((id): id is string => Boolean(id)) },
+		{ slug: "after-dark-edit", type: "CURATED_EDIT" as const, title: "After-dark resonance", eyebrow: "Curated recommendation", description: "Compositions connected by cedar, shadowed florals and a longer evening trace.", imageUrl: "/images/hero/home_hero_red.png", status: "PUBLISHED" as const, isFeatured: false, productIds: [bySlug.get("midnightwood"), bySlug.get("nocturne"), bySlug.get("redwood")].filter((id): id is string => Boolean(id)) },
+	];
+	for (const campaign of campaigns) {
+		const { productIds, ...data } = campaign;
+		await prisma.merchandisingCampaign.upsert({ where: { slug: campaign.slug }, update: { ...data, products: { deleteMany: {}, create: productIds.map((productId, sortOrder) => ({ productId, sortOrder })) } }, create: { ...data, products: { create: productIds.map((productId, sortOrder) => ({ productId, sortOrder })) } } });
+	}
+	await prisma.product.updateMany({ where: { slug: { in: ["peachwood", "midnightwood", "nocturne"] } }, data: { sampleAvailable: true, samplePrice: 29, lowStockThreshold: 8, backInStockEnabled: true } });
+}
+
 async function retireLegacyCatalogue() {
 	await Promise.all([
 		prisma.collection.updateMany({
@@ -696,6 +715,7 @@ async function main() {
 		await seedProduct(product, collectionIds, index * 10);
 	}
 	await upsertJournalArticles();
+	await seedMerchandising();
 
 	const [productCount, variantCount, imageCount] = await Promise.all([
 		prisma.product.count({

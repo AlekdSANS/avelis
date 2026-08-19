@@ -1,0 +1,79 @@
+.notices, .recommendations {
+  width: min(100% - 2 * var(--site-gutter), var(--wide-container-width));
+  margin: 0 auto clamp(5rem, 9vw, 9rem);
+}
+
+.notices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+}
+
+.notices > * {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  min-height: 16rem;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: clamp(1.5rem, 4vw, 4rem);
+}
+
+.notices p, .recommendations header p {
+  color: var(--color-olive);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.notices h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 3rem);
+}
+
+.notices span {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.notices form svg {
+  width: 1.25rem;
+}
+
+.notices label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+}
+
+.notices input {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  padding: 0.75rem;
+}
+
+.notices button {
+  border: 0;
+  background: var(--color-text);
+  color: white;
+  padding: 0.85rem;
+  cursor: pointer;
+}
+
+.recommendations {
+  border-top: 1px solid var(--color-border);
+  padding-top: 4rem;
+}
+
+.recommendations h2 {
+  margin: 0.7rem 0 3rem;
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+@media (max-width: 40rem) {
+  .notices, .recommendations {
+    width: calc(100% - 2rem);
+  }
+}/*# sourceMappingURL=ProductMerchandisingPanel.module.css.map */

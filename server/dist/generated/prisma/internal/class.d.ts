@@ -272,6 +272,50 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.promotionCode`: Exposes CRUD operations for the **PromotionCode** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more PromotionCodes
+      * const promotionCodes = await prisma.promotionCode.findMany()
+      * ```
+      */
+    get promotionCode(): Prisma.PromotionCodeDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.merchandisingCampaign`: Exposes CRUD operations for the **MerchandisingCampaign** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more MerchandisingCampaigns
+      * const merchandisingCampaigns = await prisma.merchandisingCampaign.findMany()
+      * ```
+      */
+    get merchandisingCampaign(): Prisma.MerchandisingCampaignDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.merchandisingCampaignProduct`: Exposes CRUD operations for the **MerchandisingCampaignProduct** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more MerchandisingCampaignProducts
+      * const merchandisingCampaignProducts = await prisma.merchandisingCampaignProduct.findMany()
+      * ```
+      */
+    get merchandisingCampaignProduct(): Prisma.MerchandisingCampaignProductDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.stockAlert`: Exposes CRUD operations for the **StockAlert** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more StockAlerts
+      * const stockAlerts = await prisma.stockAlert.findMany()
+      * ```
+      */
+    get stockAlert(): Prisma.StockAlertDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.orderItem`: Exposes CRUD operations for the **OrderItem** model.
       * Example usage:
       * ```ts

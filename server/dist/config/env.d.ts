@@ -12,6 +12,10 @@ export declare const env: Readonly<{
     S3_SECRET_ACCESS_KEY?: string | undefined;
     S3_PUBLIC_BASE_URL?: string | undefined;
     S3_FORCE_PATH_STYLE: boolean;
+    LOG_LEVEL: "debug" | "error" | "info" | "warn";
+    SERVICE_VERSION: string;
+    OBSERVABILITY_WEBHOOK_URL?: string | undefined;
+    OBSERVABILITY_TOKEN?: string | undefined;
     CLIENT_ORIGIN: string;
     IMAGE_STORAGE_PROVIDER: "local" | "s3";
 }>;

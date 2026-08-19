@@ -29,6 +29,7 @@ export declare const createOrderSchema: z.ZodObject<{
         quantity: z.ZodNumber;
     }, z.core.$strip>>;
     idempotencyKey: z.ZodOptional<z.ZodString>;
+    promotionCode: z.ZodOptional<z.ZodPipe<z.ZodString, z.ZodTransform<string, string>>>;
 }, z.core.$strip>;
 export declare const orderListQuerySchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodEnum<{

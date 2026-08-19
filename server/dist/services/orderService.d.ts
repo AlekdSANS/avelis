@@ -42,6 +42,7 @@ export declare function createOrder(input: CreateOrderInput, userId: string | nu
         subtotal: number;
         shippingTotal: number;
         discountTotal: number;
+        promotionCode: string | null;
         total: number;
         currency: string;
         confirmedAt: string | null;
@@ -114,6 +115,7 @@ export declare function getCustomerOrder(userId: string, orderNumber: string): P
         subtotal: number;
         shippingTotal: number;
         discountTotal: number;
+        promotionCode: string | null;
         total: number;
         currency: string;
         confirmedAt: string | null;

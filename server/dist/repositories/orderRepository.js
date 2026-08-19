@@ -127,7 +127,21 @@ async function createOrderAttempt(input) {
             .reduce((sum, item) => sum.plus(item.lineTotal), new Prisma.Decimal(0))
             .toDecimalPlaces(2);
         const shippingTotal = getShippingPrice(input.shippingMethod);
-        const discountTotal = new Prisma.Decimal(0).toDecimalPlaces(2);
+        let discountTotal = new Prisma.Decimal(0).toDecimalPlaces(2);
+        let appliedPromotionCode = null;
+        if (input.promotionCode !== null) {
+            const promotion = await tx.promotionCode.findUnique({ where: { code: input.promotionCode } });
+            const now = new Date();
+            if (promotion === null || !promotion.isActive || (promotion.startsAt !== null && promotion.startsAt > now) || (promotion.endsAt !== null && promotion.endsAt <= now) || (promotion.usageLimit !== null && promotion.usageCount >= promotion.usageLimit)) {
+                throw new HttpError(409, "Promotion code is not currently available");
+            }
+            if (subtotal.lt(promotion.minSubtotal))
+                throw new HttpError(409, `Promotion requires a minimum subtotal of ${promotion.minSubtotal.toNumber()} EUR`);
+            const calculated = promotion.discountType === "PERCENT" ? subtotal.mul(promotion.amount).div(100) : promotion.amount;
+            discountTotal = Prisma.Decimal.min(calculated, subtotal).toDecimalPlaces(2);
+            appliedPromotionCode = promotion.code;
+            await tx.promotionCode.update({ where: { id: promotion.id }, data: { usageCount: { increment: 1 } } });
+        }
         const total = subtotal
             .plus(shippingTotal)
             .minus(discountTotal)
@@ -154,6 +168,7 @@ async function createOrderAttempt(input) {
                 subtotal,
                 shippingTotal,
                 discountTotal,
+                promotionCode: appliedPromotionCode,
                 total,
                 currency: ORDER_CURRENCY,
                 idempotencyScope: input.idempotencyScope,

@@ -1,5 +1,5 @@
 import { Prisma } from "../generated/prisma/client.js";
-export const ORDER_CURRENCY = "PLN";
+export const ORDER_CURRENCY = "EUR";
 export const INITIAL_ORDER_STATUS = "PENDING_PAYMENT";
 export const INITIAL_PAYMENT_STATUS = "PENDING";
 const SHIPPING_PRICE_BY_METHOD = {

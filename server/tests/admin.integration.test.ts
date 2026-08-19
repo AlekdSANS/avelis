@@ -149,7 +149,7 @@ test("admin dashboard uses real aggregates and a safe projection", async () => {
 		shippingTotal: "0.00",
 		discountTotal: "0.00",
 		total: "100.00",
-		currency: "PLN",
+		currency: "EUR",
 	};
 
 	try {

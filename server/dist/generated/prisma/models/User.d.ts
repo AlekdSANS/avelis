@@ -169,6 +169,7 @@ export type UserWhereInput = {
     orders?: Prisma.OrderListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
     sessions?: Prisma.SessionListRelationFilter;
+    stockAlerts?: Prisma.StockAlertListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -185,6 +186,7 @@ export type UserOrderByWithRelationInput = {
     orders?: Prisma.OrderOrderByRelationAggregateInput;
     reviews?: Prisma.ReviewOrderByRelationAggregateInput;
     sessions?: Prisma.SessionOrderByRelationAggregateInput;
+    stockAlerts?: Prisma.StockAlertOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -204,6 +206,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     orders?: Prisma.OrderListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
     sessions?: Prisma.SessionListRelationFilter;
+    stockAlerts?: Prisma.StockAlertListRelationFilter;
 }, "id" | "email">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -246,6 +249,7 @@ export type UserCreateInput = {
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateInput = {
     id?: string;
@@ -262,6 +266,7 @@ export type UserUncheckedCreateInput = {
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -278,6 +283,7 @@ export type UserUpdateInput = {
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -294,6 +300,7 @@ export type UserUncheckedUpdateInput = {
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateManyInput = {
     id?: string;
@@ -422,6 +429,20 @@ export type UserUpdateOneWithoutOrdersNestedInput = {
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrdersInput, Prisma.UserUpdateWithoutOrdersInput>, Prisma.UserUncheckedUpdateWithoutOrdersInput>;
 };
+export type UserCreateNestedOneWithoutStockAlertsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutStockAlertsInput, Prisma.UserUncheckedCreateWithoutStockAlertsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutStockAlertsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneWithoutStockAlertsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutStockAlertsInput, Prisma.UserUncheckedCreateWithoutStockAlertsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutStockAlertsInput;
+    upsert?: Prisma.UserUpsertWithoutStockAlertsInput;
+    disconnect?: Prisma.UserWhereInput | boolean;
+    delete?: Prisma.UserWhereInput | boolean;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStockAlertsInput, Prisma.UserUpdateWithoutStockAlertsInput>, Prisma.UserUncheckedUpdateWithoutStockAlertsInput>;
+};
 export type UserCreateNestedOneWithoutReviewsInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsInput, Prisma.UserUncheckedCreateWithoutReviewsInput>;
     connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsInput;
@@ -460,6 +481,7 @@ export type UserCreateWithoutAddressesInput = {
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutAddressesInput = {
     id?: string;
@@ -475,6 +497,7 @@ export type UserUncheckedCreateWithoutAddressesInput = {
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutAddressesInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -503,6 +526,7 @@ export type UserUpdateWithoutAddressesInput = {
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutAddressesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -518,6 +542,7 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutCartInput = {
     id?: string;
@@ -533,6 +558,7 @@ export type UserCreateWithoutCartInput = {
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutCartInput = {
     id?: string;
@@ -548,6 +574,7 @@ export type UserUncheckedCreateWithoutCartInput = {
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutCartInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -576,6 +603,7 @@ export type UserUpdateWithoutCartInput = {
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutCartInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -591,6 +619,7 @@ export type UserUncheckedUpdateWithoutCartInput = {
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutWishlistInput = {
     id?: string;
@@ -606,6 +635,7 @@ export type UserCreateWithoutWishlistInput = {
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutWishlistInput = {
     id?: string;
@@ -621,6 +651,7 @@ export type UserUncheckedCreateWithoutWishlistInput = {
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutWishlistInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -649,6 +680,7 @@ export type UserUpdateWithoutWishlistInput = {
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutWishlistInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -664,6 +696,7 @@ export type UserUncheckedUpdateWithoutWishlistInput = {
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutOrdersInput = {
     id?: string;
@@ -679,6 +712,7 @@ export type UserCreateWithoutOrdersInput = {
     wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutOrdersInput = {
     id?: string;
@@ -694,6 +728,7 @@ export type UserUncheckedCreateWithoutOrdersInput = {
     wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutOrdersInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -722,6 +757,7 @@ export type UserUpdateWithoutOrdersInput = {
     wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutOrdersInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -735,6 +771,84 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
     addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
     cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
     wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput;
+    reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+    sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
+};
+export type UserCreateWithoutStockAlertsInput = {
+    id?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    passwordHash: string;
+    role?: $Enums.UserRole;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    addresses?: Prisma.AddressCreateNestedManyWithoutUserInput;
+    cart?: Prisma.CartCreateNestedOneWithoutUserInput;
+    wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput;
+    orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+    reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+    sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+};
+export type UserUncheckedCreateWithoutStockAlertsInput = {
+    id?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    passwordHash: string;
+    role?: $Enums.UserRole;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    addresses?: Prisma.AddressUncheckedCreateNestedManyWithoutUserInput;
+    cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
+    wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput;
+    orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+    reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+    sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+};
+export type UserCreateOrConnectWithoutStockAlertsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutStockAlertsInput, Prisma.UserUncheckedCreateWithoutStockAlertsInput>;
+};
+export type UserUpsertWithoutStockAlertsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutStockAlertsInput, Prisma.UserUncheckedUpdateWithoutStockAlertsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutStockAlertsInput, Prisma.UserUncheckedCreateWithoutStockAlertsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutStockAlertsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutStockAlertsInput, Prisma.UserUncheckedUpdateWithoutStockAlertsInput>;
+};
+export type UserUpdateWithoutStockAlertsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    firstName?: Prisma.StringFieldUpdateOperationsInput | string;
+    lastName?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
+    role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    addresses?: Prisma.AddressUpdateManyWithoutUserNestedInput;
+    cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
+    wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput;
+    orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+    reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+    sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+};
+export type UserUncheckedUpdateWithoutStockAlertsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    firstName?: Prisma.StringFieldUpdateOperationsInput | string;
+    lastName?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    passwordHash?: Prisma.StringFieldUpdateOperationsInput | string;
+    role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    addresses?: Prisma.AddressUncheckedUpdateManyWithoutUserNestedInput;
+    cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
+    wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput;
+    orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
 };
@@ -752,6 +866,7 @@ export type UserCreateWithoutReviewsInput = {
     wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput;
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutReviewsInput = {
     id?: string;
@@ -767,6 +882,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
     wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
     sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutReviewsInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -795,6 +911,7 @@ export type UserUpdateWithoutReviewsInput = {
     wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput;
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutReviewsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -810,6 +927,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
     wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateWithoutSessionsInput = {
     id?: string;
@@ -825,6 +943,7 @@ export type UserCreateWithoutSessionsInput = {
     wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput;
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateWithoutSessionsInput = {
     id?: string;
@@ -840,6 +959,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
     wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserCreateOrConnectWithoutSessionsInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -868,6 +988,7 @@ export type UserUpdateWithoutSessionsInput = {
     wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput;
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateWithoutSessionsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -883,6 +1004,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
     wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutUserNestedInput;
 };
 /**
  * Count Type UserCountOutputType
@@ -893,6 +1015,7 @@ export type UserCountOutputType = {
     orders: number;
     reviews: number;
     sessions: number;
+    stockAlerts: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     addresses?: boolean | UserCountOutputTypeCountAddressesArgs;
@@ -900,6 +1023,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
     orders?: boolean | UserCountOutputTypeCountOrdersArgs;
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs;
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs;
+    stockAlerts?: boolean | UserCountOutputTypeCountStockAlertsArgs;
 };
 /**
  * UserCountOutputType without action
@@ -940,6 +1064,12 @@ export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
 export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.SessionWhereInput;
 };
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStockAlertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.StockAlertWhereInput;
+};
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     firstName?: boolean;
@@ -955,6 +1085,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     orders?: boolean | Prisma.User$ordersArgs<ExtArgs>;
     reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>;
     sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>;
+    stockAlerts?: boolean | Prisma.User$stockAlertsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -995,6 +1126,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     orders?: boolean | Prisma.User$ordersArgs<ExtArgs>;
     reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>;
     sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>;
+    stockAlerts?: boolean | Prisma.User$stockAlertsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -1008,6 +1140,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
         orders: Prisma.$OrderPayload<ExtArgs>[];
         reviews: Prisma.$ReviewPayload<ExtArgs>[];
         sessions: Prisma.$SessionPayload<ExtArgs>[];
+        stockAlerts: Prisma.$StockAlertPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1353,6 +1486,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
     orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    stockAlerts<T extends Prisma.User$stockAlertsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$stockAlertsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockAlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1893,6 +2027,29 @@ export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
     take?: number;
     skip?: number;
     distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[];
+};
+/**
+ * User.stockAlerts
+ */
+export type User$stockAlertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StockAlert
+     */
+    select?: Prisma.StockAlertSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the StockAlert
+     */
+    omit?: Prisma.StockAlertOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.StockAlertInclude<ExtArgs> | null;
+    where?: Prisma.StockAlertWhereInput;
+    orderBy?: Prisma.StockAlertOrderByWithRelationInput | Prisma.StockAlertOrderByWithRelationInput[];
+    cursor?: Prisma.StockAlertWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.StockAlertScalarFieldEnum | Prisma.StockAlertScalarFieldEnum[];
 };
 /**
  * User without action

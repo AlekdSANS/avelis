@@ -40,6 +40,10 @@ export declare const ModelName: {
     readonly CartItem: 'CartItem';
     readonly WishlistItem: 'WishlistItem';
     readonly Order: 'Order';
+    readonly PromotionCode: 'PromotionCode';
+    readonly MerchandisingCampaign: 'MerchandisingCampaign';
+    readonly MerchandisingCampaignProduct: 'MerchandisingCampaignProduct';
+    readonly StockAlert: 'StockAlert';
     readonly OrderItem: 'OrderItem';
     readonly Review: 'Review';
     readonly Session: 'Session';
@@ -95,6 +99,10 @@ export declare const ProductScalarFieldEnum: {
     readonly isNew: 'isNew';
     readonly isLimited: 'isLimited';
     readonly isActive: 'isActive';
+    readonly lowStockThreshold: 'lowStockThreshold';
+    readonly sampleAvailable: 'sampleAvailable';
+    readonly samplePrice: 'samplePrice';
+    readonly backInStockEnabled: 'backInStockEnabled';
     readonly createdAt: 'createdAt';
     readonly updatedAt: 'updatedAt';
 };
@@ -239,6 +247,7 @@ export declare const OrderScalarFieldEnum: {
     readonly subtotal: 'subtotal';
     readonly shippingTotal: 'shippingTotal';
     readonly discountTotal: 'discountTotal';
+    readonly promotionCode: 'promotionCode';
     readonly total: 'total';
     readonly currency: 'currency';
     readonly confirmedAt: 'confirmedAt';
@@ -249,6 +258,55 @@ export declare const OrderScalarFieldEnum: {
     readonly updatedAt: 'updatedAt';
 };
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum];
+export declare const PromotionCodeScalarFieldEnum: {
+    readonly id: 'id';
+    readonly code: 'code';
+    readonly description: 'description';
+    readonly discountType: 'discountType';
+    readonly amount: 'amount';
+    readonly minSubtotal: 'minSubtotal';
+    readonly startsAt: 'startsAt';
+    readonly endsAt: 'endsAt';
+    readonly usageLimit: 'usageLimit';
+    readonly usageCount: 'usageCount';
+    readonly isActive: 'isActive';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
+};
+export type PromotionCodeScalarFieldEnum = (typeof PromotionCodeScalarFieldEnum)[keyof typeof PromotionCodeScalarFieldEnum];
+export declare const MerchandisingCampaignScalarFieldEnum: {
+    readonly id: 'id';
+    readonly slug: 'slug';
+    readonly type: 'type';
+    readonly title: 'title';
+    readonly eyebrow: 'eyebrow';
+    readonly description: 'description';
+    readonly imageUrl: 'imageUrl';
+    readonly status: 'status';
+    readonly isFeatured: 'isFeatured';
+    readonly startsAt: 'startsAt';
+    readonly endsAt: 'endsAt';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
+};
+export type MerchandisingCampaignScalarFieldEnum = (typeof MerchandisingCampaignScalarFieldEnum)[keyof typeof MerchandisingCampaignScalarFieldEnum];
+export declare const MerchandisingCampaignProductScalarFieldEnum: {
+    readonly campaignId: 'campaignId';
+    readonly productId: 'productId';
+    readonly sortOrder: 'sortOrder';
+};
+export type MerchandisingCampaignProductScalarFieldEnum = (typeof MerchandisingCampaignProductScalarFieldEnum)[keyof typeof MerchandisingCampaignProductScalarFieldEnum];
+export declare const StockAlertScalarFieldEnum: {
+    readonly id: 'id';
+    readonly email: 'email';
+    readonly userId: 'userId';
+    readonly productId: 'productId';
+    readonly status: 'status';
+    readonly notifiedAt: 'notifiedAt';
+    readonly createdAt: 'createdAt';
+    readonly updatedAt: 'updatedAt';
+};
+export type StockAlertScalarFieldEnum = (typeof StockAlertScalarFieldEnum)[keyof typeof StockAlertScalarFieldEnum];
 export declare const OrderItemScalarFieldEnum: {
     readonly id: 'id';
     readonly orderId: 'orderId';

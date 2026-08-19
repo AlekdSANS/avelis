@@ -66,4 +66,22 @@ export const JournalStatus = {
     PUBLISHED: 'PUBLISHED',
     ARCHIVED: 'ARCHIVED'
 };
+export const PromotionDiscountType = {
+    PERCENT: 'PERCENT',
+    FIXED: 'FIXED'
+};
+export const MerchandisingCampaignType = {
+    GIFT_SET: 'GIFT_SET',
+    CURATED_EDIT: 'CURATED_EDIT'
+};
+export const MerchandisingStatus = {
+    DRAFT: 'DRAFT',
+    PUBLISHED: 'PUBLISHED',
+    ARCHIVED: 'ARCHIVED'
+};
+export const StockAlertStatus = {
+    PENDING: 'PENDING',
+    NOTIFIED: 'NOTIFIED',
+    CANCELLED: 'CANCELLED'
+};
 //# sourceMappingURL=enums.js.map

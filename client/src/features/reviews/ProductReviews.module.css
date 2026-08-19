@@ -1,0 +1,165 @@
+.section {
+  width: min(100% - 2 * var(--site-gutter), var(--wide-container-width));
+  margin: 0 auto clamp(5rem, 9vw, 9rem);
+  border-top: 1px solid var(--color-border);
+  padding-top: clamp(3rem, 6vw, 6rem);
+}
+
+.section > header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.section header p {
+  grid-column: 1/-1;
+  color: var(--color-olive);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section h2 {
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+.section header span {
+  color: var(--color-text-muted);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+.list {
+  display: grid;
+  align-content: start;
+}
+
+.list article {
+  display: grid;
+  gap: 0.8rem;
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem 0;
+}
+
+.list article > div, .list small {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.list article div span {
+  color: #8b7145;
+  letter-spacing: 0.15em;
+}
+
+.list time, .list small {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+}
+
+.list p {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.list small {
+  justify-content: flex-start;
+}
+
+.list small svg {
+  width: 1rem;
+}
+
+.layout aside {
+  background: #ebe6dd;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.layout form {
+  display: grid;
+  gap: 1rem;
+}
+
+.layout form h3, .success h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+}
+
+.layout fieldset {
+  display: flex;
+  border: 0;
+  padding: 0;
+}
+
+.layout fieldset legend {
+  margin-bottom: 0.5rem;
+  font-size: 0.72rem;
+}
+
+.layout fieldset label {
+  cursor: pointer;
+}
+
+.layout fieldset input, .layout fieldset span {
+  position: absolute;
+  opacity: 0;
+}
+
+.layout fieldset svg {
+  width: 1.35rem;
+  color: #8b7145;
+}
+
+.layout form > label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.layout input, .layout textarea {
+  border: 1px solid #cfc7bc;
+  background: #f7f3ed;
+  padding: 0.75rem;
+  font: inherit;
+}
+
+.layout form button, .success a {
+  border: 0;
+  background: #292720;
+  color: white;
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.success {
+  display: grid;
+  gap: 1rem;
+}
+
+.success p {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 52rem) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 40rem) {
+  .section {
+    width: calc(100% - 2rem);
+  }
+  .section > header {
+    grid-template-columns: 1fr;
+  }
+}/*# sourceMappingURL=ProductReviews.module.css.map */

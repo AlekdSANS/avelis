@@ -82,6 +82,10 @@ export const ModelName = {
     CartItem: 'CartItem',
     WishlistItem: 'WishlistItem',
     Order: 'Order',
+    PromotionCode: 'PromotionCode',
+    MerchandisingCampaign: 'MerchandisingCampaign',
+    MerchandisingCampaignProduct: 'MerchandisingCampaignProduct',
+    StockAlert: 'StockAlert',
     OrderItem: 'OrderItem',
     Review: 'Review',
     Session: 'Session'
@@ -136,6 +140,10 @@ export const ProductScalarFieldEnum = {
     isNew: 'isNew',
     isLimited: 'isLimited',
     isActive: 'isActive',
+    lowStockThreshold: 'lowStockThreshold',
+    sampleAvailable: 'sampleAvailable',
+    samplePrice: 'samplePrice',
+    backInStockEnabled: 'backInStockEnabled',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
@@ -269,12 +277,58 @@ export const OrderScalarFieldEnum = {
     subtotal: 'subtotal',
     shippingTotal: 'shippingTotal',
     discountTotal: 'discountTotal',
+    promotionCode: 'promotionCode',
     total: 'total',
     currency: 'currency',
     confirmedAt: 'confirmedAt',
     cancelledAt: 'cancelledAt',
     idempotencyScope: 'idempotencyScope',
     idempotencyKey: 'idempotencyKey',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const PromotionCodeScalarFieldEnum = {
+    id: 'id',
+    code: 'code',
+    description: 'description',
+    discountType: 'discountType',
+    amount: 'amount',
+    minSubtotal: 'minSubtotal',
+    startsAt: 'startsAt',
+    endsAt: 'endsAt',
+    usageLimit: 'usageLimit',
+    usageCount: 'usageCount',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const MerchandisingCampaignScalarFieldEnum = {
+    id: 'id',
+    slug: 'slug',
+    type: 'type',
+    title: 'title',
+    eyebrow: 'eyebrow',
+    description: 'description',
+    imageUrl: 'imageUrl',
+    status: 'status',
+    isFeatured: 'isFeatured',
+    startsAt: 'startsAt',
+    endsAt: 'endsAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const MerchandisingCampaignProductScalarFieldEnum = {
+    campaignId: 'campaignId',
+    productId: 'productId',
+    sortOrder: 'sortOrder'
+};
+export const StockAlertScalarFieldEnum = {
+    id: 'id',
+    email: 'email',
+    userId: 'userId',
+    productId: 'productId',
+    status: 'status',
+    notifiedAt: 'notifiedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { campaignsController, productMerchandisingController, stockAlertController, validatePromotionController } from "../controllers/merchandisingController.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
+import { optionalAuth } from "../middleware/authMiddleware.js";
+import { validateBody } from "../middleware/validate.js";
+import { promotionValidateSchema, stockAlertSchema } from "../schemas/merchandisingSchemas.js";
+const router = Router();
+router.get("/campaigns", asyncHandler(campaignsController));
+router.get("/products/:productId", asyncHandler(productMerchandisingController));
+router.post("/promotions/validate", validateBody(promotionValidateSchema), asyncHandler(validatePromotionController));
+router.post("/stock-alerts", asyncHandler(optionalAuth), validateBody(stockAlertSchema), asyncHandler(stockAlertController));
+export default router;

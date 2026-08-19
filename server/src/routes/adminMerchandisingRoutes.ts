@@ -1,0 +1,17 @@
+import { Router } from "express";
+import { adminMerchandisingController, createCampaignController, createPromotionController, deleteCampaignController, deletePromotionController, updateCampaignController, updateProductMerchandisingController, updatePromotionController, updateStockAlertController } from "../controllers/merchandisingController.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
+import { optionalAuth, requireAdmin, requireAuth } from "../middleware/authMiddleware.js";
+import { validateBody } from "../middleware/validate.js";
+import { campaignSchema, campaignUpdateSchema, productMerchandisingSchema, promotionSchema, promotionUpdateSchema, stockAlertStatusSchema } from "../schemas/merchandisingSchemas.js";
+const router = Router(); router.use(asyncHandler(optionalAuth), requireAuth, requireAdmin);
+router.get("/", asyncHandler(adminMerchandisingController));
+router.post("/campaigns", validateBody(campaignSchema), asyncHandler(createCampaignController));
+router.patch("/campaigns/:id", validateBody(campaignUpdateSchema), asyncHandler(updateCampaignController));
+router.delete("/campaigns/:id", asyncHandler(deleteCampaignController));
+router.post("/promotions", validateBody(promotionSchema), asyncHandler(createPromotionController));
+router.patch("/promotions/:id", validateBody(promotionUpdateSchema), asyncHandler(updatePromotionController));
+router.delete("/promotions/:id", asyncHandler(deletePromotionController));
+router.patch("/products/:id", validateBody(productMerchandisingSchema), asyncHandler(updateProductMerchandisingController));
+router.patch("/alerts/:id", validateBody(stockAlertStatusSchema), asyncHandler(updateStockAlertController));
+export default router;

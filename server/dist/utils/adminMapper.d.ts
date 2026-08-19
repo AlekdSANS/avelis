@@ -50,7 +50,7 @@ export declare function mapAdminDashboard(snapshot: AdminDashboardSnapshot): {
     };
     revenue: {
         total: number;
-        currency: "PLN";
+        currency: "EUR";
     };
     recentOrders: {
         orderNumber: string;

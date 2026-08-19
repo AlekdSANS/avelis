@@ -1,7 +1,7 @@
 import { Prisma } from "../generated/prisma/client.js";
 import type { ShippingMethod } from "../generated/prisma/enums.js";
 
-export const ORDER_CURRENCY = "PLN" as const;
+export const ORDER_CURRENCY = "EUR" as const;
 export const INITIAL_ORDER_STATUS = "PENDING_PAYMENT" as const;
 export const INITIAL_PAYMENT_STATUS = "PENDING" as const;
 

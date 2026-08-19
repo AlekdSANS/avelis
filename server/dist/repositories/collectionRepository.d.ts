@@ -35,6 +35,7 @@ export declare function findCollectionBySlug(slug: string): Promise<{
     name: string;
     products: {
         product: {
+            backInStockEnabled: boolean;
             collections: {
                 collection: {
                     accentColor: string | null;
@@ -71,6 +72,7 @@ export declare function findCollectionBySlug(slug: string): Promise<{
             isLimited: boolean;
             isNew: boolean;
             longevity: string | null;
+            lowStockThreshold: number;
             name: string;
             notes: {
                 note: {
@@ -85,6 +87,8 @@ export declare function findCollectionBySlug(slug: string): Promise<{
             reviews: {
                 rating: number;
             }[];
+            sampleAvailable: boolean;
+            samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
             season: string[];
             slug: string;
             subtitle: string | null;

@@ -239,7 +239,7 @@ test("order backend flow", async (t) => {
 				assert.equal(result.data.shippingTotal, 19);
 				assert.equal(result.data.discountTotal, 0);
 				assert.equal(result.data.total, 219);
-				assert.equal(result.data.currency, "PLN");
+				assert.equal(result.data.currency, "EUR");
 				assert.match(
 					result.data.orderNumber,
 					/^AVELIS-\d{8}-[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{6}$/,

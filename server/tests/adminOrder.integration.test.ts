@@ -94,7 +94,7 @@ test("admin order management", async (t) => {
 		shippingTotal: "19.00",
 		discountTotal: "0.00",
 		total: "219.00",
-		currency: "PLN",
+		currency: "EUR",
 		idempotencyScope: `admin-order-test:${tag}`,
 		idempotencyKey: randomUUID(),
 		items: {

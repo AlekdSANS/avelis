@@ -1,0 +1,224 @@
+.banner {
+  position: fixed;
+  z-index: 90;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  width: min(100% - 2rem, 72rem);
+  margin-inline: auto;
+  border: 1px solid rgba(46, 33, 27, 0.2);
+  border-radius: var(--radius-md);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: rgba(252, 250, 247, 0.98);
+  box-shadow: var(--shadow-drawer);
+  backdrop-filter: blur(18px);
+}
+
+.bannerIcon,
+.preferenceIcon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--color-ivory-deep);
+  color: var(--color-olive);
+}
+
+.bannerIcon svg,
+.preferenceIcon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.bannerCopy {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.eyebrow {
+  color: var(--color-olive);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bannerCopy h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.bannerCopy > p:not(.eyebrow, .policyLinks) {
+  max-width: 55rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.policyLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: 0.82rem;
+}
+
+.policyLinks a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.bannerActions {
+  display: flex;
+  grid-column: 1/-1;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.preferencesModal {
+  width: min(100%, 42rem);
+}
+
+.preferenceList {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.preference {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.preference > span:first-child,
+.preferenceHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.preference strong,
+.preference h3 {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.preference p,
+.preference > span:first-child > span {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.preferenceIcon {
+  flex: 0 0 auto;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.alwaysActive {
+  flex: 0 0 auto;
+  color: var(--color-olive);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 1.75rem;
+}
+
+.switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.switch > span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface-muted);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.switch > span::after {
+  position: absolute;
+  top: 0.18rem;
+  left: 0.2rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-surface);
+  box-shadow: 0 2px 7px rgba(46, 33, 27, 0.2);
+  content: "";
+  transition: transform var(--transition-fast);
+}
+
+.switch input:checked + span {
+  border-color: var(--color-olive);
+  background: var(--color-olive);
+}
+
+.switch input:checked + span::after {
+  transform: translateX(1.23rem);
+}
+
+.switch input:focus-visible + span {
+  outline: 2px solid var(--color-olive);
+  outline-offset: 3px;
+}
+
+@media (min-width: 64rem) {
+  .banner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+  }
+  .bannerActions {
+    grid-column: auto;
+    max-width: 27rem;
+  }
+}
+@media (max-width: 39.99rem) {
+  .banner {
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+  }
+  .bannerActions {
+    display: grid;
+  }
+  .preference {
+    align-items: flex-start;
+  }
+  .preferenceHeading {
+    display: grid;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .switch > span,
+  .switch > span::after {
+    transition: none;
+  }
+}/*# sourceMappingURL=CookieBanner.module.css.map */

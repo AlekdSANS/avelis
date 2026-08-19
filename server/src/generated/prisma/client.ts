@@ -112,6 +112,26 @@ export type WishlistItem = Prisma.WishlistItemModel
  */
 export type Order = Prisma.OrderModel
 /**
+ * Model PromotionCode
+ * 
+ */
+export type PromotionCode = Prisma.PromotionCodeModel
+/**
+ * Model MerchandisingCampaign
+ * 
+ */
+export type MerchandisingCampaign = Prisma.MerchandisingCampaignModel
+/**
+ * Model MerchandisingCampaignProduct
+ * 
+ */
+export type MerchandisingCampaignProduct = Prisma.MerchandisingCampaignProductModel
+/**
+ * Model StockAlert
+ * 
+ */
+export type StockAlert = Prisma.StockAlertModel
+/**
  * Model OrderItem
  * 
  */

@@ -4,6 +4,7 @@ export declare function buildVariantWhere(query: ProductListQuery): Prisma.Produ
 export declare function buildProductWhere(query: ProductListQuery): Prisma.ProductWhereInput;
 export declare function countProducts(query: ProductListQuery): Promise<number>;
 export declare function findProducts(query: ProductListQuery): Promise<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -40,6 +41,7 @@ export declare function findProducts(query: ProductListQuery): Promise<{
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -54,6 +56,8 @@ export declare function findProducts(query: ProductListQuery): Promise<{
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;
@@ -69,6 +73,7 @@ export declare function findProducts(query: ProductListQuery): Promise<{
     }[];
 }[]>;
 export declare function findFeaturedProducts(limit: number): Promise<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -105,6 +110,7 @@ export declare function findFeaturedProducts(limit: number): Promise<{
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -119,6 +125,8 @@ export declare function findFeaturedProducts(limit: number): Promise<{
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;
@@ -134,6 +142,7 @@ export declare function findFeaturedProducts(limit: number): Promise<{
     }[];
 }[]>;
 export declare function findProductBySlug(slug: string): Promise<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -170,6 +179,7 @@ export declare function findProductBySlug(slug: string): Promise<{
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -184,6 +194,8 @@ export declare function findProductBySlug(slug: string): Promise<{
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;
@@ -214,6 +226,7 @@ export declare function findRelatedCandidates(params: {
     collectionIds: string[];
     noteIds: string[];
 }): Promise<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -250,6 +263,7 @@ export declare function findRelatedCandidates(params: {
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -264,6 +278,8 @@ export declare function findRelatedCandidates(params: {
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;
@@ -282,6 +298,7 @@ export declare function findRelatedFallback(params: {
     excludedProductIds: string[];
     take: number;
 }): Promise<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -318,6 +335,7 @@ export declare function findRelatedFallback(params: {
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -332,6 +350,8 @@ export declare function findRelatedFallback(params: {
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;

@@ -7,6 +7,7 @@ import adminNoteRoutes from "./adminNoteRoutes.js";
 import adminCollectionRoutes from "./adminCollectionRoutes.js";
 import adminOrderRoutes from "./adminOrderRoutes.js";
 import adminGrowthRoutes from "./adminGrowthRoutes.js";
+import adminMerchandisingRoutes from "./adminMerchandisingRoutes.js";
 import {
 	optionalAuth,
 	requireAdmin,
@@ -28,5 +29,6 @@ router.use("/notes", adminNoteRoutes);
 router.use("/collections", adminCollectionRoutes);
 router.use("/orders", adminOrderRoutes);
 router.use("/growth", adminGrowthRoutes);
+router.use("/merchandising", adminMerchandisingRoutes);
 
 export default router;

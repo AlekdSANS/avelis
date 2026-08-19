@@ -80,6 +80,7 @@ export async function createOrder(
 		shippingMethod: input.shippingMethod,
 		paymentMethod: input.paymentMethod,
 		items: mergeOrderItems(input.items),
+		promotionCode: input.promotionCode ?? null,
 	});
 
 	return {

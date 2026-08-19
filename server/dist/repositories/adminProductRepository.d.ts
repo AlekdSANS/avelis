@@ -5,6 +5,7 @@ export declare function buildAdminProductWhere(query: AdminProductListQuery): Pr
 export declare function countAdminProducts(query: AdminProductListQuery): Prisma.PrismaPromise<number>;
 export declare function findAdminProducts(query: AdminProductListQuery): Promise<AdminProductListRecord[]>;
 export declare function findAdminProductById(id: string): Prisma.Prisma__ProductClient<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -41,6 +42,7 @@ export declare function findAdminProductById(id: string): Prisma.Prisma__Product
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -55,6 +57,8 @@ export declare function findAdminProductById(id: string): Prisma.Prisma__Product
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;
@@ -133,6 +137,7 @@ export declare function deactivateAdminProduct(id: string): Prisma.Prisma__Produ
     omit: Prisma.GlobalOmitConfig | undefined;
 }>;
 export declare function createAdminProductRecord(input: AdminProductCreateInput): Promise<{
+    backInStockEnabled: boolean;
     collections: {
         collection: {
             accentColor: string | null;
@@ -169,6 +174,7 @@ export declare function createAdminProductRecord(input: AdminProductCreateInput)
     isLimited: boolean;
     isNew: boolean;
     longevity: string | null;
+    lowStockThreshold: number;
     name: string;
     notes: {
         note: {
@@ -183,6 +189,8 @@ export declare function createAdminProductRecord(input: AdminProductCreateInput)
     reviews: {
         rating: number;
     }[];
+    sampleAvailable: boolean;
+    samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
     season: string[];
     slug: string;
     subtitle: string | null;
@@ -199,6 +207,7 @@ export declare function createAdminProductRecord(input: AdminProductCreateInput)
 }>;
 export declare function updateAdminProductRecord(id: string, input: AdminProductUpdateInput): Promise<{
     product: {
+        backInStockEnabled: boolean;
         collections: {
             collection: {
                 accentColor: string | null;
@@ -235,6 +244,7 @@ export declare function updateAdminProductRecord(id: string, input: AdminProduct
         isLimited: boolean;
         isNew: boolean;
         longevity: string | null;
+        lowStockThreshold: number;
         name: string;
         notes: {
             note: {
@@ -249,6 +259,8 @@ export declare function updateAdminProductRecord(id: string, input: AdminProduct
         reviews: {
             rating: number;
         }[];
+        sampleAvailable: boolean;
+        samplePrice: import("@prisma/client-runtime-utils").Decimal | null;
         season: string[];
         slug: string;
         subtitle: string | null;

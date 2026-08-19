@@ -28,6 +28,7 @@ export type CreateOrderPersistenceInput = {
     shippingMethod: ShippingMethod;
     paymentMethod: PaymentMethod;
     items: MergedOrderItem[];
+    promotionCode: string | null;
 };
 export type CreateOrderPersistenceResult = {
     order: OrderDetailRecord;
@@ -81,6 +82,7 @@ export declare function findCustomerOrderByNumber(userId: string, orderNumber: s
     orderNumber: string;
     paymentMethod: PaymentMethod;
     paymentStatus: import("../generated/prisma/enums.js").PaymentStatus;
+    promotionCode: string | null;
     shippingApartment: string | null;
     shippingBuilding: string;
     shippingCity: string;

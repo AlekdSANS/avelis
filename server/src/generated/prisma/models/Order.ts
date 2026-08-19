@@ -62,6 +62,7 @@ export type OrderMinAggregateOutputType = {
   subtotal: runtime.Decimal | null
   shippingTotal: runtime.Decimal | null
   discountTotal: runtime.Decimal | null
+  promotionCode: string | null
   total: runtime.Decimal | null
   currency: string | null
   confirmedAt: Date | null
@@ -94,6 +95,7 @@ export type OrderMaxAggregateOutputType = {
   subtotal: runtime.Decimal | null
   shippingTotal: runtime.Decimal | null
   discountTotal: runtime.Decimal | null
+  promotionCode: string | null
   total: runtime.Decimal | null
   currency: string | null
   confirmedAt: Date | null
@@ -126,6 +128,7 @@ export type OrderCountAggregateOutputType = {
   subtotal: number
   shippingTotal: number
   discountTotal: number
+  promotionCode: number
   total: number
   currency: number
   confirmedAt: number
@@ -174,6 +177,7 @@ export type OrderMinAggregateInputType = {
   subtotal?: true
   shippingTotal?: true
   discountTotal?: true
+  promotionCode?: true
   total?: true
   currency?: true
   confirmedAt?: true
@@ -206,6 +210,7 @@ export type OrderMaxAggregateInputType = {
   subtotal?: true
   shippingTotal?: true
   discountTotal?: true
+  promotionCode?: true
   total?: true
   currency?: true
   confirmedAt?: true
@@ -238,6 +243,7 @@ export type OrderCountAggregateInputType = {
   subtotal?: true
   shippingTotal?: true
   discountTotal?: true
+  promotionCode?: true
   total?: true
   currency?: true
   confirmedAt?: true
@@ -357,6 +363,7 @@ export type OrderGroupByOutputType = {
   subtotal: runtime.Decimal
   shippingTotal: runtime.Decimal
   discountTotal: runtime.Decimal
+  promotionCode: string | null
   total: runtime.Decimal
   currency: string
   confirmedAt: Date | null
@@ -412,6 +419,7 @@ export type OrderWhereInput = {
   subtotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.StringNullableFilter<"Order"> | string | null
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Order"> | string
   confirmedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
@@ -446,6 +454,7 @@ export type OrderOrderByWithRelationInput = {
   subtotal?: Prisma.SortOrder
   shippingTotal?: Prisma.SortOrder
   discountTotal?: Prisma.SortOrder
+  promotionCode?: Prisma.SortOrderInput | Prisma.SortOrder
   total?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -484,6 +493,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   subtotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.StringNullableFilter<"Order"> | string | null
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Order"> | string
   confirmedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
@@ -518,6 +528,7 @@ export type OrderOrderByWithAggregationInput = {
   subtotal?: Prisma.SortOrder
   shippingTotal?: Prisma.SortOrder
   discountTotal?: Prisma.SortOrder
+  promotionCode?: Prisma.SortOrderInput | Prisma.SortOrder
   total?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -558,6 +569,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   subtotal?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   total?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"Order"> | string
   confirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
@@ -589,6 +601,7 @@ export type OrderCreateInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -623,6 +636,7 @@ export type OrderUncheckedCreateInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -655,6 +669,7 @@ export type OrderUpdateInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -689,6 +704,7 @@ export type OrderUncheckedUpdateInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -722,6 +738,7 @@ export type OrderCreateManyInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -753,6 +770,7 @@ export type OrderUpdateManyMutationInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -785,6 +803,7 @@ export type OrderUncheckedUpdateManyInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -832,6 +851,7 @@ export type OrderCountOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   shippingTotal?: Prisma.SortOrder
   discountTotal?: Prisma.SortOrder
+  promotionCode?: Prisma.SortOrder
   total?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
@@ -871,6 +891,7 @@ export type OrderMaxOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   shippingTotal?: Prisma.SortOrder
   discountTotal?: Prisma.SortOrder
+  promotionCode?: Prisma.SortOrder
   total?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
@@ -903,6 +924,7 @@ export type OrderMinOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   shippingTotal?: Prisma.SortOrder
   discountTotal?: Prisma.SortOrder
+  promotionCode?: Prisma.SortOrder
   total?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
@@ -1018,6 +1040,7 @@ export type OrderCreateWithoutUserInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -1050,6 +1073,7 @@ export type OrderUncheckedCreateWithoutUserInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -1112,6 +1136,7 @@ export type OrderScalarWhereInput = {
   subtotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.StringNullableFilter<"Order"> | string | null
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Order"> | string
   confirmedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
@@ -1143,6 +1168,7 @@ export type OrderCreateWithoutItemsInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -1176,6 +1202,7 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -1223,6 +1250,7 @@ export type OrderUpdateWithoutItemsInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1256,6 +1284,7 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1287,6 +1316,7 @@ export type OrderCreateManyUserInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: string | null
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   confirmedAt?: Date | string | null
@@ -1318,6 +1348,7 @@ export type OrderUpdateWithoutUserInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1350,6 +1381,7 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1382,6 +1414,7 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   shippingTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discountTotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  promotionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1445,6 +1478,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   subtotal?: boolean
   shippingTotal?: boolean
   discountTotal?: boolean
+  promotionCode?: boolean
   total?: boolean
   currency?: boolean
   confirmedAt?: boolean
@@ -1480,6 +1514,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   subtotal?: boolean
   shippingTotal?: boolean
   discountTotal?: boolean
+  promotionCode?: boolean
   total?: boolean
   currency?: boolean
   confirmedAt?: boolean
@@ -1513,6 +1548,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   subtotal?: boolean
   shippingTotal?: boolean
   discountTotal?: boolean
+  promotionCode?: boolean
   total?: boolean
   currency?: boolean
   confirmedAt?: boolean
@@ -1546,6 +1582,7 @@ export type OrderSelectScalar = {
   subtotal?: boolean
   shippingTotal?: boolean
   discountTotal?: boolean
+  promotionCode?: boolean
   total?: boolean
   currency?: boolean
   confirmedAt?: boolean
@@ -1556,7 +1593,7 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "userId" | "customerEmail" | "customerFirstName" | "customerLastName" | "customerPhone" | "shippingCountry" | "shippingCity" | "shippingPostalCode" | "shippingStreet" | "shippingBuilding" | "shippingApartment" | "deliveryNotes" | "shippingMethod" | "paymentMethod" | "paymentStatus" | "status" | "subtotal" | "shippingTotal" | "discountTotal" | "total" | "currency" | "confirmedAt" | "cancelledAt" | "idempotencyScope" | "idempotencyKey" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "userId" | "customerEmail" | "customerFirstName" | "customerLastName" | "customerPhone" | "shippingCountry" | "shippingCity" | "shippingPostalCode" | "shippingStreet" | "shippingBuilding" | "shippingApartment" | "deliveryNotes" | "shippingMethod" | "paymentMethod" | "paymentStatus" | "status" | "subtotal" | "shippingTotal" | "discountTotal" | "promotionCode" | "total" | "currency" | "confirmedAt" | "cancelledAt" | "idempotencyScope" | "idempotencyKey" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
@@ -1597,6 +1634,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     subtotal: runtime.Decimal
     shippingTotal: runtime.Decimal
     discountTotal: runtime.Decimal
+    promotionCode: string | null
     total: runtime.Decimal
     currency: string
     confirmedAt: Date | null
@@ -2051,6 +2089,7 @@ export interface OrderFieldRefs {
   readonly subtotal: Prisma.FieldRef<"Order", 'Decimal'>
   readonly shippingTotal: Prisma.FieldRef<"Order", 'Decimal'>
   readonly discountTotal: Prisma.FieldRef<"Order", 'Decimal'>
+  readonly promotionCode: Prisma.FieldRef<"Order", 'String'>
   readonly total: Prisma.FieldRef<"Order", 'Decimal'>
   readonly currency: Prisma.FieldRef<"Order", 'String'>
   readonly confirmedAt: Prisma.FieldRef<"Order", 'DateTime'>

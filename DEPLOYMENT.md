@@ -32,3 +32,11 @@ The client contains SPA fallbacks for Render (`render.yaml`), Vercel (`client/ve
 3. Upload an image in the admin area, redeploy the API, and confirm the image URL still resolves from object storage.
 4. Open each footer and checkout policy link from a direct URL.
 5. Keep analytics disabled until consent behavior and the deployed cookie inventory have been reviewed.
+
+## 5. SEO discovery and monitoring
+
+The storefront build creates `/robots.txt` and `/sitemap.xml`. The sitemap index points to the API's database-backed `/api/seo/sitemap.xml`, so published products, collections and journal articles appear without editing a static list.
+
+Every API response includes `X-Request-ID`. Logs are emitted as one JSON object per line and failed checkout, payment and admin requests are counted at `/api/health/metrics`. Set `OBSERVABILITY_TOKEN` to protect detailed records at `/api/health/diagnostics`, then send it as `Authorization: Bearer <token>`. Set `OBSERVABILITY_WEBHOOK_URL` to deliver unexpected exceptions and alert-worthy operation failures to an external collector.
+
+The included GitHub Actions uptime check calls `/api/health/ready` every ten minutes. Add a repository variable named `AVELIS_API_URL` containing the deployed API origin, for example `https://avelis-api.onrender.com`. GitHub will notify repository watchers when the workflow fails; a free UptimeRobot or Better Stack monitor can use the same readiness URL if faster or multi-channel alerts are wanted.

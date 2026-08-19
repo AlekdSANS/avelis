@@ -1,0 +1,52 @@
+.card {
+	display: grid;
+	min-height: 10.5rem;
+	align-content: space-between;
+	gap: var(--space-4);
+	border: 1px solid var(--color-border);
+	background: rgba(252, 250, 247, 0.82);
+	padding: clamp(1.15rem, 2vw, 1.5rem);
+	box-shadow: 0 12px 30px rgba(46, 33, 27, 0.04);
+}
+
+.label {
+	color: var(--color-text-muted);
+	font-size: 0.67rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.value {
+	overflow-wrap: anywhere;
+	font-family: var(--font-heading);
+	font-size: clamp(2.1rem, 4vw, 3.25rem);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	line-height: 0.9;
+}
+
+.value :global(.price) {
+	font: inherit;
+}
+
+.helper {
+	color: var(--color-text-muted);
+	font-size: 0.72rem;
+	line-height: 1.45;
+}
+
+.labelSkeleton {
+	width: 42%;
+	height: 0.65rem;
+}
+
+.valueSkeleton {
+	width: 66%;
+	height: 2.6rem;
+}
+
+.helperSkeleton {
+	width: 78%;
+	height: 0.75rem;
+}

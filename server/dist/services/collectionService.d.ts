@@ -55,6 +55,10 @@ export declare function getCollectionBySlug(slug: string): Promise<{
             isNew: boolean;
             isLimited: boolean;
             isActive: boolean;
+            lowStockThreshold: number;
+            sampleAvailable: boolean;
+            samplePrice: number | null;
+            backInStockEnabled: boolean;
             rating: number | null;
             reviewCount: number;
             images: {

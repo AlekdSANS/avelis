@@ -411,6 +411,10 @@ export const ModelName = {
   CartItem: 'CartItem',
   WishlistItem: 'WishlistItem',
   Order: 'Order',
+  PromotionCode: 'PromotionCode',
+  MerchandisingCampaign: 'MerchandisingCampaign',
+  MerchandisingCampaignProduct: 'MerchandisingCampaignProduct',
+  StockAlert: 'StockAlert',
   OrderItem: 'OrderItem',
   Review: 'Review',
   Session: 'Session'
@@ -429,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "address" | "product" | "productVariant" | "productImage" | "note" | "productNote" | "collection" | "journalArticle" | "productCollection" | "cart" | "cartItem" | "wishlistItem" | "order" | "orderItem" | "review" | "session"
+    modelProps: "user" | "address" | "product" | "productVariant" | "productImage" | "note" | "productNote" | "collection" | "journalArticle" | "productCollection" | "cart" | "cartItem" | "wishlistItem" | "order" | "promotionCode" | "merchandisingCampaign" | "merchandisingCampaignProduct" | "stockAlert" | "orderItem" | "review" | "session"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1469,6 +1473,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PromotionCode: {
+      payload: Prisma.$PromotionCodePayload<ExtArgs>
+      fields: Prisma.PromotionCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PromotionCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PromotionCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>
+        }
+        findFirst: {
+          args: Prisma.PromotionCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PromotionCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>
+        }
+        findMany: {
+          args: Prisma.PromotionCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>[]
+        }
+        create: {
+          args: Prisma.PromotionCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>
+        }
+        createMany: {
+          args: Prisma.PromotionCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PromotionCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>[]
+        }
+        delete: {
+          args: Prisma.PromotionCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>
+        }
+        update: {
+          args: Prisma.PromotionCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.PromotionCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PromotionCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PromotionCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.PromotionCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionCodePayload>
+        }
+        aggregate: {
+          args: Prisma.PromotionCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePromotionCode>
+        }
+        groupBy: {
+          args: Prisma.PromotionCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PromotionCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PromotionCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PromotionCodeCountAggregateOutputType> | number
+        }
+      }
+    }
+    MerchandisingCampaign: {
+      payload: Prisma.$MerchandisingCampaignPayload<ExtArgs>
+      fields: Prisma.MerchandisingCampaignFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MerchandisingCampaignFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MerchandisingCampaignFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>
+        }
+        findFirst: {
+          args: Prisma.MerchandisingCampaignFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MerchandisingCampaignFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>
+        }
+        findMany: {
+          args: Prisma.MerchandisingCampaignFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>[]
+        }
+        create: {
+          args: Prisma.MerchandisingCampaignCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>
+        }
+        createMany: {
+          args: Prisma.MerchandisingCampaignCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MerchandisingCampaignCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>[]
+        }
+        delete: {
+          args: Prisma.MerchandisingCampaignDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>
+        }
+        update: {
+          args: Prisma.MerchandisingCampaignUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>
+        }
+        deleteMany: {
+          args: Prisma.MerchandisingCampaignDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MerchandisingCampaignUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MerchandisingCampaignUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>[]
+        }
+        upsert: {
+          args: Prisma.MerchandisingCampaignUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignPayload>
+        }
+        aggregate: {
+          args: Prisma.MerchandisingCampaignAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMerchandisingCampaign>
+        }
+        groupBy: {
+          args: Prisma.MerchandisingCampaignGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MerchandisingCampaignGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MerchandisingCampaignCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MerchandisingCampaignCountAggregateOutputType> | number
+        }
+      }
+    }
+    MerchandisingCampaignProduct: {
+      payload: Prisma.$MerchandisingCampaignProductPayload<ExtArgs>
+      fields: Prisma.MerchandisingCampaignProductFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MerchandisingCampaignProductFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MerchandisingCampaignProductFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>
+        }
+        findFirst: {
+          args: Prisma.MerchandisingCampaignProductFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MerchandisingCampaignProductFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>
+        }
+        findMany: {
+          args: Prisma.MerchandisingCampaignProductFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>[]
+        }
+        create: {
+          args: Prisma.MerchandisingCampaignProductCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>
+        }
+        createMany: {
+          args: Prisma.MerchandisingCampaignProductCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MerchandisingCampaignProductCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>[]
+        }
+        delete: {
+          args: Prisma.MerchandisingCampaignProductDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>
+        }
+        update: {
+          args: Prisma.MerchandisingCampaignProductUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>
+        }
+        deleteMany: {
+          args: Prisma.MerchandisingCampaignProductDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MerchandisingCampaignProductUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MerchandisingCampaignProductUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>[]
+        }
+        upsert: {
+          args: Prisma.MerchandisingCampaignProductUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MerchandisingCampaignProductPayload>
+        }
+        aggregate: {
+          args: Prisma.MerchandisingCampaignProductAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMerchandisingCampaignProduct>
+        }
+        groupBy: {
+          args: Prisma.MerchandisingCampaignProductGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MerchandisingCampaignProductGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MerchandisingCampaignProductCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MerchandisingCampaignProductCountAggregateOutputType> | number
+        }
+      }
+    }
+    StockAlert: {
+      payload: Prisma.$StockAlertPayload<ExtArgs>
+      fields: Prisma.StockAlertFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StockAlertFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StockAlertFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>
+        }
+        findFirst: {
+          args: Prisma.StockAlertFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StockAlertFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>
+        }
+        findMany: {
+          args: Prisma.StockAlertFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>[]
+        }
+        create: {
+          args: Prisma.StockAlertCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>
+        }
+        createMany: {
+          args: Prisma.StockAlertCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StockAlertCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>[]
+        }
+        delete: {
+          args: Prisma.StockAlertDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>
+        }
+        update: {
+          args: Prisma.StockAlertUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>
+        }
+        deleteMany: {
+          args: Prisma.StockAlertDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StockAlertUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StockAlertUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>[]
+        }
+        upsert: {
+          args: Prisma.StockAlertUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StockAlertPayload>
+        }
+        aggregate: {
+          args: Prisma.StockAlertAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStockAlert>
+        }
+        groupBy: {
+          args: Prisma.StockAlertGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StockAlertGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StockAlertCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StockAlertCountAggregateOutputType> | number
+        }
+      }
+    }
     OrderItem: {
       payload: Prisma.$OrderItemPayload<ExtArgs>
       fields: Prisma.OrderItemFieldRefs
@@ -1779,6 +2079,10 @@ export const ProductScalarFieldEnum = {
   isNew: 'isNew',
   isLimited: 'isLimited',
   isActive: 'isActive',
+  lowStockThreshold: 'lowStockThreshold',
+  sampleAvailable: 'sampleAvailable',
+  samplePrice: 'samplePrice',
+  backInStockEnabled: 'backInStockEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1956,6 +2260,7 @@ export const OrderScalarFieldEnum = {
   subtotal: 'subtotal',
   shippingTotal: 'shippingTotal',
   discountTotal: 'discountTotal',
+  promotionCode: 'promotionCode',
   total: 'total',
   currency: 'currency',
   confirmedAt: 'confirmedAt',
@@ -1967,6 +2272,67 @@ export const OrderScalarFieldEnum = {
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const PromotionCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  description: 'description',
+  discountType: 'discountType',
+  amount: 'amount',
+  minSubtotal: 'minSubtotal',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  usageLimit: 'usageLimit',
+  usageCount: 'usageCount',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PromotionCodeScalarFieldEnum = (typeof PromotionCodeScalarFieldEnum)[keyof typeof PromotionCodeScalarFieldEnum]
+
+
+export const MerchandisingCampaignScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  type: 'type',
+  title: 'title',
+  eyebrow: 'eyebrow',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  status: 'status',
+  isFeatured: 'isFeatured',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MerchandisingCampaignScalarFieldEnum = (typeof MerchandisingCampaignScalarFieldEnum)[keyof typeof MerchandisingCampaignScalarFieldEnum]
+
+
+export const MerchandisingCampaignProductScalarFieldEnum = {
+  campaignId: 'campaignId',
+  productId: 'productId',
+  sortOrder: 'sortOrder'
+} as const
+
+export type MerchandisingCampaignProductScalarFieldEnum = (typeof MerchandisingCampaignProductScalarFieldEnum)[keyof typeof MerchandisingCampaignProductScalarFieldEnum]
+
+
+export const StockAlertScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  userId: 'userId',
+  productId: 'productId',
+  status: 'status',
+  notifiedAt: 'notifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StockAlertScalarFieldEnum = (typeof StockAlertScalarFieldEnum)[keyof typeof StockAlertScalarFieldEnum]
 
 
 export const OrderItemScalarFieldEnum = {
@@ -2096,20 +2462,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'ProductFormat'
- */
-export type EnumProductFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductFormat'>
-    
-
-
-/**
- * Reference to a field of type 'ProductFormat[]'
- */
-export type ListEnumProductFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductFormat[]'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -2134,6 +2486,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductFormat'
+ */
+export type EnumProductFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductFormat'>
+    
+
+
+/**
+ * Reference to a field of type 'ProductFormat[]'
+ */
+export type ListEnumProductFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductFormat[]'>
     
 
 
@@ -2246,6 +2612,62 @@ export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'OrderStatus[]'
  */
 export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PromotionDiscountType'
+ */
+export type EnumPromotionDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PromotionDiscountType'>
+    
+
+
+/**
+ * Reference to a field of type 'PromotionDiscountType[]'
+ */
+export type ListEnumPromotionDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PromotionDiscountType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MerchandisingCampaignType'
+ */
+export type EnumMerchandisingCampaignTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MerchandisingCampaignType'>
+    
+
+
+/**
+ * Reference to a field of type 'MerchandisingCampaignType[]'
+ */
+export type ListEnumMerchandisingCampaignTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MerchandisingCampaignType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MerchandisingStatus'
+ */
+export type EnumMerchandisingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MerchandisingStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'MerchandisingStatus[]'
+ */
+export type ListEnumMerchandisingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MerchandisingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'StockAlertStatus'
+ */
+export type EnumStockAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StockAlertStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'StockAlertStatus[]'
+ */
+export type ListEnumStockAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StockAlertStatus[]'>
     
 
 
@@ -2441,6 +2863,10 @@ export type GlobalOmitConfig = {
   cartItem?: Prisma.CartItemOmit
   wishlistItem?: Prisma.WishlistItemOmit
   order?: Prisma.OrderOmit
+  promotionCode?: Prisma.PromotionCodeOmit
+  merchandisingCampaign?: Prisma.MerchandisingCampaignOmit
+  merchandisingCampaignProduct?: Prisma.MerchandisingCampaignProductOmit
+  stockAlert?: Prisma.StockAlertOmit
   orderItem?: Prisma.OrderItemOmit
   review?: Prisma.ReviewOmit
   session?: Prisma.SessionOmit

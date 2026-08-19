@@ -1,0 +1,79 @@
+.page {
+  min-height: 100vh;
+  background: #f6f2ec;
+  padding-bottom: 8rem;
+}
+
+.page header, .body {
+  width: min(100% - 2 * var(--site-gutter), 62rem);
+  margin-inline: auto;
+}
+
+.page header {
+  display: grid;
+  gap: 1.25rem;
+  padding-block: clamp(5rem, 10vw, 10rem);
+}
+
+.page header a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.page header a svg {
+  width: 1rem;
+}
+
+.page header > p {
+  color: var(--color-olive);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.page h1 {
+  font-size: clamp(4rem, 8vw, 8rem);
+  line-height: 0.9;
+}
+
+.page header span {
+  max-width: 45rem;
+  color: var(--color-text-muted);
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+.page header small {
+  color: var(--color-text-muted);
+}
+
+.cover {
+  display: block;
+  width: min(100% - 2 * var(--site-gutter), var(--wide-container-width));
+  max-height: 50rem;
+  margin: 0 auto clamp(4rem, 8vw, 8rem);
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.body {
+  display: grid;
+  gap: 2rem;
+}
+
+.body p {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  line-height: 1.75;
+}
+
+.state {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  background: #f6f2ec;
+}/*# sourceMappingURL=JournalArticlePage.module.css.map */

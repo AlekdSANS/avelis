@@ -35,6 +35,10 @@ const environmentSchema = z
 		S3_SECRET_ACCESS_KEY: optionalText,
 		S3_PUBLIC_BASE_URL: optionalUrl,
 		S3_FORCE_PATH_STYLE: booleanFromEnvironment.default(false),
+		LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
+		SERVICE_VERSION: optionalText.default("development"),
+		OBSERVABILITY_WEBHOOK_URL: optionalUrl,
+		OBSERVABILITY_TOKEN: optionalText,
 	})
 	.superRefine((value, context) => {
 		const storageProvider =

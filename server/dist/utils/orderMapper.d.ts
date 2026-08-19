@@ -20,6 +20,7 @@ export declare const orderDetailSelect: {
     subtotal: true;
     shippingTotal: true;
     discountTotal: true;
+    promotionCode: true;
     total: true;
     currency: true;
     confirmedAt: true;
@@ -117,6 +118,7 @@ export declare function mapOrderDetail(order: OrderDetailRecord): {
     subtotal: number;
     shippingTotal: number;
     discountTotal: number;
+    promotionCode: string | null;
     total: number;
     currency: string;
     confirmedAt: string | null;

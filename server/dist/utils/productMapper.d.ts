@@ -15,6 +15,10 @@ export declare const productSelect: {
     isNew: true;
     isLimited: true;
     isActive: true;
+    lowStockThreshold: true;
+    sampleAvailable: true;
+    samplePrice: true;
+    backInStockEnabled: true;
     createdAt: true;
     updatedAt: true;
     variants: {
@@ -117,6 +121,10 @@ export declare function mapProduct(product: ProductRecord): {
     isNew: boolean;
     isLimited: boolean;
     isActive: boolean;
+    lowStockThreshold: number;
+    sampleAvailable: boolean;
+    samplePrice: number | null;
+    backInStockEnabled: boolean;
     rating: number | null;
     reviewCount: number;
     images: {

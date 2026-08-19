@@ -68,4 +68,26 @@ export declare const JournalStatus: {
     readonly ARCHIVED: 'ARCHIVED';
 };
 export type JournalStatus = (typeof JournalStatus)[keyof typeof JournalStatus];
+export declare const PromotionDiscountType: {
+    readonly PERCENT: 'PERCENT';
+    readonly FIXED: 'FIXED';
+};
+export type PromotionDiscountType = (typeof PromotionDiscountType)[keyof typeof PromotionDiscountType];
+export declare const MerchandisingCampaignType: {
+    readonly GIFT_SET: 'GIFT_SET';
+    readonly CURATED_EDIT: 'CURATED_EDIT';
+};
+export type MerchandisingCampaignType = (typeof MerchandisingCampaignType)[keyof typeof MerchandisingCampaignType];
+export declare const MerchandisingStatus: {
+    readonly DRAFT: 'DRAFT';
+    readonly PUBLISHED: 'PUBLISHED';
+    readonly ARCHIVED: 'ARCHIVED';
+};
+export type MerchandisingStatus = (typeof MerchandisingStatus)[keyof typeof MerchandisingStatus];
+export declare const StockAlertStatus: {
+    readonly PENDING: 'PENDING';
+    readonly NOTIFIED: 'NOTIFIED';
+    readonly CANCELLED: 'CANCELLED';
+};
+export type StockAlertStatus = (typeof StockAlertStatus)[keyof typeof StockAlertStatus];
 //# sourceMappingURL=enums.d.ts.map

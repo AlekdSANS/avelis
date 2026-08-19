@@ -7,8 +7,18 @@ import type * as Prisma from "../internal/prismaNamespace.js";
 export type ProductModel = runtime.Types.Result.DefaultSelection<Prisma.$ProductPayload>;
 export type AggregateProduct = {
     _count: ProductCountAggregateOutputType | null;
+    _avg: ProductAvgAggregateOutputType | null;
+    _sum: ProductSumAggregateOutputType | null;
     _min: ProductMinAggregateOutputType | null;
     _max: ProductMaxAggregateOutputType | null;
+};
+export type ProductAvgAggregateOutputType = {
+    lowStockThreshold: number | null;
+    samplePrice: runtime.Decimal | null;
+};
+export type ProductSumAggregateOutputType = {
+    lowStockThreshold: number | null;
+    samplePrice: runtime.Decimal | null;
 };
 export type ProductMinAggregateOutputType = {
     id: string | null;
@@ -24,6 +34,10 @@ export type ProductMinAggregateOutputType = {
     isNew: boolean | null;
     isLimited: boolean | null;
     isActive: boolean | null;
+    lowStockThreshold: number | null;
+    sampleAvailable: boolean | null;
+    samplePrice: runtime.Decimal | null;
+    backInStockEnabled: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
@@ -41,6 +55,10 @@ export type ProductMaxAggregateOutputType = {
     isNew: boolean | null;
     isLimited: boolean | null;
     isActive: boolean | null;
+    lowStockThreshold: number | null;
+    sampleAvailable: boolean | null;
+    samplePrice: runtime.Decimal | null;
+    backInStockEnabled: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
@@ -60,9 +78,21 @@ export type ProductCountAggregateOutputType = {
     isNew: number;
     isLimited: number;
     isActive: number;
+    lowStockThreshold: number;
+    sampleAvailable: number;
+    samplePrice: number;
+    backInStockEnabled: number;
     createdAt: number;
     updatedAt: number;
     _all: number;
+};
+export type ProductAvgAggregateInputType = {
+    lowStockThreshold?: true;
+    samplePrice?: true;
+};
+export type ProductSumAggregateInputType = {
+    lowStockThreshold?: true;
+    samplePrice?: true;
 };
 export type ProductMinAggregateInputType = {
     id?: true;
@@ -78,6 +108,10 @@ export type ProductMinAggregateInputType = {
     isNew?: true;
     isLimited?: true;
     isActive?: true;
+    lowStockThreshold?: true;
+    sampleAvailable?: true;
+    samplePrice?: true;
+    backInStockEnabled?: true;
     createdAt?: true;
     updatedAt?: true;
 };
@@ -95,6 +129,10 @@ export type ProductMaxAggregateInputType = {
     isNew?: true;
     isLimited?: true;
     isActive?: true;
+    lowStockThreshold?: true;
+    sampleAvailable?: true;
+    samplePrice?: true;
+    backInStockEnabled?: true;
     createdAt?: true;
     updatedAt?: true;
 };
@@ -114,6 +152,10 @@ export type ProductCountAggregateInputType = {
     isNew?: true;
     isLimited?: true;
     isActive?: true;
+    lowStockThreshold?: true;
+    sampleAvailable?: true;
+    samplePrice?: true;
+    backInStockEnabled?: true;
     createdAt?: true;
     updatedAt?: true;
     _all?: true;
@@ -156,6 +198,18 @@ export type ProductAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+    **/
+    _avg?: ProductAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+    **/
+    _sum?: ProductSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
     **/
     _min?: ProductMinAggregateInputType;
@@ -177,6 +231,8 @@ export type ProductGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
     take?: number;
     skip?: number;
     _count?: ProductCountAggregateInputType | true;
+    _avg?: ProductAvgAggregateInputType;
+    _sum?: ProductSumAggregateInputType;
     _min?: ProductMinAggregateInputType;
     _max?: ProductMaxAggregateInputType;
 };
@@ -196,9 +252,15 @@ export type ProductGroupByOutputType = {
     isNew: boolean;
     isLimited: boolean;
     isActive: boolean;
+    lowStockThreshold: number;
+    sampleAvailable: boolean;
+    samplePrice: runtime.Decimal | null;
+    backInStockEnabled: boolean;
     createdAt: Date;
     updatedAt: Date;
     _count: ProductCountAggregateOutputType | null;
+    _avg: ProductAvgAggregateOutputType | null;
+    _sum: ProductSumAggregateOutputType | null;
     _min: ProductMinAggregateOutputType | null;
     _max: ProductMaxAggregateOutputType | null;
 };
@@ -224,6 +286,10 @@ export type ProductWhereInput = {
     isNew?: Prisma.BoolFilter<"Product"> | boolean;
     isLimited?: Prisma.BoolFilter<"Product"> | boolean;
     isActive?: Prisma.BoolFilter<"Product"> | boolean;
+    lowStockThreshold?: Prisma.IntFilter<"Product"> | number;
+    sampleAvailable?: Prisma.BoolFilter<"Product"> | boolean;
+    samplePrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFilter<"Product"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string;
     variants?: Prisma.ProductVariantListRelationFilter;
@@ -234,6 +300,8 @@ export type ProductWhereInput = {
     wishlistItems?: Prisma.WishlistItemListRelationFilter;
     orderItems?: Prisma.OrderItemListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
+    campaignItems?: Prisma.MerchandisingCampaignProductListRelationFilter;
+    stockAlerts?: Prisma.StockAlertListRelationFilter;
 };
 export type ProductOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -251,6 +319,10 @@ export type ProductOrderByWithRelationInput = {
     isNew?: Prisma.SortOrder;
     isLimited?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    lowStockThreshold?: Prisma.SortOrder;
+    sampleAvailable?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrderInput | Prisma.SortOrder;
+    backInStockEnabled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     variants?: Prisma.ProductVariantOrderByRelationAggregateInput;
@@ -261,6 +333,8 @@ export type ProductOrderByWithRelationInput = {
     wishlistItems?: Prisma.WishlistItemOrderByRelationAggregateInput;
     orderItems?: Prisma.OrderItemOrderByRelationAggregateInput;
     reviews?: Prisma.ReviewOrderByRelationAggregateInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductOrderByRelationAggregateInput;
+    stockAlerts?: Prisma.StockAlertOrderByRelationAggregateInput;
 };
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -281,6 +355,10 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
     isNew?: Prisma.BoolFilter<"Product"> | boolean;
     isLimited?: Prisma.BoolFilter<"Product"> | boolean;
     isActive?: Prisma.BoolFilter<"Product"> | boolean;
+    lowStockThreshold?: Prisma.IntFilter<"Product"> | number;
+    sampleAvailable?: Prisma.BoolFilter<"Product"> | boolean;
+    samplePrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFilter<"Product"> | boolean;
     createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string;
     variants?: Prisma.ProductVariantListRelationFilter;
@@ -291,6 +369,8 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
     wishlistItems?: Prisma.WishlistItemListRelationFilter;
     orderItems?: Prisma.OrderItemListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
+    campaignItems?: Prisma.MerchandisingCampaignProductListRelationFilter;
+    stockAlerts?: Prisma.StockAlertListRelationFilter;
 }, "id" | "slug">;
 export type ProductOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -308,11 +388,17 @@ export type ProductOrderByWithAggregationInput = {
     isNew?: Prisma.SortOrder;
     isLimited?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    lowStockThreshold?: Prisma.SortOrder;
+    sampleAvailable?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrderInput | Prisma.SortOrder;
+    backInStockEnabled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     _count?: Prisma.ProductCountOrderByAggregateInput;
+    _avg?: Prisma.ProductAvgOrderByAggregateInput;
     _max?: Prisma.ProductMaxOrderByAggregateInput;
     _min?: Prisma.ProductMinOrderByAggregateInput;
+    _sum?: Prisma.ProductSumOrderByAggregateInput;
 };
 export type ProductScalarWhereWithAggregatesInput = {
     AND?: Prisma.ProductScalarWhereWithAggregatesInput | Prisma.ProductScalarWhereWithAggregatesInput[];
@@ -333,6 +419,10 @@ export type ProductScalarWhereWithAggregatesInput = {
     isNew?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean;
     isLimited?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean;
     isActive?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean;
+    lowStockThreshold?: Prisma.IntWithAggregatesFilter<"Product"> | number;
+    sampleAvailable?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean;
+    samplePrice?: Prisma.DecimalNullableWithAggregatesFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string;
     updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string;
 };
@@ -352,6 +442,10 @@ export type ProductCreateInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -362,6 +456,8 @@ export type ProductCreateInput = {
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateInput = {
     id?: string;
@@ -379,6 +475,10 @@ export type ProductUncheckedCreateInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -389,6 +489,8 @@ export type ProductUncheckedCreateInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -406,6 +508,10 @@ export type ProductUpdateInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -416,6 +522,8 @@ export type ProductUpdateInput = {
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -433,6 +541,10 @@ export type ProductUncheckedUpdateInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -443,6 +555,8 @@ export type ProductUncheckedUpdateInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateManyInput = {
     id?: string;
@@ -460,6 +574,10 @@ export type ProductCreateManyInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
 };
@@ -479,6 +597,10 @@ export type ProductUpdateManyMutationInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -498,6 +620,10 @@ export type ProductUncheckedUpdateManyInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -524,8 +650,16 @@ export type ProductCountOrderByAggregateInput = {
     isNew?: Prisma.SortOrder;
     isLimited?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    lowStockThreshold?: Prisma.SortOrder;
+    sampleAvailable?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrder;
+    backInStockEnabled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+};
+export type ProductAvgOrderByAggregateInput = {
+    lowStockThreshold?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrder;
 };
 export type ProductMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -541,6 +675,10 @@ export type ProductMaxOrderByAggregateInput = {
     isNew?: Prisma.SortOrder;
     isLimited?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    lowStockThreshold?: Prisma.SortOrder;
+    sampleAvailable?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrder;
+    backInStockEnabled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
@@ -558,8 +696,16 @@ export type ProductMinOrderByAggregateInput = {
     isNew?: Prisma.SortOrder;
     isLimited?: Prisma.SortOrder;
     isActive?: Prisma.SortOrder;
+    lowStockThreshold?: Prisma.SortOrder;
+    sampleAvailable?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrder;
+    backInStockEnabled?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
+};
+export type ProductSumOrderByAggregateInput = {
+    lowStockThreshold?: Prisma.SortOrder;
+    samplePrice?: Prisma.SortOrder;
 };
 export type ProductScalarRelationFilter = {
     is?: Prisma.ProductWhereInput;
@@ -582,6 +728,20 @@ export type ProductUpdateseasonInput = {
 export type ProductUpdateoccasionInput = {
     set?: string[];
     push?: string | string[];
+};
+export type IntFieldUpdateOperationsInput = {
+    set?: number;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+};
+export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    increment?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    divide?: runtime.Decimal | runtime.DecimalJsLike | number | string;
 };
 export type ProductCreateNestedOneWithoutVariantsInput = {
     create?: Prisma.XOR<Prisma.ProductCreateWithoutVariantsInput, Prisma.ProductUncheckedCreateWithoutVariantsInput>;
@@ -655,6 +815,30 @@ export type ProductUpdateOneRequiredWithoutWishlistItemsNestedInput = {
     connect?: Prisma.ProductWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutWishlistItemsInput, Prisma.ProductUpdateWithoutWishlistItemsInput>, Prisma.ProductUncheckedUpdateWithoutWishlistItemsInput>;
 };
+export type ProductCreateNestedOneWithoutCampaignItemsInput = {
+    create?: Prisma.XOR<Prisma.ProductCreateWithoutCampaignItemsInput, Prisma.ProductUncheckedCreateWithoutCampaignItemsInput>;
+    connectOrCreate?: Prisma.ProductCreateOrConnectWithoutCampaignItemsInput;
+    connect?: Prisma.ProductWhereUniqueInput;
+};
+export type ProductUpdateOneRequiredWithoutCampaignItemsNestedInput = {
+    create?: Prisma.XOR<Prisma.ProductCreateWithoutCampaignItemsInput, Prisma.ProductUncheckedCreateWithoutCampaignItemsInput>;
+    connectOrCreate?: Prisma.ProductCreateOrConnectWithoutCampaignItemsInput;
+    upsert?: Prisma.ProductUpsertWithoutCampaignItemsInput;
+    connect?: Prisma.ProductWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutCampaignItemsInput, Prisma.ProductUpdateWithoutCampaignItemsInput>, Prisma.ProductUncheckedUpdateWithoutCampaignItemsInput>;
+};
+export type ProductCreateNestedOneWithoutStockAlertsInput = {
+    create?: Prisma.XOR<Prisma.ProductCreateWithoutStockAlertsInput, Prisma.ProductUncheckedCreateWithoutStockAlertsInput>;
+    connectOrCreate?: Prisma.ProductCreateOrConnectWithoutStockAlertsInput;
+    connect?: Prisma.ProductWhereUniqueInput;
+};
+export type ProductUpdateOneRequiredWithoutStockAlertsNestedInput = {
+    create?: Prisma.XOR<Prisma.ProductCreateWithoutStockAlertsInput, Prisma.ProductUncheckedCreateWithoutStockAlertsInput>;
+    connectOrCreate?: Prisma.ProductCreateOrConnectWithoutStockAlertsInput;
+    upsert?: Prisma.ProductUpsertWithoutStockAlertsInput;
+    connect?: Prisma.ProductWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutStockAlertsInput, Prisma.ProductUpdateWithoutStockAlertsInput>, Prisma.ProductUncheckedUpdateWithoutStockAlertsInput>;
+};
 export type ProductCreateNestedOneWithoutOrderItemsInput = {
     create?: Prisma.XOR<Prisma.ProductCreateWithoutOrderItemsInput, Prisma.ProductUncheckedCreateWithoutOrderItemsInput>;
     connectOrCreate?: Prisma.ProductCreateOrConnectWithoutOrderItemsInput;
@@ -697,6 +881,10 @@ export type ProductCreateWithoutVariantsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     images?: Prisma.ProductImageCreateNestedManyWithoutProductInput;
@@ -706,6 +894,8 @@ export type ProductCreateWithoutVariantsInput = {
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutVariantsInput = {
     id?: string;
@@ -723,6 +913,10 @@ export type ProductUncheckedCreateWithoutVariantsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     images?: Prisma.ProductImageUncheckedCreateNestedManyWithoutProductInput;
@@ -732,6 +926,8 @@ export type ProductUncheckedCreateWithoutVariantsInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutVariantsInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -762,6 +958,10 @@ export type ProductUpdateWithoutVariantsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     images?: Prisma.ProductImageUpdateManyWithoutProductNestedInput;
@@ -771,6 +971,8 @@ export type ProductUpdateWithoutVariantsInput = {
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutVariantsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -788,6 +990,10 @@ export type ProductUncheckedUpdateWithoutVariantsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     images?: Prisma.ProductImageUncheckedUpdateManyWithoutProductNestedInput;
@@ -797,6 +1003,8 @@ export type ProductUncheckedUpdateWithoutVariantsInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutImagesInput = {
     id?: string;
@@ -814,6 +1022,10 @@ export type ProductCreateWithoutImagesInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -823,6 +1035,8 @@ export type ProductCreateWithoutImagesInput = {
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutImagesInput = {
     id?: string;
@@ -840,6 +1054,10 @@ export type ProductUncheckedCreateWithoutImagesInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -849,6 +1067,8 @@ export type ProductUncheckedCreateWithoutImagesInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutImagesInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -879,6 +1099,10 @@ export type ProductUpdateWithoutImagesInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -888,6 +1112,8 @@ export type ProductUpdateWithoutImagesInput = {
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutImagesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -905,6 +1131,10 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -914,6 +1144,8 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutNotesInput = {
     id?: string;
@@ -931,6 +1163,10 @@ export type ProductCreateWithoutNotesInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -940,6 +1176,8 @@ export type ProductCreateWithoutNotesInput = {
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutNotesInput = {
     id?: string;
@@ -957,6 +1195,10 @@ export type ProductUncheckedCreateWithoutNotesInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -966,6 +1208,8 @@ export type ProductUncheckedCreateWithoutNotesInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutNotesInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -996,6 +1240,10 @@ export type ProductUpdateWithoutNotesInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -1005,6 +1253,8 @@ export type ProductUpdateWithoutNotesInput = {
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutNotesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1022,6 +1272,10 @@ export type ProductUncheckedUpdateWithoutNotesInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -1031,6 +1285,8 @@ export type ProductUncheckedUpdateWithoutNotesInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutCollectionsInput = {
     id?: string;
@@ -1048,6 +1304,10 @@ export type ProductCreateWithoutCollectionsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -1057,6 +1317,8 @@ export type ProductCreateWithoutCollectionsInput = {
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutCollectionsInput = {
     id?: string;
@@ -1074,6 +1336,10 @@ export type ProductUncheckedCreateWithoutCollectionsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -1083,6 +1349,8 @@ export type ProductUncheckedCreateWithoutCollectionsInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutCollectionsInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -1113,6 +1381,10 @@ export type ProductUpdateWithoutCollectionsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -1122,6 +1394,8 @@ export type ProductUpdateWithoutCollectionsInput = {
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutCollectionsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1139,6 +1413,10 @@ export type ProductUncheckedUpdateWithoutCollectionsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -1148,6 +1426,8 @@ export type ProductUncheckedUpdateWithoutCollectionsInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutCartItemsInput = {
     id?: string;
@@ -1165,6 +1445,10 @@ export type ProductCreateWithoutCartItemsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -1174,6 +1458,8 @@ export type ProductCreateWithoutCartItemsInput = {
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutCartItemsInput = {
     id?: string;
@@ -1191,6 +1477,10 @@ export type ProductUncheckedCreateWithoutCartItemsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -1200,6 +1490,8 @@ export type ProductUncheckedCreateWithoutCartItemsInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutCartItemsInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -1230,6 +1522,10 @@ export type ProductUpdateWithoutCartItemsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -1239,6 +1535,8 @@ export type ProductUpdateWithoutCartItemsInput = {
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutCartItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1256,6 +1554,10 @@ export type ProductUncheckedUpdateWithoutCartItemsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -1265,6 +1567,8 @@ export type ProductUncheckedUpdateWithoutCartItemsInput = {
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutWishlistItemsInput = {
     id?: string;
@@ -1282,6 +1586,10 @@ export type ProductCreateWithoutWishlistItemsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -1291,6 +1599,8 @@ export type ProductCreateWithoutWishlistItemsInput = {
     cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutWishlistItemsInput = {
     id?: string;
@@ -1308,6 +1618,10 @@ export type ProductUncheckedCreateWithoutWishlistItemsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -1317,6 +1631,8 @@ export type ProductUncheckedCreateWithoutWishlistItemsInput = {
     cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutWishlistItemsInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -1347,6 +1663,10 @@ export type ProductUpdateWithoutWishlistItemsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -1356,6 +1676,8 @@ export type ProductUpdateWithoutWishlistItemsInput = {
     cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutWishlistItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1373,6 +1695,10 @@ export type ProductUncheckedUpdateWithoutWishlistItemsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -1382,6 +1708,290 @@ export type ProductUncheckedUpdateWithoutWishlistItemsInput = {
     cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
+};
+export type ProductCreateWithoutCampaignItemsInput = {
+    id?: string;
+    slug: string;
+    name: string;
+    subtitle?: string | null;
+    description: string;
+    fragranceFamily: string;
+    concentration: string;
+    gender?: string | null;
+    longevity?: string | null;
+    season?: Prisma.ProductCreateseasonInput | string[];
+    occasion?: Prisma.ProductCreateoccasionInput | string[];
+    isFeatured?: boolean;
+    isNew?: boolean;
+    isLimited?: boolean;
+    isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
+    images?: Prisma.ProductImageCreateNestedManyWithoutProductInput;
+    notes?: Prisma.ProductNoteCreateNestedManyWithoutProductInput;
+    collections?: Prisma.ProductCollectionCreateNestedManyWithoutProductInput;
+    cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput;
+    wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
+    orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
+    reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
+};
+export type ProductUncheckedCreateWithoutCampaignItemsInput = {
+    id?: string;
+    slug: string;
+    name: string;
+    subtitle?: string | null;
+    description: string;
+    fragranceFamily: string;
+    concentration: string;
+    gender?: string | null;
+    longevity?: string | null;
+    season?: Prisma.ProductCreateseasonInput | string[];
+    occasion?: Prisma.ProductCreateoccasionInput | string[];
+    isFeatured?: boolean;
+    isNew?: boolean;
+    isLimited?: boolean;
+    isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
+    images?: Prisma.ProductImageUncheckedCreateNestedManyWithoutProductInput;
+    notes?: Prisma.ProductNoteUncheckedCreateNestedManyWithoutProductInput;
+    collections?: Prisma.ProductCollectionUncheckedCreateNestedManyWithoutProductInput;
+    cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput;
+    wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
+    orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
+    reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
+};
+export type ProductCreateOrConnectWithoutCampaignItemsInput = {
+    where: Prisma.ProductWhereUniqueInput;
+    create: Prisma.XOR<Prisma.ProductCreateWithoutCampaignItemsInput, Prisma.ProductUncheckedCreateWithoutCampaignItemsInput>;
+};
+export type ProductUpsertWithoutCampaignItemsInput = {
+    update: Prisma.XOR<Prisma.ProductUpdateWithoutCampaignItemsInput, Prisma.ProductUncheckedUpdateWithoutCampaignItemsInput>;
+    create: Prisma.XOR<Prisma.ProductCreateWithoutCampaignItemsInput, Prisma.ProductUncheckedCreateWithoutCampaignItemsInput>;
+    where?: Prisma.ProductWhereInput;
+};
+export type ProductUpdateToOneWithWhereWithoutCampaignItemsInput = {
+    where?: Prisma.ProductWhereInput;
+    data: Prisma.XOR<Prisma.ProductUpdateWithoutCampaignItemsInput, Prisma.ProductUncheckedUpdateWithoutCampaignItemsInput>;
+};
+export type ProductUpdateWithoutCampaignItemsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    fragranceFamily?: Prisma.StringFieldUpdateOperationsInput | string;
+    concentration?: Prisma.StringFieldUpdateOperationsInput | string;
+    gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    longevity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    season?: Prisma.ProductUpdateseasonInput | string[];
+    occasion?: Prisma.ProductUpdateoccasionInput | string[];
+    isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
+    images?: Prisma.ProductImageUpdateManyWithoutProductNestedInput;
+    notes?: Prisma.ProductNoteUpdateManyWithoutProductNestedInput;
+    collections?: Prisma.ProductCollectionUpdateManyWithoutProductNestedInput;
+    cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput;
+    wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
+    orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
+    reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
+};
+export type ProductUncheckedUpdateWithoutCampaignItemsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    fragranceFamily?: Prisma.StringFieldUpdateOperationsInput | string;
+    concentration?: Prisma.StringFieldUpdateOperationsInput | string;
+    gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    longevity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    season?: Prisma.ProductUpdateseasonInput | string[];
+    occasion?: Prisma.ProductUpdateoccasionInput | string[];
+    isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
+    images?: Prisma.ProductImageUncheckedUpdateManyWithoutProductNestedInput;
+    notes?: Prisma.ProductNoteUncheckedUpdateManyWithoutProductNestedInput;
+    collections?: Prisma.ProductCollectionUncheckedUpdateManyWithoutProductNestedInput;
+    cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput;
+    wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
+    orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
+    reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
+};
+export type ProductCreateWithoutStockAlertsInput = {
+    id?: string;
+    slug: string;
+    name: string;
+    subtitle?: string | null;
+    description: string;
+    fragranceFamily: string;
+    concentration: string;
+    gender?: string | null;
+    longevity?: string | null;
+    season?: Prisma.ProductCreateseasonInput | string[];
+    occasion?: Prisma.ProductCreateoccasionInput | string[];
+    isFeatured?: boolean;
+    isNew?: boolean;
+    isLimited?: boolean;
+    isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
+    images?: Prisma.ProductImageCreateNestedManyWithoutProductInput;
+    notes?: Prisma.ProductNoteCreateNestedManyWithoutProductInput;
+    collections?: Prisma.ProductCollectionCreateNestedManyWithoutProductInput;
+    cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput;
+    wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
+    orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
+    reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+};
+export type ProductUncheckedCreateWithoutStockAlertsInput = {
+    id?: string;
+    slug: string;
+    name: string;
+    subtitle?: string | null;
+    description: string;
+    fragranceFamily: string;
+    concentration: string;
+    gender?: string | null;
+    longevity?: string | null;
+    season?: Prisma.ProductCreateseasonInput | string[];
+    occasion?: Prisma.ProductCreateoccasionInput | string[];
+    isFeatured?: boolean;
+    isNew?: boolean;
+    isLimited?: boolean;
+    isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
+    images?: Prisma.ProductImageUncheckedCreateNestedManyWithoutProductInput;
+    notes?: Prisma.ProductNoteUncheckedCreateNestedManyWithoutProductInput;
+    collections?: Prisma.ProductCollectionUncheckedCreateNestedManyWithoutProductInput;
+    cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput;
+    wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
+    orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
+    reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+};
+export type ProductCreateOrConnectWithoutStockAlertsInput = {
+    where: Prisma.ProductWhereUniqueInput;
+    create: Prisma.XOR<Prisma.ProductCreateWithoutStockAlertsInput, Prisma.ProductUncheckedCreateWithoutStockAlertsInput>;
+};
+export type ProductUpsertWithoutStockAlertsInput = {
+    update: Prisma.XOR<Prisma.ProductUpdateWithoutStockAlertsInput, Prisma.ProductUncheckedUpdateWithoutStockAlertsInput>;
+    create: Prisma.XOR<Prisma.ProductCreateWithoutStockAlertsInput, Prisma.ProductUncheckedCreateWithoutStockAlertsInput>;
+    where?: Prisma.ProductWhereInput;
+};
+export type ProductUpdateToOneWithWhereWithoutStockAlertsInput = {
+    where?: Prisma.ProductWhereInput;
+    data: Prisma.XOR<Prisma.ProductUpdateWithoutStockAlertsInput, Prisma.ProductUncheckedUpdateWithoutStockAlertsInput>;
+};
+export type ProductUpdateWithoutStockAlertsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    fragranceFamily?: Prisma.StringFieldUpdateOperationsInput | string;
+    concentration?: Prisma.StringFieldUpdateOperationsInput | string;
+    gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    longevity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    season?: Prisma.ProductUpdateseasonInput | string[];
+    occasion?: Prisma.ProductUpdateoccasionInput | string[];
+    isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
+    images?: Prisma.ProductImageUpdateManyWithoutProductNestedInput;
+    notes?: Prisma.ProductNoteUpdateManyWithoutProductNestedInput;
+    collections?: Prisma.ProductCollectionUpdateManyWithoutProductNestedInput;
+    cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput;
+    wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
+    orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
+    reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+};
+export type ProductUncheckedUpdateWithoutStockAlertsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    slug?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    fragranceFamily?: Prisma.StringFieldUpdateOperationsInput | string;
+    concentration?: Prisma.StringFieldUpdateOperationsInput | string;
+    gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    longevity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    season?: Prisma.ProductUpdateseasonInput | string[];
+    occasion?: Prisma.ProductUpdateoccasionInput | string[];
+    isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
+    images?: Prisma.ProductImageUncheckedUpdateManyWithoutProductNestedInput;
+    notes?: Prisma.ProductNoteUncheckedUpdateManyWithoutProductNestedInput;
+    collections?: Prisma.ProductCollectionUncheckedUpdateManyWithoutProductNestedInput;
+    cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput;
+    wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
+    orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
+    reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutOrderItemsInput = {
     id?: string;
@@ -1399,6 +2009,10 @@ export type ProductCreateWithoutOrderItemsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -1408,6 +2022,8 @@ export type ProductCreateWithoutOrderItemsInput = {
     cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput;
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutOrderItemsInput = {
     id?: string;
@@ -1425,6 +2041,10 @@ export type ProductUncheckedCreateWithoutOrderItemsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -1434,6 +2054,8 @@ export type ProductUncheckedCreateWithoutOrderItemsInput = {
     cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput;
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutOrderItemsInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -1464,6 +2086,10 @@ export type ProductUpdateWithoutOrderItemsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -1473,6 +2099,8 @@ export type ProductUpdateWithoutOrderItemsInput = {
     cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput;
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutOrderItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1490,6 +2118,10 @@ export type ProductUncheckedUpdateWithoutOrderItemsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -1499,6 +2131,8 @@ export type ProductUncheckedUpdateWithoutOrderItemsInput = {
     cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput;
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 export type ProductCreateWithoutReviewsInput = {
     id?: string;
@@ -1516,6 +2150,10 @@ export type ProductCreateWithoutReviewsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantCreateNestedManyWithoutProductInput;
@@ -1525,6 +2163,8 @@ export type ProductCreateWithoutReviewsInput = {
     cartItems?: Prisma.CartItemCreateNestedManyWithoutProductInput;
     wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertCreateNestedManyWithoutProductInput;
 };
 export type ProductUncheckedCreateWithoutReviewsInput = {
     id?: string;
@@ -1542,6 +2182,10 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: number;
+    sampleAvailable?: boolean;
+    samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     variants?: Prisma.ProductVariantUncheckedCreateNestedManyWithoutProductInput;
@@ -1551,6 +2195,8 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
     cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutProductInput;
     wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput;
     orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutProductInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedCreateNestedManyWithoutProductInput;
+    stockAlerts?: Prisma.StockAlertUncheckedCreateNestedManyWithoutProductInput;
 };
 export type ProductCreateOrConnectWithoutReviewsInput = {
     where: Prisma.ProductWhereUniqueInput;
@@ -1581,6 +2227,10 @@ export type ProductUpdateWithoutReviewsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUpdateManyWithoutProductNestedInput;
@@ -1590,6 +2240,8 @@ export type ProductUpdateWithoutReviewsInput = {
     cartItems?: Prisma.CartItemUpdateManyWithoutProductNestedInput;
     wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUpdateManyWithoutProductNestedInput;
 };
 export type ProductUncheckedUpdateWithoutReviewsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1607,6 +2259,10 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
     isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number;
+    sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+    backInStockEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     variants?: Prisma.ProductVariantUncheckedUpdateManyWithoutProductNestedInput;
@@ -1616,6 +2272,8 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
     cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutProductNestedInput;
     wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput;
     orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutProductNestedInput;
+    campaignItems?: Prisma.MerchandisingCampaignProductUncheckedUpdateManyWithoutProductNestedInput;
+    stockAlerts?: Prisma.StockAlertUncheckedUpdateManyWithoutProductNestedInput;
 };
 /**
  * Count Type ProductCountOutputType
@@ -1629,6 +2287,8 @@ export type ProductCountOutputType = {
     wishlistItems: number;
     orderItems: number;
     reviews: number;
+    campaignItems: number;
+    stockAlerts: number;
 };
 export type ProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     variants?: boolean | ProductCountOutputTypeCountVariantsArgs;
@@ -1639,6 +2299,8 @@ export type ProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
     wishlistItems?: boolean | ProductCountOutputTypeCountWishlistItemsArgs;
     orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs;
     reviews?: boolean | ProductCountOutputTypeCountReviewsArgs;
+    campaignItems?: boolean | ProductCountOutputTypeCountCampaignItemsArgs;
+    stockAlerts?: boolean | ProductCountOutputTypeCountStockAlertsArgs;
 };
 /**
  * ProductCountOutputType without action
@@ -1697,6 +2359,18 @@ export type ProductCountOutputTypeCountOrderItemsArgs<ExtArgs extends runtime.Ty
 export type ProductCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.ReviewWhereInput;
 };
+/**
+ * ProductCountOutputType without action
+ */
+export type ProductCountOutputTypeCountCampaignItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.MerchandisingCampaignProductWhereInput;
+};
+/**
+ * ProductCountOutputType without action
+ */
+export type ProductCountOutputTypeCountStockAlertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.StockAlertWhereInput;
+};
 export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     slug?: boolean;
@@ -1713,6 +2387,10 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: boolean;
+    sampleAvailable?: boolean;
+    samplePrice?: boolean;
+    backInStockEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     variants?: boolean | Prisma.Product$variantsArgs<ExtArgs>;
@@ -1723,6 +2401,8 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     wishlistItems?: boolean | Prisma.Product$wishlistItemsArgs<ExtArgs>;
     orderItems?: boolean | Prisma.Product$orderItemsArgs<ExtArgs>;
     reviews?: boolean | Prisma.Product$reviewsArgs<ExtArgs>;
+    campaignItems?: boolean | Prisma.Product$campaignItemsArgs<ExtArgs>;
+    stockAlerts?: boolean | Prisma.Product$stockAlertsArgs<ExtArgs>;
     _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["product"]>;
 export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1741,6 +2421,10 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: boolean;
+    sampleAvailable?: boolean;
+    samplePrice?: boolean;
+    backInStockEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 }, ExtArgs["result"]["product"]>;
@@ -1760,6 +2444,10 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: boolean;
+    sampleAvailable?: boolean;
+    samplePrice?: boolean;
+    backInStockEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 }, ExtArgs["result"]["product"]>;
@@ -1779,10 +2467,14 @@ export type ProductSelectScalar = {
     isNew?: boolean;
     isLimited?: boolean;
     isActive?: boolean;
+    lowStockThreshold?: boolean;
+    sampleAvailable?: boolean;
+    samplePrice?: boolean;
+    backInStockEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 };
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "subtitle" | "description" | "fragranceFamily" | "concentration" | "gender" | "longevity" | "season" | "occasion" | "isFeatured" | "isNew" | "isLimited" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>;
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "subtitle" | "description" | "fragranceFamily" | "concentration" | "gender" | "longevity" | "season" | "occasion" | "isFeatured" | "isNew" | "isLimited" | "isActive" | "lowStockThreshold" | "sampleAvailable" | "samplePrice" | "backInStockEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>;
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     variants?: boolean | Prisma.Product$variantsArgs<ExtArgs>;
     images?: boolean | Prisma.Product$imagesArgs<ExtArgs>;
@@ -1792,6 +2484,8 @@ export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
     wishlistItems?: boolean | Prisma.Product$wishlistItemsArgs<ExtArgs>;
     orderItems?: boolean | Prisma.Product$orderItemsArgs<ExtArgs>;
     reviews?: boolean | Prisma.Product$reviewsArgs<ExtArgs>;
+    campaignItems?: boolean | Prisma.Product$campaignItemsArgs<ExtArgs>;
+    stockAlerts?: boolean | Prisma.Product$stockAlertsArgs<ExtArgs>;
     _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -1807,6 +2501,8 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
         wishlistItems: Prisma.$WishlistItemPayload<ExtArgs>[];
         orderItems: Prisma.$OrderItemPayload<ExtArgs>[];
         reviews: Prisma.$ReviewPayload<ExtArgs>[];
+        campaignItems: Prisma.$MerchandisingCampaignProductPayload<ExtArgs>[];
+        stockAlerts: Prisma.$StockAlertPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1824,6 +2520,10 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
         isNew: boolean;
         isLimited: boolean;
         isActive: boolean;
+        lowStockThreshold: number;
+        sampleAvailable: boolean;
+        samplePrice: runtime.Decimal | null;
+        backInStockEnabled: boolean;
         createdAt: Date;
         updatedAt: Date;
     }, ExtArgs["result"]["product"]>;
@@ -2163,6 +2863,8 @@ export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.
     wishlistItems<T extends Prisma.Product$wishlistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     orderItems<T extends Prisma.Product$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     reviews<T extends Prisma.Product$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    campaignItems<T extends Prisma.Product$campaignItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$campaignItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MerchandisingCampaignProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    stockAlerts<T extends Prisma.Product$stockAlertsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$stockAlertsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockAlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2203,6 +2905,10 @@ export interface ProductFieldRefs {
     readonly isNew: Prisma.FieldRef<"Product", 'Boolean'>;
     readonly isLimited: Prisma.FieldRef<"Product", 'Boolean'>;
     readonly isActive: Prisma.FieldRef<"Product", 'Boolean'>;
+    readonly lowStockThreshold: Prisma.FieldRef<"Product", 'Int'>;
+    readonly sampleAvailable: Prisma.FieldRef<"Product", 'Boolean'>;
+    readonly samplePrice: Prisma.FieldRef<"Product", 'Decimal'>;
+    readonly backInStockEnabled: Prisma.FieldRef<"Product", 'Boolean'>;
     readonly createdAt: Prisma.FieldRef<"Product", 'DateTime'>;
     readonly updatedAt: Prisma.FieldRef<"Product", 'DateTime'>;
 }
@@ -2763,6 +3469,52 @@ export type Product$reviewsArgs<ExtArgs extends runtime.Types.Extensions.Interna
     take?: number;
     skip?: number;
     distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[];
+};
+/**
+ * Product.campaignItems
+ */
+export type Product$campaignItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchandisingCampaignProduct
+     */
+    select?: Prisma.MerchandisingCampaignProductSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the MerchandisingCampaignProduct
+     */
+    omit?: Prisma.MerchandisingCampaignProductOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.MerchandisingCampaignProductInclude<ExtArgs> | null;
+    where?: Prisma.MerchandisingCampaignProductWhereInput;
+    orderBy?: Prisma.MerchandisingCampaignProductOrderByWithRelationInput | Prisma.MerchandisingCampaignProductOrderByWithRelationInput[];
+    cursor?: Prisma.MerchandisingCampaignProductWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.MerchandisingCampaignProductScalarFieldEnum | Prisma.MerchandisingCampaignProductScalarFieldEnum[];
+};
+/**
+ * Product.stockAlerts
+ */
+export type Product$stockAlertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StockAlert
+     */
+    select?: Prisma.StockAlertSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the StockAlert
+     */
+    omit?: Prisma.StockAlertOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.StockAlertInclude<ExtArgs> | null;
+    where?: Prisma.StockAlertWhereInput;
+    orderBy?: Prisma.StockAlertOrderByWithRelationInput | Prisma.StockAlertOrderByWithRelationInput[];
+    cursor?: Prisma.StockAlertWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.StockAlertScalarFieldEnum | Prisma.StockAlertScalarFieldEnum[];
 };
 /**
  * Product without action
