@@ -446,6 +446,11 @@ function createProductData(input: AdminProductCreateInput) {
 		isFeatured: input.isFeatured,
 		isNew: input.isNew,
 		isLimited: input.isLimited,
+		themeMode: input.themeMode,
+		themePreset: input.themePreset,
+		themeBackground: input.themeBackground,
+		themeSurface: input.themeSurface,
+		themeAccent: input.themeAccent,
 		variants: {
 			create: input.variants.map((variant) => ({
 				format: variant.format,
@@ -531,6 +536,13 @@ function buildProductScalarUpdate(
 	if (input.isFeatured !== undefined) data.isFeatured = input.isFeatured;
 	if (input.isNew !== undefined) data.isNew = input.isNew;
 	if (input.isLimited !== undefined) data.isLimited = input.isLimited;
+	if (input.themeMode !== undefined) data.themeMode = input.themeMode;
+	if (input.themePreset !== undefined) data.themePreset = input.themePreset;
+	if (input.themeBackground !== undefined) {
+		data.themeBackground = input.themeBackground;
+	}
+	if (input.themeSurface !== undefined) data.themeSurface = input.themeSurface;
+	if (input.themeAccent !== undefined) data.themeAccent = input.themeAccent;
 
 	return data;
 }

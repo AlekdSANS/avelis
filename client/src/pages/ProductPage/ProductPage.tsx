@@ -29,6 +29,7 @@ import {
   getIngredients,
   getShortDescription,
 } from "../../features/products/utils/productCatalog";
+import { createProductThemeStyle } from "../../features/products/utils/productTheme";
 import type { FragranceNoteType, Product, ProductVariant } from "../../types/product";
 import {
   trackViewItem,
@@ -232,7 +233,7 @@ export function ProductPage() {
   ];
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} style={createProductThemeStyle(product)}>
       <nav aria-label="Breadcrumb" className={styles.breadcrumbs}>
         <Link to="/">Home</Link>
         <span aria-hidden="true">/</span>

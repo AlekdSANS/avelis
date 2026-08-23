@@ -39,6 +39,12 @@ export function mapProductToForm(
 		isFeatured: product.isFeatured,
 		isNew: product.isNew,
 		isLimited: product.isLimited,
+		themeMode: product.themeMode,
+		themePreset: product.themePreset ?? "MIDNIGHT",
+		themeBackground:
+			product.themeBackground ?? productFormDefaultValues.themeBackground,
+		themeSurface: product.themeSurface ?? productFormDefaultValues.themeSurface,
+		themeAccent: product.themeAccent ?? productFormDefaultValues.themeAccent,
 		variants: [...product.variants]
 			.sort(
 				(left, right) =>
@@ -121,6 +127,16 @@ function mapCommonProductPayload(values: AdminProductFormValues) {
 		isFeatured: values.isFeatured,
 		isNew: values.isNew,
 		isLimited: values.isLimited,
+		themeMode: values.themeMode,
+		themePreset: values.themeMode === "PRESET" ? values.themePreset : null,
+		themeBackground:
+			values.themeMode === "CUSTOM"
+				? values.themeBackground.toUpperCase()
+				: null,
+		themeSurface:
+			values.themeMode === "CUSTOM" ? values.themeSurface.toUpperCase() : null,
+		themeAccent:
+			values.themeMode === "CUSTOM" ? values.themeAccent.toUpperCase() : null,
 		variants: values.variants.map((variant) => ({
 			...(variant.id === undefined ? {} : { id: variant.id }),
 			format: variant.format,

@@ -2,6 +2,8 @@ import type { ApiResponse, PaginatedResponse } from "./api";
 import type {
 	FragranceNoteType,
 	ProductImageType,
+	ProductThemeMode,
+	ProductThemePreset,
 	ProductVariantFormat,
 } from "./product";
 
@@ -122,6 +124,11 @@ export interface AdminProductDetail {
 	isFeatured: boolean;
 	isNew: boolean;
 	isLimited: boolean;
+	themeMode: ProductThemeMode;
+	themePreset: ProductThemePreset | null;
+	themeBackground: string | null;
+	themeSurface: string | null;
+	themeAccent: string | null;
 	variants: AdminProductVariant[];
 	images: AdminProductImage[];
 	notes: AdminProductNote[];
@@ -187,6 +194,11 @@ export interface AdminProductCreateInput {
 	isFeatured?: boolean;
 	isNew?: boolean;
 	isLimited?: boolean;
+	themeMode?: ProductThemeMode;
+	themePreset?: ProductThemePreset | null;
+	themeBackground?: string | null;
+	themeSurface?: string | null;
+	themeAccent?: string | null;
 	variants: AdminProductVariantCreateInput[];
 	images?: AdminProductImageCreateInput[];
 	notes?: AdminProductNoteInput[];
@@ -208,6 +220,11 @@ export interface AdminProductUpdateInput {
 	isFeatured?: boolean;
 	isNew?: boolean;
 	isLimited?: boolean;
+	themeMode?: ProductThemeMode;
+	themePreset?: ProductThemePreset | null;
+	themeBackground?: string | null;
+	themeSurface?: string | null;
+	themeAccent?: string | null;
 	variants?: AdminProductVariantUpdateInput[];
 	images?: AdminProductImageUpdateInput[];
 	notes?: AdminProductNoteInput[];

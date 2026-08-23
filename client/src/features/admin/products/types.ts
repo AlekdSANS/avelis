@@ -23,6 +23,11 @@ export const productFormDefaultValues: AdminProductFormValues = {
 	isFeatured: false,
 	isNew: true,
 	isLimited: false,
+	themeMode: "DEFAULT",
+	themePreset: "MIDNIGHT",
+	themeBackground: "#F2EFE9",
+	themeSurface: "#F7F4EF",
+	themeAccent: "#30231E",
 	variants: [
 		{
 			format: "BOTTLE",

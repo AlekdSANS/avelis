@@ -93,6 +93,11 @@ export function mapAdminProductDetail(product: ProductRecord) {
 		isFeatured: product.isFeatured,
 		isNew: product.isNew,
 		isLimited: product.isLimited,
+		themeMode: product.themeMode,
+		themePreset: product.themePreset,
+		themeBackground: product.themeBackground,
+		themeSurface: product.themeSurface,
+		themeAccent: product.themeAccent,
 		variants: product.variants.map((variant) => ({
 			id: variant.id,
 			format: variant.format,

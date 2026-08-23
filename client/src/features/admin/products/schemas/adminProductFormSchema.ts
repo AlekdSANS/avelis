@@ -10,6 +10,11 @@ const requiredText = (label: string, maximum: number) =>
 const optionalText = (maximum: number) =>
 	z.string().trim().max(maximum, `Use ${maximum} characters or fewer.`);
 
+const themeColor = z
+	.string()
+	.trim()
+	.regex(/^#[0-9a-f]{6}$/i, "Use a six-digit hex color, such as #F2EFE9.");
+
 const positiveMoney = (label: string) =>
 	z
 		.string()
@@ -97,6 +102,11 @@ export const adminProductFormSchema = z
 		isFeatured: z.boolean(),
 		isNew: z.boolean(),
 		isLimited: z.boolean(),
+		themeMode: z.enum(["DEFAULT", "PRESET", "CUSTOM"]),
+		themePreset: z.enum(["MIDNIGHT", "FOREST", "BURGUNDY"]),
+		themeBackground: themeColor,
+		themeSurface: themeColor,
+		themeAccent: themeColor,
 		variants: z.array(variantSchema).min(1, "Add at least one variant."),
 		images: z.array(imageSchema).max(30),
 		notes: z.array(noteSchema).max(60),

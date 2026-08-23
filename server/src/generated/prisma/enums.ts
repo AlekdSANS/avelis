@@ -44,6 +44,24 @@ export const ProductImageType = {
 export type ProductImageType = (typeof ProductImageType)[keyof typeof ProductImageType]
 
 
+export const ProductThemeMode = {
+  DEFAULT: 'DEFAULT',
+  PRESET: 'PRESET',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type ProductThemeMode = (typeof ProductThemeMode)[keyof typeof ProductThemeMode]
+
+
+export const ProductThemePreset = {
+  MIDNIGHT: 'MIDNIGHT',
+  FOREST: 'FOREST',
+  BURGUNDY: 'BURGUNDY'
+} as const
+
+export type ProductThemePreset = (typeof ProductThemePreset)[keyof typeof ProductThemePreset]
+
+
 export const OrderStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
   CONFIRMED: 'CONFIRMED',

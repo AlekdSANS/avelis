@@ -2079,6 +2079,11 @@ export const ProductScalarFieldEnum = {
   isNew: 'isNew',
   isLimited: 'isLimited',
   isActive: 'isActive',
+  themeMode: 'themeMode',
+  themePreset: 'themePreset',
+  themeBackground: 'themeBackground',
+  themeSurface: 'themeSurface',
+  themeAccent: 'themeAccent',
   lowStockThreshold: 'lowStockThreshold',
   sampleAvailable: 'sampleAvailable',
   samplePrice: 'samplePrice',
@@ -2459,6 +2464,34 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
+
+
+/**
+ * Reference to a field of type 'ProductThemeMode'
+ */
+export type EnumProductThemeModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductThemeMode'>
+
+
+
+/**
+ * Reference to a field of type 'ProductThemeMode[]'
+ */
+export type ListEnumProductThemeModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductThemeMode[]'>
+
+
+
+/**
+ * Reference to a field of type 'ProductThemePreset'
+ */
+export type EnumProductThemePresetFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductThemePreset'>
+
+
+
+/**
+ * Reference to a field of type 'ProductThemePreset[]'
+ */
+export type ListEnumProductThemePresetFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductThemePreset[]'>
+
 
 
 /**
@@ -2932,4 +2965,3 @@ export type PrismaAction =
  * `PrismaClient` proxy available in interactive transactions.
  */
 export type TransactionClient = Omit<DefaultPrismaClient, runtime.ITXClientDenyList>
-

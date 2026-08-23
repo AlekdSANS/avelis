@@ -38,6 +38,7 @@ import { ProductFormActions } from "./ProductFormActions";
 import { ProductImagesSection } from "./ProductImagesSection";
 import { ProductNotesSection } from "./ProductNotesSection";
 import { ProductStatusSection } from "./ProductStatusSection";
+import { ProductThemeSection } from "./ProductThemeSection";
 import { ProductVariantsSection } from "./ProductVariantsSection";
 import styles from "./ProductForm.module.scss";
 
@@ -273,6 +274,7 @@ export function ProductForm({
 				<div className={styles.formLayout}>
 					<div className={styles.mainColumn}>
 						<ProductBasicsSection mode={mode} />
+						<ProductThemeSection />
 						<ProductVariantsSection />
 						<ProductImagesSection />
 						<ProductNotesSection />

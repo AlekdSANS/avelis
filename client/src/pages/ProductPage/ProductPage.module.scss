@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  background: #f6f2ec;
+  background: var(--color-bg);
   color: var(--color-text);
   padding-bottom: clamp(4rem, 8vw, 8rem);
 }
@@ -120,12 +120,21 @@
   min-width: 0;
 }
 
+.addToBag button {
+  background: var(--product-accent);
+  color: var(--product-on-accent);
+}
+
+.addToBag button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--product-accent) 88%, var(--color-text));
+}
+
 .wishlist {
   height: 3.25rem;
 }
 
 .wishlist[aria-pressed="true"] {
-  color: #7c2f32;
+  color: var(--product-accent);
 }
 
 .story {

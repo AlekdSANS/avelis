@@ -77,6 +77,11 @@ test("admin product CRUD foundation", async (t) => {
 			isFeatured: false,
 			isNew: true,
 			isLimited: false,
+			themeMode: "CUSTOM",
+			themePreset: null,
+			themeBackground: "#E8E4DE",
+			themeSurface: "#F3EEE8",
+			themeAccent: "#4C355F",
 			variants: [
 				{
 					format: "BOTTLE",
@@ -177,6 +182,9 @@ test("admin product CRUD foundation", async (t) => {
 			assert.equal(created.data.notes[0]?.position, 0);
 			assert.equal(created.data.collections[0]?.id, collection.id);
 			assert.deepEqual(created.data.season, ["autumn", "winter"]);
+			assert.equal(created.data.themeMode, "CUSTOM");
+			assert.equal(created.data.themeBackground, "#E8E4DE");
+			assert.equal(created.data.themeAccent, "#4C355F");
 		});
 
 		await t.test("rejects duplicate slug and globally duplicate SKU", async () => {

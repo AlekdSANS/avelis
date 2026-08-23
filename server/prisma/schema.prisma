@@ -30,6 +30,18 @@ enum ProductImageType {
   REFILL
 }
 
+enum ProductThemeMode {
+  DEFAULT
+  PRESET
+  CUSTOM
+}
+
+enum ProductThemePreset {
+  MIDNIGHT
+  FOREST
+  BURGUNDY
+}
+
 enum OrderStatus {
   PENDING_PAYMENT
   CONFIRMED
@@ -154,6 +166,11 @@ model Product {
   isNew              Boolean                        @default(false)
   isLimited          Boolean                        @default(false)
   isActive           Boolean                        @default(true)
+  themeMode          ProductThemeMode               @default(DEFAULT)
+  themePreset        ProductThemePreset?
+  themeBackground    String?
+  themeSurface       String?
+  themeAccent        String?
   variants           ProductVariant[]
   images             ProductImage[]
   notes              ProductNote[]

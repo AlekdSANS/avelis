@@ -140,6 +140,20 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
+export type EnumProductThemeModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemeMode | Prisma.EnumProductThemeModeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProductThemeModeFilter<$PrismaModel> | $Enums.ProductThemeMode
+}
+
+export type EnumProductThemePresetNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemePreset | Prisma.EnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumProductThemePresetNullableFilter<$PrismaModel> | $Enums.ProductThemePreset | null
+}
+
 export type IntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -160,6 +174,26 @@ export type DecimalNullableFilter<$PrismaModel = never> = {
   gt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
   gte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDecimalNullableFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type EnumProductThemeModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemeMode | Prisma.EnumProductThemeModeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProductThemeModeWithAggregatesFilter<$PrismaModel> | $Enums.ProductThemeMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProductThemeModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProductThemeModeFilter<$PrismaModel>
+}
+
+export type EnumProductThemePresetNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemePreset | Prisma.EnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumProductThemePresetNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProductThemePreset | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProductThemePresetNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProductThemePresetNullableFilter<$PrismaModel>
 }
 
 export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -650,6 +684,20 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
+export type NestedEnumProductThemeModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemeMode | Prisma.EnumProductThemeModeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProductThemeModeFilter<$PrismaModel> | $Enums.ProductThemeMode
+}
+
+export type NestedEnumProductThemePresetNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemePreset | Prisma.EnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumProductThemePresetNullableFilter<$PrismaModel> | $Enums.ProductThemePreset | null
+}
+
 export type NestedDecimalNullableFilter<$PrismaModel = never> = {
   equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
   in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
@@ -659,6 +707,26 @@ export type NestedDecimalNullableFilter<$PrismaModel = never> = {
   gt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
   gte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDecimalNullableFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type NestedEnumProductThemeModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemeMode | Prisma.EnumProductThemeModeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProductThemeMode[] | Prisma.ListEnumProductThemeModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProductThemeModeWithAggregatesFilter<$PrismaModel> | $Enums.ProductThemeMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProductThemeModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProductThemeModeFilter<$PrismaModel>
+}
+
+export type NestedEnumProductThemePresetNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProductThemePreset | Prisma.EnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ProductThemePreset[] | Prisma.ListEnumProductThemePresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumProductThemePresetNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProductThemePreset | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProductThemePresetNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProductThemePresetNullableFilter<$PrismaModel>
 }
 
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {

@@ -1,6 +1,8 @@
 export type FragranceNoteType = "TOP" | "HEART" | "BASE";
 export type ProductVariantFormat = "BOTTLE" | "REFILL";
 export type ProductImageType = "MAIN" | "GALLERY" | "HOVER" | "REFILL";
+export type ProductThemeMode = "DEFAULT" | "PRESET" | "CUSTOM";
+export type ProductThemePreset = "MIDNIGHT" | "FOREST" | "BURGUNDY";
 
 export interface ProductImage {
   id: string;
@@ -55,6 +57,11 @@ export interface Product {
   isNew: boolean;
   isLimited: boolean;
   isActive: boolean;
+  themeMode: ProductThemeMode;
+  themePreset: ProductThemePreset | null;
+  themeBackground: string | null;
+  themeSurface: string | null;
+  themeAccent: string | null;
   rating: number | null;
   reviewCount: number;
   createdAt: string;

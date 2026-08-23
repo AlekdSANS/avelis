@@ -50,6 +50,11 @@ export type ProductMinAggregateOutputType = {
   isNew: boolean | null
   isLimited: boolean | null
   isActive: boolean | null
+  themeMode: $Enums.ProductThemeMode | null
+  themePreset: $Enums.ProductThemePreset | null
+  themeBackground: string | null
+  themeSurface: string | null
+  themeAccent: string | null
   lowStockThreshold: number | null
   sampleAvailable: boolean | null
   samplePrice: runtime.Decimal | null
@@ -72,6 +77,11 @@ export type ProductMaxAggregateOutputType = {
   isNew: boolean | null
   isLimited: boolean | null
   isActive: boolean | null
+  themeMode: $Enums.ProductThemeMode | null
+  themePreset: $Enums.ProductThemePreset | null
+  themeBackground: string | null
+  themeSurface: string | null
+  themeAccent: string | null
   lowStockThreshold: number | null
   sampleAvailable: boolean | null
   samplePrice: runtime.Decimal | null
@@ -96,6 +106,11 @@ export type ProductCountAggregateOutputType = {
   isNew: number
   isLimited: number
   isActive: number
+  themeMode: number
+  themePreset: number
+  themeBackground: number
+  themeSurface: number
+  themeAccent: number
   lowStockThreshold: number
   sampleAvailable: number
   samplePrice: number
@@ -130,6 +145,11 @@ export type ProductMinAggregateInputType = {
   isNew?: true
   isLimited?: true
   isActive?: true
+  themeMode?: true
+  themePreset?: true
+  themeBackground?: true
+  themeSurface?: true
+  themeAccent?: true
   lowStockThreshold?: true
   sampleAvailable?: true
   samplePrice?: true
@@ -152,6 +172,11 @@ export type ProductMaxAggregateInputType = {
   isNew?: true
   isLimited?: true
   isActive?: true
+  themeMode?: true
+  themePreset?: true
+  themeBackground?: true
+  themeSurface?: true
+  themeAccent?: true
   lowStockThreshold?: true
   sampleAvailable?: true
   samplePrice?: true
@@ -176,6 +201,11 @@ export type ProductCountAggregateInputType = {
   isNew?: true
   isLimited?: true
   isActive?: true
+  themeMode?: true
+  themePreset?: true
+  themeBackground?: true
+  themeSurface?: true
+  themeAccent?: true
   lowStockThreshold?: true
   sampleAvailable?: true
   samplePrice?: true
@@ -287,6 +317,11 @@ export type ProductGroupByOutputType = {
   isNew: boolean
   isLimited: boolean
   isActive: boolean
+  themeMode: $Enums.ProductThemeMode
+  themePreset: $Enums.ProductThemePreset | null
+  themeBackground: string | null
+  themeSurface: string | null
+  themeAccent: string | null
   lowStockThreshold: number
   sampleAvailable: boolean
   samplePrice: runtime.Decimal | null
@@ -334,6 +369,11 @@ export type ProductWhereInput = {
   isNew?: Prisma.BoolFilter<"Product"> | boolean
   isLimited?: Prisma.BoolFilter<"Product"> | boolean
   isActive?: Prisma.BoolFilter<"Product"> | boolean
+  themeMode?: Prisma.EnumProductThemeModeFilter<"Product"> | $Enums.ProductThemeMode
+  themePreset?: Prisma.EnumProductThemePresetNullableFilter<"Product"> | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.StringNullableFilter<"Product"> | string | null
+  themeSurface?: Prisma.StringNullableFilter<"Product"> | string | null
+  themeAccent?: Prisma.StringNullableFilter<"Product"> | string | null
   lowStockThreshold?: Prisma.IntFilter<"Product"> | number
   sampleAvailable?: Prisma.BoolFilter<"Product"> | boolean
   samplePrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -368,6 +408,11 @@ export type ProductOrderByWithRelationInput = {
   isNew?: Prisma.SortOrder
   isLimited?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  themeMode?: Prisma.SortOrder
+  themePreset?: Prisma.SortOrderInput | Prisma.SortOrder
+  themeBackground?: Prisma.SortOrderInput | Prisma.SortOrder
+  themeSurface?: Prisma.SortOrderInput | Prisma.SortOrder
+  themeAccent?: Prisma.SortOrderInput | Prisma.SortOrder
   lowStockThreshold?: Prisma.SortOrder
   sampleAvailable?: Prisma.SortOrder
   samplePrice?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -405,6 +450,11 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   isNew?: Prisma.BoolFilter<"Product"> | boolean
   isLimited?: Prisma.BoolFilter<"Product"> | boolean
   isActive?: Prisma.BoolFilter<"Product"> | boolean
+  themeMode?: Prisma.EnumProductThemeModeFilter<"Product"> | $Enums.ProductThemeMode
+  themePreset?: Prisma.EnumProductThemePresetNullableFilter<"Product"> | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.StringNullableFilter<"Product"> | string | null
+  themeSurface?: Prisma.StringNullableFilter<"Product"> | string | null
+  themeAccent?: Prisma.StringNullableFilter<"Product"> | string | null
   lowStockThreshold?: Prisma.IntFilter<"Product"> | number
   sampleAvailable?: Prisma.BoolFilter<"Product"> | boolean
   samplePrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -439,6 +489,11 @@ export type ProductOrderByWithAggregationInput = {
   isNew?: Prisma.SortOrder
   isLimited?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  themeMode?: Prisma.SortOrder
+  themePreset?: Prisma.SortOrderInput | Prisma.SortOrder
+  themeBackground?: Prisma.SortOrderInput | Prisma.SortOrder
+  themeSurface?: Prisma.SortOrderInput | Prisma.SortOrder
+  themeAccent?: Prisma.SortOrderInput | Prisma.SortOrder
   lowStockThreshold?: Prisma.SortOrder
   sampleAvailable?: Prisma.SortOrder
   samplePrice?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -471,6 +526,11 @@ export type ProductScalarWhereWithAggregatesInput = {
   isNew?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
   isLimited?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
+  themeMode?: Prisma.EnumProductThemeModeWithAggregatesFilter<"Product"> | $Enums.ProductThemeMode
+  themePreset?: Prisma.EnumProductThemePresetNullableWithAggregatesFilter<"Product"> | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  themeSurface?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  themeAccent?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   lowStockThreshold?: Prisma.IntWithAggregatesFilter<"Product"> | number
   sampleAvailable?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
   samplePrice?: Prisma.DecimalNullableWithAggregatesFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -495,6 +555,11 @@ export type ProductCreateInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -529,6 +594,11 @@ export type ProductUncheckedCreateInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -563,6 +633,11 @@ export type ProductUpdateInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -597,6 +672,11 @@ export type ProductUncheckedUpdateInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -631,6 +711,11 @@ export type ProductCreateManyInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -655,6 +740,11 @@ export type ProductUpdateManyMutationInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -679,6 +769,11 @@ export type ProductUncheckedUpdateManyInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -711,6 +806,11 @@ export type ProductCountOrderByAggregateInput = {
   isNew?: Prisma.SortOrder
   isLimited?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  themeMode?: Prisma.SortOrder
+  themePreset?: Prisma.SortOrder
+  themeBackground?: Prisma.SortOrder
+  themeSurface?: Prisma.SortOrder
+  themeAccent?: Prisma.SortOrder
   lowStockThreshold?: Prisma.SortOrder
   sampleAvailable?: Prisma.SortOrder
   samplePrice?: Prisma.SortOrder
@@ -738,6 +838,11 @@ export type ProductMaxOrderByAggregateInput = {
   isNew?: Prisma.SortOrder
   isLimited?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  themeMode?: Prisma.SortOrder
+  themePreset?: Prisma.SortOrder
+  themeBackground?: Prisma.SortOrder
+  themeSurface?: Prisma.SortOrder
+  themeAccent?: Prisma.SortOrder
   lowStockThreshold?: Prisma.SortOrder
   sampleAvailable?: Prisma.SortOrder
   samplePrice?: Prisma.SortOrder
@@ -760,6 +865,11 @@ export type ProductMinOrderByAggregateInput = {
   isNew?: Prisma.SortOrder
   isLimited?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  themeMode?: Prisma.SortOrder
+  themePreset?: Prisma.SortOrder
+  themeBackground?: Prisma.SortOrder
+  themeSurface?: Prisma.SortOrder
+  themeAccent?: Prisma.SortOrder
   lowStockThreshold?: Prisma.SortOrder
   sampleAvailable?: Prisma.SortOrder
   samplePrice?: Prisma.SortOrder
@@ -799,6 +909,14 @@ export type ProductUpdateseasonInput = {
 export type ProductUpdateoccasionInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type EnumProductThemeModeFieldUpdateOperationsInput = {
+  set?: $Enums.ProductThemeMode
+}
+
+export type NullableEnumProductThemePresetFieldUpdateOperationsInput = {
+  set?: $Enums.ProductThemePreset | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -975,6 +1093,11 @@ export type ProductCreateWithoutVariantsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1008,6 +1131,11 @@ export type ProductUncheckedCreateWithoutVariantsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1057,6 +1185,11 @@ export type ProductUpdateWithoutVariantsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1090,6 +1223,11 @@ export type ProductUncheckedUpdateWithoutVariantsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1123,6 +1261,11 @@ export type ProductCreateWithoutImagesInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1156,6 +1299,11 @@ export type ProductUncheckedCreateWithoutImagesInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1205,6 +1353,11 @@ export type ProductUpdateWithoutImagesInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1238,6 +1391,11 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1271,6 +1429,11 @@ export type ProductCreateWithoutNotesInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1304,6 +1467,11 @@ export type ProductUncheckedCreateWithoutNotesInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1353,6 +1521,11 @@ export type ProductUpdateWithoutNotesInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1386,6 +1559,11 @@ export type ProductUncheckedUpdateWithoutNotesInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1419,6 +1597,11 @@ export type ProductCreateWithoutCollectionsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1452,6 +1635,11 @@ export type ProductUncheckedCreateWithoutCollectionsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1501,6 +1689,11 @@ export type ProductUpdateWithoutCollectionsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1534,6 +1727,11 @@ export type ProductUncheckedUpdateWithoutCollectionsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1567,6 +1765,11 @@ export type ProductCreateWithoutCartItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1600,6 +1803,11 @@ export type ProductUncheckedCreateWithoutCartItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1649,6 +1857,11 @@ export type ProductUpdateWithoutCartItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1682,6 +1895,11 @@ export type ProductUncheckedUpdateWithoutCartItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1715,6 +1933,11 @@ export type ProductCreateWithoutWishlistItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1748,6 +1971,11 @@ export type ProductUncheckedCreateWithoutWishlistItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1797,6 +2025,11 @@ export type ProductUpdateWithoutWishlistItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1830,6 +2063,11 @@ export type ProductUncheckedUpdateWithoutWishlistItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1863,6 +2101,11 @@ export type ProductCreateWithoutCampaignItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1896,6 +2139,11 @@ export type ProductUncheckedCreateWithoutCampaignItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1945,6 +2193,11 @@ export type ProductUpdateWithoutCampaignItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1978,6 +2231,11 @@ export type ProductUncheckedUpdateWithoutCampaignItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2011,6 +2269,11 @@ export type ProductCreateWithoutStockAlertsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2044,6 +2307,11 @@ export type ProductUncheckedCreateWithoutStockAlertsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2093,6 +2361,11 @@ export type ProductUpdateWithoutStockAlertsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2126,6 +2399,11 @@ export type ProductUncheckedUpdateWithoutStockAlertsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2159,6 +2437,11 @@ export type ProductCreateWithoutOrderItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2192,6 +2475,11 @@ export type ProductUncheckedCreateWithoutOrderItemsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2241,6 +2529,11 @@ export type ProductUpdateWithoutOrderItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2274,6 +2567,11 @@ export type ProductUncheckedUpdateWithoutOrderItemsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2307,6 +2605,11 @@ export type ProductCreateWithoutReviewsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2340,6 +2643,11 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: $Enums.ProductThemeMode
+  themePreset?: $Enums.ProductThemePreset | null
+  themeBackground?: string | null
+  themeSurface?: string | null
+  themeAccent?: string | null
   lowStockThreshold?: number
   sampleAvailable?: boolean
   samplePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2389,6 +2697,11 @@ export type ProductUpdateWithoutReviewsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2422,6 +2735,11 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
   isNew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLimited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  themeMode?: Prisma.EnumProductThemeModeFieldUpdateOperationsInput | $Enums.ProductThemeMode
+  themePreset?: Prisma.NullableEnumProductThemePresetFieldUpdateOperationsInput | $Enums.ProductThemePreset | null
+  themeBackground?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeSurface?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  themeAccent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   sampleAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   samplePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2567,6 +2885,11 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: boolean
+  themePreset?: boolean
+  themeBackground?: boolean
+  themeSurface?: boolean
+  themeAccent?: boolean
   lowStockThreshold?: boolean
   sampleAvailable?: boolean
   samplePrice?: boolean
@@ -2602,6 +2925,11 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: boolean
+  themePreset?: boolean
+  themeBackground?: boolean
+  themeSurface?: boolean
+  themeAccent?: boolean
   lowStockThreshold?: boolean
   sampleAvailable?: boolean
   samplePrice?: boolean
@@ -2626,6 +2954,11 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: boolean
+  themePreset?: boolean
+  themeBackground?: boolean
+  themeSurface?: boolean
+  themeAccent?: boolean
   lowStockThreshold?: boolean
   sampleAvailable?: boolean
   samplePrice?: boolean
@@ -2650,6 +2983,11 @@ export type ProductSelectScalar = {
   isNew?: boolean
   isLimited?: boolean
   isActive?: boolean
+  themeMode?: boolean
+  themePreset?: boolean
+  themeBackground?: boolean
+  themeSurface?: boolean
+  themeAccent?: boolean
   lowStockThreshold?: boolean
   sampleAvailable?: boolean
   samplePrice?: boolean
@@ -2658,7 +2996,7 @@ export type ProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "subtitle" | "description" | "fragranceFamily" | "concentration" | "gender" | "longevity" | "season" | "occasion" | "isFeatured" | "isNew" | "isLimited" | "isActive" | "lowStockThreshold" | "sampleAvailable" | "samplePrice" | "backInStockEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "subtitle" | "description" | "fragranceFamily" | "concentration" | "gender" | "longevity" | "season" | "occasion" | "isFeatured" | "isNew" | "isLimited" | "isActive" | "themeMode" | "themePreset" | "themeBackground" | "themeSurface" | "themeAccent" | "lowStockThreshold" | "sampleAvailable" | "samplePrice" | "backInStockEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   variants?: boolean | Prisma.Product$variantsArgs<ExtArgs>
   images?: boolean | Prisma.Product$imagesArgs<ExtArgs>
@@ -2705,6 +3043,11 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     isNew: boolean
     isLimited: boolean
     isActive: boolean
+    themeMode: $Enums.ProductThemeMode
+    themePreset: $Enums.ProductThemePreset | null
+    themeBackground: string | null
+    themeSurface: string | null
+    themeAccent: string | null
     lowStockThreshold: number
     sampleAvailable: boolean
     samplePrice: runtime.Decimal | null
@@ -3159,6 +3502,11 @@ export interface ProductFieldRefs {
   readonly isNew: Prisma.FieldRef<"Product", 'Boolean'>
   readonly isLimited: Prisma.FieldRef<"Product", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"Product", 'Boolean'>
+  readonly themeMode: Prisma.FieldRef<"Product", 'ProductThemeMode'>
+  readonly themePreset: Prisma.FieldRef<"Product", 'ProductThemePreset'>
+  readonly themeBackground: Prisma.FieldRef<"Product", 'String'>
+  readonly themeSurface: Prisma.FieldRef<"Product", 'String'>
+  readonly themeAccent: Prisma.FieldRef<"Product", 'String'>
   readonly lowStockThreshold: Prisma.FieldRef<"Product", 'Int'>
   readonly sampleAvailable: Prisma.FieldRef<"Product", 'Boolean'>
   readonly samplePrice: Prisma.FieldRef<"Product", 'Decimal'>

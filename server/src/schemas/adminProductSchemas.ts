@@ -9,6 +9,16 @@ import { imageStorage } from "../storage/index.js";
 const productFormatSchema = z.enum(["BOTTLE", "REFILL"]);
 const productImageTypeSchema = z.enum(["MAIN", "GALLERY", "HOVER", "REFILL"]);
 const fragranceNoteTypeSchema = z.enum(["TOP", "HEART", "BASE"]);
+const productThemeModeSchema = z.enum(["DEFAULT", "PRESET", "CUSTOM"]);
+const productThemePresetSchema = z.enum(["MIDNIGHT", "FOREST", "BURGUNDY"]);
+const themeColorSchema = z
+	.string()
+	.trim()
+	.regex(/^#[0-9a-f]{6}$/i, "Theme colors must use six-digit hex values")
+	.transform((value) => value.toUpperCase());
+const optionalThemeColorSchema = z
+	.union([themeColorSchema, z.null()])
+	.optional();
 
 function normalizeSlug(value: string) {
 	return value
@@ -64,6 +74,14 @@ const productCoreCreateSchema = z
 		isFeatured: z.boolean().default(false),
 		isNew: z.boolean().default(false),
 		isLimited: z.boolean().default(false),
+		themeMode: productThemeModeSchema.default("DEFAULT"),
+		themePreset: z
+			.union([productThemePresetSchema, z.null()])
+			.optional()
+			.default(null),
+		themeBackground: optionalThemeColorSchema.default(null),
+		themeSurface: optionalThemeColorSchema.default(null),
+		themeAccent: optionalThemeColorSchema.default(null),
 	})
 	.strict();
 
@@ -304,6 +322,80 @@ function validateRelations(
 	}
 }
 
+function validateTheme(
+	theme: {
+		themeMode?: "DEFAULT" | "PRESET" | "CUSTOM" | undefined;
+		themePreset?: "MIDNIGHT" | "FOREST" | "BURGUNDY" | null | undefined;
+		themeBackground?: string | null | undefined;
+		themeSurface?: string | null | undefined;
+		themeAccent?: string | null | undefined;
+	},
+	context: z.RefinementCtx,
+) {
+	const hasThemeFields = [
+		theme.themePreset,
+		theme.themeBackground,
+		theme.themeSurface,
+		theme.themeAccent,
+	].some((value) => value !== undefined);
+
+	if (theme.themeMode === undefined) {
+		if (hasThemeFields) {
+			context.addIssue({
+				code: "custom",
+				message: "Theme mode is required when changing theme settings",
+				path: ["themeMode"],
+			});
+		}
+		return;
+	}
+
+	if (theme.themeMode === "PRESET" && theme.themePreset == null) {
+		context.addIssue({
+			code: "custom",
+			message: "Choose a theme preset",
+			path: ["themePreset"],
+		});
+	}
+
+	if (theme.themeMode === "CUSTOM") {
+		for (const key of [
+			"themeBackground",
+			"themeSurface",
+			"themeAccent",
+		] as const) {
+			if (theme[key] == null) {
+				context.addIssue({
+					code: "custom",
+					message: "Choose all three custom theme colors",
+					path: [key],
+				});
+			}
+		}
+	}
+
+	if (theme.themeMode !== "PRESET" && theme.themePreset != null) {
+		context.addIssue({
+			code: "custom",
+			message: "Preset is only available in preset mode",
+			path: ["themePreset"],
+		});
+	}
+
+	if (
+		theme.themeMode !== "CUSTOM" &&
+		[theme.themeBackground, theme.themeSurface, theme.themeAccent].some(
+			(value) => value != null,
+		)
+	) {
+		context.addIssue({
+			code: "custom",
+			message: "Custom colors are only available in custom mode",
+			path: ["themeBackground"],
+		});
+	}
+}
+
 export const adminProductListQuerySchema = z
 	.object({
 		search: z.string().trim().min(1).max(120).optional(),
@@ -348,6 +440,7 @@ export const adminProductCreateSchema = productCoreCreateSchema
 	})
 	.strict()
 	.superRefine((input, context) => {
+		validateTheme(input, context);
 		validateVariants(input.variants, context);
 		validateImages(input.images, context);
 		validateRelations(input.notes, input.collectionIds, context);
@@ -368,6 +461,11 @@ const updateCoreShape = {
 	isFeatured: z.boolean().optional(),
 	isNew: z.boolean().optional(),
 	isLimited: z.boolean().optional(),
+	themeMode: productThemeModeSchema.optional(),
+	themePreset: z.union([productThemePresetSchema, z.null()]).optional(),
+	themeBackground: optionalThemeColorSchema,
+	themeSurface: optionalThemeColorSchema,
+	themeAccent: optionalThemeColorSchema,
 } as const;
 
 export const adminProductUpdateSchema = z
@@ -393,6 +491,7 @@ export const adminProductUpdateSchema = z
 		if (input.variants !== undefined) {
 			validateVariants(input.variants, context);
 		}
+		validateTheme(input, context);
 		if (input.images !== undefined) {
 			validateImages(input.images, context);
 		}
