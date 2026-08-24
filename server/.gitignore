@@ -7,3 +7,6 @@ node_modules
 # Product uploads are runtime data; keep only the directory marker.
 uploads/*
 !uploads/.gitkeep
+
+.vercel
+.env*
