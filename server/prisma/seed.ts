@@ -31,6 +31,13 @@ type VariantPrice = {
 	stock: number;
 };
 
+type ProductImageSeed = {
+	main: string;
+	gallery: string;
+	hover: string;
+	refill: string;
+};
+
 type ProductSeed = {
 	slug: string;
 	name: string;
@@ -56,6 +63,7 @@ type ProductSeed = {
 		refill150: VariantPrice;
 	};
 	mainImage?: string;
+	images?: ProductImageSeed;
 };
 
 const collections = [
@@ -169,6 +177,7 @@ type CatalogueProductDefinition = {
 	isFeatured?: boolean;
 	isLimited?: boolean;
 	mainImage?: string;
+	images?: ProductImageSeed;
 };
 
 function createCatalogueProduct(
@@ -225,7 +234,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 			heart: ["osmanthus", "orris", "apricot skin"],
 			base: ["sandalwood", "cedarwood", "white musk"],
 		},
-		mainImage: "/images/hero/home_hero_peach.png",
+		images: {
+			main: "/images/products/avelis_peachwood/peach1.png",
+			gallery: "/images/products/avelis_peachwood/peach2.png",
+			hover: "/images/products/avelis_peachwood/peachbox1.png",
+			refill: "/images/products/avelis_peachwood/peachrefill.png",
+		},
 	},
 	{
 		slug: "azurewood",
@@ -242,7 +256,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 			heart: ["blue cypress", "lavender", "violet leaf"],
 			base: ["driftwood", "mineral amber", "clean musk"],
 		},
-		mainImage: "/images/hero/home_hero_frost.png",
+		images: {
+			main: "/images/products/avelis_azurewood/azure1.png",
+			gallery: "/images/products/avelis_azurewood/azure2.png",
+			hover: "/images/products/avelis_azurewood/azure_box.png",
+			refill: "/images/products/avelis_azurewood/azure_refill.png",
+		},
 	},
 	{
 		slug: "redwood",
@@ -259,11 +278,16 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 			heart: ["red cedar", "incense", "rosewood"],
 			base: ["patchouli", "labdanum", "smoked amber"],
 		},
-		mainImage: "/images/hero/home_hero_red.png",
+		images: {
+			main: "/images/products/avelis_redwood/red1.png",
+			gallery: "/images/products/avelis_redwood/red2.png",
+			hover: "/images/products/avelis_redwood/red_box.png",
+			refill: "/images/products/avelis_redwood/red_refill.png",
+		},
 	},
 	{
-		slug: "midnightwood",
-		name: "Midnightwood",
+		slug: "noxwood",
+		name: "Noxwood",
 		subtitle: "Black tea, midnight cedar, and a trace of suede.",
 		description:
 			"A deep woody composition where black tea and violet leaf settle into midnight cedar, suede and resinous amber.",
@@ -277,7 +301,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 			heart: ["midnight cedar", "suede", "pale incense"],
 			base: ["labdanum", "tonka bean", "dark musk"],
 		},
-		mainImage: "/images/hero/home_hero_red.png",
+		images: {
+			main: "/images/products/avelis_noxwood/nox1.png",
+			gallery: "/images/products/avelis_noxwood/nox2.png",
+			hover: "/images/products/avelis_noxwood/nox_box.png",
+			refill: "/images/products/avelis_noxwood/nox_refill.png",
+		},
 	},
 	{
 		slug: "ashwood",
@@ -295,7 +324,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 			heart: ["ash wood", "pale incense", "orris"],
 			base: ["vetiver root", "mineral musk", "dry cedar"],
 		},
-		mainImage: "/images/hero/home_hero_frost.png",
+		images: {
+			main: "/images/products/avelis_ashwood/ash1.png",
+			gallery: "/images/products/avelis_ashwood/ash2.png",
+			hover: "/images/products/avelis_ashwood/ash_box.png",
+			refill: "/images/products/avelis_ashwood/ash_refill.png",
+		},
 	},
 	{
 		slug: "serenade",
@@ -306,6 +340,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 		fragranceFamily: "Floral",
 		skuPrefix: "SER",
 		collection: "resonance",
+		images: {
+			main: "/images/products/avelis_serenade/serenade4.png",
+			gallery: "/images/products/avelis_serenade/serenade3.png",
+			hover: "/images/products/avelis_serenade/serenade_box.png",
+			refill: "/images/products/avelis_serenade/serenade_refill.png",
+		},
 		notes: {
 			top: ["bergamot", "mandarin", "pear leaf"],
 			heart: ["orange blossom", "rosewater", "jasmine tea"],
@@ -321,6 +361,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 		fragranceFamily: "Fresh Aromatic",
 		skuPrefix: "TRE",
 		collection: "resonance",
+		images: {
+			main: "/images/products/avelis_tremolo/tremolo3.png",
+			gallery: "/images/products/avelis_tremolo/tremolo2.png",
+			hover: "/images/products/avelis_tremolo/tremolo_box.png",
+			refill: "/images/products/avelis_tremolo/tremolo_refill.png",
+		},
 		notes: {
 			top: ["citron", "shiso", "green mandarin"],
 			heart: ["lavender", "rosemary", "violet leaf"],
@@ -336,6 +382,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 		fragranceFamily: "Spicy Amber",
 		skuPrefix: "DIS",
 		collection: "resonance",
+		images: {
+			main: "/images/products/avelis_distortion/distortion2.png",
+			gallery: "/images/products/avelis_distortion/distortion3.png",
+			hover: "/images/products/avelis_distortion/distortion_box2.png",
+			refill: "/images/products/avelis_distortion/distortion_refill.png",
+		},
 		notes: {
 			top: ["saffron", "metallic pepper", "smoked plum"],
 			heart: ["myrrh", "rose oxide", "incense"],
@@ -352,6 +404,12 @@ const catalogueDefinitions: CatalogueProductDefinition[] = [
 		isLimited: true,
 		skuPrefix: "NOC",
 		collection: "resonance",
+		images: {
+			main: "/images/products/avelis_nocturne/nocturne2.png",
+			gallery: "/images/products/avelis_nocturne/nocturne3.png",
+			hover: "/images/products/avelis_nocturne/nocturne_box.png",
+			refill: "/images/products/avelis_nocturne/nocturne_refill.png",
+		},
 		notes: {
 			top: ["black violet", "bergamot rind", "clove leaf"],
 			heart: ["incense", "suede", "cistus"],
@@ -401,6 +459,7 @@ const legacyProductSlugs = [
 	"quiet-fig",
 	"saffron-mist",
 	"orris-rain",
+	"midnightwood",
 ];
 
 function imagePath(slug: string, name: string) {
@@ -411,7 +470,7 @@ function imageRows(productId: string, product: ProductSeed) {
 	return [
 		{
 			productId,
-			url: product.mainImage ?? imagePath(product.slug, "main"),
+			url: product.images?.main ?? product.mainImage ?? imagePath(product.slug, "main"),
 			alt: `${product.name} bottle`,
 			position: 0,
 			isPrimary: true,
@@ -419,7 +478,7 @@ function imageRows(productId: string, product: ProductSeed) {
 		},
 		{
 			productId,
-			url: imagePath(product.slug, "gallery-01"),
+			url: product.images?.gallery ?? imagePath(product.slug, "gallery-01"),
 			alt: `${product.name} fragrance composition`,
 			position: 1,
 			isPrimary: false,
@@ -427,7 +486,7 @@ function imageRows(productId: string, product: ProductSeed) {
 		},
 		{
 			productId,
-			url: imagePath(product.slug, "hover"),
+			url: product.images?.hover ?? imagePath(product.slug, "hover"),
 			alt: `${product.name} bottle detail`,
 			position: 2,
 			isPrimary: false,
@@ -435,7 +494,7 @@ function imageRows(productId: string, product: ProductSeed) {
 		},
 		{
 			productId,
-			url: imagePath(product.slug, "refill"),
+			url: product.images?.refill ?? imagePath(product.slug, "refill"),
 			alt: `${product.name} refill pouch`,
 			position: 3,
 			isPrimary: false,
@@ -562,17 +621,17 @@ async function seedMerchandising() {
 		update: { description: "10% off a first AVELIS edit", discountType: "PERCENT", amount: 10, minSubtotal: 200, isActive: true },
 		create: { code: "WELCOME10", description: "10% off a first AVELIS edit", discountType: "PERCENT", amount: 10, minSubtotal: 200, isActive: true },
 	});
-	const selected = await prisma.product.findMany({ where: { slug: { in: ["peachwood", "redwood", "midnightwood", "nocturne"] } }, select: { id: true, slug: true } });
+	const selected = await prisma.product.findMany({ where: { slug: { in: ["peachwood", "redwood", "noxwood", "nocturne"] } }, select: { id: true, slug: true } });
 	const bySlug = new Map(selected.map((product) => [product.slug, product.id]));
 	const campaigns = [
-		{ slug: "chromatic-woods-gift-edit", type: "GIFT_SET" as const, title: "The Chromatic Woods trio", eyebrow: "Gift edit No. 01", description: "Three studies of coloured timber, selected as a complete gifting ritual.", imageUrl: "/images/hero/home_hero_peach.png", status: "PUBLISHED" as const, isFeatured: true, productIds: [bySlug.get("peachwood"), bySlug.get("redwood"), bySlug.get("midnightwood")].filter((id): id is string => Boolean(id)) },
-		{ slug: "after-dark-edit", type: "CURATED_EDIT" as const, title: "After-dark resonance", eyebrow: "Curated recommendation", description: "Compositions connected by cedar, shadowed florals and a longer evening trace.", imageUrl: "/images/hero/home_hero_red.png", status: "PUBLISHED" as const, isFeatured: false, productIds: [bySlug.get("midnightwood"), bySlug.get("nocturne"), bySlug.get("redwood")].filter((id): id is string => Boolean(id)) },
+		{ slug: "chromatic-woods-gift-edit", type: "GIFT_SET" as const, title: "The Chromatic Woods trio", eyebrow: "Gift edit No. 01", description: "Three studies of coloured timber, selected as a complete gifting ritual.", imageUrl: "/images/hero/home_hero_peach.png", status: "PUBLISHED" as const, isFeatured: true, productIds: [bySlug.get("peachwood"), bySlug.get("redwood"), bySlug.get("noxwood")].filter((id): id is string => Boolean(id)) },
+		{ slug: "after-dark-edit", type: "CURATED_EDIT" as const, title: "After-dark resonance", eyebrow: "Curated recommendation", description: "Compositions connected by cedar, shadowed florals and a longer evening trace.", imageUrl: "/images/hero/home_hero_red.png", status: "PUBLISHED" as const, isFeatured: false, productIds: [bySlug.get("noxwood"), bySlug.get("nocturne"), bySlug.get("redwood")].filter((id): id is string => Boolean(id)) },
 	];
 	for (const campaign of campaigns) {
 		const { productIds, ...data } = campaign;
 		await prisma.merchandisingCampaign.upsert({ where: { slug: campaign.slug }, update: { ...data, products: { deleteMany: {}, create: productIds.map((productId, sortOrder) => ({ productId, sortOrder })) } }, create: { ...data, products: { create: productIds.map((productId, sortOrder) => ({ productId, sortOrder })) } } });
 	}
-	await prisma.product.updateMany({ where: { slug: { in: ["peachwood", "midnightwood", "nocturne"] } }, data: { sampleAvailable: true, samplePrice: 29, lowStockThreshold: 8, backInStockEnabled: true } });
+	await prisma.product.updateMany({ where: { slug: { in: ["peachwood", "noxwood", "nocturne"] } }, data: { sampleAvailable: true, samplePrice: 29, lowStockThreshold: 8, backInStockEnabled: true } });
 }
 
 async function retireLegacyCatalogue() {
