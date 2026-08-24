@@ -2,5 +2,5 @@
 	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"framework": "express",
 	"regions": ["fra1"],
-	"buildCommand": "npm run build"
+	"buildCommand": "npm run db:deploy && SEED_EMPTY_DATABASE_ONLY=true npm run db:seed && npm run build"
 }

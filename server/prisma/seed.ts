@@ -708,6 +708,16 @@ async function seedProduct(
 }
 
 async function main() {
+	if (process.env.SEED_EMPTY_DATABASE_ONLY === "true") {
+		const existingProductCount = await prisma.product.count();
+		if (existingProductCount > 0) {
+			console.log(
+				`Database already contains ${existingProductCount} products; skipping the deployment seed.`,
+			);
+			return;
+		}
+	}
+
 	await retireLegacyCatalogue();
 	const collectionIds = await upsertCollections();
 

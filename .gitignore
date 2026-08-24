@@ -1,4 +1,6 @@
 .codebase-memory/
 .github/workflows/
 .pnpm-store/
+.vercel/
+.env.local
 DEPLOYMENT.md

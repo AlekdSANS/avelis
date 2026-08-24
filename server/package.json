@@ -5,6 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "tsx watch src/server.ts",
+		"db:deploy": "prisma migrate deploy",
+		"db:seed": "prisma db seed",
 		"validate:env": "tsx src/scripts/validateEnvironment.ts",
 		"build": "npm run validate:env && tsc",
 		"test:unit": "tsx --test tests/storage.unit.test.ts",
