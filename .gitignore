@@ -1,3 +1,4 @@
 .codebase-memory/
 .github/workflows/
 .pnpm-store/
+DEPLOYMENT.md

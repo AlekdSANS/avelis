@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
+import "./types/express.js";
 import { env } from "./config/env.js";
 import { prisma } from "./lib/prisma.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
