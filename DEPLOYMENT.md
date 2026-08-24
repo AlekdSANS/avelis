@@ -2,6 +2,32 @@
 
 The repository includes a Render Blueprint for a free-tier practice staging environment and Vercel/Netlify-compatible SPA rewrites for the client.
 
+## Vercel monorepo setup
+
+Create two Vercel projects from this repository. Set the first project's Root Directory to `server` and the second project's Root Directory to `client`. Keep the framework presets detected from each directory; the checked-in `vercel.json` files configure Express and the Vite SPA fallback.
+
+Deploy the API project first. Copy every applicable value from `server/.env.example` into the API project's environment variables and set:
+
+- `NODE_ENV=production`
+- `CLIENT_ORIGIN=https://<storefront-production-domain>`
+- `IMAGE_STORAGE_PROVIDER=s3`
+- `SERVICE_VERSION=vercel`
+
+The API also requires `DATABASE_URL` and the S3-compatible storage variables listed below. Apply them to Production and Preview when both deployment types must work. Do not use Vercel's ephemeral filesystem for product uploads.
+
+Then configure the storefront project with:
+
+- `VITE_API_URL=https://<api-production-domain>/api`
+- `VITE_SITE_URL=https://<storefront-production-domain>`
+- `VITE_IS_DEMO_STORE=true`
+- `VITE_LEGAL_OPERATOR_NAME=AVELIS Portfolio Demonstration`
+- `VITE_LEGAL_POSTAL_ADDRESS=Warsaw, Poland`
+- `VITE_LEGAL_EMAIL=privacy@avelis.example`
+- `VITE_SUPPORT_EMAIL=hello@avelis.example`
+- `VITE_ANALYTICS_ENABLED=false`
+
+The `VITE_*` values are embedded in the public client bundle; never put secrets in them. After both projects deploy, verify the storefront can call `/api/health/ready`, then test login because credentialed API requests require the API's `CLIENT_ORIGIN` to match the storefront origin exactly.
+
 ## 1. Create durable object storage
 
 Create a Cloudflare R2 bucket (or another S3-compatible bucket), generate a bucket-scoped read/write token, and expose the bucket through a public custom domain. Configure the API with:
