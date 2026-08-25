@@ -21,6 +21,7 @@ export class ApiClientError extends Error {
 }
 
 const DEFAULT_API_BASE_URL = "http://localhost:4000/api";
+const PRODUCTION_API_BASE_URL = "/api";
 const VITE_DEV_PORT = "5174";
 
 function isViteDevOrigin(url: string) {
@@ -38,6 +39,13 @@ function isViteDevOrigin(url: string) {
 }
 
 export function getApiBaseUrl() {
+  // Keep browser requests on the storefront origin in production. Vercel
+  // proxies /api to the server, which lets the session remain a first-party
+  // cookie instead of a third-party cookie between two vercel.app hosts.
+  if (import.meta.env.PROD) {
+    return PRODUCTION_API_BASE_URL;
+  }
+
   const configuredUrl = import.meta.env.VITE_API_URL?.trim();
 
   if (
@@ -57,6 +65,10 @@ export function getApiBaseUrl() {
 
 export function resolvePublicAssetUrl(src: string | undefined) {
   if (src === undefined || !src.startsWith("/uploads/")) {
+    return src;
+  }
+
+  if (import.meta.env.PROD) {
     return src;
   }
 

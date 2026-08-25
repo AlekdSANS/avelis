@@ -9,7 +9,7 @@
 		"db:seed": "prisma db seed",
 		"validate:env": "tsx src/scripts/validateEnvironment.ts",
 		"build": "npm run validate:env && tsc",
-		"test:unit": "tsx --test tests/storage.unit.test.ts",
+		"test:unit": "tsx --test tests/storage.unit.test.ts tests/cookies.unit.test.ts",
 		"test": "npm run test:unit && tsx --test --test-concurrency=1 tests/order.integration.test.ts tests/admin.integration.test.ts tests/adminProduct.integration.test.ts tests/adminMedia.integration.test.ts tests/adminReference.integration.test.ts tests/adminOrder.integration.test.ts tests/continuityMerchandising.integration.test.ts tests/seoObservability.integration.test.ts",
 		"start": "node dist/server.js"
 	},
