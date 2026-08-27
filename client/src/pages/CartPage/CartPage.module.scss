@@ -1,7 +1,7 @@
 .page {
-  width: min(calc(100% - (2 * var(--site-gutter))), var(--container-width));
+  width: min(calc(100% - (2 * var(--site-gutter))), 78rem);
   margin-inline: auto;
-  padding-block: clamp(3.5rem, 7vw, 7rem) var(--space-16);
+  padding-block: clamp(3rem, 6vw, 5rem) var(--space-16);
 }
 
 .heading {
@@ -10,7 +10,7 @@
   justify-content: space-between;
   gap: var(--space-6);
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
 }
 
 .eyebrow,
@@ -25,8 +25,8 @@
 .heading h1,
 .emptyState h1 {
   margin-top: var(--space-3);
-  font-size: clamp(3.4rem, 7vw, 6.8rem);
-  line-height: 0.9;
+  font-size: clamp(3.25rem, 6vw, 5rem);
+  line-height: 0.94;
   letter-spacing: -0.035em;
 }
 
@@ -36,11 +36,41 @@
   font-size: 0.85rem;
 }
 
+.reassurance {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--color-border);
+}
+
+.reassurance span {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+}
+
+.reassurance span:nth-child(2) {
+  justify-content: center;
+}
+
+.reassurance span:last-child {
+  justify-content: flex-end;
+}
+
+.reassurance svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--color-olive);
+  stroke-width: 1.5;
+}
+
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(19rem, 0.65fr);
-  gap: clamp(2.5rem, 7vw, 7rem);
-  padding-top: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1.6fr) minmax(20rem, 0.75fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+  padding-top: clamp(2rem, 4vw, 3rem);
 }
 
 .bag {
@@ -53,10 +83,10 @@
 
 .item {
   display: grid;
-  grid-template-columns: clamp(8rem, 17vw, 12rem) minmax(0, 1fr);
-  gap: clamp(1.25rem, 3vw, 2.5rem);
+  grid-template-columns: clamp(7.5rem, 13vw, 9rem) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
   border-bottom: 1px solid var(--color-border);
-  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  padding-block: var(--space-6);
 }
 
 .imageLink {
@@ -85,7 +115,7 @@
 
 .itemHeading a {
   font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
   font-weight: 600;
   line-height: 1;
 }
@@ -203,14 +233,15 @@
   top: calc(var(--header-height) + var(--space-6));
   display: grid;
   align-self: start;
-  gap: var(--space-5);
+  gap: var(--space-4);
   border: 1px solid var(--color-border);
   background: color-mix(in srgb, var(--color-surface) 82%, transparent);
-  padding: clamp(1.5rem, 3vw, 2.25rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
 }
 
 .summary h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
+  margin-top: calc(var(--space-2) * -1);
+  font-size: clamp(2.35rem, 4vw, 3.25rem);
 }
 
 .subtotal {
@@ -219,7 +250,8 @@
   justify-content: space-between;
   gap: var(--space-4);
   border-block: 1px solid var(--color-border);
-  padding-block: var(--space-5);
+  margin-top: var(--space-1);
+  padding-block: var(--space-4);
 }
 
 .subtotal strong {
@@ -242,9 +274,21 @@
 }
 
 .assurance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   font-size: 0.74rem;
   line-height: 1.55;
   text-align: center;
+}
+
+.assurance svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex: 0 0 auto;
+  color: var(--color-olive);
+  stroke-width: 1.5;
 }
 
 .emptyState {
@@ -327,6 +371,18 @@
     flex-direction: column;
   }
 
+  .reassurance {
+    grid-template-columns: 1fr;
+    padding-block: var(--space-2);
+  }
+
+  .reassurance span,
+  .reassurance span:nth-child(2),
+  .reassurance span:last-child {
+    min-height: 2.25rem;
+    justify-content: flex-start;
+  }
+
   .item {
     grid-template-columns: 6.5rem minmax(0, 1fr);
     gap: var(--space-4);
@@ -340,6 +396,29 @@
     clip: rect(0, 0, 0, 0);
   }
 
+}
+
+@media (max-width: 29.99rem) {
+  .item {
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .imageLink {
+    width: 7rem;
+  }
+
+  .quantityControl {
+    grid-template-columns: repeat(3, 2.25rem);
+    min-height: 2.5rem;
+  }
+
+  .linePrice strong {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 22.99rem) {
   .itemControls {
     align-items: start;
     flex-direction: column;
@@ -348,16 +427,6 @@
   .linePrice {
     justify-items: start;
     text-align: left;
-  }
-}
-
-@media (max-width: 29.99rem) {
-  .item {
-    grid-template-columns: 1fr;
-  }
-
-  .imageLink {
-    width: 8rem;
   }
 }
 

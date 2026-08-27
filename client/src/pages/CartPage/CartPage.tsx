@@ -1,5 +1,13 @@
 import styles from "./CartPage.module.scss";
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import {
+  BookmarkCheck,
+  LockKeyhole,
+  Minus,
+  Package,
+  Plus,
+  ShoppingBag,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -67,6 +75,21 @@ export function CartPage() {
           {cart.totalQuantity} {cart.totalQuantity === 1 ? "item" : "items"}
         </p>
       </header>
+
+      <div aria-label="Shopping bag information" className={styles.reassurance}>
+        <span>
+          <BookmarkCheck aria-hidden="true" />
+          Saved on this device
+        </span>
+        <span>
+          <Package aria-hidden="true" />
+          Delivery calculated at checkout
+        </span>
+        <span>
+          <LockKeyhole aria-hidden="true" />
+          Secure checkout
+        </span>
+      </div>
 
       <div className={styles.layout}>
         <section aria-labelledby="bag-items-title" className={styles.bag}>
@@ -170,7 +193,10 @@ export function CartPage() {
           <p className={styles.eyebrow}>Order overview</p>
           <h2 id="order-summary-title">Summary</h2>
           <div className={styles.subtotal}>
-            <span>Subtotal</span>
+            <span>
+              Subtotal · {cart.totalQuantity}{" "}
+              {cart.totalQuantity === 1 ? "item" : "items"}
+            </span>
             <strong>
               <Price value={cart.subtotalCents / 100} />
             </strong>
@@ -179,10 +205,12 @@ export function CartPage() {
             Delivery and taxes will be calculated at checkout.
           </p>
           <ButtonLink fullWidth to="/checkout">
+            <LockKeyhole aria-hidden="true" />
             Checkout
           </ButtonLink>
           <p className={styles.assurance}>
-            Your bag is saved on this device while you continue browsing.
+            <BookmarkCheck aria-hidden="true" />
+            Your selection will remain saved.
           </p>
         </aside>
       </div>
