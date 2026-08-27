@@ -20,6 +20,17 @@ const cartSource = readFileSync(
   new URL("../../pages/CartPage/CartPage.tsx", import.meta.url),
   "utf8",
 );
+const productCardSource = readFileSync(
+  new URL("../../components/commerce/ProductCard/ProductCard.tsx", import.meta.url),
+  "utf8",
+);
+const merchandisingPanelSource = readFileSync(
+  new URL(
+    "../merchandising/ProductMerchandisingPanel.tsx",
+    import.meta.url,
+  ),
+  "utf8",
+);
 
 test("every informational footer destination has a substantive public page", () => {
   const pagePaths = [
@@ -88,6 +99,23 @@ test("the shopping bag opens a cart page backed by the shared cart store", () =>
   assert.match(cartSource, /cart\.updateQuantity/);
   assert.match(cartSource, /cart\.removeItem/);
   assert.match(cartSource, /to="\/checkout"/);
+});
+
+test("product cards provide product and direct-to-bag actions", () => {
+  assert.match(productCardSource, />\s*View fragrance\s*</);
+  assert.match(productCardSource, /cart\.addItem/);
+  assert.match(productCardSource, /Add \{selectedVariant\.volumeMl\} ml to bag/);
+  assert.match(productCardSource, /className=\{styles\.addPrice\}/);
+  assert.match(productCardSource, /aria-pressed=\{selectedVariant\?\.id === variant\.id\}/);
+  assert.match(productCardSource, /variant\.format === "BOTTLE"/);
+  assert.doesNotMatch(productCardSource, /Refills available in selected sizes/);
+  assert.doesNotMatch(productCardSource, />Selected</);
+  assert.doesNotMatch(productCardSource, />Bottle<\/span>/);
+});
+
+test("product pages do not render inconsistent curated recommendations", () => {
+  assert.doesNotMatch(merchandisingPanelSource, /Continue the composition/);
+  assert.doesNotMatch(merchandisingPanelSource, /curated_recommendations/);
 });
 
 test("account navigation returns to the storefront and storefront routes reset scroll", () => {

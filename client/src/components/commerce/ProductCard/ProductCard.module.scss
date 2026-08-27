@@ -1,5 +1,10 @@
 .card {
+  display: flex;
   min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .media {
@@ -63,12 +68,12 @@
 
 .content {
   display: grid;
-  gap: var(--space-3);
-  padding-top: var(--space-4);
+  gap: var(--space-2);
+  flex: 1;
+  padding: 1rem 1.25rem 1.25rem;
 }
 
-.meta,
-.footer {
+.meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -113,33 +118,160 @@
   line-height: 1.55;
 }
 
-.formatDetails {
+.options {
   display: grid;
-  gap: 0.2rem;
-  color: var(--color-text-muted);
-  font-size: 0.73rem;
-}
-
-.formatDetails span:last-child {
-  color: var(--color-olive);
-  font-weight: 600;
-}
-
-.footer {
+  gap: 0.4rem;
   border-top: 1px solid var(--color-border);
-  padding-top: var(--space-3);
-  font-size: 0.82rem;
+  padding-top: var(--space-2);
 }
 
-.viewLink {
+.optionLabel {
+  color: var(--color-olive);
+  font-size: 0.67rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.variantGrid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.variantButton {
+  min-height: 2.35rem;
+  border: 1px solid var(--color-border);
+  padding: 0.25rem;
+  color: var(--color-text);
+  background: transparent;
+  font-size: 0.69rem;
+  line-height: 1.15;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.variantButton:hover:not(:disabled) {
+  border-color: var(--color-text);
+}
+
+.variantButton[aria-pressed="true"] {
+  border-color: var(--color-text);
+  color: var(--color-surface);
+  background: var(--color-text);
+}
+
+.variantButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+  text-decoration: line-through;
+}
+
+.purchase {
+  min-width: 0;
+  padding-top: 0.25rem;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
+}
+
+.addButton {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  min-height: 2.85rem;
+  border: 1px solid var(--color-text);
+  padding-inline: var(--space-4);
+  color: var(--color-surface);
+  background: var(--color-text);
+  font-size: 0.7rem;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
-.viewLink svg {
+.addPrice {
+  margin-left: auto;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.addLabel {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.addButton:hover:not(:disabled) {
+  background: #443126;
+}
+
+.addButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.addButton svg {
   width: 0.9rem;
+  flex: 0 0 auto;
+}
+
+.shopButton {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 0.3rem;
+  min-height: 1.75rem;
+  padding-inline: var(--space-2);
+  font-size: 0.69rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shopButton:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.shopButton svg {
+  width: 0.85rem;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 22rem) {
+  .content {
+    padding: var(--space-4);
+  }
+
+  .variantGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
