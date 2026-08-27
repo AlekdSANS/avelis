@@ -1,5 +1,5 @@
 import styles from "./CartDrawer.module.scss";
-import { ShoppingBag, X } from "lucide-react";
+import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -115,14 +115,61 @@ export function CartDrawer({ className, isOpen, onClose }: CartDrawerProps) {
                   src={line.imageUrl}
                 />
                 <div className={styles.itemCopy}>
-                  <Link onClick={onClose} to={`/products/${line.productSlug}`}>
-                    {line.productName}
-                  </Link>
-                  <span>
+                  <div className={styles.itemHeader}>
+                    <Link onClick={onClose} to={`/products/${line.productSlug}`}>
+                      {line.productName}
+                    </Link>
+                    <button
+                      aria-label={`Remove ${line.productName} from bag`}
+                      className={styles.removeButton}
+                      onClick={() => cart.removeItem(line.id)}
+                      title="Remove from bag"
+                      type="button"
+                    >
+                      <Trash2 aria-hidden="true" />
+                    </button>
+                  </div>
+                  <span className={styles.itemMeta}>
                     {line.format === "BOTTLE" ? "Bottle" : "Refill"} ·{" "}
-                    {line.volumeMl} ml · Qty {line.quantity}
+                    {line.volumeMl} ml
                   </span>
-                  <Price value={line.lineTotalCents / 100} />
+                  <div className={styles.itemFooter}>
+                    <div className={styles.quantityBlock}>
+                      <span className={styles.controlLabel}>Quantity</span>
+                      <div
+                        aria-label={`Quantity for ${line.productName}`}
+                        className={styles.quantityControl}
+                        role="group"
+                      >
+                        <button
+                          aria-label={`Decrease ${line.productName} quantity`}
+                          disabled={line.quantity <= 1}
+                          onClick={() =>
+                            cart.updateQuantity(line.id, line.quantity - 1)
+                          }
+                          type="button"
+                        >
+                          <Minus aria-hidden="true" />
+                        </button>
+                        <span aria-live="polite">{line.quantity}</span>
+                        <button
+                          aria-label={`Increase ${line.productName} quantity`}
+                          onClick={() =>
+                            cart.updateQuantity(line.id, line.quantity + 1)
+                          }
+                          type="button"
+                        >
+                          <Plus aria-hidden="true" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className={styles.priceBlock}>
+                      <span className={styles.controlLabel}>Total</span>
+                      <strong className={styles.itemPrice}>
+                        <Price value={line.lineTotalCents / 100} />
+                      </strong>
+                    </div>
+                  </div>
                 </div>
               </li>
             ))}
