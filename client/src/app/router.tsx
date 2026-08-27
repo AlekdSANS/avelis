@@ -7,7 +7,7 @@ import { ShopPage } from "../pages/ShopPage/ShopPage";
 import { AccountLayout } from "../layouts/AccountLayout/AccountLayout";
 import { AdminLayout } from "../layouts/AdminLayout/AdminLayout";
 import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
-import { PlaceholderPage } from "../pages/PlaceholderPage/PlaceholderPage";
+import { CartPage } from "../pages/CartPage/CartPage";
 import { RequireAuth } from "../features/auth/components/RequireAuth";
 import { GuestOnlyRoute } from "../features/auth/components/GuestOnlyRoute";
 import { RequireAdmin } from "../features/auth/components/RequireAdmin";
@@ -108,7 +108,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/cart",
-				element: <PlaceholderPage title="Cart" />,
+				element: <CartPage />,
 			},
 			{
 				path: "/checkout",

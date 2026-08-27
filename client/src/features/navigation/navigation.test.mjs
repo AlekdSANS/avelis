@@ -16,6 +16,10 @@ const checkoutSource = readFileSync(
   new URL("../../pages/CheckoutPage/CheckoutPage.tsx", import.meta.url),
   "utf8",
 );
+const cartSource = readFileSync(
+  new URL("../../pages/CartPage/CartPage.tsx", import.meta.url),
+  "utf8",
+);
 
 test("every informational footer destination has a substantive public page", () => {
   const pagePaths = [
@@ -70,6 +74,20 @@ test("search is connected to products, collections and the full Shop query", () 
   assert.match(searchSource, /useCollections/);
   assert.match(searchSource, /\/shop\?search=/);
   assert.doesNotMatch(searchSource, /once fragrance search is connected/i);
+});
+
+test("the shopping bag opens a cart page backed by the shared cart store", () => {
+  const cartRoute = routerSource.match(
+    /\{\s*path:\s*"\/cart",[\s\S]*?\n\s*\},/,
+  )?.[0];
+
+  assert.ok(cartRoute);
+  assert.match(cartRoute, /element:\s*<CartPage\s*\/>/);
+  assert.doesNotMatch(cartRoute, /PlaceholderPage/);
+  assert.match(cartSource, /useCart\(\)/);
+  assert.match(cartSource, /cart\.updateQuantity/);
+  assert.match(cartSource, /cart\.removeItem/);
+  assert.match(cartSource, /to="\/checkout"/);
 });
 
 test("account navigation returns to the storefront and storefront routes reset scroll", () => {
