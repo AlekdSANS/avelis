@@ -1,4 +1,4 @@
-.notices, .recommendations {
+.notices {
   width: min(100% - 2 * var(--site-gutter), var(--wide-container-width));
   margin: 0 auto clamp(5rem, 9vw, 9rem);
 }
@@ -20,7 +20,7 @@
   padding: clamp(1.5rem, 4vw, 4rem);
 }
 
-.notices p, .recommendations header p {
+.notices p {
   color: var(--color-olive);
   font-size: 0.7rem;
   font-weight: 700;
@@ -62,18 +62,8 @@
   cursor: pointer;
 }
 
-.recommendations {
-  border-top: 1px solid var(--color-border);
-  padding-top: 4rem;
-}
-
-.recommendations h2 {
-  margin: 0.7rem 0 3rem;
-  font-size: clamp(3rem, 5vw, 5rem);
-}
-
 @media (max-width: 40rem) {
-  .notices, .recommendations {
+  .notices {
     width: calc(100% - 2rem);
   }
 }/*# sourceMappingURL=ProductMerchandisingPanel.module.css.map */

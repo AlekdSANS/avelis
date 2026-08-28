@@ -91,7 +91,11 @@
   text-transform: uppercase;
 }
 
-.content h3 {
+.body {
+  width: 100%;
+}
+
+.body h3 {
   margin-top: clamp(1.5rem, 3vw, 3rem);
   font-size: clamp(2.8rem, 4.5vw, 5.7rem);
   line-height: 0.88;
@@ -99,7 +103,7 @@
   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.content > p {
+.body > p {
   max-width: 33rem;
   margin-top: var(--space-6);
   color: var(--art-muted);
@@ -107,7 +111,7 @@
   line-height: 1.7;
 }
 
-.content ul {
+.body ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
@@ -118,7 +122,7 @@
   transition: opacity 420ms ease;
 }
 
-.content li {
+.body li {
   border: 1px solid color-mix(in srgb, var(--art-accent) 28%, transparent);
   padding: 0.38rem 0.55rem;
   font-size: 0.64rem;
@@ -165,11 +169,11 @@
   transform: scale(1.025);
 }
 
-.card:hover .content h3 {
+.card:hover .body h3 {
   transform: translateX(3px);
 }
 
-.card:hover .content ul {
+.card:hover .body ul {
   opacity: 1;
 }
 
@@ -210,7 +214,7 @@
 .landscape-wide .media,
 .image-left .media,
 .image-right .media {
-  aspect-ratio: 1.3/1;
+  height: 100%;
 }
 
 .portrait .cardLink {
@@ -263,12 +267,12 @@
   color: var(--art-ink);
 }
 
-.text-overlay .content > p,
+.text-overlay .body > p,
 .text-overlay .content footer small {
   color: var(--art-muted);
 }
 
-.text-overlay .content ul {
+.text-overlay .body ul {
   opacity: 0.92;
 }
 
@@ -281,11 +285,62 @@
 }
 
 .split-panel .media {
-  aspect-ratio: 16/9;
+  height: 100%;
 }
 
 .split-panel .content {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: clamp(30rem, 38vw, 44rem);
+}
+
+.split-panel .body {
+  align-self: center;
+  padding-block: clamp(2rem, 4vw, 4rem);
+}
+
+.split-panel .content footer,
+.card[data-collection=questbound] .content footer {
+  margin-top: 0;
+}
+
+.card[data-collection=resonance] .meta {
+  color: #ffffff;
+}
+
+.card[data-collection=tidal-waves] {
+  grid-column: 1/-1;
+  min-height: clamp(32rem, 36vw, 44rem);
+}
+
+.card[data-collection=tidal-waves] .cardLink {
+  grid-template-columns: minmax(22rem, 0.82fr) minmax(0, 1.18fr);
+}
+
+.card[data-collection=questbound] .content {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.card[data-collection=questbound] .body {
+  align-self: center;
+  padding-block: clamp(2rem, 4vw, 4rem);
+}
+
+.verticalTitle {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1.15rem, 2vw, 2rem);
+  margin-top: 0;
+  font-size: clamp(3.3rem, 4.5vw, 5.1rem);
+  letter-spacing: 0;
+  line-height: 0.78;
+  text-transform: uppercase;
+}
+
+.verticalTitleColumn {
+  display: grid;
+  justify-items: center;
 }
 
 @media (max-width: 72rem) {
@@ -311,11 +366,25 @@
   .image-left .media,
   .image-right .media {
     aspect-ratio: 4/3;
+    height: auto;
   }
   .landscape-wide .content,
   .image-left .content,
   .image-right .content {
     min-height: 25rem;
+  }
+  .card[data-collection=tidal-waves] {
+    grid-column: 1/-1;
+    min-height: 0;
+  }
+  .card[data-collection=tidal-waves] .cardLink {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .card[data-collection=tidal-waves] .media,
+  .card[data-collection=tidal-waves] .content {
+    grid-row: auto;
+    grid-column: auto;
   }
 }
 @media (max-width: 47.99rem) {
@@ -342,8 +411,11 @@
   .content {
     padding: 1.5rem;
   }
-  .content h3 {
+  .body h3 {
     font-size: clamp(2.8rem, 14vw, 4.5rem);
+  }
+  .verticalTitle {
+    font-size: clamp(2.8rem, 14vw, 4.2rem);
   }
   .content footer {
     align-items: flex-start;
@@ -354,13 +426,13 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .media img,
-  .content h3,
-  .content ul,
+  .body h3,
+  .body ul,
   .content footer svg {
     transition: none;
   }
   .card:hover .media img,
-  .card:hover .content h3,
+  .card:hover .body h3,
   .card:hover .content footer svg {
     transform: none;
   }

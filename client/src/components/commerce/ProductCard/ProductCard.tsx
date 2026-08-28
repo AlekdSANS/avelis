@@ -1,5 +1,5 @@
 import styles from "./ProductCard.module.scss";
-import { ArrowUpRight, Heart, ShoppingBag, Star } from "lucide-react";
+import { ArrowUpRight, Heart, Star, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -33,6 +33,7 @@ export type ProductCardProps = {
 export function ProductCard({
   className,
   isWishlisted = false,
+  matchingVariants,
   itemIndex,
   itemListId,
   itemListName,
@@ -40,28 +41,33 @@ export function ProductCard({
   product,
 }: ProductCardProps) {
   const cart = useCart();
-  const bottleVariants = product.variants.filter(
-    (variant) => variant.format === "BOTTLE",
+  const displayedVariants = matchingVariants ?? product.variants;
+  const cheapestVariant = getCheapestVariant(displayedVariants);
+  const quickAddVariants = [...displayedVariants].sort(
+    (left, right) =>
+      left.format.localeCompare(right.format) || left.volumeMl - right.volumeMl,
   );
-  const cheapestVariant = getCheapestVariant(bottleVariants);
-  const quickAddVariants = [...bottleVariants].sort(
-    (left, right) => left.volumeMl - right.volumeMl,
-  );
-  const [selectedVariantId, setSelectedVariantId] = useState(
-    cheapestVariant?.id,
-  );
+  const [quickAddOpen, setQuickAddOpen] = useState(false);
   const [bagStatus, setBagStatus] = useState("");
-  const selectedVariant =
-    quickAddVariants.find(
-      (variant) => variant.id === selectedVariantId && variant.stock > 0,
-    ) ?? cheapestVariant;
-  const selectedCartQuantity = selectedVariant
-    ? (cart.items.find((item) => item.variantId === selectedVariant.id)
-        ?.quantity ?? 0)
-    : 0;
-  const cannotAddSelectedVariant =
-    selectedVariant === undefined ||
-    selectedCartQuantity >= selectedVariant.stock;
+  const hasPurchasableVariant = quickAddVariants.some((variant) => {
+    const cartQuantity =
+      cart.items.find((item) => item.variantId === variant.id)?.quantity ?? 0;
+    return variant.stock > cartQuantity;
+  });
+  const bottleVolumes = [
+    ...new Set(
+      product.variants
+        .filter((variant) => variant.format === "BOTTLE")
+        .map((variant) => variant.volumeMl),
+    ),
+  ];
+  const refillVolumes = [
+    ...new Set(
+      product.variants
+        .filter((variant) => variant.format === "REFILL")
+        .map((variant) => variant.volumeMl),
+    ),
+  ];
   const primaryImage = getPrimaryProductImage(product);
   const secondaryImage = getHoverProductImage(product);
   const [secondaryAvailable, setSecondaryAvailable] = useState(
@@ -92,19 +98,21 @@ export function ProductCard({
       cheapestVariant,
     );
   };
-  const handleVariantSelect = (variant: ProductVariant) => {
-    setSelectedVariantId(variant.id);
-    setBagStatus("");
-  };
-  const handleAddToBag = () => {
-    if (!selectedVariant || cannotAddSelectedVariant) {
+  const handleQuickAdd = (variant: ProductVariant) => {
+    const cartQuantity =
+      cart.items.find((item) => item.variantId === variant.id)?.quantity ?? 0;
+
+    if (variant.stock <= cartQuantity) {
       return;
     }
 
-    cart.addItem({ product, quantity: 1, variant: selectedVariant });
+    cart.addItem({ product, quantity: 1, variant });
     setBagStatus(
-      `${product.name}, ${selectedVariant.volumeMl} ml bottle added to your bag.`,
+      `${product.name}, ${variant.volumeMl} ml ${
+        variant.format === "BOTTLE" ? "bottle" : "refill"
+      } added to your bag.`,
     );
+    setQuickAddOpen(false);
   };
 
   return (
@@ -135,13 +143,9 @@ export function ProductCard({
         </Link>
 
         <div className={styles.badges}>
-          {product.isLimited ? (
-            <Badge tone="dark">Limited edition</Badge>
-          ) : product.isNew ? (
-            <Badge>New</Badge>
-          ) : product.isFeatured ? (
-            <Badge>Featured</Badge>
-          ) : null}
+          {product.isNew ? <Badge>New</Badge> : null}
+          {product.isLimited ? <Badge tone="dark">Limited</Badge> : null}
+          {product.isFeatured ? <Badge>Featured</Badge> : null}
         </div>
 
         <IconButton
@@ -157,6 +161,79 @@ export function ProductCard({
         >
           <Heart aria-hidden="true" fill={isWishlisted ? "currentColor" : "none"} />
         </IconButton>
+
+        <div
+          className={styles.quickAdd}
+          data-open={quickAddOpen ? "true" : "false"}
+          id={`quick-add-${product.id}`}
+        >
+          {quickAddOpen ? (
+            <div
+              aria-label={`Choose a format of ${product.name} to add to your bag`}
+              className={styles.quickAddPanel}
+              role="group"
+            >
+              <div className={styles.quickAddHeader}>
+                <span>Choose format</span>
+                <button
+                  aria-label={`Close ${product.name} format choices`}
+                  onClick={() => setQuickAddOpen(false)}
+                  type="button"
+                >
+                  <X aria-hidden="true" />
+                </button>
+              </div>
+              <div className={styles.quickAddOptions}>
+                {quickAddVariants.map((variant) => {
+                  const cartQuantity =
+                    cart.items.find((item) => item.variantId === variant.id)
+                      ?.quantity ?? 0;
+                  const unavailable = variant.stock <= cartQuantity;
+
+                  return (
+                    <button
+                      aria-label={`Add ${product.name} ${
+                        variant.format === "BOTTLE" ? "bottle" : "refill"
+                      }, ${variant.volumeMl} milliliters to bag`}
+                      className={styles.quickAddOption}
+                      disabled={unavailable}
+                      key={variant.id}
+                      onClick={() => handleQuickAdd(variant)}
+                      type="button"
+                    >
+                      <span>
+                        {variant.format === "BOTTLE" ? "Bottle" : "Refill"}
+                        <small>{variant.volumeMl} ml</small>
+                      </span>
+                      <Price value={variant.price} />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <button
+              aria-controls={`quick-add-${product.id}`}
+              aria-expanded="false"
+              className={styles.quickAddTrigger}
+              disabled={!hasPurchasableVariant}
+              onClick={() => {
+                setBagStatus("");
+                setQuickAddOpen(true);
+              }}
+              type="button"
+            >
+              {hasPurchasableVariant
+                ? bagStatus
+                  ? "Added to bag"
+                  : "Add to bag"
+                : "Unavailable"}
+            </button>
+          )}
+        </div>
+        <span aria-live="polite" className={styles.visuallyHidden}>
+          {bagStatus}
+        </span>
       </div>
 
       <div className={styles.content}>
@@ -177,76 +254,31 @@ export function ProductCard({
           <p className={styles.subtitle}>{product.subtitle}</p>
         </div>
 
-        <div className={styles.options}>
-          <span className={styles.optionLabel}>Size</span>
-          <div
-            aria-label={`Choose ${product.name} bottle size`}
-            className={styles.variantGrid}
-            role="group"
-          >
-            {quickAddVariants.map((variant) => (
-              <button
-                aria-label={`Select ${product.name} bottle, ${variant.volumeMl} milliliters`}
-                aria-pressed={selectedVariant?.id === variant.id}
-                className={styles.variantButton}
-                disabled={variant.stock <= 0}
-                key={variant.id}
-                onClick={() => handleVariantSelect(variant)}
-                type="button"
-              >
-                {variant.volumeMl} ml
-              </button>
-            ))}
-          </div>
+        <div className={styles.formatDetails}>
+          {bottleVolumes.length > 0 ? (
+            <span>
+              {Math.min(...bottleVolumes)}-{Math.max(...bottleVolumes)} ml bottles
+            </span>
+          ) : null}
+          {refillVolumes.length > 0 ? (
+            <span>Refills available: {refillVolumes.join(", ")} ml</span>
+          ) : null}
         </div>
 
-        <div className={styles.purchase}>
-          <div className={styles.actions}>
-            <button
-              className={styles.addButton}
-              disabled={cannotAddSelectedVariant}
-              onClick={handleAddToBag}
-              type="button"
-            >
-              {selectedVariant === undefined
-                ? (
-                    <>
-                      <ShoppingBag aria-hidden="true" />
-                      <span>Unavailable</span>
-                    </>
-                  )
-                : selectedCartQuantity >= selectedVariant.stock
-                  ? (
-                      <>
-                        <ShoppingBag aria-hidden="true" />
-                        <span>Maximum in bag</span>
-                      </>
-                    )
-                  : (
-                      <>
-                        <span className={styles.addLabel}>
-                          <ShoppingBag aria-hidden="true" />
-                          <span>Add {selectedVariant.volumeMl} ml to bag</span>
-                        </span>
-                        <Price
-                          className={styles.addPrice}
-                          value={selectedVariant.price}
-                        />
-                      </>
-                    )}
-            </button>
-            <Link
-              className={styles.shopButton}
-              onClick={trackSelection}
-              to={`/products/${product.slug}`}
-            >
-              View fragrance
-              <ArrowUpRight aria-hidden="true" />
-            </Link>
-          </div>
-          <span aria-live="polite" className={styles.visuallyHidden}>
-            {bagStatus}
-          </span>
+        <div className={styles.footer}>
+          {cheapestVariant ? (
+            <Price prefix="From" value={cheapestVariant.price} />
+          ) : (
+            <span>Currently unavailable</span>
+          )}
+          <Link
+            className={styles.viewLink}
+            onClick={trackSelection}
+            to={`/products/${product.slug}`}
+          >
+            View fragrance
+            <ArrowUpRight aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </article>
