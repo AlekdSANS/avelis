@@ -20,6 +20,14 @@ export function FragranceFamilies() {
               key={family.name}
               to={`/shop?family=${family.query}`}
             >
+              <span
+                aria-hidden="true"
+                className={styles.familyArtwork}
+                style={{
+                  backgroundImage: `url(${family.image})`,
+                  backgroundPosition: family.imagePosition,
+                }}
+              />
               <span className={styles.familyNumber}>
                 {String(index + 1).padStart(2, "0")}
               </span>
