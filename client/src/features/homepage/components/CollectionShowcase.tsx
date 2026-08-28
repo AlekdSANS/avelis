@@ -2,6 +2,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { collectionFeatures } from "../data/homepageContent";
+import { CollectionImage } from "../../collections/components/CollectionImage";
+import { getCollectionImageSrc } from "../../collections/data/collectionImages";
 import styles from "./HomepageSections.module.scss";
 
 export function CollectionShowcase() {
@@ -29,10 +31,10 @@ export function CollectionShowcase() {
 							to={`/collections/${collection.slug}`}
 						>
 							<div className={styles.collectionImage}>
-								<img
-									alt={collection.imageAlt}
+								<CollectionImage
+									alt={`${collection.title} collection`}
 									loading="lazy"
-									src={collection.image}
+									src={getCollectionImageSrc(collection.slug)}
 									style={{ objectPosition: collection.imagePosition }}
 								/>
 							</div>

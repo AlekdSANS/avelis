@@ -4,6 +4,7 @@ import { ProductGrid } from "../../components/commerce/ProductGrid/ProductGrid";
 import { Button } from "../../components/ui/Button/Button";
 import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
 import { CollectionImage } from "../../features/collections/components/CollectionImage";
+import { getCollectionImageSrc } from "../../features/collections/data/collectionImages";
 import { useCollection } from "../../features/collections/hooks/useCollections";
 import { useLocalWishlist } from "../../features/products/hooks/useLocalWishlist";
 import { ApiClientError } from "../../services/apiClient";
@@ -52,7 +53,7 @@ export function CollectionPage() {
 			collection?.shortDescription ??
 			"Discover an AVELIS perfume collection and its fragrances.",
 		canonicalPath: `/collections/${slug ?? ""}`,
-		image: collection?.heroImageUrl ?? collection?.cardImageUrl ?? undefined,
+		image: collection ? getCollectionImageSrc(collection.slug) : undefined,
 		robots: isNotFound ? "noindex,nofollow" : "index,follow",
 		structuredData: collection ? buildCollectionStructuredData(collection) : undefined,
 		type: "website",
@@ -104,8 +105,7 @@ export function CollectionPage() {
 				<div className={styles.heroMedia}>
 					<CollectionImage
 						alt={`${collection.name} collection`}
-						mobileSrc={collection.mobileImageUrl}
-						src={collection.heroImageUrl ?? collection.cardImageUrl}
+						src={getCollectionImageSrc(collection.slug)}
 					/>
 				</div>
 				<div className={styles.heroContent}>
@@ -138,7 +138,7 @@ export function CollectionPage() {
 
 			{collection.storyImageUrl || collection.materialNotes.length > 0 ? (
 				<section className={styles.materialStory} aria-label="Collection materials">
-					{collection.storyImageUrl ? <CollectionImage alt={`${collection.name} materials`} src={collection.storyImageUrl} /> : null}
+					<CollectionImage alt={`${collection.name} materials`} src={collection.storyImageUrl} />
 					{collection.materialNotes.length > 0 ? <div><p>Palette and materials</p><ul>{collection.materialNotes.map((note) => <li key={note}>{note}</li>)}</ul></div> : null}
 				</section>
 			) : null}

@@ -36,11 +36,6 @@ export function CollectionEditorialCard({
 }: CollectionEditorialCardProps) {
 	const artwork = getCollectionArtwork(collection, index - 1);
 	const resolvedVariant = variant ?? artwork.layoutVariant;
-	const initials = collection.name
-		.split(/\s+/)
-		.map((word) => word[0])
-		.join("")
-		.slice(0, 3);
 	const verticalTitleColumns =
 		collection.slug === "questbound"
 			? getVerticalTitleColumns(collection.name)
@@ -59,21 +54,11 @@ export function CollectionEditorialCard({
 				to={`/collections/${collection.slug}`}
 			>
 				<div className={styles.media}>
-					{artwork.image ? (
-						<CollectionImage
-							alt={artwork.imageAlt}
-							loading="lazy"
-							src={artwork.image}
-						/>
-					) : (
-						<div
-							aria-label={artwork.imageAlt}
-							className={styles.artPlaceholder}
-							role="img"
-						>
-							<span>{initials}</span>
-						</div>
-					)}
+					<CollectionImage
+						alt={artwork.imageAlt}
+						loading="lazy"
+						src={artwork.image}
+					/>
 				</div>
 
 				<div className={styles.content}>

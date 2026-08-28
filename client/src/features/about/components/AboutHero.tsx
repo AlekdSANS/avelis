@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 
 import { ButtonLink } from "../../../components/ui/Button/Button";
+import { CollectionImage } from "../../collections/components/CollectionImage";
 import styles from "../../../pages/AboutPage/AboutPage.module.scss";
 
 export function AboutHero() {
@@ -24,7 +25,7 @@ export function AboutHero() {
       </div>
 
       <figure className={styles.heroMedia}>
-        <img
+        <CollectionImage
           alt="A frosted perfume bottle arranged with magnolia branches and weathered wood"
           fetchPriority="high"
           height="941"

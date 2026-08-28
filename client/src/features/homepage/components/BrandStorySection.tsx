@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import type { HomepageTheme } from "../types";
+import { CollectionImage } from "../../collections/components/CollectionImage";
 import styles from "./HomepageSections.module.scss";
 
 type BrandStorySectionProps = {
@@ -13,7 +14,7 @@ export function BrandStorySection({ theme }: BrandStorySectionProps) {
     <section aria-labelledby="brand-story-title" className={styles.storySection}>
       <div className={styles.storyInner}>
         <div className={styles.storyImage}>
-          <img
+          <CollectionImage
             alt={theme.storyImageAlt}
             loading="lazy"
             src={theme.storyImage}

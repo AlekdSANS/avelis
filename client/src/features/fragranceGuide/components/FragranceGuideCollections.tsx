@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
 import { CollectionImage } from "../../collections/components/CollectionImage";
+import { getCollectionImageSrc } from "../../collections/data/collectionImages";
 import { useCollections } from "../../collections/hooks/useCollections";
 import { GuideSectionHeading } from "./GuideSectionHeading";
 import styles from "../../../pages/FragranceGuidePage/FragranceGuidePage.module.scss";
@@ -60,8 +61,7 @@ export function FragranceGuideCollections() {
                   <CollectionImage
                     alt={`${collection.name} collection`}
                     loading="lazy"
-                    mobileSrc={collection.mobileImageUrl}
-                    src={collection.cardImageUrl ?? collection.heroImageUrl}
+                    src={getCollectionImageSrc(collection.slug)}
                   />
                 </div>
                 <div className={styles.guideCollectionCopy}>

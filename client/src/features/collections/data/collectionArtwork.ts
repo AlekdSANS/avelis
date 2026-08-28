@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 
 import type { Collection } from "../../../types/collection";
+import { getCollectionImageSrc, hasCollectionImage } from "./collectionImages";
 
 export type CollectionLayoutVariant =
 	| "landscape-wide"
@@ -27,7 +28,7 @@ export type CollectionArtwork = {
 	palette: CollectionPalette;
 };
 
-type CollectionArtworkConfig = Omit<CollectionArtwork, "imageAlt"> & {
+type CollectionArtworkConfig = Omit<CollectionArtwork, "image" | "imageAlt"> & {
 	imageAlt: string;
 };
 
@@ -53,7 +54,6 @@ export const collectionArtworkBySlug: Record<
 	CollectionArtworkConfig
 > = {
 	"gift-sets": {
-		image: null,
 		imageAlt:
 			"AVELIS gift vessels arranged with warm stone, paper and natural cork.",
 		layoutVariant: "image-left",
@@ -68,7 +68,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	resonance: {
-		image: "/images/hero/home_hero_red.png",
 		imageAlt:
 			"Redwood perfume bottle beneath shadowed crimson magnolia branches.",
 		layoutVariant: "text-overlay",
@@ -83,7 +82,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	"the-glass-garden": {
-		image: "/images/hero/home_hero_peach.png",
 		imageAlt:
 			"Peachwood perfume bottle surrounded by luminous peach magnolia petals.",
 		layoutVariant: "portrait",
@@ -98,7 +96,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	"tidal-waves": {
-		image: "/images/hero/home_hero_frost.png",
 		imageAlt:
 			"Azurewood perfume bottle in cool light beneath pale blue magnolia branches.",
 		layoutVariant: "image-right",
@@ -113,7 +110,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	"chromatic-woods": {
-		image: "/images/hero/home_hero_peach.png",
 		imageAlt:
 			"Peachwood perfume bottle resting on sculptural driftwood in warm light.",
 		layoutVariant: "split-panel",
@@ -128,7 +124,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	peachwood: {
-		image: "/images/hero/home_hero_peach.png",
 		imageAlt:
 			"Peachwood perfume bottle beneath peach magnolia branches on driftwood.",
 		layoutVariant: "landscape-wide",
@@ -143,7 +138,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	azurewood: {
-		image: "/images/hero/home_hero_frost.png",
 		imageAlt:
 			"Azurewood perfume bottle beneath pale blue magnolia branches on driftwood.",
 		layoutVariant: "image-right",
@@ -158,7 +152,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	questbound: {
-		image: "/images/placeholders/collection_placeholder.png",
 		imageAlt: "Sculptural AVELIS vessels arranged as objects for a long journey.",
 		layoutVariant: "image-left",
 		notes: ["Gilded leather", "Oak cask", "Cold starlight"],
@@ -172,7 +165,6 @@ export const collectionArtworkBySlug: Record<
 		},
 	},
 	redwood: {
-		image: "/images/hero/home_hero_red.png",
 		imageAlt:
 			"Redwood perfume bottle beneath deep red magnolia branches on driftwood.",
 		layoutVariant: "text-overlay",
@@ -203,12 +195,20 @@ export function getCollectionArtwork(
 	const configuredArtwork = collectionArtworkBySlug[collection.slug];
 
 	if (configuredArtwork) {
-		return configuredArtwork;
+		return {
+			...configuredArtwork,
+			image: getCollectionImageSrc(collection.slug),
+			imageAlt: hasCollectionImage(collection.slug)
+				? configuredArtwork.imageAlt
+				: `${collection.name} collection image placeholder.`,
+		};
 	}
 
 	return {
-		image: collection.heroImageUrl ?? collection.cardImageUrl,
-		imageAlt: `${collection.name} fragrance collection campaign.`,
+		image: getCollectionImageSrc(collection.slug),
+		imageAlt: hasCollectionImage(collection.slug)
+			? `${collection.name} fragrance collection campaign.`
+			: `${collection.name} collection image placeholder.`,
 		layoutVariant:
 			fallbackVariants[index % fallbackVariants.length] ?? "landscape-wide",
 		notes: ["Material", "Atmosphere", "Memory"],

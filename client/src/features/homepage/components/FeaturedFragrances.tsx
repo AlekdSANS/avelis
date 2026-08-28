@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
+import { ProductImage } from "../../products/components/ProductImage";
 import { useFeaturedProducts } from "../../products/hooks/useProducts";
 import {
   getCheapestVariant,
@@ -154,7 +155,7 @@ export function FeaturedFragrances({ activeSlug }: FeaturedFragrancesProps) {
                     onFocus={() => setSelectedSlug(product.slug)}
                     type="button"
                   >
-                    <img alt={image.alt} loading="lazy" src={image.url} />
+                    <ProductImage alt={image.alt} loading="lazy" src={image.url} />
                     <span className={styles.badges}>
                       {badges.map((badge) => (
                         <span key={badge}>{badge}</span>

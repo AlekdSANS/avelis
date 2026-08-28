@@ -1,4 +1,6 @@
 import { legalConfig } from "../config/legalConfig";
+import { PRODUCT_PLACEHOLDER_IMAGE } from "../constants/imagePlaceholders";
+import { getCollectionImageSrc } from "../features/collections/data/collectionImages";
 import { resolvePublicAssetUrl } from "../services/apiClient";
 import type { Collection } from "../types/collection";
 import type { Product } from "../types/product";
@@ -15,7 +17,7 @@ export function absoluteAssetUrl(pathOrUrl: string) {
 
 export function getPrimaryProductImage(product: Product) {
 	const image = product.images.find((candidate) => candidate.isPrimary) ?? product.images[0];
-	return image ? absoluteAssetUrl(image.url) : absoluteSiteUrl("/images/hero/home_hero_frost.png");
+	return absoluteAssetUrl(image?.url.trim() || PRODUCT_PLACEHOLDER_IMAGE);
 }
 
 export function buildProductStructuredData(product: Product): StructuredData {
@@ -41,7 +43,12 @@ export function buildProductStructuredData(product: Product): StructuredData {
 			"@type": "Product",
 			brand: { "@type": "Brand", name: "AVELIS" },
 			description: product.description,
-			image: product.images.map((image) => absoluteAssetUrl(image.url)),
+			image:
+				product.images.length > 0
+					? product.images.map((image) =>
+							absoluteAssetUrl(image.url.trim() || PRODUCT_PLACEHOLDER_IMAGE),
+						)
+					: [absoluteAssetUrl(PRODUCT_PLACEHOLDER_IMAGE)],
 			name: product.name,
 			offers,
 			sku: product.variants[0]?.sku,
@@ -76,7 +83,7 @@ export function buildCollectionStructuredData(collection: Collection): Structure
 			"@context": "https://schema.org",
 			"@type": "CollectionPage",
 			description: collection.seoDescription ?? collection.shortDescription ?? collection.description,
-			image: collection.heroImageUrl ? absoluteAssetUrl(collection.heroImageUrl) : undefined,
+			image: absoluteAssetUrl(getCollectionImageSrc(collection.slug)),
 			mainEntity: {
 				"@type": "ItemList",
 				itemListElement: (collection.products ?? []).map((product, index) => ({

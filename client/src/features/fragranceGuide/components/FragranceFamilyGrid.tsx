@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { COLLECTION_PLACEHOLDER_IMAGE } from "../../../constants/imagePlaceholders";
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
 import type { Product } from "../../../types/product";
 import type { GuideFamilyName } from "../data/fragranceGuideContent";
@@ -102,7 +103,7 @@ export function FragranceFamilyGrid({
                     aria-hidden="true"
                     className={styles.familyCardBackdrop}
                     style={{
-                      backgroundImage: `url(${artwork.src})`,
+                      backgroundImage: `url("${artwork.src}"), url("${COLLECTION_PLACEHOLDER_IMAGE}")`,
                       backgroundPosition: artwork.position,
                     }}
                   />

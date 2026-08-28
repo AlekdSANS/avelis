@@ -1,35 +1,17 @@
-import { useState } from "react";
-import type { ImgHTMLAttributes } from "react";
-import { resolvePublicAssetUrl } from "../../../services/apiClient";
+import type { ComponentProps } from "react";
 
-const fallbackImage = "/images/placeholders/product_placeholder.png";
+import { FallbackImage } from "../../../components/common/FallbackImage/FallbackImage";
+import { PRODUCT_PLACEHOLDER_IMAGE } from "../../../constants/imagePlaceholders";
 
-type ProductImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-  fallbackSrc?: string;
-};
+type ProductImageProps = ComponentProps<typeof FallbackImage>;
 
 export function ProductImage({
-  alt,
-  fallbackSrc = fallbackImage,
-  onError,
-  src,
+  fallbackSrc = PRODUCT_PLACEHOLDER_IMAGE,
   ...props
 }: ProductImageProps) {
-  const [failedSrc, setFailedSrc] = useState<string>();
-  const resolvedSrc =
-    typeof src === "string" ? resolvePublicAssetUrl(src) : src;
-  const currentSrc = failedSrc === src ? fallbackSrc : resolvedSrc;
-
   return (
-    <img
-      alt={alt}
-      onError={(event) => {
-        onError?.(event);
-        if (currentSrc !== fallbackSrc && typeof src === "string") {
-          setFailedSrc(src);
-        }
-      }}
-      src={currentSrc}
+    <FallbackImage
+      fallbackSrc={fallbackSrc}
       {...props}
     />
   );

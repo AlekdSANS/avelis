@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 
 import type { HomepageTheme } from "../types";
+import { CollectionImage } from "../../collections/components/CollectionImage";
 import styles from "./DynamicHero.module.scss";
 
 type DynamicHeroProps = {
@@ -31,18 +32,16 @@ export function DynamicHero({ theme }: DynamicHeroProps) {
       data-hero-tone={theme.heroTone}
       data-theme={theme.id}
     >
-      <picture className={styles.media}>
-        {theme.mobileImage ? (
-          <source media="(max-width: 64rem)" srcSet={theme.mobileImage} />
-        ) : null}
-        <img
+      <div className={styles.media}>
+        <CollectionImage
           alt={theme.imageAlt}
           fetchPriority="high"
           height="941"
+          mobileSrc={theme.mobileImage}
           src={theme.image}
           width="1672"
         />
-      </picture>
+      </div>
 
       <div aria-hidden="true" className={styles.imageFade} />
 

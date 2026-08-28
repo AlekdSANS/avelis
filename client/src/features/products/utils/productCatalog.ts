@@ -1,7 +1,6 @@
 import type { Product, ProductVariant } from "../../../types/product";
 import type { ShopFilters } from "../types";
-
-const productPlaceholder = "/images/placeholders/product_placeholder.png";
+import { PRODUCT_PLACEHOLDER_IMAGE } from "../../../constants/imagePlaceholders";
 
 export function getMatchingVariants(
   product: Product,
@@ -35,7 +34,7 @@ export function getPrimaryProductImage(product: Product) {
     product.images.find((image) => image.imageType === "MAIN") ??
     product.images[0] ?? {
       id: `${product.id}-placeholder`,
-      url: productPlaceholder,
+      url: PRODUCT_PLACEHOLDER_IMAGE,
       alt: `${product.name} fragrance`,
       position: 0,
       isPrimary: true,

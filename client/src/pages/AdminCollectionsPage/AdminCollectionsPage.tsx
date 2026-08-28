@@ -21,6 +21,7 @@ import {
 	useUpdateAdminCollection,
 } from "../../features/admin/hooks/useAdminCollections";
 import { CollectionImage } from "../../features/collections/components/CollectionImage";
+import { getCollectionImageSrc } from "../../features/collections/data/collectionImages";
 import type {
 	AdminCollectionFeaturedFilter,
 	AdminCollectionListItem,
@@ -339,7 +340,7 @@ export function AdminCollectionsPage() {
 											<div className={styles.collectionName}>
 												<CollectionImage
 													alt=""
-													src={collection.cardImageUrl}
+												src={getCollectionImageSrc(collection.slug)}
 												/>
 												<span>
 													<strong>{collection.name}</strong>
@@ -377,7 +378,7 @@ export function AdminCollectionsPage() {
 									<div className={styles.collectionName}>
 										<CollectionImage
 											alt=""
-											src={collection.cardImageUrl}
+											src={getCollectionImageSrc(collection.slug)}
 										/>
 										<span>
 											<strong>{collection.name}</strong>

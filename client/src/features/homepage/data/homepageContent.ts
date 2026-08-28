@@ -1,6 +1,4 @@
 export type CollectionFeature = {
-  image: string;
-  imageAlt: string;
   imagePosition: string;
   slug: string;
   title: string;
@@ -16,43 +14,31 @@ export type FragranceFamily = {
 
 export const collectionFeatures: CollectionFeature[] = [
   {
-	image: "/images/hero/home_hero_peach.png",
-	imageAlt: "Peachwood fragrance composition representing Chromatic Woods.",
 	imagePosition: "center",
 	slug: "chromatic-woods",
 	title: "Chromatic Woods",
   },
   {
-	image: "/images/hero/home_hero_red.png",
-	imageAlt: "Red-toned fragrance composition representing Resonance.",
 	imagePosition: "center",
 	slug: "resonance",
 	title: "Resonance",
   },
   {
-	image: "/images/placeholders/collection_placeholder.png",
-	imageAlt: "Sculptural fragrance presentation representing Gift Sets.",
 	imagePosition: "center",
 	slug: "gift-sets",
 	title: "Gift Sets",
   },
   {
-	image: "/images/hero/home_hero_frost.png",
-	imageAlt: "Cool mineral fragrance composition representing Tidal Waves.",
 	imagePosition: "center",
 	slug: "tidal-waves",
 	title: "Tidal Waves",
   },
   {
-	image: "/images/placeholders/collection_placeholder.png",
-	imageAlt: "Sculptural fragrance presentation representing Questbound.",
 	imagePosition: "center",
 	slug: "questbound",
 	title: "Questbound",
   },
   {
-	image: "/images/hero/home_hero_peach.png",
-	imageAlt: "Botanical fragrance composition representing The Glass Garden.",
 	imagePosition: "center",
 	slug: "the-glass-garden",
 	title: "The Glass Garden",

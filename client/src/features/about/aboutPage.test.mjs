@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
+import { collectionFeatures } from "../homepage/data/homepageContent.ts";
 import {
   brandPrinciples,
   formatDetails,
@@ -73,6 +74,27 @@ test("featured collection selection prioritizes featured content and stays stabl
     originalOrder,
   );
   assert.deepEqual(selectAboutCollections([]), []);
+});
+
+test("collection cards only use artwork owned by their collection", () => {
+  const collectionImageSource = readFileSync(
+    new URL("../collections/data/collectionImages.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(
+    collectionImageSource,
+    /resonance:\s*"\/images\/collections\/resonance\/resonance\.png"/,
+  );
+  assert.match(
+    collectionImageSource,
+    /collectionImageBySlug\[slug\]\s*\?\?\s*COLLECTION_PLACEHOLDER_IMAGE/,
+  );
+  assert.doesNotMatch(collectionImageSource, /\/images\/hero\//);
+
+  for (const collection of collectionFeatures) {
+    assert.equal("image" in collection, false);
+  }
 });
 
 test("/about renders the real page and hero actions target public routes", () => {

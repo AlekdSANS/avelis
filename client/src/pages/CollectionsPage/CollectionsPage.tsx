@@ -198,7 +198,7 @@ export function CollectionsPage() {
 					</div>
 
 					<div className={styles.heroMedia} ref={heroImageRef}>
-						<img
+						<CollectionImage
 							alt={theme.imageAlt}
 							fetchPriority="high"
 							height="941"
@@ -248,17 +248,10 @@ export function CollectionsPage() {
 					style={getCollectionArtworkStyle(featuredArtwork)}
 				>
 					<div className={styles.featuredMedia}>
-						{featuredArtwork.image ? (
-							<CollectionImage
-								alt={featuredArtwork.imageAlt}
-								mobileSrc={featured.mobileImageUrl}
-								src={featuredArtwork.image}
-							/>
-						) : (
-							<div className={styles.featuredFallback}>
-								<span>{featured.name.slice(0, 1)}</span>
-							</div>
-						)}
+						<CollectionImage
+							alt={featuredArtwork.imageAlt}
+							src={featuredArtwork.image}
+						/>
 					</div>
 
 					<div className={styles.featuredContent}>

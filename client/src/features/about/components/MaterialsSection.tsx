@@ -1,11 +1,12 @@
 import { materialDetails } from "../data/aboutContent";
 import styles from "../../../pages/AboutPage/AboutPage.module.scss";
+import { CollectionImage } from "../../collections/components/CollectionImage";
 
 export function MaterialsSection() {
   return (
     <section aria-labelledby="materials-title" className={styles.materials}>
       <div className={styles.materialMedia}>
-        <img
+        <CollectionImage
           alt="A translucent blue perfume bottle set against magnolia branches and pale weathered wood"
           height="941"
           loading="lazy"

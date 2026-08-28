@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { COLLECTION_PLACEHOLDER_IMAGE } from "../../../constants/imagePlaceholders";
 import { fragranceFamilies } from "../data/homepageContent";
 import styles from "./HomepageSections.module.scss";
 
@@ -24,7 +25,7 @@ export function FragranceFamilies() {
                 aria-hidden="true"
                 className={styles.familyArtwork}
                 style={{
-                  backgroundImage: `url(${family.image})`,
+                  backgroundImage: `url("${family.image}"), url("${COLLECTION_PLACEHOLDER_IMAGE}")`,
                   backgroundPosition: family.imagePosition,
                 }}
               />

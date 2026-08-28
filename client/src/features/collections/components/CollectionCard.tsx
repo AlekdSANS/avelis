@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import type { Collection } from "../../../types/collection";
 import { getCollectionAccentStyle } from "../utils/collectionAccent";
+import { getCollectionImageSrc } from "../data/collectionImages";
 import { CollectionImage } from "./CollectionImage";
 import styles from "./CollectionCard.module.scss";
 
@@ -28,7 +29,7 @@ export function CollectionCard({
         <CollectionImage
           alt={`${collection.name} collection`}
           loading="lazy"
-          src={collection.cardImageUrl ?? collection.heroImageUrl}
+          src={getCollectionImageSrc(collection.slug)}
         />
       </div>
       <div className={styles.content}>
