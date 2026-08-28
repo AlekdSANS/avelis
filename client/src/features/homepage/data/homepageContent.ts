@@ -64,4 +64,6 @@ export const fragranceFamilies: FragranceFamily[] = [
   { name: "Fresh", description: "Clear air, citrus peel and cool water.", query: "fresh" },
   { name: "Spicy", description: "Radiant heat, seed and aromatic bark.", query: "spicy" },
   { name: "Gourmand", description: "Textural sweetness with modern restraint.", query: "gourmand" },
+  { name: "Aquatic", description: "Salt air, mineral facets and transparent florals.", query: "aquatic" },
+  { name: "Powdery", description: "Iris softness, pale woods and skin-close musk.", query: "powdery" },
 ];

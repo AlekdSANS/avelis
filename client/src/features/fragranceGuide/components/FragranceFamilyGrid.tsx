@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Skeleton } from "../../../components/ui/Skeleton/Skeleton";
 import type { Product } from "../../../types/product";
+import type { GuideFamilyName } from "../data/fragranceGuideContent";
 import {
   getAvailableGuideFamilies,
   getFamilyNotes,
@@ -14,6 +15,44 @@ import styles from "../../../pages/FragranceGuidePage/FragranceGuidePage.module.
 type FragranceFamilyGridProps = {
   products: Product[];
   status: "loading" | "error" | "ready";
+};
+
+const familyArtwork: Record<
+  GuideFamilyName,
+  { position: string; src: string }
+> = {
+  Woody: {
+    src: "/images/fragrance-guide/families/woody.jpg",
+    position: "center",
+  },
+  Floral: {
+    src: "/images/fragrance-guide/families/floral.jpg",
+    position: "center 42%",
+  },
+  Amber: {
+    src: "/images/fragrance-guide/families/amber.jpg",
+    position: "center",
+  },
+  Fresh: {
+    src: "/images/fragrance-guide/families/fresh.jpg",
+    position: "62% center",
+  },
+  Spicy: {
+    src: "/images/fragrance-guide/families/spicy.jpg",
+    position: "58% center",
+  },
+  Gourmand: {
+    src: "/images/fragrance-guide/families/gourmand.jpg",
+    position: "center",
+  },
+  Aquatic: {
+    src: "/images/fragrance-guide/families/aquatic.jpg",
+    position: "center",
+  },
+  Powdery: {
+    src: "/images/fragrance-guide/families/powdery.jpg",
+    position: "center 35%",
+  },
 };
 
 export function FragranceFamilyGrid({
@@ -53,42 +92,55 @@ export function FragranceFamilyGrid({
           </div>
         ) : (
           <div className={styles.familyGrid}>
-          {families.map((family, index) => {
-            const notes = getFamilyNotes(products, family.name);
+            {families.map((family, index) => {
+              const notes = getFamilyNotes(products, family.name);
+              const artwork = familyArtwork[family.name];
 
-            return (
-            <article className={styles.familyCard} key={family.name}>
-              <div className={styles.familyCardTop}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <p>{family.character}</p>
-              </div>
-              <h3>{family.name}</h3>
-              <p className={styles.familyDescription}>{family.description}</p>
-              <dl>
-                {notes.length > 0 ? (
-                  <div>
-                    <dt>Notes in the catalogue</dt>
-                    <dd>
-                      <ul className={styles.familyNotes}>
-                        {notes.map((note) => (
-                          <li key={note.name}>{note.label}</li>
-                        ))}
-                      </ul>
-                    </dd>
+              return (
+                <article className={styles.familyCard} key={family.name}>
+                  <div
+                    aria-hidden="true"
+                    className={styles.familyCardBackdrop}
+                    style={{
+                      backgroundImage: `url(${artwork.src})`,
+                      backgroundPosition: artwork.position,
+                    }}
+                  />
+                  <div className={styles.familyCardContent}>
+                    <div className={styles.familyCardTop}>
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                      <p>{family.character}</p>
+                    </div>
+                    <h3>{family.name}</h3>
+                    <p className={styles.familyDescription}>
+                      {family.description}
+                    </p>
+                    <dl>
+                      {notes.length > 0 ? (
+                        <div>
+                          <dt>Notes in the catalogue</dt>
+                          <dd>
+                            <ul className={styles.familyNotes}>
+                              {notes.map((note) => (
+                                <li key={note.name}>{note.label}</li>
+                              ))}
+                            </ul>
+                          </dd>
+                        </div>
+                      ) : null}
+                      <div>
+                        <dt>Best considered for</dt>
+                        <dd>{family.occasion}</dd>
+                      </div>
+                    </dl>
+                    <Link to={buildGuideShopHref({ family: family.name })}>
+                      Explore {family.name}
+                      <ArrowUpRight aria-hidden="true" />
+                    </Link>
                   </div>
-                ) : null}
-                <div>
-                  <dt>Best considered for</dt>
-                  <dd>{family.occasion}</dd>
-                </div>
-              </dl>
-              <Link to={buildGuideShopHref({ family: family.name })}>
-                Explore {family.name}
-                <ArrowUpRight aria-hidden="true" />
-              </Link>
-            </article>
-            );
-          })}
+                </article>
+              );
+            })}
           </div>
         )}
       </div>

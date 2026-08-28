@@ -157,14 +157,47 @@
 }
 
 .familyCard {
-  display: flex;
+  position: relative;
+  display: grid;
   min-width: 0;
-  min-height: 31rem;
-  flex-direction: column;
+  min-height: 35rem;
+  overflow: hidden;
   border-right: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  padding: clamp(1.5rem, 2.5vw, 2.5rem);
+  background: #211b17;
+  color: #fffaf3;
+  isolation: isolate;
+}
+
+.familyCardBackdrop {
+  position: absolute;
+  z-index: -2;
+  inset: -0.25rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: saturate(0.82) contrast(1.04);
+  transform: scale(1.01);
+  transition:
+    filter var(--transition-normal),
+    transform 700ms cubic-bezier(0.2, 0.65, 0.25, 1);
+}
+
+.familyCard::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(17 13 10 / 46%) 0%, rgb(17 13 10 / 23%) 30%, rgb(17 13 10 / 78%) 70%, rgb(17 13 10 / 94%) 100%),
+    linear-gradient(90deg, rgb(17 13 10 / 20%), transparent 55%);
+  content: "";
   transition: background var(--transition-normal);
+}
+
+.familyCardContent {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(1.5rem, 2.5vw, 2.5rem);
 }
 
 .familySkeleton {
@@ -196,14 +229,17 @@
 }
 
 .familyCard:hover {
-  background: color-mix(in srgb, var(--color-ivory-deep) 50%, transparent);
+  .familyCardBackdrop {
+    filter: saturate(0.98) contrast(1.03);
+    transform: scale(1.055);
+  }
 }
 
 .familyCardTop {
   display: flex;
   justify-content: space-between;
   gap: var(--space-4);
-  color: var(--color-olive);
+  color: rgb(255 250 243 / 84%);
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.11em;
@@ -219,18 +255,19 @@
   margin-top: auto;
   padding-top: var(--space-12);
   font-size: clamp(2.6rem, 4vw, 4.2rem);
+  text-shadow: 0 2px 1.5rem rgb(0 0 0 / 24%);
 }
 
 .familyDescription {
   min-height: 6.4rem;
   margin-top: var(--space-4);
-  color: var(--color-text-muted);
+  color: rgb(255 250 243 / 86%);
   line-height: 1.65;
 }
 
 .familyCard dl {
   margin-top: var(--space-6);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgb(255 250 243 / 34%);
   padding-top: var(--space-4);
 }
 
@@ -241,6 +278,10 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.familyCard dt {
+  color: rgb(255 250 243 / 66%);
 }
 
 .familyCard dd {
@@ -258,10 +299,18 @@
   color: var(--color-text-muted);
 }
 
+.familyCard .familyNotes li {
+  color: rgb(255 250 243 / 78%);
+}
+
 .familyNotes li:not(:last-child)::after {
   margin-left: var(--space-2);
   color: var(--color-olive);
   content: "·";
+}
+
+.familyCard .familyNotes li:not(:last-child)::after {
+  color: rgb(255 250 243 / 58%);
 }
 
 .familyCard a,
