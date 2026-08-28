@@ -21,6 +21,13 @@ function formatIndex(value: number) {
 	return String(value).padStart(2, "0");
 }
 
+function getVerticalTitleColumns(title: string) {
+	const letters = Array.from(title.toUpperCase());
+	const midpoint = Math.ceil(letters.length / 2);
+
+	return [letters.slice(0, midpoint), letters.slice(midpoint)];
+}
+
 export function CollectionEditorialCard({
 	collection,
 	index,
@@ -34,10 +41,15 @@ export function CollectionEditorialCard({
 		.map((word) => word[0])
 		.join("")
 		.slice(0, 3);
+	const verticalTitleColumns =
+		collection.slug === "questbound"
+			? getVerticalTitleColumns(collection.name)
+			: null;
 
 	return (
 		<article
 			className={`${styles.card} ${styles[resolvedVariant]}`}
+			data-collection={collection.slug}
 			data-collection-reveal="pending"
 			style={getCollectionArtworkStyle(artwork)}
 		>
@@ -72,14 +84,32 @@ export function CollectionEditorialCard({
 						<span>AVELIS COLLECTION</span>
 					</div>
 
-					<h3>{collection.name}</h3>
-					<p>{collection.shortDescription ?? collection.description}</p>
+					<div className={styles.body}>
+						{verticalTitleColumns ? (
+							<h3 aria-label={collection.name} className={styles.verticalTitle}>
+								{verticalTitleColumns.map((column, columnIndex) => (
+									<span
+										aria-hidden="true"
+										className={styles.verticalTitleColumn}
+										key={`${collection.slug}-${columnIndex}`}
+									>
+										{column.map((letter, letterIndex) => (
+											<span key={`${letter}-${letterIndex}`}>{letter}</span>
+										))}
+									</span>
+								))}
+							</h3>
+						) : (
+							<h3>{collection.name}</h3>
+						)}
+						<p>{collection.shortDescription ?? collection.description}</p>
 
-					<ul aria-label={`${collection.name} representative notes`}>
-						{artwork.notes.map((note) => (
-							<li key={note}>{note}</li>
-						))}
-					</ul>
+						<ul aria-label={`${collection.name} representative notes`}>
+							{artwork.notes.map((note) => (
+								<li key={note}>{note}</li>
+							))}
+						</ul>
+					</div>
 
 					<footer>
 						<small>
