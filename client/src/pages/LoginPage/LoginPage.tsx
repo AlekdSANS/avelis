@@ -1,7 +1,7 @@
 import styles from "./LoginPage.module.scss";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, LogIn } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, Eye, EyeOff, LockKeyhole } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -19,6 +19,16 @@ const loginSchema = z.object({
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
+
+const LOGIN_VISIT_KEY = "avelis:login-visited";
+
+function hasVisitedLogin() {
+	try {
+		return window.localStorage.getItem(LOGIN_VISIT_KEY) === "true";
+	} catch {
+		return false;
+	}
+}
 
 function getSafeRedirect(state: unknown) {
 	if (
@@ -42,6 +52,7 @@ export function LoginPage() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const login = useLogin();
+	const [isReturningVisitor] = useState(hasVisitedLogin);
 	const [serverError, setServerError] = useState<string | null>(null);
 	const [showPassword, setShowPassword] = useState(false);
 	const {
@@ -56,6 +67,14 @@ export function LoginPage() {
 		},
 	});
 	const isSubmitting = login.isPending;
+
+	useEffect(() => {
+		try {
+			window.localStorage.setItem(LOGIN_VISIT_KEY, "true");
+		} catch {
+			// Storage may be unavailable in privacy-restricted browser contexts.
+		}
+	}, []);
 
 	const onSubmit = async (values: LoginFormValues) => {
 		setServerError(null);
@@ -76,65 +95,118 @@ export function LoginPage() {
 
 	return (
 		<section className={styles.page}>
-			<div className={styles.panel}>
-				<div className={styles.heading}>
-					<p>Welcome back</p>
-					<h1>Sign in to your account</h1>
-				</div>
-
-				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-					<div className={styles.field}>
-						<label htmlFor="email">Email</label>
-						<Input
-							autoComplete="email"
-							id="email"
-							inputMode="email"
-							type="email"
-							{...register("email")}
-						/>
-						{errors.email ? (
-							<p className={styles.error}>{errors.email.message}</p>
-						) : null}
-					</div>
-
-					<div className={styles.field}>
-						<label htmlFor="password">Password</label>
-						<div className={styles.passwordField}>
-							<Input
-								autoComplete="current-password"
-								id="password"
-								type={showPassword ? "text" : "password"}
-								{...register("password")}
-							/>
-							<IconButton
-								aria-label={showPassword ? "Hide password" : "Show password"}
-								className={styles.passwordToggle}
-								onClick={() => setShowPassword((value) => !value)}
-							>
-								{showPassword ? <EyeOff /> : <Eye />}
-							</IconButton>
-						</div>
-						{errors.password ? (
-							<p className={styles.error}>{errors.password.message}</p>
-						) : null}
-					</div>
-
-					{serverError ? (
-						<p className={styles.serverError} role="alert">
-							{serverError}
+			<div className={styles.authColumn}>
+				<div className={styles.panel}>
+					<div className={styles.heading}>
+						<p className={styles.eyebrow}>The Avelis atelier</p>
+						<h1>
+							{isReturningVisitor ? (
+								<>
+									Welcome
+									<br />
+									back.
+								</>
+							) : (
+								<>Greetings.</>
+							)}
+						</h1>
+						<p className={styles.intro}>
+							Sign in to revisit your collection, orders, and saved discoveries.
 						</p>
-					) : null}
+					</div>
 
-					<Button disabled={isSubmitting} fullWidth type="submit">
-						<LogIn aria-hidden="true" />
-						{isSubmitting ? "Signing in" : "Sign in"}
-					</Button>
-				</form>
+					<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+						<div className={styles.field}>
+							<label htmlFor="email">Email address</label>
+							<Input
+								aria-describedby={errors.email ? "email-error" : undefined}
+								aria-invalid={Boolean(errors.email)}
+								autoComplete="email"
+								className={styles.input}
+								id="email"
+								inputMode="email"
+								placeholder="you@example.com"
+								type="email"
+								{...register("email")}
+							/>
+							{errors.email ? (
+								<p className={styles.error} id="email-error">
+									{errors.email.message}
+								</p>
+							) : null}
+						</div>
 
-				<p className={styles.switchText}>
-					New here? <Link to="/register">Create an account</Link>
-				</p>
+						<div className={styles.field}>
+							<div className={styles.labelRow}>
+								<label htmlFor="password">Password</label>
+								<span>8 characters minimum</span>
+							</div>
+							<div className={styles.passwordField}>
+								<Input
+									aria-describedby={errors.password ? "password-error" : undefined}
+									aria-invalid={Boolean(errors.password)}
+									autoComplete="current-password"
+									className={styles.input}
+									id="password"
+									placeholder="Enter your password"
+									type={showPassword ? "text" : "password"}
+									{...register("password")}
+								/>
+								<IconButton
+									aria-label={showPassword ? "Hide password" : "Show password"}
+									className={styles.passwordToggle}
+									onClick={() => setShowPassword((value) => !value)}
+								>
+									{showPassword ? <EyeOff /> : <Eye />}
+								</IconButton>
+							</div>
+							{errors.password ? (
+								<p className={styles.error} id="password-error">
+									{errors.password.message}
+								</p>
+							) : null}
+						</div>
+
+						{serverError ? (
+							<p className={styles.serverError} role="alert">
+								{serverError}
+							</p>
+						) : null}
+
+						<Button
+							className={styles.submitButton}
+							disabled={isSubmitting}
+							fullWidth
+							type="submit"
+						>
+							<span>{isSubmitting ? "Signing in" : "Enter your account"}</span>
+							<ArrowRight aria-hidden="true" />
+						</Button>
+					</form>
+
+					<div className={styles.assurance}>
+						<LockKeyhole aria-hidden="true" />
+						<span>Your details are protected and never shared.</span>
+					</div>
+
+					<p className={styles.switchText}>
+						New to Avelis? <Link to="/register">Create an account</Link>
+					</p>
+				</div>
 			</div>
+
+			<aside
+				aria-label="Avelis Noxwood fragrance campaign"
+				className={styles.visual}
+			>
+				<img
+					alt="Avelis Noxwood perfume among deep violet magnolia branches"
+					className={styles.visualImage}
+					src="/images/hero/home_hero_nox.png"
+				/>
+				<div className={styles.visualShade} />
+				<div className={styles.visualFrame} aria-hidden="true" />
+			</aside>
 		</section>
 	);
 }

@@ -1,55 +1,138 @@
 .page {
 	display: grid;
-	min-height: calc(100dvh - var(--header-height));
+	min-height: 100dvh;
+	grid-template-columns: minmax(34rem, 0.94fr) minmax(32rem, 1.06fr);
+	background: #f2eee7;
+}
+
+.authColumn {
+	position: relative;
+	display: grid;
+	min-width: 0;
 	place-items: center;
-	padding: var(--space-16) var(--site-gutter);
+	padding: clamp(7.5rem, 13vh, 10rem) clamp(2.5rem, 6vw, 7.5rem) clamp(3rem, 7vh, 5rem);
+}
+
+.authColumn::before {
+	position: absolute;
+	top: 8rem;
+	right: 8%;
+	width: 13rem;
+	height: 13rem;
+	border: 1px solid rgba(114, 112, 82, 0.11);
+	border-radius: 50%;
+	content: "";
+	pointer-events: none;
 }
 
 .panel {
-	width: min(100%, 30rem);
-	border: 1px solid var(--color-border);
-	background: var(--color-surface);
-	padding: clamp(1.5rem, 4vw, 2.5rem);
-	box-shadow: var(--shadow-soft);
+	position: relative;
+	z-index: 1;
+	width: min(100%, 31rem);
 }
 
 .heading {
-	display: grid;
-	gap: var(--space-2);
-	margin-bottom: var(--space-8);
-	text-align: center;
+	margin-bottom: clamp(2.25rem, 5vh, 3.5rem);
 }
 
-.heading p {
-	color: var(--color-text-muted);
-	font-size: 0.76rem;
+.eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 0.85rem;
+	margin-bottom: 1.2rem;
+	color: var(--color-olive);
+	font-size: 0.68rem;
 	font-weight: 700;
-	letter-spacing: 0.14em;
+	letter-spacing: 0.18em;
 	text-transform: uppercase;
 }
 
+.eyebrow::before {
+	width: 2.25rem;
+	height: 1px;
+	background: currentColor;
+	content: "";
+}
+
 .heading h1 {
+	max-width: 8ch;
 	font-family: var(--font-heading);
-	font-size: clamp(2rem, 5vw, 3rem);
+	font-size: clamp(3.6rem, 5vw, 5.6rem);
 	font-weight: 500;
-	line-height: 1;
+	letter-spacing: -0.045em;
+	line-height: 0.78;
+}
+
+.intro {
+	max-width: 27rem;
+	margin-top: 1.5rem;
+	color: var(--color-text-soft);
+	font-size: 0.95rem;
+	line-height: 1.75;
 }
 
 .form,
 .field {
 	display: grid;
-	gap: var(--space-3);
 }
 
 .form {
-	gap: var(--space-4);
+	gap: 1.3rem;
+}
+
+.field {
+	gap: 0.6rem;
 }
 
 .field label {
-	font-size: 0.78rem;
+	font-size: 0.68rem;
 	font-weight: 700;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
+}
+
+.labelRow {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.labelRow span {
+	color: var(--color-text-muted);
+	font-size: 0.68rem;
+	letter-spacing: 0.02em;
+}
+
+.input {
+	min-height: 3.65rem;
+	border-color: rgba(46, 33, 27, 0.18);
+	background: rgba(252, 250, 247, 0.56);
+	padding-inline: 1rem;
+	font-size: 0.94rem;
+	transition:
+		background var(--transition-fast),
+		border-color var(--transition-fast),
+		box-shadow var(--transition-fast);
+}
+
+.input:hover {
+	border-color: rgba(46, 33, 27, 0.38);
+}
+
+.input:focus {
+	border-color: var(--color-olive);
+	background: var(--color-surface);
+	box-shadow: 0 0 0 3px rgba(114, 112, 82, 0.09);
+	outline: none;
+}
+
+.input[aria-invalid="true"] {
+	border-color: rgba(143, 47, 38, 0.6);
+}
+
+.input::placeholder {
+	color: rgba(117, 108, 102, 0.62);
 }
 
 .passwordField {
@@ -57,35 +140,232 @@
 }
 
 .passwordField input {
-	padding-right: 3.2rem;
+	padding-right: 3.8rem;
 }
 
 .passwordToggle {
 	position: absolute;
-	top: 0;
-	right: 0;
-	height: 2.75rem;
+	top: 50%;
+	right: 0.48rem;
+	width: 2.7rem;
+	height: 2.7rem;
+	color: var(--color-text-muted);
+	transform: translateY(-50%);
+}
+
+.passwordToggle:hover:not(:disabled) {
+	color: var(--color-text);
+	transform: translateY(-50%);
 }
 
 .error,
 .serverError {
 	color: #8f2f26;
-	font-size: 0.86rem;
+	font-size: 0.8rem;
 }
 
 .serverError {
-	border: 1px solid rgba(143, 47, 38, 0.24);
+	border-left: 2px solid #8f2f26;
 	background: rgba(143, 47, 38, 0.06);
-	padding: var(--space-3);
+	padding: 0.8rem 1rem;
+}
+
+.submitButton {
+	min-height: 3.8rem;
+	justify-content: space-between;
+	margin-top: 0.35rem;
+	border-radius: 0;
+	background: #2d211c;
+	padding-inline: 1.25rem 0.65rem;
+	letter-spacing: 0.13em;
+}
+
+.submitButton svg {
+	width: 2.55rem;
+	height: 2.55rem;
+	border: 1px solid rgba(255, 255, 255, 0.28);
+	border-radius: 50%;
+	padding: 0.72rem;
+	stroke-width: 1.4;
+	transition: transform var(--transition-fast);
+}
+
+.submitButton:hover:not(:disabled) svg {
+	transform: translateX(2px);
+}
+
+.assurance {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55rem;
+	margin-top: 1rem;
+	color: var(--color-text-muted);
+	font-size: 0.7rem;
+}
+
+.assurance svg {
+	width: 0.85rem;
+	height: 0.85rem;
+	stroke-width: 1.6;
 }
 
 .switchText {
-	margin-top: var(--space-6);
+	margin-top: 2rem;
+	border-top: 1px solid var(--color-border);
+	padding-top: 1.7rem;
 	color: var(--color-text-muted);
+	font-size: 0.88rem;
 	text-align: center;
 }
 
 .switchText a {
+	position: relative;
+	margin-left: 0.2rem;
 	color: var(--color-text);
 	font-weight: 700;
+}
+
+.switchText a::after {
+	position: absolute;
+	right: 0;
+	bottom: -0.18rem;
+	left: 0;
+	height: 1px;
+	background: currentColor;
+	content: "";
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform var(--transition-fast);
+}
+
+.switchText a:hover::after {
+	transform: scaleX(1);
+	transform-origin: left;
+}
+
+.visual {
+	position: relative;
+	min-width: 0;
+	min-height: 100dvh;
+	overflow: hidden;
+	background: #0a0b10;
+	color: #fffdf8;
+}
+
+.visualImage,
+.visualShade {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.visualImage {
+	object-fit: cover;
+	object-position: 58% center;
+	transform: scale(1.02);
+}
+
+.visualShade {
+	background:
+		linear-gradient(180deg, rgba(8, 8, 13, 0.08) 20%, rgba(8, 8, 13, 0.24) 100%),
+		linear-gradient(90deg, rgba(8, 8, 13, 0.12), transparent 45%);
+}
+
+.visualFrame {
+	position: absolute;
+	inset: 1.5rem;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	pointer-events: none;
+}
+
+.visualFrame::before,
+.visualFrame::after {
+	position: absolute;
+	width: 2.5rem;
+	height: 2.5rem;
+	content: "";
+}
+
+.visualFrame::before {
+	top: -1px;
+	left: -1px;
+	border-top: 2px solid rgba(255, 255, 255, 0.7);
+	border-left: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.visualFrame::after {
+	right: -1px;
+	bottom: -1px;
+	border-right: 2px solid rgba(255, 255, 255, 0.7);
+	border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 75rem) {
+	.page {
+		grid-template-columns: minmax(31rem, 1fr) minmax(27rem, 0.9fr);
+	}
+}
+
+@media (max-width: 63.99rem) {
+	.page {
+		display: block;
+		min-height: 100dvh;
+		background:
+			radial-gradient(circle at 88% 18%, rgba(114, 112, 82, 0.1), transparent 26rem),
+			#f2eee7;
+	}
+
+	.authColumn {
+		min-height: 100dvh;
+		padding-top: 8.5rem;
+	}
+
+	.authColumn::before,
+	.visual {
+		display: none;
+	}
+}
+
+@media (max-width: 35rem) {
+	.authColumn {
+		align-items: start;
+		padding: 7.75rem 1.25rem 2.25rem;
+	}
+
+	.heading {
+		margin-bottom: 2rem;
+	}
+
+	.heading h1 {
+		font-size: clamp(3.35rem, 17vw, 4.6rem);
+	}
+
+	.intro {
+		font-size: 0.9rem;
+	}
+
+	.labelRow span {
+		display: none;
+	}
+
+	.input {
+		min-height: 3.5rem;
+	}
+
+	.submitButton {
+		min-height: 3.65rem;
+	}
+
+	.assurance {
+		text-align: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.submitButton svg,
+	.switchText a::after {
+		transition: none;
+	}
 }
