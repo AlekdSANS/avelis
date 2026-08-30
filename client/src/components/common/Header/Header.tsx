@@ -9,6 +9,7 @@ import {
 	X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { IconButton } from "../../ui/IconButton/IconButton";
@@ -65,10 +66,19 @@ export function Header({
       return;
     }
 
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousBodyPosition = document.body.style.position;
+    const previousBodyTop = document.body.style.top;
+    const previousBodyWidth = document.body.style.width;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const lockedScrollY = window.scrollY;
 
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.width = "100%";
+    closeButtonRef.current?.focus({ preventScroll: true });
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -79,7 +89,12 @@ export function Header({
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.body.style.position = previousBodyPosition;
+      document.body.style.top = previousBodyTop;
+      document.body.style.width = previousBodyWidth;
+      window.scrollTo(0, lockedScrollY);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isMenuOpen]);
@@ -201,7 +216,7 @@ export function Header({
         </div>
       </div>
 
-      {isMenuMounted ? (
+      {isMenuMounted ? createPortal(
         <div
           className={[
             styles.mobileLayer,
@@ -290,7 +305,8 @@ export function Header({
               )}
             </div>
           </aside>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </header>
   );

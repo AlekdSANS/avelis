@@ -237,6 +237,8 @@
 	border-left: 1px solid var(--color-border);
 	background: var(--color-surface);
 	box-shadow: var(--shadow-drawer);
+	overflow-y: auto;
+	overscroll-behavior: contain;
 	padding: var(--space-6);
 	animation: drawerIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }

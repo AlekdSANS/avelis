@@ -80,9 +80,6 @@ export function DynamicHero({ theme }: DynamicHeroProps) {
         </div>
 
         <p className={styles.description}>{theme.description}</p>
-        <p aria-hidden="true" className={styles.campaignIndex}>
-          AVELIS / 01
-        </p>
       </div>
     </section>
   );
