@@ -11,6 +11,7 @@ import {
   createAddToCartEvent,
   createBeginCheckoutEvent,
   createPurchaseEvent,
+  createRemoveFromCartEvent,
   createViewItemListEvent,
 } from "./events.ts";
 import {
@@ -97,6 +98,32 @@ test("builds list, cart, and checkout values from typed items", () => {
   assert.equal(listEvent.ecommerce.items.length, 1);
   assert.equal(addEvent.ecommerce.value, 699.8);
   assert.equal(checkoutEvent.ecommerce.value, 699.8);
+});
+
+test("builds remove_from_cart with the complete removed item payload", () => {
+  const removedItem = mapProductToAnalyticsItem(product, bottle, 2);
+  const removeEvent = createRemoveFromCartEvent("EUR", removedItem);
+
+  assert.deepEqual(removeEvent, {
+    event: "remove_from_cart",
+    ecommerce: {
+      currency: "EUR",
+      value: 699.8,
+      items: [
+        {
+          item_id: "AVE-NOC-B-50",
+          item_name: "Nocturne",
+          item_brand: "AVELIS",
+          item_category: "Woody",
+          item_category2: "Eau de Parfum",
+          item_category3: "Bottle",
+          item_variant: "50 ml",
+          price: 349.9,
+          quantity: 2,
+        },
+      ],
+    },
+  });
 });
 
 test("uses stable shipping and payment labels without personal data", () => {
